@@ -1,0 +1,7 @@
+{
+  "enablePullDownRefresh": true,
+  "navigationBarTitleText": "列表",
+  "usingComponents": {
+    "search": "../Common/search/search"
+  }
+}

@@ -1,0 +1,18 @@
+<view class='search-box'>
+  <view class='search'>
+    <view class='search-icon'></view>
+    <input type='text' class='search-text' placeholder-class='placeholder' placeholder='请输入药品、厂家等名称'></input>
+    <view class='scan-btn'></view>
+  </view>
+</view>
+<scroll-view class="lists-view" scroll-y >
+  <view class='item'>
+    <navigator>
+      <image class='pic' src='http://kzjimg01.b0.upaiyun.com/1508118546272.jpg'></image>
+      <view class='name'><text class='type'>rx</text>仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶 </view>
+      <view class='price'>￥<text class='nums'>25.90</text></view>
+    </navigator>
+  </view>
+</scroll-view>
+<import src="../Common/footer.wxml"/>
+<template is="footer" data=""/> 

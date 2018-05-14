@@ -1,0 +1,32 @@
+
+<view class='search-box search-box1'>
+  <view class='search'>
+    <view class='search-icon'></view>
+    <input type='text' class='search-text' placeholder-class='placeholder' placeholder='请输入药品、厂家等名称' value='{{inputValue}}'></input>
+    <view class='scan-btn'></view>
+  </view>
+</view>
+<view class='search1-blank'></view>
+<block wx:if='{{contentlist.length!=0}}'>
+<view class="header" hidden="{{hideHeader}}">
+  <view>下拉刷新中……</view>
+  <view>{{refreshTime}}</view>
+</view>
+<scroll-view class="lists-view" scroll-y bindscrolltoupper="refresh" bindscrolltolower="loadMore">
+  <block wx:for='{{contentlist}}'  wx:for-item="item" wx:for-index='index' wx:key="story_{{index}}">
+  <view class='item'>
+    <navigator url='../goods/goods?id={{item.goods_id}}'>
+      <image class='pic' src='{{item.goods_img}}' lazy-load='true'></image>
+      <view class='name'><text class='type {{item.goods_type==2?"redbg":""}}'>{{item.goods_type==3?'rx':'otc'}}</text>{{item.goods_name}}</view>
+      <view class='price'>￥<text class='nums'>{{item.goods_price}}</text></view>
+    </navigator>
+  </view>
+  </block>
+</scroll-view>
+<view class="bottom" hidden="{{hideBottom}}">
+  <view>{{loadMoreData}}</view>
+  <view>{{refreshTime}}</view>
+</view>
+</block>
+<!-- <import src="../Common/footer.wxml"/>
+<template is="footer" data=""/>  -->

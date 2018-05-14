@@ -1,0 +1,9 @@
+<template name="floatcustomer">
+<view class='float-customer'>
+  <text class='default'></text>
+  <view class='extend'>
+    <navigator class='text' hover-class='none'>在线咨询</navigator>
+    <navigator class='text' hover-class='none'>免费热线</navigator>
+  </view>
+</view>
+</template>

@@ -1,0 +1,104 @@
+<!--pages/GroupBuy/GroupBuyDetail/GroupBuyDetail.wxml-->
+<view class='infogrid show'>
+    <swiper class="goodsilder" indicator-dots="true" autoplay="true" interval="5000" duration="500">
+        <block wx:for="{{goodsinfo.siderimg}}" wx:key="{{index}}">
+            <swiper-item>
+                <image src="{{item?item:defaultImg}}" binderror="errImg" data-err-img="goodsinfo.siderimg[{{index}}]" class="slide-image" />
+            </swiper-item>
+        </block>
+    </swiper>
+    <view class="GroupBuyTime">
+    	<image src="http://www.kzj365.com/mini_program/images/time_icon.png"></image>
+    	活动时间：02.04 00:00 至 07.30 00:00
+    </view> 
+    <view class='goodserver'>
+        <view class='item'>
+            <text class='icon'></text>正品保障</view>
+        <view class='item'>
+            <text class='icon'></text>正规发票</view>
+        <view class='item'>
+            <text class='icon'></text>隐私配送</view>
+        <view class='item'>
+            <text class='icon'></text>药师服务</view>
+    </view>
+    <view class='goodsinfo'>
+        <view class='share'></view>
+        <view class='name'>
+            <text class='i {{goodsinfo.type==2?"redbg":""}}'>{{goodsinfo.type==3?'rx':'otc'}}</text>{{goodsinfo.name}}
+        </view>
+        <view class='price-item'>
+            <text class='price'>
+            	<text>¥</text>
+                <text class='nums'>{{goodsinfo.price}}</text>
+            </text>
+            <text class='market'>
+            	<text>¥</text>
+                <text class='nums'>{{goodsinfo.market}}</text>
+            </text>
+        </view>
+        <view class="GroupBuyNumber">
+        	<text class="num">已有365人参团</text>
+        	<text>1058/2000件</text>
+        </view>
+        <view class='detail'>{{goodsinfo.manufacturer}}</view>
+    </view>
+    <view class="GroupBuyText">
+    	<text class="title">拼团说明</text>
+    	<view class="step">
+    		<view class="step1"><text>1</text>发起团购</view>
+    		<view class="step2"><text>2</text>邀请好友</view>
+    		<view class="step3"><text>3</text>好友参团</view>
+    		<view class="step4"><text>4</text>满团发货</view>
+    	</view>
+    	<text>支付开团并邀请好友参加，人数不足自动退款</text>
+    </view>
+       
+    <view class="MemberList">
+    	<view class="title">小伙伴在开团，可直接参与</view>
+    	<view class="MemberList-item" wx:for="{{GroupList}}" wx:key="MemberList_{{index}}">
+    		<image src="http://www.kzj365.com/mini_program/images/avatar.png"></image>
+    		{{item.name}}
+    		<view class="item-data">
+    			<view class="time">
+    					<view>还差 <text>{{item.number}}</text> 人</view>
+    					<text>剩余{{item.time || '99:59:59'}}</text>
+    			</view>
+    	    		<view class="item-link{{item.serverTime >= item.finishTime ? ' disable' : ''}}">
+    	    			<navigator url="" wx:if="{{item.serverTime < item.finishTime}}">去参团</navigator>
+    	    			<block wx:if="{{item.serverTime >= item.finishTime}}">已结束
+    	    			</block>
+    	    		</view>
+    		</view>
+    	</view>
+    </view>
+    <view class="Detail-tab">
+    	<view class="tab-item{{DetailActive == 0 ? ' active' : ''}}" data-index="0" bindtap="TabToggle">图文详情</view>
+    	<view class="tab-item{{DetailActive == 1 ? ' active' : ''}}" data-index="1" bindtap="TabToggle">说明书</view>
+    </view>
+    <view class="Detail-content">
+		<view class="content-item" wx:if="{{DetailActive == 0}}"></view>
+		<view class="content-item" wx:if="{{DetailActive == 1}}"></view>
+    </view>
+
+    <view class="Detail-Fixed">
+    	<view class="Icon-btn" bindtap="ToggleChaticonMenu">
+    		<image src="http://www.kzj365.com/mini_program/images/phoneicon.png"></image>
+    		联系客服
+    	</view>
+    	<view class="Detail-btn">
+    		<view class="btn btn-1">￥48.80<text>单独购买</text></view>
+    		<view class="btn">￥15.90<text>2人开团</text></view>
+    	</view>
+    </view>
+
+    <view class="Menu" wx:if="{{ChaticonMenu}}">
+    	<view class="Menu-item">
+    		<image src="http://www.kzj365.com/mini_program/images/message_icon.png"></image>
+	    	在线咨询
+	    </view>
+    	<view class="Menu-item">免费热线：400-636-5343</view>
+
+    	<view class="Menu-item cancel" bindtap="ToggleChaticonMenu">取消</view>
+    </view>
+    <view class="mask" wx:if="{{ChaticonMenu}}" bindtap="ToggleChaticonMenu"></view>
+</view>

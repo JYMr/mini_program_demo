@@ -1,0 +1,6 @@
+{
+	"navigationBarTitleText": "管理地址",
+	"usingComponents": {
+		"AddressEdit": "../addressEdit/addressEdit"
+	}
+}

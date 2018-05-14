@@ -1,0 +1,26 @@
+<!--pages/GroupBuy/GroupBuyList/GroupBuyList.wxml-->
+<view>
+    <block wx:if="{{GroupBuyData.length != 0}}">
+        <view class='index-grid hot-grid'>
+            <navigator class='slide' wx:for="{{GroupBuyData}}" url='../GroupBuyDetail/GroupBuyDetail'>
+                <view class='pic'>
+                    <image src="{{item.siderimg}}" class="slide-image" />
+                    <view class='discount'>
+                        <text class='n'>立省</text>
+                        <text class='nums'>￥{{item.discont}} </text>
+                    </view>
+                    <view class='name'>{{item.name}}</view>
+                </view>
+                <view class='bottom'>
+                    <view class='join-btn'>
+                    	<text>12人团</text><text>去拼团</text>
+                	</view>
+                    <text class='price'>¥{{item.price}}</text>/{{item.attr}}｜已售{{item.sale}}
+                </view>
+            </navigator>
+        </view>
+    </block>
+</view>
+
+<!-- 导航 -->
+<Nav id="nav" route="{{route}}"></Nav>

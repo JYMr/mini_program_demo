@@ -1,0 +1,16 @@
+/* pages/cate/cate.wxss */
+page{background:#f4f4f4;color: #555;font-size: 28rpx; height: 100%;}
+.cate-left{ position: fixed; z-index: 100; left: 0; top: 0; width: 182rpx; background: #fff; min-height: 100%;}
+.cate-left .cate-btn{ height: 120rpx; line-height: 120rpx; border-bottom: #f4f4f4 1px solid; width: 100%; text-align: center; color: #888; font-size: 30rpx; position: relative;}
+.cate-left .cate-btn.hover{ color: #37c4a4; font-weight: 700;}
+.cate-left .cate-btn.hover::before{ content: ''; width: 10rpx; height: 46rpx; overflow: hidden; background: #37c4a4; display: inline-block; position: absolute; left:0; top: 0; bottom: 0; margin:auto; z-index: 100; }
+.scroll-view{ overflow: hidden;padding: 20rpx 30rpx 0 202rpx;box-sizing: border-box; min-height: calc( 100% - 150rpx); }
+.scroll-view .scroll-grid{margin-bottom: 20rpx; height: 100%; box-sizing: border-box; }
+.scroll-view .scroll-grid .title{ height: 70rpx; line-height: 70rpx; font-weight: 700; font-size: 30rpx;}
+.scroll-view .scroll-grid .con{ background: #fff; overflow: hidden;}
+.scroll-view .scroll-grid .item{ float: left; width: 33.333%; box-sizing: border-box; border-right: #f4f4f4 1px solid;border-bottom: #f4f4f4 1px solid; text-align: center; }
+.scroll-view .scroll-grid .item:nth-child(3n){ border-right: none;}
+.scroll-view .scroll-grid navigator{padding: 33rpx 33rpx 15rpx;}
+.scroll-view .scroll-grid .pic{ width: 106rpx; height: 106rpx; display: inline-block; margin-bottom: 20rpx;}
+.scroll-view .scroll-grid .name{ white-space: nowrap; text-overflow: ellipsis;overflow: hidden; color: #888888; font-size: 26rpx;}
+.footer-out{ margin-left: 202rpx;}

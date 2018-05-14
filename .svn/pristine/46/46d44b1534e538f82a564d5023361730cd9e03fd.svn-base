@@ -1,0 +1,21 @@
+/* pages/cate/lists.wxss */
+.search-box{ display: flex; justify-content: center; align-items: center; height: 300rpx; width: 100%; background: #37c4a4; position: fixed; left: 0; right: 0; top: 0; margin: auto; z-index: 500;}
+.search{ position: relative; width: 510rpx;height: 80rpx; line-height: 80rpx; background: #fff; border-radius: 50rpx;}
+.search .search-icon{ position: absolute; left: 0; top: 0; z-index: 100; width: 80rpx; height: 80rpx;  background: url(http://sh.gzjuer.com/x/searchicon.png) no-repeat center center; background-size: 36rpx 36rpx;  }
+.search .search-text{ color:#37c4a4; font-size: 28rpx; width: 100%; padding: 0 80rpx; box-sizing: border-box; line-height: 80rpx; height: 80rpx; }
+.search .placeholder{ color: #37c4a4;}
+.search .scan-btn{ position: absolute; right: 0rpx; top: 0rpx; z-index: 100; width: 50rpx; height: 50rpx; margin: 15rpx; background: url(http://sh.gzjuer.com/x/scanicon.png) no-repeat center center #37c4a4; background-size: 90%;border-radius: 100%; }
+.search .clear-btn{ position: absolute; right: 0rpx; top: 0rpx; z-index: 101; width: 50rpx; height: 50rpx; margin: 15rpx;  background: url(http://sh.gzjuer.com/x/closeicon2.png) no-repeat center center #37c4a4; background-size: 19rpx; border-radius: 100%;}
+.search-box1{ height: 150rpx;}
+.search-box1 .search{ width: 630rpx;}
+.search1-blank{ height:150rpx;}
+
+.lists-view{ overflow: hidden;min-height:800rpx;}
+.lists-view .item{border-bottom: #f4f4f4 1px solid; background: #fff; position: relative; }
+.lists-view navigator{ padding: 30rpx; display: block; overflow: hidden;}
+.lists-view .pic{ width: 180rpx; height: 180rpx; float: left; margin-right: 30rpx;}
+.lists-view .name{ text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;  color: #4a5259;}
+.lists-view .type{ background: #37c4a4; display: inline-block; line-height: 30rpx; vertical-align: middle; padding: 0 10rpx; font-size: 24rpx; height: 30rpx; color: #fff; text-align: center; margin-right: 10rpx; text-transform: uppercase; border-radius: 50rpx;}
+.lists-view .type.redbg{ background: #ff5c58;}
+.lists-view .price{color: #ff5c58; overflow: hidden; position: absolute; left: 240rpx; bottom: 30rpx; z-index: 100;}
+.lists-view .price .nums{ font-size: 30rpx;}

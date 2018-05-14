@@ -1,0 +1,22 @@
+/* pages/Common/Dialog.wxss */
+.Dialog{width: 465rpx; background: #FFF;position: fixed;top: 50%;left: 0;right: 0;margin:auto;box-shadow: 0px 0px 20px 0px 
+		rgba(204, 204, 204, 0.5);
+	border-radius: 10rpx;transform: translate(0, -50%);z-index: 999;animation-name: fadeInDown;animation-duration: .3s;animation-fill-mode: both;}
+
+.Dialog-text{line-height: 42rpx;padding: 65rpx 75rpx;text-align: center;}
+.Dialog-btn{height: 88rpx;display: flex;line-height: 88rpx;text-align: center;border-top: 1rpx solid #ddd;}
+.Dialog-btn .btn-item{flex: 1;box-sizing: border-box;}
+.Dialog-btn .btn-item.confrim{color: #37c4a4;}
+.Dialog-btn .btn-item + .btn-item{border-left: 1rpx solid #ddd;}
+
+.Dialog-1{padding: 52rpx 0;text-align: center;}
+.Dialog-1 .icon{width: 36rpx; height: 36rpx;vertical-align: bottom;margin-right: 15rpx;display: inline-block;}
+.Dialog-1 .icon.icon-success{background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAUVBMVEUAAAA3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKQ3xKTnRLhqAAAAGnRSTlMAz/fG7zMUAmk/myEWCdekWezYRHWmRe2yWk1ABGcAAADvSURBVDjLjdTbjoMgFIXhhcwMjCh4qHZmvf+DtimhSjeo/5XGLwET2NjnbFBj04wqWIdiZtDcpQcjzez5kZ8/SN+yUNvvTadZTHc7M7HS9Fa9ZjWdVmx5UBvNzMNe/2j8MfLmiQaeNDxRZdfNHNLeAVcxvzBJOdiaAcxffLEIVYPvr/gWoNIHdasYKozp6Qe3suEdzdsgKmHY7FFUm9nQyFxJwzsUM2WlocLCXEnDAMtcSUMLx1xJQwfoXEmj01HZlDAcxKHzwnhz4fiuFy/C+ZW6eDmTUmWjussDY2udxFLr+RD7Nyjm7BLH4ZKPwwdnAFkWoDdK4AAAAABJRU5ErkJggg==) center center no-repeat;background-size: 36rpx;}
+.Dialog-1 text{line-height: 36rpx;display: inline-block;}
+
+.mask{position: fixed;z-index: 998;top: 0;bottom: 0;left: 0;right: 0;margin: auto;}
+
+@keyframes fadeInUp{from{transform: none;opacity: 1;}
+    to{transform: translate3d(0, -30%, 0);opacity: 0;}}
+@keyframes fadeInDown{from{transform: translate3d(0, -80%, 0);opacity: 0;}
+    to{transform: translate(0, -50%);opacity: 1;}}
