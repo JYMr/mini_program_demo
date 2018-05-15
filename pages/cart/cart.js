@@ -83,7 +83,7 @@ Page({
                 stock: '56',
                 marketprice: '27.90',
                 productprice: '',
-                goods_type: '1',
+                goods_type: '4',
                 spec_type: '盒',
                 isChoose: '1',
                 goods_group: [{

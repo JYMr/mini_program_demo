@@ -9,6 +9,7 @@
     "pages/order/order",
     "pages/user/user/user",
     "pages/user/myorder/myorder",
+    "pages/user/myorderdetail/myorderdetail",
     "pages/user/refund/refund",
     "pages/user/addressList/addressList",
     "pages/user/addressEdit/addressEdit",

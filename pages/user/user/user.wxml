@@ -4,22 +4,41 @@
     <text class="nickname">{{userInfo.nickName}}</text>
 </view>
 <view class='meau'>
-  <view class='title'><navigator>我的订单</navigator></view>
-  <view class='con'>
-    <navigator class='item'><text class='icon01'></text>待付款</navigator>
-    <navigator class='item'><text class='icon02'></text>待分享</navigator>
-    <navigator class='item'><text class='icon03'></text>待发货</navigator>
-    <navigator class='item'><text class='icon04'></text>已发货</navigator>
-  </view>
+    <view class='title'>
+        <navigator>我的订单</navigator>
+    </view>
+    <view class='con'>
+        <navigator class='item'>
+            <text class='num'>1</text>
+            <text class='icon01'></text>待付款</navigator>
+        <navigator class='item'>
+            <text class='num'>12</text>
+            <text class='icon02'></text>待分享</navigator>
+        <navigator class='item'>
+            <text class='num'>123</text>
+            <text class='icon03'></text>待发货</navigator>
+        <navigator class='item'>
+            <text class='num'>11</text>
+            <text class='icon04'></text>已发货</navigator>
+    </view>
 </view>
 <view class='lists'>
-  <view class='item'><navigator><text class='prestand-icon'></text>我的预定<text class='nums'>1</text></navigator></view>
-  <view class='item'><navigator><text class='address-icon'></text>收货地址</navigator></view>
-  <view class='item'><navigator><text class='contact-icon'></text>联系客服</navigator></view>
+    <view class='item'>
+        <navigator>
+            <text class='prestand-icon'></text>我的预定
+            <text class='nums'>1</text>
+        </navigator>
+    </view>
+    <view class='item'>
+        <navigator>
+            <text class='address-icon'></text>收货地址</navigator>
+    </view>
+    <view class='item'>
+        <navigator>
+            <text class='contact-icon'></text>联系客服</navigator>
+    </view>
 </view>
-
-<import src="/pages/Common/footer.wxml"/>
-<template is="footer" data=""/>
-
+<import src="/pages/Common/footer.wxml" />
+<template is="footer" data="" />
 <!-- 导航 -->
 <Nav id="nav" route="{{route}}"></Nav>

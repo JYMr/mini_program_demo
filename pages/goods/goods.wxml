@@ -1,160 +1,124 @@
 <!--pages/goods/index.wxml-->
+<import src="/pages/Common/TypeIcon.wxml" />
 <!-- banner -->
-<swiper class="goodsilder"  indicator-dots="true" autoplay="true" interval="5000" duration="500">
+<swiper class="goodsilder" indicator-dots="true" autoplay="true" interval="5000" duration="500">
     <block wx:for="{{goodsinfo.siderimg}}" wx:for-item="item" wx:for-index='index' wx:key="slider_{{index}}">
         <swiper-item>
-          <image src="{{item?item:defaultImg}}"  binderror="errImg" data-err-img="goodsinfo.siderimg[{{index}}]" class="slide-image"/>
+            <image src="{{item?item:defaultImg}}" binderror="errImg" data-err-img="goodsinfo.siderimg[{{index}}]" class="slide-image" />
         </swiper-item>
     </block>
 </swiper>
 <!-- server -->
 <view class='goodserver'>
-  <view class='item'><text class='icon'></text>正品保障</view>
-  <view class='item'><text class='icon'></text>正规发票</view>
-  <view class='item'><text class='icon'></text>隐私配送</view>
-  <view class='item'><text class='icon'></text>药师服务</view>
+    <view class='item'>
+        <text class='icon'></text>正品保障</view>
+    <view class='item'>
+        <text class='icon'></text>正规发票</view>
+    <view class='item'>
+        <text class='icon'></text>隐私配送</view>
+    <view class='item'>
+        <text class='icon'></text>药师服务</view>
 </view>
 <!-- 基本信息 -->
 <view class='goodsinfo'>
-  <view class='share'></view>
-  <view class='name'><text class='i {{goodsinfo.type==2?"redbg":""}}'>{{goodsinfo.type==3?'rx':'otc'}}</text>{{goodsinfo.name}}</view>
-  <view class='price-item'>
-    <text class='price'>¥<text class='nums'>{{goodsinfo.price}}</text></text>
-    <text class='market'>¥<text class='nums'>{{goodsinfo.market}}</text></text>
-  </view>
-  <view class='detail'>{{goodsinfo.manufacturer}}</view>
+    <button class='share' open-type="share"></button>
+    <view class='name'>
+        <template is="TypeIcon" data="" />{{goodsinfo.name}}</view>
+    <view class='price-item'>
+        <text class='price'>¥<text class='nums'>{{goodsinfo.price}}</text></text><text class='market'>¥<text class='nums'>{{goodsinfo.market}}</text></text>
+    </view>
+    <view class='detail'>{{goodsinfo.manufacturer}}</view>
 </view>
-
 <!-- 规格 -->
-<view class='goodsattr' bindtap="showModal">商品规格: <text>{{goodsinfo.selectspec!='' ? goodsinfo.selectspec : "请选择"}}</text></view>
+<view class='goodsattr' bindtap="showModal">商品规格:
+    <text>{{goodsinfo.selectspec!='' ? goodsinfo.selectspec : "请选择"}}</text>
+</view>
 <!-- nav -->
 <view class="goodsnav" bindtap="tabs">
-  <view class='item {{tabsindex=="0" ? "hover" : ""}}' data-id="0" animation="{{animation2}}">图文详情</view>
-  <view class='item {{tabsindex=="1" ? "hover" : ""}}' data-id="1" animation="{{animation1}}">说明书</view>
+    <view class='item {{tabsindex=="0" ? "hover" : ""}}' data-id="0" animation="{{animation2}}">图文详情</view>
+    <view class='item {{tabsindex=="1" ? "hover" : ""}}' data-id="1" animation="{{animation1}}">说明书</view>
 </view>
 <!-- 图文详情 -->
 <view class='infogrid {{tabsindex=="0" ? "show" : "hide"}}'>
-  <view class='goodsdetail'>
-  <block wx:for='{{detaildata}}' wx:for-item="item" wx:for-index='index' wx:key="detail_{{index}}">
-  <image src='{{item}}'></image>
-  </block>
-  </view>
+    <view class='goodsdetail'>
+        <block wx:for='{{detaildata}}' wx:for-item="item" wx:for-index='index' wx:key="detail_{{index}}">
+            <image src='{{item}}'></image>
+        </block>
+    </view>
 </view>
 <!-- 说明书 -->
 <view class='infogrid {{tabsindex=="1" ? "show" : "hide"}}'>
-  <view class='instructions'>
-    <view class="table">
-        <view class="tr">
-            <view class="th">药品名称</view>
-            <view class="td">汤臣倍健 果疏纤维咀嚼片</view>
-        </view>
-        <view class="tr">
-            <view class="th">商品编码</view>
-            <view class="td">20111169</view>
-        </view>
-        <view class="tr">
-            <view class="th">生产厂家</view>
-            <view class="td">汤臣倍健生物科技股份有限公司</view>
+    <view class='instructions'>
+        <view class="table">
+            <view class="tr">
+                <view class="th">药品名称</view>
+                <view class="td">汤臣倍健 果疏纤维咀嚼片</view>
+            </view>
         </view>
     </view>
-    <view class="table">
-        <view class="tr">
-            <view class="th">保健功能</view>
-            <view class="td">1.补充日常蔬菜水果摄取不足；2.非水溶性与水溶性膳食纤维，有益肠道正常运作。</view>
-        </view>
-        <view class="tr">
-            <view class="th">成份</view>
-            <view class="td">菊粉、水溶性膳食纤维、燕麦纤维粉、异麦芽酮糖醇、胡萝卜冻干粉、芹菜冻干粉、硬脂酸镁。</view>
-        </view>
-        <view class="tr">
-            <view class="th">用法用量</view>
-            <view class="td">每日2次，每次3片，咀嚼，多喝水。</view>
-        </view>
-        <view class="tr">
-            <view class="th">禁忌症</view>
-            <view class="td">婴幼儿禁用。</view>
-        </view>
-        <view class="tr">
-            <view class="th">注意事项</view>
-            <view class="td">本品不能代替药品。</view>
-        </view>
-        <view class="tr">
-            <view class="th">贮藏</view>
-            <view class="td">密封。</view>
-        </view>
-        <view class="tr">
-            <view class="th">包装</view>
-            <view class="td">81g(900mg*90片)/瓶。</view>
-        </view>
-        <view class="tr">
-            <view class="th">有效期</view>
-            <view class="td">24个月。</view>
-        </view>
-        <view class="tr">
-            <view class="th">产品特点</view>
-            <view class="td">1.德国JRS燕麦纤维、蔬菜纤维具有130年历史、在全球天然纤维素制造行业中处于领地位，采用高新技术碾碎﹑分馏和精炼制成高品质有机纤维，纤维含量可达94%，并通过HACCP、HALAL、KOSHER等认证。 2.可溶性膳食纤维进口自日本松谷，松谷为日本最大的水溶性膳食纤维生产公司，荣获日本政府特定保健食品认定，荣获美国FDA认定为公认安全食物。是世界上唯一纤维含量达85%以上产品，具有调理肠道、抑制血糖值上升、减肥、降低胆固醇四大生理功效。 3.膳食纤维含量高：每片含有480毫克的天然膳食纤维，提供人</view>
-        </view>
-    </view>
-  </view>
 </view>
 
 <!-- float -->
-<view class='goodsfloat' >
-  <navigator class='phone' hover-class='none'>
-    <view class='icon'></view>
-    <view>联系客服</view>
-  </navigator>
-  <navigator url='cart/cart' class='cart' hover-class='none'>
-    <view class='icon'></view>
-    <view>购物车</view>
-  </navigator>
-  <navigator class='addcart'>加入购物车</navigator>
-  <navigator class='buy'>立即购买</navigator>
-  <navigator class='offer'>该商品已下架</navigator>
-  <navigator class='outstock'>该商品已缺货</navigator>
+<view class='goodsfloat'>
+    <navigator class='phone' hover-class='none'>
+        <view class='icon'></view>
+        <view>联系客服</view>
+    </navigator>
+    <navigator url='cart/cart' class='cart' hover-class='none'>
+        <view class='icon'></view>
+        <view>购物车</view>
+    </navigator>
+    <view class='addcart' bindtap="showModal" data-type="Cart">加入购物车</view>
+    <view class='buy' bindtap="showModal" data-type="Buy">立即购买</view> 
+
+    <view class='offer'>该商品已下架</view>
+    <view class='outstock'>该商品已缺货</view>
 </view>
 
 <!-- 属性弹出框 -->
 <view class='prop' id='select-attr' wx:if="{{showModalStatus}}">
-  <view class='select-attr' animation="{{animationData}}">
-    <view class='close' bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
-    <view class='info'>
-      <image class='pic' src='{{goodsinfo.siderimg[1]}}'></image>
-      <view class='price'>¥<text class='nums'>{{goodsinfo.price}}</text></view>
-      <view class='name'>{{goodsinfo.name}}</view>
-    </view>
-    <block wx:if="{{speclists}}">
-    <view class='grid attr'>
-      <view class='t'>规格</view>
-      <view class='lists'>
-        <block wx:for="{{speclists}}" wx:for-item="item" wx:for-index='index' wx:key="spec_{{index}}" >
-          <view class="item {{item.isselect?'on':''}}" data-selectindex="{{group_index}}" data-attrindex="{{index}}" data-attr-id="{{item.id}}" bindtap='clickAttr'>{{item.name}}</view>
+    <view class='select-attr' animation="{{animationData}}">
+        <view class='close' bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
+        <view class='info'>
+            <image class='pic' src='{{goodsinfo.siderimg[1]}}'></image>
+            <view class='price'>¥
+                <text class='nums'>{{goodsinfo.price}}</text>
+            </view>
+            <view class='name'>{{goodsinfo.name}}</view>
+        </view>
+        <block wx:if="{{speclists}}">
+            <view class='grid attr'>
+                <view class='t'>规格</view>
+                <view class='lists'>
+                    <block wx:for="{{speclists}}" wx:for-item="item" wx:for-index='index' wx:key="spec_{{index}}">
+                        <view class="item{{item.isselect?' on':''}}"  data-index="{{index}}" data-type="spec" bindtap='ClickAttr'>{{item.name}}</view>
+                    </block>
+                </view>
+            </view>
         </block>
-      </view>
-    </view>
-    </block>
-    <block wx:if="{{packager}}">
-    <view class='grid packager'>
-      <view class='t'>优惠套餐</view>
-      <view class='lists'>
-        <block wx:for="{{packager}}">
-          <view class='item'>{{item.name}}</view>
+        <block wx:if="{{packager}}">
+            <view class='grid packager'>
+                <view class='t'>优惠套餐</view>
+                <view class='lists'>
+                    <block wx:for="{{packager}}" wx:key="packager_{{index}}">
+                        <view class="item{{item.isselect?' on':''}}"  data-index="{{index}}" data-type="packager" bindtap='ClickAttr'>{{item.name}}</view>
+                    </block>
+                </view>
+            </view>
         </block>
-      </view>
+        <view class='grid'>
+            <view class='t'>数量</view>
+            <view class='control'>
+                <view class='mins {{goodsnums.minsStatus}}' bindtap="bindMinus" hover-class="hover">-</view>
+                <input type='number' class='nums' bindchange="bindManual" value="{{goodsnums.nums}}"></input>
+                <view class='plus {{goodsnums.plusStatus}}' hover-class="hover" bindtap="bindPlus">+</view>
+            </view>
+        </view>
+        <view class='comfirm-btn' hover-class="hover" wx:if="{{hasUserInfo || ModalMode == 'Cart' ||  ModalMode == ''}}" bindtap="ModalConfirm">确定</view>
+        <button class='comfirm-btn' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" wx:if="{{!hasUserInfo && ModalMode == 'Buy'}}" bindtap="ModalConfirm">确定</button>
     </view>
-    </block>
-    <view class='grid'>
-      <view class='t'>数量</view>
-      <view class='control'>
-        <view class='mins {{goodsnums.minsStatus}}' bindtap="bindMinus" hover-class="hover">-</view>
-        <input type='number' class='nums' bindchange="bindManual" value="{{goodsnums.nums}}"></input>
-        <view class='plus {{goodsnums.plusStatus}}' hover-class="hover" bindtap="bindPlus">+</view>
-      </view>
-    </view>
-    <view class='comfirm-btn' hover-class="hover">确定</view>
-  </view>
-  <view class='gray-bg' bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
+    <view class='gray-bg' bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
 </view>
 
-<import src="../Common/footer.wxml"/>
-<template is="footer" data=""/>
+<import src="../Common/footer.wxml" />
+<template is="footer" data="" />

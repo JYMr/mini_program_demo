@@ -1,0 +1,6 @@
+<template name="TypeIcon">
+	<text class='type' wx:if="{{item.goods_type == 1}}">OTC</text>
+	<text class='type redbg' wx:if="{{item.goods_type == 2}}">OTC</text>
+	<text class='type' wx:if="{{item.goods_type == 3}}">RX</text>
+	<text class='type bjp' wx:if="{{item.goods_type == 4}}"></text>
+</template>

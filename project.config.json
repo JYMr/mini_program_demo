@@ -30,12 +30,37 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": -1,
 			"list": [
+				{
+					"id": 0,
+					"name": "user",
+					"pathName": "pages/user/user/user",
+					"query": ""
+				},
 				{
 					"id": -1,
 					"name": "cart",
-					"pathName": "pages/cart/cart"
+					"pathName": "pages/cart/cart",
+					"query": ""
+				},
+				{
+					"id": 2,
+					"name": "goods",
+					"pathName": "pages/goods/goods",
+					"query": "id=132"
+				},
+				{
+					"id": 3,
+					"name": "myorder",
+					"pathName": "pages/user/myorder/myorder",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "myorderdetail",
+					"pathName": "pages/user/myorderdetail/myorderdetail",
+					"query": ""
 				}
 			]
 		}

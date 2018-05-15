@@ -1,7 +1,7 @@
 /* pages/Common/Nav/Nav.wxss */
 .nav-blank{ height: 96rpx;}
 .nav{font-size: 20rpx;line-height: 1.2;position: fixed;z-index: 1000;right: 0;bottom: 0;left: 0;display: flex;flex-direction: row; height: 98rpx;color: #bbb;background: #fff;box-shadow: rgba(0, 0,0, .05) 0 -1px 3px;align-items: center;justify-content: space-around;}
-.nav .navli{ display: inline-block;text-align: center;}
+.nav .navli{ display: inline-block;text-align: center;flex: 1;}
 .nav .navBtn{font-size: inherit;line-height: inherit;margin-right: 0; margin-left: 0;padding-right: 0;padding-left: 0;border-radius: none;background-color: #fff;color:#bbb;
 }
 .nav .navBtn::after{border: none;}
