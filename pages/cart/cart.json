@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "Nav": "/pages/Common/Nav/Nav"
+    "Nav": "/pages/Common/Nav/Nav",
+    "Dialog": "/pages/Common/Dialog/Dialog"
   }
 }

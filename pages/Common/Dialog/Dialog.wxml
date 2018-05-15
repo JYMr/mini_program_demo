@@ -12,12 +12,12 @@
 		{{option.title}}
 	</view>
 	<view class="Dialog-btn">
-		<view class="btn-item {{item.class}}" bindtap="_tapEvent">{{option.btnArray[0].name}}</view>
+		<view class="btn-item {{item.class}}" bindtap="_tapEvent">{{option.btnArray[1].title}}</view>
 	</view>
 </view>
 <view class="Dialog Dialog-1" wx:if="{{isShow && option.type == 'Message'}}">
 	<view class="icon icon-{{option.messageType}}"></view>
-	<text>加入清单成功</text>
+	<text>{{option.title}}</text>
 </view>
 <view class="Dialog" wx:if="{{isShow && option.type == 'Slot'}}">
 	<slot name="content"></slot>
