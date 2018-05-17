@@ -1,5 +1,5 @@
 {
-    "navigationBarTitleText": "订单详情",
+    "component": true,
     "usingComponents":
     {
         "Dialog": "/pages/Common/Dialog/Dialog"

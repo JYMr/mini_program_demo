@@ -1,47 +1,133 @@
 <!--pages/cart/detail.wxml-->
 <view class='statusbox'>
-  <view class='t'>待付款</view>
-  <view class='c'>2小时内没完成支付，订单将被取消!</view>
-</view>
-<view class='addaddress'>
-  <view class='add'>
-    <text class='icon'></text> <text class='name'>添加收货地址</text>
-  </view>
-  <view class='info'>
-    <view class='t'>张晓峰   136****6316 <text class='tip'>默认</text></view>
-    <view class='c'>广东广州白云区永泰地铁A出口</view>
-  </view>
+    <block wx:if="{{OrderData.status == 0}}">
+        <text class="t">待付款</text>
+        <view class='c'>2小时内没完成支付，订单将被取消!</view>
+    </block>
+    <block wx:if="{{OrderData.status == 1}}">
+        <text class="t">待分享</text>
+        <view class='c'>分享给朋友能提高拼团成功率</view>
+    </block>
+    <block wx:if="{{OrderData.status == 2}}">
+        <text class="t">待发货</text>
+        <view class='c'>亲，我们将尽快为您发货</view>
+    </block>
+    <block wx:if="{{OrderData.status == 3}}">
+        <text class="t">已发货</text>
+        <view class='c'>亲，请复制物流单号去查询！</view>
+    </block>
+    <block wx:if="{{OrderData.status == 4}}">
+        <text class="t">交易完成</text>
+        <view class='c'>亲，如有需要请再次购买</view>
+    </block>
+    <block wx:if="{{OrderData.status == 5}}">
+        <text class="t">待付款</text>
+        <view class='c'>2小时内没完成支付，订单将被取消!</view>
+    </block>
+    <block wx:if="{{OrderData.status == 6}}">
+        <text class="t">取消中</text>
+        <view class='c'>客服正在确认是否已发货</view>
+    </block>
+    <block wx:if="{{OrderData.status == 7}}">
+        <text class="t">已取消</text>
+        <view class='c'>退款原路返回，请耐心等候！</view>
+    </block>
+    <block wx:if="{{OrderData.status == 8}}">
+        <text class="t">售后中</text>
+        <view class='c'>客服正在处理，尽快帮你完成售后</view>
+    </block>
+    <block wx:if="{{OrderData.status == 9}}">
+        <text class="t">售后完成</text>
+        <view class='c'>如有疑问，请咨询客服</view>
+    </block>
 </view>
 
-<view class='orderlists'>
-  <view class='title'><text class='shopicon'></text><text class='name'>康之家药店</text></view>
-  <view class='lists'>
-    <view class='item'>
-      <navigator>
-        <image class='pic' src='http://kzjimg01.b0.upaiyun.com/1508118546272.jpg'></image>
-        <view class='name'>仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶 </view>
-        <text class='price'>￥<text class='n'>25.90</text></text>
-        <text class='attr'>/1盒</text>
-        <text class='ctype'>疗程装</text>
-        <text class='nums'>x3</text>
-      </navigator>
-      
+<view class='addaddress'>
+    <view class='info'>
+        <view class='t'>{{OrderData.Address.name}} {{OrderData.Address.mobile}}
+            <text class='tip' wx:if="{{OrderData.Address.isDefault}}">默认</text>
+        </view>
+        <view class='c'>{{OrderData.Address.province}}{{OrderData.Address.city}}{{OrderData.Address.area}}{{OrderData.Address.address}}</view>
     </view>
-    <view class='total'> 共3件商品 合计：￥77.70（免运费）</view>
-  </view>
+</view>
+<view class='orderlists'>
+    <view class='title'>
+        <text class='shopicon'></text>
+        <text class='name'>康之家药店</text>
+    </view>
+    <view class='lists'>
+        <view class='item' wx:for="{{OrderData.goods_list}}">
+                <image class='pic' src='http://kzjimg01.b0.upaiyun.com/1508118546272.jpg'></image>
+                <view class='name'>{{item.title}}</view>
+                <text class='price'>￥<text class='n'>{{item.price}}</text></text>
+                <text class='attr'>/1{{item.spec_type}}</text>
+                <text class='ctype' wx:if="{{item.isGroup}}">疗程装</text>
+                <text class='nums'>x{{item.total}}</text>
+        </view>
+        <view class='total'> 共3件商品 合计：￥{{OrderData.orderPrice}} 
+            <block wx:if="{{OrderData.isNeedExpress}}">（包含快递费10元）</block>
+            <block wx:if="{{!OrderData.isNeedExpress}}">（免运费）</block>
+        </view>
+    </view>
 </view>
 <view class='totalinfo'>
-  <view>订单编号：103333333333</view>
-  <view>支付方式：<text class='status'>待支付</text></view>
-  <view>下单时间：2018-02-27  20：23:32</view>
+    <view>订单编号：{{OrderData.orderNumber}}</view>
+    <view>支付方式：
+        <text class='status' wx:if="{{OrderData.status == 0}}">待付款</text>
+        <text class='status' wx:if="{{OrderData.status == 1}}">待分享</text>
+        <text class='status' wx:if="{{OrderData.status == 2}}">待发货</text>
+        <text class='status' wx:if="{{OrderData.status == 3}}">已发货</text>
+        <text class='status' wx:if="{{OrderData.status == 4}}">已完成</text>
+        <text class='status' wx:if="{{OrderData.status == 5}}">待付款</text>
+    </view>
+    <view>下单时间：{{OrderData.orderTime}}</view>
 </view>
-
-
-<import src="../Common/footer.wxml"/>
-<template is="footer" data=""/>
-
+<import src="../Common/footer.wxml" />
+<template is="footer" data="" />
 <view class='floatcontrol-blank'></view>
 <view class='floatcontrol'>
-  <text class='cancel-btn'>取消订单</text>
-  <text class='gopay-btn'>去支付</text>
+    <block wx:if="{{OrderData.status == 0}}">
+        <text class='cancel-btn'>取消订单</text>
+        <text class='gopay-btn'>去支付</text>
+    </block>
+    <block wx:if="{{OrderData.status == 1}}">
+        <text class='cancel-btn'>取消订单</text>
+        <text class='gopay-btn' data-id="{{OrderItem.id}}" catchtap="InviteJoin">邀请参团</text>
+    </block>
+    <block wx:if="{{OrderData.status == 2}}">
+        <text class='cancel-btn'>申请售后</text>
+    </block>
+    <block wx:if="{{OrderData.status == 3}}">
+        <text class='cancel-btn'>物流单号</text>
+        <text class='cancel-btn'>申请售后</text>
+        <text class='cancel-btn green'>确认收货</text>
+    </block>
+    <block wx:if="{{OrderData.status == 4}}">
+        <text class='cancel-btn'>删除订单</text>
+        <text class='cancel-btn'>申请售后</text>
+        <text class='cancel-btn'>再次购买</text>
+    </block>
+    <block wx:if="{{OrderData.status == 5}}">
+        <text class='cancel-btn'>取消订单</text>
+        <text class='gopay-btn'>去支付</text>
+    </block>
+    <block wx:if="{{OrderData.status == 6}}">
+        <text class='cancel-btn'>取消订单</text>
+    </block>
+    <block wx:if="{{OrderData.status == 7}}">
+        <text class='cancel-btn'>取消订单</text>
+        <text class='cancel-btn'>再次购买</text>
+    </block>
+    <block wx:if="{{OrderData.status == 8}}">
+        <text class='cancel-btn'>物流单号</text>
+        <text class='cancel-btn'>申请售后</text>
+        <text class='cancel-btn green'>确认收货</text>
+    </block>
+    <block wx:if="{{OrderData.status == 9}}">
+        <text class='cancel-btn'>删除订单</text>
+        <text class='cancel-btn'>再次购买</text>
+    </block>
 </view>
+
+<!-- 提示组件 -->
+<Dialog id="Dialog"></Dialog>

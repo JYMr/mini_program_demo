@@ -1,0 +1,29 @@
+<!--pages/Common/CustomerService/CustomerService.wxml-->
+<view class="CustomerService" wx:if="{{isShow}}">
+    <text class="title">售后单</text>
+    
+    <view class="input-item">
+        <text>售后原因</text>
+        <picker range="{{reason_list}}" value="{{region}}" class="picker" bindchange="bindpickerChange">
+            <view class="picker-text">
+              {{UserInfo.reason}}
+            </view>
+        </picker>
+    </view>
+    <view class="input-item">
+        <text>联系人</text>
+        <input type="number" bindinput="BindNameChange" value="{{UserInfo.name}}"/>
+    </view>
+    <view class="input-item">
+        <text>手机号</text>
+        <input type="number" bindinput="BindMobileChange" value="{{UserInfo.mobile}}"/>
+    </view>
+    <view class="CustomerServiceBtn{{ValiStatus ? ' active':''}}" bindtap="save">
+        保存
+    </view>
+    <view class="close" bindtap="CloseEdit"></view>
+</view>
+<view class="mask" wx:if="{{isShow}}" bindtap="CloseEdit"></view>
+
+<!-- 提示组件 -->
+<Dialog id="Dialog"></Dialog>

@@ -132,14 +132,15 @@ Page({
         * 这里可更改为接口查询
         */
         for(let item of _List){
+            let _Length = item.goods_group.length;
             item.price = item.marketprice;
-            item.GroupName = '';
+            item.GroupName = item.goods_group[_Length-1].name;
             item.GroupStatus = -1;
             for(let gItem of item.goods_group){
                 //goods_group 注意需为升序
                 if(item.total >= gItem.num){
                     item.price = gItem.price;//更改套餐价格
-                    item.GroupName = gItem.name;//更改套餐名称
+                    if(gItem.name) item.GroupName = gItem.name;//更改套餐名称
                     item.GroupStatus = 1;//更改套餐状态
                 }
             }

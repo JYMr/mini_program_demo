@@ -76,9 +76,11 @@ Page({
         //AddressController.controller.setAddressDefault().then(res => {});
     },
     //点击选择地址
-    ChooseAddress(event){
+    ChooseAddress(e){
         if(this.data.ChooseMode){
             //选择地址
+            app.globalData.AddressId = e.currentTarget.dataset.id;
+            wx.navigateBack();
         }
     },
     //响应编辑窗口事件

@@ -1,1 +1,7 @@
-{}
+{
+    "navigationBarTitleText": "预定清单",
+    "usingComponents":
+    {
+        "Dialog": "/pages/Common/Dialog/Dialog"
+    }
+}

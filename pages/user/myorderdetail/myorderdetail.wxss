@@ -1,6 +1,6 @@
 /* pages/cart/detail.wxss */
 .statusbox{ background: #37c4a4; color: #fff; padding: 40rpx 40rpx 40rpx 80rpx; overflow: hidden;}
-.statusbox .t{ font-size: 40rpx;}
+.statusbox .t{ font-size: 50rpx;padding-bottom: 20rpx;}
 
 .addaddress{ overflow: hidden; margin-bottom: 20rpx;}
 .addaddress .add{padding: 36rpx 30rpx; line-height: 90rpx; height: 90rpx; color: #222; font-size: 30rpx; position: relative; }
@@ -18,8 +18,7 @@
 .orderlists .title .shopicon{ width: 40rpx; height: 40rpx; margin-top: 24rpx; margin-right: 15rpx; float: left;background: url(http://www.kzj365.com/mini_program/images/shopicon.png) no-repeat center center; background-size: 100%;}
 .orderlists .title .pedpay,.orderlists .title .peddelivery,.orderlists .title .share{ font-size: 30rpx; font-weight: 700; color: #ff5c58; float: right;}
 .orderlists .title .cancel,.orderlists .title .success,.orderlists .title .aftersale{ font-size: 30rpx; font-weight: 700; color: #ddd; float: right;}
-.orderlists .lists .item{background: #fafafa; position: relative; border-bottom: #f4f4f4 1px solid; }
-.orderlists .lists navigator{ padding: 30rpx; display: block; overflow: hidden; }
+.orderlists .lists .item{background: #fafafa; position: relative; border-bottom: #f4f4f4 1px solid; padding: 30rpx; display: block; overflow: hidden; }
 .orderlists .lists .pic{ width: 140rpx; height: 140rpx; float: left; margin-right: 30rpx;}
 .orderlists .lists .name{ text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;  color: #4a5259; font-size: 26rpx; height: 100rpx; line-height: 1.4;}
 .orderlists .lists .type{ background: #37c4a4; display: inline-block; line-height: 30rpx; vertical-align: middle; padding: 0 10rpx;  height: 30rpx; color: #fff; text-align: center; margin-right: 10rpx; text-transform: uppercase; border-radius: 50rpx;}

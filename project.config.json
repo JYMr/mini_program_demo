@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 3,
 			"list": [
 				{
 					"id": 0,
@@ -60,6 +60,30 @@
 					"id": -1,
 					"name": "myorderdetail",
 					"pathName": "pages/user/myorderdetail/myorderdetail",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "reservation",
+					"pathName": "pages/reservation/reservation",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "order",
+					"pathName": "pages/order/order",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "myorderdetail",
+					"pathName": "pages/user/myorderdetail/myorderdetail",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "GroupBuyDetail",
+					"pathName": "pages/GroupBuy/GroupBuyDetail/GroupBuyDetail",
 					"query": ""
 				}
 			]

@@ -11,7 +11,7 @@
         <text class='select{{item.isChoose == 1 ? " on":""}}' bindtap="HandleCheckBox" data-id="{{item.id}}"></text>
         <navigator hover-class='none'>
             <image class='pic' src='http://kzjimg01.b0.upaiyun.com/1508118546272.jpg'></image>
-            <view class='name'><template is="TypeIcon" data="{{item}}" />{{item.title}}</view>
+            <view class='name'><template is="TypeIcon" data="{{type: item.goods_type}}" />{{item.title}}</view>
             <!-- 此处不能回车 -->
             <text class='price'>￥<text class='n'>{{item.price}}</text></text>
             <text class='attr'>/1{{item.spec_type}}</text>
@@ -29,8 +29,11 @@
 </view>
 </block>
 <view class='floattotal'>
+    <!-- 有UserInfo权限 -->
     <view class='buy-btn' wx:if="{{!editMode && hasUserInfo}}">去结算 ({{GoodsTotalNum}})</view>
+    <!-- 无UserInfo权限 -->
     <button class='buy-btn' wx:if="{{!editMode && !hasUserInfo}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">去结算 ({{GoodsTotalNum}})</button>
+
     <view class='buy-btn' wx:if="{{editMode}}" bindtap="DelCartList">删除 ({{GoodsTotalNum}})</view>
     <view class='info' wx:if="{{!editMode}}">
         <view>总计：<text class='price'>¥<text class='n'>{{GoodsTotalPrice}}</text></text></view>

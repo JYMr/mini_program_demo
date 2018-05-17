@@ -18,8 +18,7 @@
     "pages/GroupBuy/GroupBuyShare/GroupBuyShare",
     "pages/GroupBuyList/GroupBuyList",
     "pages/GroupBuy/GroupBuyDetail/GroupBuyDetail",
-    "pages/Common/search/search",
-    "pages/Common/AuthUser/AuthUser"
+    "pages/Common/search/search"
   ],
   "window": {
     "backgroundTextStyle": "light",

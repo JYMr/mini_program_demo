@@ -21,7 +21,6 @@ Component({
         //验证表单
         //status: true 开启错误提示功能
         ValiData(status){
-            console.log(this)
             let flag = true;
             let msg = '';
             if(this.data.Detail.name == ''){
@@ -40,7 +39,7 @@ Component({
                 if(msg == '') msg = '详细地址不能为空';
                 flag = false;
             }
-            if(status){
+            if(status && msg){
                 this.Dialog.ShowDialog({
                     type: "Message",
                     title: msg,
@@ -58,7 +57,11 @@ Component({
 
             this.setData({
                 Detail: _Detail,
-                region: [_Detail.province, _Detail.city, _Detail.area],
+                region: [
+                    _Detail.province || this.data.region[0],
+                    _Detail.city || this.data.region[1],
+                    _Detail.area || this.data.region[2]
+                ],
                 isShow: true
             });
             
@@ -75,7 +78,9 @@ Component({
             if(this.ValiData(1)){
                 //ajax
                 //操作完成，发送EditEvent事件
-                this.triggerEvent("EditEvent");
+                this.triggerEvent("EditEvent", {
+                    id: 123
+                });
             }
         },
         //表单事件绑定

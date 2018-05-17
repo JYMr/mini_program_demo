@@ -17,8 +17,11 @@ page{background:#f4f4f4; margin-bottom: 118rpx; color: #555;font-size: 28rpx;}
 
 .goodsinfo{padding: 20rpx 30rpx; position: relative; background: #fff; margin-bottom: 20rpx;}
 .goodsinfo .name{ font-size: 34rpx; padding-right: 80rpx; margin-bottom: 25rpx;font-weight: 700;}
-.goodsinfo .name .i{ background: #37c4a4; display: inline-block; line-height: 30rpx; vertical-align: middle; padding: 0 10rpx; font-size: 24rpx; height: 30rpx; color: #fff; text-align: center; margin-right: 10rpx; text-transform: uppercase; border-radius: 50rpx;}
+.goodsinfo .name .type{ background: #37c4a4; display: inline-block; line-height: 30rpx; vertical-align: middle; padding: 0 10rpx; font-size: 24rpx; height: 30rpx; color: #fff; text-align: center; margin-right: 10rpx; text-transform: uppercase; border-radius: 50rpx;}
 .goodsinfo .name .redbg{ background: #ff5c58;}
+.goodsinfo .name .bjp{height: 30rpx;width: 47rpx;
+	background: url("http://www.kzj365.com/mini_program/images/bjpicon.png") center center no-repeat;background-size: 47rpx 30rpx;}
+
 .goodsinfo .price-item{ margin-bottom: 25rpx;}
 .goodsinfo .price{ margin-right: 15rpx; color: #ff5c58; font-weight: 700; }
 .goodsinfo .price .nums{ font-size: 46rpx;}
@@ -31,19 +34,21 @@ page{background:#f4f4f4; margin-bottom: 118rpx; color: #555;font-size: 28rpx;}
 .goodsattr{ background: #fff; height: 88rpx; line-height: 88rpx; padding: 0 30rpx;  font-size: 30rpx; margin-bottom: 20rpx;}
 .goodsattr .attr{ color:#36c0a1;}
 
-.goodsfloat{position: fixed; z-index: 300; left:0; right: 0; bottom: 0; margin: auto; max-width: 750rpx; background: #fff; box-shadow: rgba(0,0, 0, 0.1) 0 -1px 3px; text-align: center; height: 98rpx;}
+.goodsfloat{position: fixed; z-index: 99; left:0; right: 0; bottom: 0; margin: auto; max-width: 750rpx; background: #fff; box-shadow: rgba(0,0, 0, 0.1) 0 -1px 3px; text-align: center; height: 98rpx;}
 .goodsfloat .phone{ width: 142rpx; height: 100%; border-right: #f4f4f4 1rpx solid; color: #bbb; font-size: 20rpx; display: flex; flex-direction: column; align-items: center; justify-content: center; float: left; }
 .goodsfloat .phone .icon{ width: 46rpx; height: 46rpx;background: url(http://www.kzj365.com/mini_program/images/phoneicon.png) no-repeat center center; background-size: 100%; }
 .goodsfloat .cart{ width: 143rpx; height: 100%; color: #bbb; font-size: 20rpx;display: flex; flex-direction: column; align-items: center; justify-content: center;  float: left;}
 .goodsfloat .cart .icon{ width: 48rpx; height: 45rpx;background: url(http://www.kzj365.com/mini_program/images/carticon.png) no-repeat center center; background-size: 100%; }
 .goodsfloat .list{ width: 143rpx; height: 100%; color: #bbb; font-size: 20rpx;display: flex; flex-direction: column; align-items: center; justify-content: center;  float: left;}
-.goodsfloat .list .icon{ width: 48rpx; height: 45rpx;background: url(http://www.kzj365.com/mini_program/images/listicon.png) no-repeat center center; background-size: 100%; }
+.goodsfloat .list .icon{ width: 48rpx; height: 45rpx;background: url(http://www.kzj365.com/mini_program/images/listicon.png) no-repeat center center; background-size: auto 100%; }
 .goodsfloat .addcart{ width: 233rpx; height: 100%; background: #ff9459; color: #fff; font-size: 30rpx;display: flex; flex-direction: column; align-items: center; justify-content: center;  float: left;}
 .goodsfloat .addlist{ width: 233rpx; height: 100%; background: #37c4a4; color: #fff; font-size: 30rpx;display: flex; flex-direction: column; align-items: center; justify-content: center;  float: left;}
 .goodsfloat .buy{ width: 233rpx; height: 100%; background: #ff5c58; color: #fff; font-size: 30rpx;display: flex; flex-direction: column; align-items: center; justify-content: center;  float: left;}
 .goodsfloat .prestanding{ width: 233rpx; height: 100%; background: #ff5c58; color: #fff; font-size: 30rpx;display: flex; flex-direction: column; align-items: center; justify-content: center;  float: left;}
+.goodsfloat .gray{background-color: #bbbbbb;height: 100%;margin-left: 286rpx;color: #FFF;font-size: 30rpx;line-height: 98rpx;}
+.goodsfloat .green{background-color: #37c4a4;}
 
-.prop{width: 100%; height: 100%;  position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 1000; margin: auto;}
+.prop{width: 100%; height: 100%;  position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 100; margin: auto;}
 .prop .gray-bg{ width: 100%; height: 100%; background: rgba(0,0, 0, 0.5); position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 1000; margin: auto;}
 .select-attr{ background: #fff; position: fixed; bottom: 0; left: 0; right: 0; margin: auto; z-index: 1001;}
 .select-attr .info{ padding: 45rpx 30rpx;}
@@ -66,8 +71,10 @@ page{background:#f4f4f4; margin-bottom: 118rpx; color: #555;font-size: 28rpx;}
 .select-attr .control .disabled{ color: #a4aab3;}
 .select-attr .control .nums{ border:#ddd 1px solid; float: left; margin-left: -1px; margin-right: -1px; height: 70rpx; width: 104rpx; box-sizing: border-box; text-align: center; color: #555; }
 .select-attr .comfirm-btn{ width: 100%; height: 98rpx; line-height: 98rpx; background: #ff5c58; font-size: 30rpx; color: #fff; text-align: center; display: block; margin-top:70rpx; border-radius: 0;}
+.select-attr .comfirm-btn.green{background-color: #37c4a4;}
 .select-attr .comfirm-btn:after{border: none;}
 .select-attr .comfirm-btn.hover{ background: #e7514d;}
+.select-attr .comfirm-btn.green.hover{background-color: #37c4a4;}
 .select-attr .close{ position: absolute; z-index: 100; right: 30rpx; top: 30rpx; display: inline-block; width: 40rpx; height: 40rpx;background: url(http://www.kzj365.com/mini_program/images/closeicon.png) no-repeat center center; background-size: 100%;}
 
 .goodsdetail{ text-align: center; background: #fff;}

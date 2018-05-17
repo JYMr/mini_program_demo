@@ -1,4 +1,5 @@
 //app.js
+const Util = require('/utils/util.js')
 App({
     onLaunch: function() {
         wx.checkSession({
@@ -36,8 +37,12 @@ App({
     },
     globalData: {
         userInfo: null,
-        defaultImg: 'http://www.kzj365.com/mini_program/images/avatar_default.png',
-        tel: '18819446959'
+        defaultImg: 'http://www.kzj365.com/mini_program/images/default.png',
+        tel: '18819446959',
+        AddressId: ''//用于订单地址选择
+    },
+    Util:{
+        handleDate: Util
     },
     errImg: function(e, that) {
         var _errImg = e.target.dataset.errImg;

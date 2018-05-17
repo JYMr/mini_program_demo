@@ -1,0 +1,19 @@
+<!--pages/Common/ReservationInput/ReservationInput.wxml-->
+<view class="ReservationInput" wx:if="{{isShow}}">
+	<text class="title">预定登记</text>
+	<view class="input-item">
+		<text>联系人</text>
+		<input type="text" bindinput="BindNameChange" value="{{Detail.name}}"/>
+	</view>
+	<view class="input-item">
+		<text>联系号码</text>
+		<input type="number" bindinput="BindMobileChange" value="{{Detail.mobile}}"/>
+	</view>
+	<view class="ReservationInputBtn{{ValiStatus ? ' active':''}}" bindtap="save">
+		提交预定
+	</view>
+	<view class="close" bindtap="CloseEdit"></view>
+</view>
+<view class="mask" wx:if="{{isShow}}" bindtap="CloseEdit"></view>
+
+<Dialog id="Dialog"></Dialog>
