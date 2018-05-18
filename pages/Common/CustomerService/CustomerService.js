@@ -4,7 +4,7 @@ Component({
      * 组件的初始数据
      */
     data: {
-        isShow: true,
+        isShow: false,
         UserInfo:{
             name: '',
             mobile: '',
@@ -66,7 +66,7 @@ Component({
             this.ValiData();
         },
         //关闭弹窗
-        CloseEdit() {
+        Close() {
             this.setData({
                 isShow: false
             })
@@ -105,6 +105,15 @@ Component({
                 UserInfo: _Data
             })
             this.ValiData();
+        },
+        //更换售后类型
+        ChangeType(e){
+            let type =  e.currentTarget.dataset.type;
+            let _Data = this.data.UserInfo;
+            _Data.type = type;
+            this.setData({
+                UserInfo: _Data
+            })
         }
     }
 })

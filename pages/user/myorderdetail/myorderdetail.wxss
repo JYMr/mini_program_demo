@@ -38,7 +38,7 @@
 .totalinfo .status{ color: #ff5c58;}
 
 .floatcontrol-blank{ height: 110rpx;}
-.floatcontrol{ padding: 26rpx 30rpx; text-align: right;position: fixed; left: 0; right: 0; margin: auto; z-index: 1000; bottom: 0; background: #fff; box-shadow: rgba(0, 0,0,0.1) 5rpx 10rpx 20rpx;}
+.floatcontrol{ padding: 26rpx 30rpx; text-align: right;position: fixed; left: 0; right: 0; margin: auto; z-index: 99; bottom: 0; background: #fff; box-shadow: rgba(0, 0,0,0.1) 5rpx 10rpx 20rpx;}
 .floatcontrol .cancel-btn,.floatcontrol .rebuy-btn,.floatcontrol .delete-btn{ border:#ddd 1px solid; border-radius: 10rpx; color: #888; font-size: 26rpx; height: 50rpx; line-height: 46rpx; box-sizing: border-box; text-align: center; width: 140rpx; display: inline-block; background: #fff; margin-left: 20rpx;}
 .floatcontrol .aftersale-btn{ border:#ddd 1px solid; border-radius: 10rpx; color: #fff; font-size: 26rpx; height: 50rpx; line-height: 46rpx; box-sizing: border-box; text-align: center; width: 140rpx; display: inline-block; background: #ddd; margin-left: 20rpx;}
 .floatcontrol .gopay-btn,.floatcontrol .joingroup-btn{ border:#ff5c58 1px solid; border-radius: 10rpx; color: #fff; font-size: 26rpx; height: 50rpx; line-height: 46rpx; box-sizing: border-box; text-align: center; width: 140rpx; display: inline-block; background: #ff5c58; margin-left: 20rpx;}

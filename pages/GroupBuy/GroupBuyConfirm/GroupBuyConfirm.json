@@ -1,8 +1,7 @@
 {
-    "navigationBarTitleText": "分享页",
     "usingComponents":
     {
+        "AddressEdit": "/pages/user/addressEdit/addressEdit",
         "Dialog": "/pages/Common/Dialog/Dialog"
     }
-
 }

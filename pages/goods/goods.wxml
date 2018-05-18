@@ -50,10 +50,12 @@
 <view class='infogrid {{tabsindex=="1" ? "show" : "hide"}}'>
     <view class='instructions'>
         <view class="table">
-            <view class="tr">
-                <view class="th">药品名称</view>
-                <view class="td">汤臣倍健 果疏纤维咀嚼片</view>
-            </view>
+            <block wx:for="{{goodsinfo.manual}}" wx:key="manual_{{index}}">
+                <view class="tr">
+                    <view class="th">{{item.key}}</view>
+                    <view class="td">{{item.value}}</view>
+                </view>
+            </block>
         </view>
     </view>
 </view>
@@ -154,7 +156,7 @@
     <view class='gray-bg' bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
 </view>
 
-<import src="../Common/footer.wxml" />
+<import src="/pages/Common/footer.wxml" />
 <template is="footer" data="" />
 
 <Dialog id="Dialog"></Dialog>

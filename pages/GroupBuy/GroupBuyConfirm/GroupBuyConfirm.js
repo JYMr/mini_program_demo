@@ -1,4 +1,3 @@
-// pages/order/order.js
 const app = getApp()
 Page({
 
@@ -7,16 +6,17 @@ Page({
      */
     data: {
         GoodsId: '',
+        GroupId: '',
         OrderData: {
             Address: {
-               /* id: 564,
-                name: '张晓峰',
-                mobile: 18858424268,
-                province: '广东省',
-                city: '湛江市',
-                area: '霞山区',
-                address: '万达广场附近大厦电子科技有限公司（ 产品研发部3室）',
-                isDefault: true*/
+                /* id: 564,
+                 name: '张晓峰',
+                 mobile: 18858424268,
+                 province: '广东省',
+                 city: '湛江市',
+                 area: '霞山区',
+                 address: '万达广场附近大厦电子科技有限公司（ 产品研发部3室）',
+                 isDefault: true*/
             },
             GoodsList: [{
                     id: 1516,
@@ -44,12 +44,12 @@ Page({
             TotalNum: 3,
             TotalPrice: 77.00,
             isNeedExpressPrice: false,
-            cashStatus: false//货到付款状态
+            cashStatus: false //货到付款状态
         },
         PayWay: 0,
         AddressId: '',
         ReMark: '',
-        PayListStatus: false//选择支付方式列表
+        PayListStatus: false //选择支付方式列表
     },
 
     /**
@@ -59,6 +59,11 @@ Page({
         if(options.id){
             this.setData({
                 GoodsId: options.id
+            })
+        }
+        if(options.gid){
+             this.setData({
+                GroupId: options.gid
             })
         }
     },
@@ -85,20 +90,20 @@ Page({
     },
     //查询订单信息
     GetOrderData(){
-        //注意区分单独购买和购物车结算
+        //注意区分用户新下拼团单和支付已有拼团单
     },
     //查询选择地址数据
     GetAddress() {
 
     },
     //显示添加地址
-    ShowEdit(){
+    ShowEdit() {
         this.AddressEdit.ShowEdit();
     },
     //添加地址
-    AddAddress(e){
+    AddAddress(e) {
         let id = e.detail.id;
-        if(id != undefined){
+        if (id != undefined) {
             this.setData({
                 AddressId: id
             });
@@ -106,28 +111,28 @@ Page({
         }
     },
     //显示支付列表
-    ShowPayList(){
+    ShowPayList() {
         this.setData({
             PayListStatus: true
         })
     },
     //切换支付方式
-    choosePayWay(e){
-        let type =  e.currentTarget.dataset.type;
+    choosePayWay(e) {
+        let type = e.currentTarget.dataset.type;
         this.setData({
             PayWay: type,
             PayListStatus: false
         })
     },
     //提交订单
-    ConfirmOrder(){
+    ConfirmOrder() {
         console.log('提交订单');
         wx.redirectTo({
-            url: '/pages/user/myorder/myorder?status=3'
+            url: '/pages/GroupBuy/GroupBuyShare/GroupBuyShare?id=3'
         })
     },
     //备注输入绑定
-    BindChange(e){
+    BindChange(e) {
         let _val = e.detail.value;
         this.setData({
             ReMark: _val

@@ -56,14 +56,14 @@
         <text class='name'>康之家药店</text>
     </view>
     <view class='lists'>
-        <view class='item' wx:for="{{OrderData.goods_list}}">
-                <image class='pic' src='http://kzjimg01.b0.upaiyun.com/1508118546272.jpg'></image>
-                <view class='name'>{{item.title}}</view>
-                <text class='price'>￥<text class='n'>{{item.price}}</text></text>
-                <text class='attr'>/1{{item.spec_type}}</text>
-                <text class='ctype' wx:if="{{item.isGroup}}">疗程装</text>
-                <text class='nums'>x{{item.total}}</text>
-        </view>
+        <navigator class='item' wx:for="{{OrderData.goods_list}}" url="/pages/goods/goods" wx:key="{{index}}">
+            <image class='pic' src='http://kzjimg01.b0.upaiyun.com/1508118546272.jpg'></image>
+            <view class='name'>{{item.title}}</view>
+            <text class='price'>￥<text class='n'>{{item.price}}</text></text>
+            <text class='attr'>/1{{item.spec_type}}</text>
+            <text class='ctype' wx:if="{{item.isGroup}}">疗程装</text>
+            <text class='nums'>x{{item.total}}</text>
+        </navigator>
         <view class='total'> 共3件商品 合计：￥{{OrderData.orderPrice}} 
             <block wx:if="{{OrderData.isNeedExpress}}">（包含快递费10元）</block>
             <block wx:if="{{!OrderData.isNeedExpress}}">（免运费）</block>
@@ -82,52 +82,57 @@
     </view>
     <view>下单时间：{{OrderData.orderTime}}</view>
 </view>
-<import src="../Common/footer.wxml" />
+
+<import src="/pages/Common/footer.wxml" />
 <template is="footer" data="" />
+
 <view class='floatcontrol-blank'></view>
 <view class='floatcontrol'>
     <block wx:if="{{OrderData.status == 0}}">
-        <text class='cancel-btn'>取消订单</text>
-        <text class='gopay-btn'>去支付</text>
+        <text class='cancel-btn' catchtap="CancelOrder">取消订单</text>
+        <text class='gopay-btn' catchtap="PayMent">去支付</text>
     </block>
     <block wx:if="{{OrderData.status == 1}}">
-        <text class='cancel-btn'>取消订单</text>
+        <text class='cancel-btn' catchtap="CancelOrder">取消订单</text>
         <text class='gopay-btn' data-id="{{OrderItem.id}}" catchtap="InviteJoin">邀请参团</text>
     </block>
     <block wx:if="{{OrderData.status == 2}}">
-        <text class='cancel-btn'>申请售后</text>
+        <text class='cancel-btn' catchtap="CustomerService">申请售后</text>
     </block>
     <block wx:if="{{OrderData.status == 3}}">
-        <text class='cancel-btn'>物流单号</text>
-        <text class='cancel-btn'>申请售后</text>
-        <text class='cancel-btn green'>确认收货</text>
+        <text class='cancel-btn' catchtap="ExpressNumber">物流单号</text>
+        <text class='cancel-btn' catchtap="CustomerService">申请售后</text>
+        <text class='cancel-btn green' catchtap="ConfirmOrder">确认收货</text>
     </block>
     <block wx:if="{{OrderData.status == 4}}">
-        <text class='cancel-btn'>删除订单</text>
-        <text class='cancel-btn'>申请售后</text>
-        <text class='cancel-btn'>再次购买</text>
+        <text class='cancel-btn' catchtap="DeleteOrder">删除订单</text>
+        <text class='cancel-btn' catchtap="CustomerService">申请售后</text>
+        <text class='cancel-btn' catchtap="BuyingAgain">再次购买</text>
     </block>
     <block wx:if="{{OrderData.status == 5}}">
-        <text class='cancel-btn'>取消订单</text>
-        <text class='gopay-btn'>去支付</text>
+        <text class='cancel-btn' catchtap="CancelOrder">取消订单</text>
+        <text class='gopay-btn' catchtap="PayMent">去支付</text>
     </block>
     <block wx:if="{{OrderData.status == 6}}">
-        <text class='cancel-btn'>取消订单</text>
+        <text class='cancel-btn' catchtap="CancelOrder">取消订单</text>
     </block>
     <block wx:if="{{OrderData.status == 7}}">
-        <text class='cancel-btn'>取消订单</text>
-        <text class='cancel-btn'>再次购买</text>
+        <text class='cancel-btn' catchtap="CancelOrder">取消订单</text>
+        <text class='cancel-btn' catchtap="BuyingAgain">再次购买</text>
     </block>
     <block wx:if="{{OrderData.status == 8}}">
-        <text class='cancel-btn'>物流单号</text>
-        <text class='cancel-btn'>申请售后</text>
-        <text class='cancel-btn green'>确认收货</text>
+        <text class='cancel-btn' catchtap="ExpressNumber">物流单号</text>
+        <text class='cancel-btn' catchtap="CustomerService">申请售后</text>
+        <text class='cancel-btn green' catchtap="ConfirmOrder">确认收货</text>
     </block>
     <block wx:if="{{OrderData.status == 9}}">
-        <text class='cancel-btn'>删除订单</text>
-        <text class='cancel-btn'>再次购买</text>
+        <text class='cancel-btn' catchtap="DeleteOrder">删除订单</text>
+        <text class='cancel-btn' catchtap="BuyingAgain">再次购买</text>
     </block>
 </view>
 
+
 <!-- 提示组件 -->
 <Dialog id="Dialog"></Dialog>
+<!-- 售后弹窗 -->
+<CustomerService id="CustomerService" bind:SaveEvent="CustomerServiceFn"></CustomerService>

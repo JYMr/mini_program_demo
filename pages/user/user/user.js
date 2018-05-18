@@ -6,15 +6,11 @@ Page({
     data: {
         userInfo: {},
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
-        router: ''
     },
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        this.setData({
-            route: this.route
-        })
         if (app.globalData.userInfo) {
             this.setData({
                 userInfo: app.globalData.userInfo

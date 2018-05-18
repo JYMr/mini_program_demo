@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 3,
+			"current": 10,
 			"list": [
 				{
 					"id": 0,
@@ -84,6 +84,18 @@
 					"id": -1,
 					"name": "GroupBuyDetail",
 					"pathName": "pages/GroupBuy/GroupBuyDetail/GroupBuyDetail",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "GroupBuyShare",
+					"pathName": "pages/GroupBuy/GroupBuyShare/GroupBuyShare",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "CustomerService",
+					"pathName": "pages/user/CustomerService/CustomerService",
 					"query": ""
 				}
 			]

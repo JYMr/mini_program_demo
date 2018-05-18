@@ -54,7 +54,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        this.HandleData();
+        this.GetOrderDetail();
     },
 
     /**
@@ -62,6 +62,7 @@ Page({
      */
     onReady: function() {
         this.Dialog = this.selectComponent('#Dialog');
+        this.CustomerServiceComponent = this.selectComponent('#CustomerService');
     },
 
     /**
@@ -69,6 +70,15 @@ Page({
      */
     onShow: function() {
 
+    },
+    //获取订单详细数据
+    GetOrderDetail(){
+        wx.showLoading({
+            title: '加载数据中...',
+            mask: true
+        });
+        this.HandleData();
+        wx.hideLoading();
     },
     //处理数据
     HandleData() {
@@ -151,6 +161,15 @@ Page({
     CustomerService(e) {
         let _id = this.data.OrderData.id;
         console.log('申请售后 - id:' + _id);
+        this.CustomerServiceComponent.Show({
+            id: _id
+        });
+    },
+    //处理售后弹窗回调
+    CustomerServiceFn(e){
+        console.log(e)
+        let _id = e.detail.id;
+        this.CustomerServiceComponent.Close();
     },
     //再次购买
     BuyingAgain(e) {
@@ -185,7 +204,12 @@ Page({
         })
     },
     //支付
-    PayToOrder(e) {
+    PayMent(e) {
+        let _id = this.data.OrderData.id;
+        console.log('支付 - id:' + _id);
+    },
+    //删除订单
+    DeleteOrder(e){
         let _id = this.data.OrderData.id;
         console.log('支付 - id:' + _id);
     }

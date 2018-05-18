@@ -24,7 +24,7 @@
 </view>
 <view class='lists'>
     <view class='item'>
-        <navigator>
+        <navigator url="/pages/reservation/reservation">
             <text class='prestand-icon'></text>我的预定
             <text class='nums'>1</text>
         </navigator>
@@ -34,6 +34,10 @@
             <text class='address-icon'></text>收货地址</navigator>
     </view>
     <view class='item'>
+        <navigator url="/pages/user/CustomerService/CustomerService">
+            <text class='CustomerService-icon'></text>售后服务</navigator>
+    </view>
+    <view class='item'>
         <navigator>
             <text class='contact-icon'></text>联系客服</navigator>
     </view>
@@ -41,4 +45,4 @@
 <import src="/pages/Common/footer.wxml" />
 <template is="footer" data="" />
 <!-- 导航 -->
-<Nav id="nav" route="{{route}}"></Nav>
+<Nav id="nav"></Nav>

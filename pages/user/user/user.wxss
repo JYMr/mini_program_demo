@@ -22,4 +22,5 @@
 .lists .prestand-icon{ width: 32rpx; height: 36rpx; margin-top: 32rpx; margin-right: 34rpx; background: url(http://www.kzj365.com/mini_program/images/myprestandingicon.png) no-repeat center center; background-size: 100%; float: left;}
 .lists .address-icon{ width: 30rpx; height: 37rpx; margin-top: 32rpx; margin-right: 36rpx; background: url(http://www.kzj365.com/mini_program/images/adressicon.png) no-repeat center center; background-size: 100%; float: left;}
 .lists .contact-icon{ width: 36rpx; height: 36rpx; margin-top: 34rpx; margin-right: 30rpx; background: url(http://www.kzj365.com/mini_program/images/contacticon.png) no-repeat center center; background-size: 100%; float: left;}
+.lists .CustomerService-icon{ width: 36rpx; height: 36rpx; margin-top: 34rpx; margin-right: 30rpx; background: url(http://www.kzj365.com/mini_program/images/customerserviceicon.png) no-repeat center center; background-size: 100%; float: left;}
 .lists .nums{ height: 30rpx; line-height: 30rpx; border-radius: 100%; background: #ff5c58; display: inline-block; margin-left: 20rpx; color: #fff; font-size: 30rpx; padding: 0 8rpx; font-family: "Arial";}
