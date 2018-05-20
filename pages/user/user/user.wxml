@@ -5,36 +5,36 @@
 </view>
 <view class='meau'>
     <view class='title'>
-        <navigator>我的订单</navigator>
+        <navigator url="/pages/Order/MyOrder/MyOrder?status=0">我的订单</navigator>
     </view>
     <view class='con'>
-        <navigator class='item' url="/pages/user/myorder/myorder">
+        <navigator class='item' url="/pages/Order/MyOrder/MyOrder?status=1">
             <text class='num'>1</text>
             <text class='icon01'></text>待付款</navigator>
-        <navigator class='item' url="/pages/user/myorder/myorder">
+        <navigator class='item' url="/pages/Order/MyOrder/MyOrder?status=2">
             <text class='num'>12</text>
             <text class='icon02'></text>待分享</navigator>
-        <navigator class='item' url="/pages/user/myorder/myorder">
+        <navigator class='item' url="/pages/Order/MyOrder/MyOrder?status=3">
             <text class='num'>123</text>
             <text class='icon03'></text>待发货</navigator>
-        <navigator class='item' url="/pages/user/myorder/myorder">
+        <navigator class='item' url="/pages/Order/MyOrder/MyOrder?status=4">
             <text class='num'>11</text>
             <text class='icon04'></text>已发货</navigator>
     </view>
 </view>
 <view class='lists'>
     <view class='item'>
-        <navigator url="/pages/reservation/reservation">
+        <navigator url="/pages/Order/ReservationOrder/ReservationOrder">
             <text class='prestand-icon'></text>我的预定
             <text class='nums'>1</text>
         </navigator>
     </view>
     <view class='item'>
-        <navigator url="/pages/user/addressList/addressList">
+        <navigator url="/pages/User/AddressList/AddressList">
             <text class='address-icon'></text>收货地址</navigator>
     </view>
     <view class='item'>
-        <navigator url="/pages/user/CustomerService/CustomerService">
+        <navigator url="/pages/User/CustomerService/CustomerService">
             <text class='CustomerService-icon'></text>售后服务</navigator>
     </view>
     <view class='item'>

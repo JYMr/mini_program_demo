@@ -1,6 +1,5 @@
-
 const request = require('../../utils/kzj.request.js');
-const linq = require('../lib/linq.min.js').linq;
+const linq = require('../../lib/linq.min.js').linq;
 
 const URI = 'https://api.77lemon.top/';
 

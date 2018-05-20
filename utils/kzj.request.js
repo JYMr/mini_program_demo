@@ -1,4 +1,3 @@
-const Promise = require('../pages/lib/es6-promise.min.js').Promise
 
 class Request {
   /**

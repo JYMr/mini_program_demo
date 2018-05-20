@@ -1,12 +1,16 @@
-<!--pages/user/CustomerService/CustomerService.wxml-->
+<!--pages/user/myorder.wxml-->
 <view class='ordernav'>
-    <view class='item{{Status == 0 ? " on" : ""}}' bindtap="TabToggle" data-status="0">售后中</view>
-    <view class='item{{Status == 1 ? " on" : ""}}' bindtap="TabToggle" data-status="1">售后完成</view>
+    <view class='item{{Status == 0 ? " on" : ""}}' bindtap="TabToggle" data-status="0">全部</view>
+    <view class='item{{Status == 1 ? " on" : ""}}' bindtap="TabToggle" data-status="1">待付款</view>
+    <view class='item{{Status == 2 ? " on" : ""}}' bindtap="TabToggle" data-status="2">待分享</view>
+    <view class='item{{Status == 3 ? " on" : ""}}' bindtap="TabToggle" data-status="3">待发货</view>
+    <view class='item{{Status == 4 ? " on" : ""}}' bindtap="TabToggle" data-status="4">已发货</view>
+    <view class='item{{Status == 5 ? " on" : ""}}' bindtap="TabToggle" data-status="5">已完成</view>
 </view>
 <view class='ordernav-bank'></view>
 
 <block wx:for="{{OrderList}}" wx:for-index="index"  wx:for-item="OrderItem" wx:key="order_{{index}}" wx:if="{{OrderList.length > 0}}">
-<navigator class='orderlists' url="pages/Order/MyOrderDetail/MyOrderDetail?id={{OrderItem.id}}">
+<navigator class='orderlists' url="/pages/Order/MyOrderDetail/MyOrderDetail?id={{OrderItem.id}}">
     <view class='title'>
         <text class='shopicon'></text>
         <text class='name'>康之家药店</text>

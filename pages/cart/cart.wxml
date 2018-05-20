@@ -9,7 +9,7 @@
 <view class='cart-item'>
     <view class='goods'>
         <text class='select{{item.isChoose == 1 ? " on":""}}' bindtap="HandleCheckBox" data-id="{{item.id}}"></text>
-        <navigator hover-class='none'>
+        <navigator hover-class='none' url="/pages/Goods/GoodsDetail/GoodsDetail?id={{item.id}}">
             <image class='pic' src='http://kzjimg01.b0.upaiyun.com/1508118546272.jpg'></image>
             <view class='name'><template is="TypeIcon" data="{{type: item.goods_type}}" />{{item.title}}</view>
             <!-- 此处不能回车 -->

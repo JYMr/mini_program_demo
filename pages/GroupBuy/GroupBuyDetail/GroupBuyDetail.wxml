@@ -115,7 +115,7 @@
             联系客服
         </view>
         <view class="Detail-btn">
-            <navigator class="btn btn-1" url="/pages/goods/goods?id={{goodsinfo.id}}">￥48.80
+            <navigator class="btn btn-1" url="/pages/Goods/GoodsDetail/GoodsDetail?id={{goodsinfo.id}}">￥48.80
                 <text>单独购买</text>
             </navigator>
 

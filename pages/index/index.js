@@ -27,7 +27,7 @@ Page({
         if (type == 0) {
             //分类跳转
             wx.navigateTo({
-                url: '/pages/Category/Category?id=' + _id
+                url: '/pages/List/Category/Category?id=' + _id
             });
         } else if (type == 1) {
             //活动页跳转

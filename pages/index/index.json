@@ -1,6 +1,6 @@
 {
   "usingComponents": {
-    "search": "/pages/Common/search/search",
+    "search": "/pages/Common/Search/Search",
     "Nav": "/pages/Common/Nav/Nav"
   }
 }

@@ -70,7 +70,7 @@ Component({
                 searchData.push(this.data.inputValue)
                 wx.setStorageSync('searchData', searchData)
                 wx.navigateTo({
-                    url: "../lists/lists?search=" + this.data.inputValue
+                    url: "/pages/List/GoodsList/GoodsList?search=" + this.data.inputValue
                 })
             } else {
                 wx.showToast({
@@ -89,7 +89,7 @@ Component({
         tosearch: function(e) { //搜索框跳转
             if (e.currentTarget.dataset.clickable) {
                 wx.navigateTo({
-                    url: '../search/search'
+                    url: '/pages/List/Search/Search'
                 })
             }
         },

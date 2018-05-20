@@ -7,22 +7,22 @@ Component({
     data: {
         navList: [
             {
-                path: '/pages/index/index',
+                path: '/pages/Index/Index',
                 title: '搜索',
                 auth: false
             },
             {
-                path: '/pages/GroupBuyList/GroupBuyList',
+                path: '/pages/GroupBuy/GroupBuyList/GroupBuyList',
                 title: '拼团',
                 auth: false
             },
             {
-                path: '/pages/cart/cart',
+                path: '/pages/Cart/Cart',
                 title: '购物车',
                 auth: false
             },
             {
-                path: '/pages/user/user/user',
+                path: '/pages/User/User/User',
                 title: '我的',
                 auth: true
             }

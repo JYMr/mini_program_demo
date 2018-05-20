@@ -52,7 +52,7 @@
                 <view class='goodslists'>
                     <block wx:for="{{recommendgoods}}" wx:for-index='key' wx:for-item='item' wx:key="recommend_{{key}}">
                         <view class='item'>
-                            <navigator hover-class='none' url='../goods/goods?id={{item.id}}'>
+                            <navigator hover-class='none' url='/pages/Goods/GoodsDetail/GoodsDetail?id={{item.id}}'>
                                 <image class='pic' src='{{item.img}}'></image>
                                 <view class='name'>{{item.name}}</view>
                                 <text class='price'>¥{{item.price}}</text>
