@@ -56,7 +56,9 @@
         </view>
         <text>支付开团并邀请好友参加，人数不足自动退款</text>
     </view>
-    <view class="MemberList">
+
+    <!-- 推荐拼团 -->
+    <view class="MemberList" wx:if="{{GroupList.length != 0}}">
         <view class="title">小伙伴在开团，可直接参与</view>
         <view class="MemberList-item" wx:for="{{GroupList}}" wx:key="MemberList_{{index}}">
             <image src="http://www.kzj365.com/mini_program/images/avatar.png"></image>
@@ -80,6 +82,7 @@
             </view>
         </view>
     </view>
+
     <view class="Detail-tab">
         <view class="tab-item{{DetailActive == 0 ? ' active' : ''}}" data-index="0" bindtap="TabToggle">图文详情</view>
         <view class="tab-item{{DetailActive == 1 ? ' active' : ''}}" data-index="1" bindtap="TabToggle">说明书</view>

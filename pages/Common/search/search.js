@@ -1,3 +1,4 @@
+const searchController = require('../../controllers/searchController').controller;
 Component({
     options: {
         multipleSlots: true // 在组件定义时的选项中启用多slot支持
@@ -99,12 +100,28 @@ Component({
             that.dialog = that.selectComponent("#Dialog");
             wx.scanCode({
                 success: (res) => {
+
+                    wx.showLoading({
+                        title: '识别中...',
+                        mask: true
+                    });
                     this.scanresult = "结果:" + res.result + "二维码类型:" + res.scanType + "字符集:" + res.charSet + "路径:" + res.path;
-                    that.setData({
-                        scanresult: this.scanresult
-                    })
-                    that.dialog.ShowDialog({
-                        type: 'Slot'
+
+                    searchController.ScalCode({
+                        result: res.result
+                    }).then(res=>{
+                        if(res.status == 0){
+                            wx.hideLoading();
+                            //获取商品id
+                            wx.navigateTo({
+                                url: '/pages/Goods/GoodsDetail/GoodsDetail?id=' + res.data.id
+                            })
+                        }else if(res.status == -1){
+                            wx.hideLoading();
+                            that.dialog.ShowDialog({
+                                type: 'Slot'
+                            })
+                        }
                     })
                 },
                 fail: (res) => {

@@ -1,11 +1,13 @@
 // pages/GroupBuy/GroupBuyList/GroupBuyList.js
+const GroupBuyController = require('../../controllers/GroupBuyController').controller;
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        GroupBuyData: []
+        GroupBuyData: [],
+        pageNo: 0
     },
 
     /**
@@ -23,17 +25,13 @@ Page({
     },
 
     /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function() {
-
-    },
-
-    /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom: function() {
-
+    onReachBottom() {
+        this.setData({
+            pageN: ++this.data.pageNo
+        })
+        this.GetGroupList();
     },
     //获取团购列表数据
     GetGroupList(){
@@ -41,12 +39,15 @@ Page({
             title: '加载数据中...',
             mask: true
         });
-        setTimeout(()=>{
-            let _Data = [{siderimg: 'http://kzjimg01.b0.upaiyun.com/1505885853574.jpg', name: '【9.9元包邮】度太女神叶酸片0.4mg*31片', price: '1555.90', attr: '2件', sale: '15455',discont:'30.00', id: '1872' },{siderimg: 'http://kzjimg01.b0.upaiyun.com/1505885853574.jpg', name: '1【9.9元包邮】度太女神叶酸片0.4mg*31片', price: '16.90', attr: '1件', sale: '154', discont: '15.00', id: '1872' }];
-            this.setData({
-                GroupBuyData: _Data
-            })
-            wx.hideLoading();
-        }, 500)
+       GroupBuyController.GetList({
+            no: this.data.pageNo
+       }).then(res=>{
+            if(res.status == 0){
+                this.setData({
+                    GroupBuyData: this.data.GroupBuyData.concat(res.List)
+                })
+                wx.hideLoading();
+            }
+       })
     }
 })

@@ -61,6 +61,7 @@ page{background:#f4f4f4; margin-bottom: 118rpx; color: #555;font-size: 28rpx;}
 .select-attr .lists .item{ padding: 0 25rpx; line-height: 62rpx; height: 70rpx; box-sizing: border-box; border:#dddddd 2rpx solid; border-radius: 5rpx;  margin-right: 20rpx; float: left; margin-bottom: 20rpx; position: relative;}
 .select-attr .lists .item icon{ display: none;}
 .select-attr .lists .item.on{border: #36c0a1 4rpx solid; color: #36c0a1;}
+.select-attr .lists .item.disabled{color: #ddd;}
 /* .select-attr .lists .item.on icon{ position: absolute; right:0; bottom: 0; z-index: 100; color: #fff; } */
 .select-attr .lists .item.on:before{ content: '';display: inline-block; position: absolute; right:0rpx; bottom:0rpx; z-index: 100; color: #fff;background: url(http://www.kzj365.com/mini_program/images/selecticon.png) no-repeat center center; background-size: 100%;  width: 31rpx; height:31rpx; }
 /* .select-attr .lists .item.on:after{ content: ''; border-right: #36c0a1 35rpx solid;  border-top:transparent 35rpx solid;  border-left: transparent 35rpx solid; display: inline-block; position: absolute; z-index: 99; right: 0; bottom: 0;} */
