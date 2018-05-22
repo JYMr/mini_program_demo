@@ -23,7 +23,7 @@
 <view class='goodsinfo'>
     <button class='share' open-type="share"></button>
     <view class='name'>
-        <template is="TypeIcon" data="{{type: goodsinfo.type}}" />{{goodsinfo.name}}</view>
+        <template is="TypeIcon" data="{{type: goodsinfo.type}}" />{{goodsinfo.name}}    </view>
     <view class='price-item'>
         <text class='price'>¥<text class='nums'>{{goodsinfo.price}}</text></text><text class='market'>¥<text class='nums'>{{goodsinfo.market}}</text></text>
     </view>
@@ -34,10 +34,11 @@
     <text>{{goodsinfo.selectspec!='' ? goodsinfo.selectspec : "请选择"}}</text>
 </view>
 <!-- nav -->
-<view class="goodsnav" bindtap="TabToggle">
-    <view class='item {{tabsindex=="0" ? "hover" : ""}}' data-id="0" animation="{{animation2}}">图文详情</view>
-    <view class='item {{tabsindex=="1" ? "hover" : ""}}' data-id="1" animation="{{animation1}}">说明书</view>
+<view class="goodsnav {{goodsnavbool ?'goodsnavfixed':''}}" bindtap="TabToggle">
+    <view class='item {{tabsindex=="0" ? "hover" : ""}}' data-id="0" >图文详情</view>
+    <view class='item {{tabsindex=="1" ? "hover" : ""}}' data-id="1" >说明书</view>
 </view>
+<view wx:if='{{goodsnavbool}}' class='goodsnav-blank'></view>
 <!-- 图文详情 -->
 <view class='infogrid {{tabsindex=="0" ? "show" : "hide"}}'>
     <view class='goodsdetail'>
@@ -99,27 +100,27 @@
     <view class='select-attr' animation="{{animationData}}">
         <view class='close' bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
         <view class='info'>
-            <image class='pic' src='{{goodsinfo.siderimg[1]}}'></image>
+            <image class='pic' src='{{spec.src}}'></image>
             <view class='price'>¥
-                <text class='nums'>{{goodsinfo.price}}</text>
+                <text class='nums'>{{spec.price}}</text>
             </view>
-            <view class='name'>{{goodsinfo.name}}</view>
+            <view class='name'>{{spec.name}}</view>
         </view>
-        <block wx:if="{{goodsinfo.speclists}}">
+        <block wx:if="{{spec.speclists}}">
             <view class='grid attr'>
                 <view class='t'>规格</view>
                 <view class='lists'>
-                    <block wx:for="{{goodsinfo.speclists}}" wx:for-item="item" wx:for-index='index' wx:key="spec_{{index}}">
-                        <view class="item{{item.isselect?' on':''}} disabled"  data-index="{{index}}" data-type="spec" bindtap='ClickAttr'>{{item.name}}</view>
+                    <block wx:for="{{spec.speclists}}" wx:for-item="item" wx:for-index='index' wx:key="spec_{{index}}">
+                        <view class="item{{item.isselect?' on':''}}{{item.stock > 0?'':' disabled'}}"  data-index="{{index}}" data-type="spec" bindtap='ClickAttr'>{{item.name}}</view>
                     </block>
                 </view>
             </view>
         </block>
-        <block wx:if="{{goodsinfo.packager}}">
+        <block wx:if="{{spec.packager}}">
             <view class='grid packager'>
                 <view class='t'>优惠套餐</view>
                 <view class='lists'>
-                    <block wx:for="{{goodsinfo.packager}}" wx:key="packager_{{index}}">
+                    <block wx:for="{{spec.packager}}" wx:key="packager_{{index}}">
                         <view class="item{{item.isselect?' on':''}}"  data-index="{{index}}" data-type="packager" bindtap='ClickAttr'>{{item.name}}</view>
                     </block>
                 </view>

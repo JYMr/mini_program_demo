@@ -6,7 +6,7 @@
 .Dialog-text{line-height: 42rpx;padding: 65rpx 75rpx;text-align: center;}
 .Dialog-btn{height: 88rpx;display: flex;line-height: 88rpx;text-align: center;border-top: 1rpx solid #ddd;}
 .Dialog-btn .btn-item{flex: 1;box-sizing: border-box;}
-.Dialog-btn .btn-item.confrim{color: #37c4a4;}
+.Dialog-btn .btn-item.confirm{color: #37c4a4;}
 .Dialog-btn .btn-item + .btn-item{border-left: 1rpx solid #ddd;}
 
 .Dialog-1{padding: 52rpx 0;text-align: center;}

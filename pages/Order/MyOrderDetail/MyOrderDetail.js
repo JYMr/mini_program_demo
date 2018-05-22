@@ -22,7 +22,7 @@ Page({
                     title: '仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶',
                     total: 5,
                     spec_type: '盒',
-                    goods_type: '4',
+                    goods_type: '1',
                     isGroup: true,
                     price: 25.90
                 },
@@ -32,7 +32,7 @@ Page({
                     title: '仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶',
                     total: 1,
                     spec_type: '盒',
-                    goods_type: '4',
+                    goods_type: '2',
                     isGroup: false,
                     price: 25.90
                 }
@@ -63,6 +63,7 @@ Page({
     onReady: function() {
         this.Dialog = this.selectComponent('#Dialog');
         this.CustomerServiceComponent = this.selectComponent('#CustomerService');
+        this.Floatcustomer = this.selectComponent("#Floatcustomer");
     },
 
     /**

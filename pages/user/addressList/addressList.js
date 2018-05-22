@@ -1,7 +1,7 @@
 // pages/address/addressList/addressList.js
 
 const app = getApp()
-import AddressController from '../../controllers/addressController'
+const addressController = require('../../controllers/addressController').controller
 
 Page({
 
@@ -16,7 +16,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        if(options.ChooseMode){
+        if (options.ChooseMode) {
             this.setData({
                 ChooseMode: options.ChooseMode
             })
@@ -29,9 +29,10 @@ Page({
      */
     onReady: function() {
         this.AddressEdit = this.selectComponent('#AddressEdit');
-        if(this.data.ChooseMode){
+        this.Dialog = this.selectComponent('#Dialog');
+        if (this.data.ChooseMode) {
             wx.setNavigationBarTitle({
-              title: '选择地址'
+                title: '选择地址'
             })
         }
     },
@@ -43,55 +44,116 @@ Page({
 
     },
 
-    getAddressData(){
+    getAddressData() {
         wx.showLoading();
-        AddressController.controller.getAddressData().then(res => {
+        addressController.getAddressData().then(res => {
             this.setData({
-                AddressList: res
+                AddressList: res.data
             });
             wx.hideLoading();
         });
     },
+    //新增地址
+    AddFn() {
+        this.AddressEdit.ShowEdit();
+    },
     //编辑地址
-    EditFu(event){
+    EditFn(event) {
         let id = event.currentTarget.dataset.id;
         let option = this.SearchObject(id);
         this.AddressEdit.ShowEdit(option);
     },
     //删除地址
-    DelFu(event){
-
+    DelFu(e) {
+        let _id = e.currentTarget.dataset.id;
+        this.Dialog.ShowDialog({
+            type: 'Confirm',
+            title: '是否删除该地址',
+            callback: res => {
+                if (res.name == 'confirm') {
+                    //调用删除地址接口
+                    wx.showLoading({
+                        mask: true
+                    });
+                    addressController.delAddress({
+                        id: _id
+                    }).then(res => {
+                        this.Dialog.CloseDialog();
+                        if (res.status == 0) {
+                            this.Dialog.ShowDialog({
+                                type: 'Message',
+                                title: '删除成功!'
+                            })
+                        } else {
+                            this.Dialog.ShowDialog({
+                                type: 'Message',
+                                title: '删除失败!',
+                                messageType: 'fail'
+                            })
+                        }
+                        wx.hideLoading();
+                    })
+                } else {
+                    this.Dialog.CloseDialog();
+                }
+            }
+        })
     },
     //选择默认地址
-    ChooseDefault(event){
+    ChooseDefault(event) {
         let id = event.currentTarget.dataset.id;
         //设置默认值
-        let _Detail = this.data.AddressList;
-        for(let item of _Detail){
-            item.isDefault = id == item.id
-        }
-        this.setData({
-            AddressList: _Detail
+        wx.showLoading({
+            mask: true
+        });
+        addressController.setAddressDefault({
+            id: id
+        }).then(res => {
+            if (res.status == 0) {
+
+                let _Detail = this.data.AddressList;
+                for (let item of _Detail) {
+                    item.isDefault = id == item.id
+                }
+                this.setData({
+                    AddressList: _Detail
+                })
+            } else {
+                this.Dialog.ShowDialog({
+                    type: 'Message',
+                    title: res.msg || '设置失败!',
+                    messageType: 'fail'
+                })
+            }
+
+            wx.hideLoading();
         })
-        //AddressController.controller.setAddressDefault().then(res => {});
     },
     //点击选择地址
-    ChooseAddress(e){
-        if(this.data.ChooseMode){
+    ChooseAddress(e) {
+        if (this.data.ChooseMode) {
             //选择地址
             app.globalData.AddressId = e.currentTarget.dataset.id;
             wx.navigateBack();
         }
     },
     //响应编辑窗口事件
-    HandleEditEvent(){
+    HandleEditEvent(e) {
+        this.AddressEdit.CloseEdit();
+
+        this.Dialog.ShowDialog({
+            type: 'Message',
+            title: '保存成功'
+        })
         //重新加载列表数据
-        this.getAddressData();
+        setTimeout(() => {
+            this.getAddressData();
+        }, 1500)
     },
     //遍历查找地址对象
-    SearchObject(id){
-        for(let item of this.data.AddressList){
-            if(id == item.id){
+    SearchObject(id) {
+        for (let item of this.data.AddressList) {
+            if (id == item.id) {
                 return item;
             }
         }

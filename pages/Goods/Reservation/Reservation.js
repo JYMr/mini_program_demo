@@ -186,7 +186,7 @@ Page({
             title: '确定删除选中预定清单的商品',
             type: 'Confirm',
             callback: res => {
-                if(res.name == 'confrim'){
+                if(res.name == 'confirm'){
                     /**
                     * 此处删除接口
                     */

@@ -1,4 +1,5 @@
 {
+    "navigationBarTitleText": "订单",
     "usingComponents":
     {
         "AddressEdit": "/pages/Common/AddressEdit/AddressEdit",

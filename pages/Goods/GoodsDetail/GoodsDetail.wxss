@@ -4,7 +4,8 @@ page{background:#f4f4f4; margin-bottom: 118rpx; color: #555;font-size: 28rpx;}
 .goodsnav .item{ display: block; position: relative; width: 33.333%; float: left; text-align: center;}
 .goodsnav .hover{ color: #37c4a4; font-weight:700; }
 .goodsnav .hover::after{ content: ''; height: 0; border-bottom: #37c4a4 6rpx solid; width:60rpx; position: absolute; bottom: 0; left: 0;right: 0; margin: auto; display: inline-block;}
-
+.goodsnavfixed{ position: fixed; top: 0;left: 0; right: 0; z-index: 500; box-shadow: rgba(0,0, 0, 0.1) 1px 1px 3px;}
+.goodsnav-blank{ height: 98rpx;}
 .goodsilder{ overflow: hidden; text-align: center; height: 584rpx; position: relative; background: #fff;  }
 .goodsilder image{width: 464rpx; height: 464rpx; position: absolute; left: 0; right: 0;top: 0; bottom: 0; margin: auto; z-index: 100; }
 .goodsilder .wx-swiper-dot{width: 12rpx;display: inline-flex;height: 12rpx;vertical-align: sub; margin-left: 5rpx;margin-right: 5rpx;background:#ddd;border-radius: 100%; bottom: 0;}
@@ -86,6 +87,6 @@ page{background:#f4f4f4; margin-bottom: 118rpx; color: #555;font-size: 28rpx;}
 .instructions .table:last-child{ margin-bottom: 0;}
 .instructions .tr {width: 100%;display: flex;justify-content: space-between;}
 .instructions .th,.instructions .td {padding:30rpx;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;width:100%;}
-.instructions .th { width: 30%;}
+.instructions .th { width: 30%; }
 
 

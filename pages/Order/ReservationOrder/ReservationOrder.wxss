@@ -1,9 +1,9 @@
 /* pages/user/myreservation.wxss */
-/* pages/user/myorder.wxss */
-.ordernav{ background: #fff; height: 88rpx; display: flex; flex-direction: row; justify-content: space-around; align-items: center; line-height: 88rpx; font-size: 26rpx; color: #888; text-align: center; border-bottom: #f4f4f4 1px solid;}
+.ordernav{ background: #fff; height: 88rpx; display: flex; flex-direction: row; justify-content: space-around; align-items: center; line-height: 88rpx; font-size: 26rpx; color: #888; text-align: center; border-bottom: #f4f4f4 1px solid;position: fixed;z-index: 200; top: 0;right: 0;left: 0;}
 .ordernav .item{ display: flex;flex: 1;text-align: center; align-items: center; justify-content: center; }
 .ordernav .item.on{ color: #37c4a4; position: relative; font-weight: 700;}
 .ordernav .item.on::after{ content: ''; height:6rpx; width: 52rpx; background: #37c4a4; position: absolute; left: 0; right: 0; z-index: 100; margin: auto; bottom: 0;}
+.ordernav-bank{ height: 88rpx;}
 .orderlists{ background: #fff; margin-bottom: 20rpx;}
 .orderlists .title{ line-height: 88rpx; height: 88rpx; padding: 0 30rpx;}
 .orderlists .title .name{ font-size: 30rpx; color: #37c4a4; font-weight: 700;}
@@ -26,7 +26,7 @@
 .orderlists .lists .nums{ color:#888; font-size:28rpx; position:absolute; right:30rpx; z-index: 100; bottom: 30rpx;}
 .orderlists .total{ height: 48rpx; line-height: 48rpx; color: #222; text-align: right; padding:20rpx 30rpx;border-bottom: #f4f4f4 1px solid; }
 .orderlists .control{ padding: 20rpx 30rpx; text-align: right;}
-.orderlists .cancel-btn,.orderlists .delete-btn,.orderlists .resubmit-btn{ border:#ddd 1px solid; border-radius: 10rpx; color: #888; font-size: 26rpx; height: 50rpx; line-height: 46rpx; box-sizing: border-box; text-align: center; width: 140rpx; display: inline-block; background: #fff; margin-left: 20rpx;}
+.orderlists .cancel-btn,.orderlists .delete-btn,.orderlists .resubmit-btn,.orderlists .refund-btn{ border:#ddd 1px solid; border-radius: 10rpx; color: #888; font-size: 26rpx; height: 50rpx; line-height: 46rpx; box-sizing: border-box; text-align: center; width: 140rpx; display: inline-block; background: #fff; margin-left: 20rpx;}
 .orderlists .aftersale-btn{ border:#ddd 1px solid; border-radius: 10rpx; color: #fff; font-size: 26rpx; height: 50rpx; line-height: 46rpx; box-sizing: border-box; text-align: center; width: 140rpx; display: inline-block; background: #ddd; margin-left: 20rpx;}
 .orderlists .gopay-btn,.orderlists .joingroup-btn{ border:#ff5c58 1px solid; border-radius: 10rpx; color: #fff; font-size: 26rpx; height: 50rpx; line-height: 46rpx; box-sizing: border-box; text-align: center; width: 140rpx; display: inline-block; background: #ff5c58; margin-left: 20rpx;}
 .float-customer{ height: 120rpx; display: inline-block; position: fixed; left: 20rpx; z-index: 500; bottom: 20rpx;background: #fff;  border-radius: 120rpx;box-shadow: rgba(0, 0,0,0.1) 5rpx 10rpx 20rpx;}

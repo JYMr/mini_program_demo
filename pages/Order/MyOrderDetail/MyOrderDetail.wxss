@@ -8,9 +8,11 @@
 .addaddress .add::after{ content: ''; width: 14rpx; height: 24rpx; margin-right: 10rpx; background: url(http://www.kzj365.com/mini_program/images/ciricon.png) no-repeat center center; background-size: 100% 100%; display: inline-block; position: absolute; top: 0; bottom: 0; right: 40rpx; margin: auto; z-index: 100;}
 .addaddress .info{ padding: 30rpx 30rpx 30rpx 80rpx;  background: #fff;}
 .addaddress .info .t{ color: #222; font-size: 32rpx; font-weight: 700; margin-bottom: 10rpx;}
-.addaddress .info .tip{ background: #37c4a4; display: inline-block; color: #fff; padding: 0 15rpx;  font-size: 24rpx; border-radius: 30rpx; vertical-align: middle;}
+.addaddress .info .name{ font-size: 34rpx;}
+.addaddress .info .tel{ font-size: 29rpx; margin-left: 25rpx;}
+.addaddress .info .tip{ background: #37c4a4; display: inline-block; color: #fff; padding: 0 15rpx;  font-size: 24rpx; border-radius: 30rpx; vertical-align: middle; margin-left: 15rpx;}
 .addaddress .info .c{ color: #888; position: relative;}
-.addaddress .info .c::after{ content: ''; width: 20rpx; height: 30rpx; margin-right: 10rpx; background: url(http://www.kzj365.com/mini_program/images/adressicon.png) no-repeat center center; background-size: 100%; display: inline-block; position: absolute; top: 0; bottom: 0; left:-30rpx; margin: auto; z-index: 100;}
+.addaddress .info .c::after{ content: ''; width: 25rpx; height: 30rpx;  background: url(http://www.kzj365.com/mini_program/images/adressicon2.png) no-repeat center center; background-size: 100%; display: inline-block; position: absolute; top:10rpx;  left:-35rpx; margin: auto; z-index: 100;}
 
 .orderlists{ background: #fff; margin-bottom: 20rpx;}
 .orderlists .title{ line-height: 88rpx; height: 88rpx; padding: 0 30rpx;}
@@ -18,17 +20,20 @@
 .orderlists .title .shopicon{ width: 40rpx; height: 40rpx; margin-top: 24rpx; margin-right: 15rpx; float: left;background: url(http://www.kzj365.com/mini_program/images/shopicon.png) no-repeat center center; background-size: 100%;}
 .orderlists .title .pedpay,.orderlists .title .peddelivery,.orderlists .title .share{ font-size: 30rpx; font-weight: 700; color: #ff5c58; float: right;}
 .orderlists .title .cancel,.orderlists .title .success,.orderlists .title .aftersale{ font-size: 30rpx; font-weight: 700; color: #ddd; float: right;}
-.orderlists .lists .item{background: #fafafa; position: relative; border-bottom: #f4f4f4 1px solid; padding: 30rpx; display: block; overflow: hidden; }
+.orderlists .lists .item{background: #fafafa; position: relative; margin-bottom: 10rpx;padding:30rpx;}
+.orderlists .lists .item:last-child{ margin-bottom: 0;}
+
+
 .orderlists .lists .pic{ width: 140rpx; height: 140rpx; float: left; margin-right: 30rpx;}
 .orderlists .lists .name{ text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;  color: #4a5259; font-size: 26rpx; height: 100rpx; line-height: 1.4;}
-.orderlists .lists .type{ background: #37c4a4; display: inline-block; line-height: 30rpx; vertical-align: middle; padding: 0 10rpx;  height: 30rpx; color: #fff; text-align: center; margin-right: 10rpx; text-transform: uppercase; border-radius: 50rpx;}
+.orderlists .lists .type{ background: #37c4a4; display: inline-block; line-height: 30rpx; vertical-align: middle; padding: 0 10rpx;  height: 30rpx; color: #fff; text-align: center; margin-right: 10rpx; text-transform: uppercase; border-radius: 50rpx; position: relative; top: -2px;}
 .orderlists .lists .type.redbg{ background: #ff5c58;}
 .orderlists .lists .price{color: #ff5c58; font-size: 20rpx;font-weight: 700;}
 .orderlists .lists .price .n{ font-size: 30rpx;}
 .orderlists .lists .attr{ color: #888;}
 .orderlists .lists .ctype{ background: #37c4a4; display: inline-block; padding: 0 10rpx;color: #fff; text-align: center; margin-left: 10rpx; }
 .orderlists .lists .nums{ color:#888; font-size:28rpx; position:absolute; right:30rpx; z-index: 100; bottom: 30rpx;}
-.orderlists .lists .total{ height: 48rpx; line-height: 48rpx; color: #222; text-align: right; padding:20rpx 30rpx;border-bottom: #f4f4f4 1px solid; }
+.orderlists .total{ height: 48rpx; line-height: 48rpx; color: #222; text-align: right; padding:20rpx 30rpx;border-bottom: #f4f4f4 1px solid; border-top: #f4f4f4 1px solid; }
 .orderlists .control{ padding: 20rpx 30rpx; text-align: right;}
 .orderlists .cancel-btn,.orderlists .rebuy-btn,.orderlists .delete-btn{ border:#ddd 1px solid; border-radius: 10rpx; color: #888; font-size: 26rpx; height: 50rpx; line-height: 46rpx; box-sizing: border-box; text-align: center; width: 140rpx; display: inline-block; background: #fff; margin-left: 20rpx;}
 .orderlists .aftersale-btn{ border:#ddd 1px solid; border-radius: 10rpx; color: #fff; font-size: 26rpx; height: 50rpx; line-height: 46rpx; box-sizing: border-box; text-align: center; width: 140rpx; display: inline-block; background: #ddd; margin-left: 20rpx;}

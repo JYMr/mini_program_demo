@@ -1,5 +1,6 @@
 // pages/order/order.js
 const app = getApp()
+const orderController = require('../../controllers/orderController').controller;
 Page({
 
     /**
@@ -7,60 +8,31 @@ Page({
      */
     data: {
         GoodsId: '',
-        OrderData: {
-            Address: {
-               /* id: 564,
-                name: '张晓峰',
-                mobile: 18858424268,
-                province: '广东省',
-                city: '湛江市',
-                area: '霞山区',
-                address: '万达广场附近大厦电子科技有限公司（ 产品研发部3室）',
-                isDefault: true*/
-            },
-            GoodsList: [{
-                    id: 1516,
-                    title: '仁和健途(jintoo)高级大胶原蛋白壳寡糖果味饮品480ml/瓶1',
-                    imagesrc: '',
-                    total: '5',
-                    marketprice: '27.90',
-                    goods_type: '4',
-                    spec_type: '盒',
-                    isChoose: '1',
-                    GroupType: true
-                },
-                {
-                    id: 1516,
-                    title: '仁和健途(jintoo)高级大胶原蛋白壳寡糖果味饮品480ml/瓶1',
-                    imagesrc: '',
-                    total: '5',
-                    marketprice: '27.90',
-                    goods_type: '4',
-                    spec_type: '盒',
-                    isChoose: '1',
-                    GroupType: false
-                }
-            ],
-            TotalNum: 3,
-            TotalPrice: 77.00,
-            isNeedExpressPrice: false,
-            cashStatus: false//货到付款状态
-        },
+        type: '', //type
+        num: '',
+        OrderData: {},
         PayWay: 0,
         AddressId: '',
         ReMark: '',
-        PayListStatus: false//选择支付方式列表
+        PayListStatus: false //选择支付方式列表
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        if(options.id){
+        if (options.id) {
             this.setData({
                 GoodsId: options.id
             })
         }
+        if (options.num) {
+            this.setData({
+                num: options.num
+            })
+        }
+
+        this.GetOrderData();
     },
 
     /**
@@ -84,21 +56,72 @@ Page({
         }
     },
     //查询订单信息
-    GetOrderData(){
-        //注意区分单独购买和购物车结算
+    GetOrderData() {
+        wx.showLoading({
+            title: '加载数据中...',
+            mask: true
+        });
+
+        //若GoodsId为空，则为购物车结算
+        let id = this.data.GoodsId;
+        if (id) {
+            //单间商品提交
+            orderController.getOneData({
+                id: this.data.GoodsId,
+                num: this.data.num
+            }).then(res => {
+                if (res.status == 0) {
+                    this.setData({
+                        OrderData: res.data
+                    })
+                    wx.hideLoading();
+                }
+            })
+        } else {
+            //购物车结算
+            orderController.getCartData({
+                id: this.data.GoodsId,
+                num: this.data.num
+            }).then(res => {
+                if (res.status == 0) {
+                    this.setData({
+                        OrderData: res.data
+                    })
+                    wx.hideLoading();
+                }
+            })
+        }
     },
     //查询选择地址数据
     GetAddress() {
+        wx.showLoading({
+            title: '加载数据中...',
+            mask: true
+        });
+
+        orderController.getAddress({
+            id: this.data.AddressId
+        }).then(res => {
+            if (res.status == 0) {
+                let _orderData = this.data.OrderData;
+                console.log(_orderData)
+                _orderData.Address = res.data;
+                this.setData({
+                    OrderData: _orderData
+                })
+                wx.hideLoading();
+            }
+        })
 
     },
     //显示添加地址
-    ShowEdit(){
+    ShowEdit() {
         this.AddressEdit.ShowEdit();
     },
     //添加地址
-    AddAddress(e){
+    AddAddress(e) {
         let id = e.detail.id;
-        if(id != undefined){
+        if (id != undefined) {
             this.setData({
                 AddressId: id
             });
@@ -106,28 +129,28 @@ Page({
         }
     },
     //显示支付列表
-    ShowPayList(){
+    ShowPayList() {
         this.setData({
             PayListStatus: true
         })
     },
     //切换支付方式
-    choosePayWay(e){
-        let type =  e.currentTarget.dataset.type;
+    choosePayWay(e) {
+        let type = e.currentTarget.dataset.type;
         this.setData({
             PayWay: type,
             PayListStatus: false
         })
     },
     //提交订单
-    ConfirmOrder(){
+    ConfirmOrder() {
         console.log('提交订单');
         wx.redirectTo({
             url: '/pages/Order/MyOrder/MyOrder?status=3'
         })
     },
     //备注输入绑定
-    BindChange(e){
+    BindChange(e) {
         let _val = e.detail.value;
         this.setData({
             ReMark: _val

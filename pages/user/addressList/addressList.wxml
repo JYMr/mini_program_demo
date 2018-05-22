@@ -11,7 +11,7 @@
 				<text>默认地址</text>
 			</view>
 			<view class="addressButton">
-				<view class="addressButton-item" data-id="{{item.id}}" catchtap="EditFu">
+				<view class="addressButton-item" data-id="{{item.id}}" catchtap="EditFn">
 					<view class="icon icon-edit"></view>
 					<text>编辑</text>
 				</view>
@@ -26,6 +26,7 @@
 	<template is="footer" data=""/> 
 </view>
 
-<view class="addAddressBtn">添加收货地址</view>
+<view class="addAddressBtn" catchtap="AddFn">添加收货地址</view>
 
-<AddressEdit id="AddressEdit"></AddressEdit>
+<AddressEdit id="AddressEdit" bind:EditEvent="HandleEditEvent"></AddressEdit>
+<Dialog id="Dialog"></Dialog>

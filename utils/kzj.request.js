@@ -1,3 +1,5 @@
+const BASE_URL = "";
+
 class Request {
     /**
      * 抓取API数据
@@ -8,7 +10,7 @@ class Request {
     getApi(url, params) {
         return new Promise((resolve, reject) => {
             wx.request({
-                url: `${url}`,
+                url: `${BASE_URL}${url}`,
                 data: Object.assign({}, params),
                 header: { 'Content-Type': 'application/json' },
                 success: resolve,

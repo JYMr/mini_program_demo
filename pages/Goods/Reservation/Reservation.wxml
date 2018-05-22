@@ -1,4 +1,6 @@
 <!--pages/cart/reservation.wxml-->
+<import src="/pages/Common/TypeIcon.wxml" />
+
 <view class='cart-title'>
     <text class="allselect{{isAllSelect ? ' on': ''}}" bindtap="AllSelect">
         <text class='icon'></text>全选</text>
@@ -11,7 +13,7 @@
             <text class='select{{item.isChoose == 1 ? " on":""}}' bindtap="HandleCheckBox" data-id="{{item.id}}"></text>
             <navigator hover-class='none'>
                 <image class='pic' src='http://kzjimg01.b0.upaiyun.com/1508118546272.jpg'></image>
-                <view class='name'>{{item.title}}</view><text class='price'>￥<text class='n'>{{item.marketprice}}</text></text>
+                <view class='name'><template is="TypeIcon" data="{{type: item.goods_type}}" />{{item.title}}</view><text class='price'>￥<text class='n'>{{item.marketprice}}</text></text>
                 <text class='attr'>/1{{item.spec_type}}</text>
             </navigator>
         </view>

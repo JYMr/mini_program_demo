@@ -1,20 +1,43 @@
 const request = require('../../utils/kzj.request.js');
 const linq = require('../../lib/linq.min.js').linq;
 
-const URI = 'http://m.kzj365.com/';
+const URI = 'https://4a0096a3-fd57-474d-9724-ed37426b5f75.mock.pstmn.io';
 
 /**
  * 每一个页面对应一个contoller
  */
 class GoodsController{
     /**
-     * 抓取首页布局
+     * 加载商品数据
      * @return {Promise}
      */
-    getHomeLayout(e){
-      return request.get('${URI}/ajaxWapGoodsDetail.htm').then(res => res.data)
+    getGoodsDetail(params){
+      return request.get(`${URI}/getGoodsDetail`, params).then(res => res.data)
     }
-    
+	    
+	/**
+     * 加载商品规格数据
+     * @return {Promise}
+     */
+     getGoodsSpec(params){
+     	return request.get(`${URI}/getGoodsSpec`, params).then(res => res.data)
+     }
+
+     /**
+     * 加入购物车
+     * @return {Promise}
+     */
+     addCart(params){
+     	return request.get(`${URI}/AddCart`, params).then(res => res.data)
+     }
+
+     /**
+     * 加入预定清单
+     * @return {Promise}
+     */
+     addRxCart(params){
+     	return request.get(`${URI}/AddRxCart`, params).then(res => res.data)
+     }
 
 }
 /**

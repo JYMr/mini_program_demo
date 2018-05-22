@@ -1,4 +1,6 @@
 <!--pages/cart/detail.wxml-->
+<import src="/pages/Common/TypeIcon.wxml" />
+
 <view class='statusbox'>
     <block wx:if="{{OrderData.status == 0}}">
         <text class="t">待付款</text>
@@ -44,7 +46,7 @@
 
 <view class='addaddress'>
     <view class='info'>
-        <view class='t'>{{OrderData.Address.name}} {{OrderData.Address.mobile}}
+        <view class='t'><text class='name'>{{OrderData.Address.name}}</text>  <text class='tel'>{{OrderData.Address.mobile}}</text> 
             <text class='tip' wx:if="{{OrderData.Address.isDefault}}">默认</text>
         </view>
         <view class='c'>{{OrderData.Address.province}}{{OrderData.Address.city}}{{OrderData.Address.area}}{{OrderData.Address.address}}</view>
@@ -58,16 +60,17 @@
     <view class='lists'>
         <navigator class='item' wx:for="{{OrderData.goods_list}}" url="/pages/Goods/GoodsDetail/GoodsDetail" wx:key="{{index}}">
             <image class='pic' src='http://kzjimg01.b0.upaiyun.com/1508118546272.jpg'></image>
-            <view class='name'>{{item.title}}</view>
+            <view class='name'><template is="TypeIcon" data="{{type: item.goods_type}}" />{{item.title}}</view>
             <text class='price'>￥<text class='n'>{{item.price}}</text></text>
             <text class='attr'>/1{{item.spec_type}}</text>
             <text class='ctype' wx:if="{{item.isGroup}}">疗程装</text>
             <text class='nums'>x{{item.total}}</text>
         </navigator>
-        <view class='total'> 共3件商品 合计：￥{{OrderData.orderPrice}} 
-            <block wx:if="{{OrderData.isNeedExpress}}">（包含快递费10元）</block>
-            <block wx:if="{{!OrderData.isNeedExpress}}">（免运费）</block>
-        </view>
+        
+    </view>
+    <view class='total'> 共3件商品 合计：￥{{OrderData.orderPrice}} 
+        <block wx:if="{{OrderData.isNeedExpress}}">（包含快递费10元）</block>
+        <block wx:if="{{!OrderData.isNeedExpress}}">（免运费）</block>
     </view>
 </view>
 <view class='totalinfo'>
@@ -131,6 +134,8 @@
     </block>
 </view>
 
+<!-- 客服悬浮按钮 -->
+<Floatcustomer id='Floatcustomer' ></Floatcustomer>
 
 <!-- 提示组件 -->
 <Dialog id="Dialog"></Dialog>

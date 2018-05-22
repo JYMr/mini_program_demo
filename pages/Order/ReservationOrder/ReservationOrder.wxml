@@ -1,118 +1,74 @@
+<import src="/pages/Common/TypeIcon.wxml" />
 <view class='ordernav'>
-    <navigator class='item on'>全部</navigator>
-    <navigator class='item'>待审核</navigator>
-    <navigator class='item'>已审核</navigator>
+    <view class='item{{Status == 0 ? " on" : ""}}' bindtap="TabToggle" data-status="0">全部</view>
+    <view class='item{{Status == 1 ? " on" : ""}}' bindtap="TabToggle" data-status="1">待审核</view>
+    <view class='item{{Status == 2 ? " on" : ""}}' bindtap="TabToggle" data-status="2">已审核</view>
 </view>
+<view class='ordernav-bank'></view>
+
+<block wx:for="{{OrderList}}" wx:for-index="index"  wx:for-item="OrderItem" wx:key="order_{{index}}" wx:if="{{OrderList.length > 0}}">
 <view class='orderlists'>
     <view class='title'>
         <text class='shopicon'></text>
         <text class='name'>康之家药店</text>
-        <text class='audited'>待审核</text>
+        <text class='audited' wx:if="{{OrderItem.status == 0}}">待审核</text>
+        <text class='audited' wx:if="{{OrderItem.status == 1}}">已审核</text>
+        <text class='audited' wx:if="{{OrderItem.status == 2}}">审核完成</text>
+        <text class='audited' wx:if="{{OrderItem.status == 3}}">已取消</text>
     </view>
     <view class='lists'>
+      <block wx:for="{{OrderItem.goods_list}}" wx:for-index="goods_index"  wx:for-item="item" wx:key="goods_{{goods_index}}">
         <view class='item'>
-            <navigator>
+            <navigator url='../../Goods/GoodsDetail/GoodsDetail?id={{item.id}}'>
                 <image class='pic' src='http://kzjimg01.b0.upaiyun.com/1508118546272.jpg'></image>
-                <view class='name'>仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶 </view>
-                <text class='price'>￥
-                    <text class='n'>25.90</text>
+                <view class='name'><template is="TypeIcon" data="{{type: item.goods_type}}" />{{item.title}}</view>
+                <text class='price'>
+                  <text>￥</text>
+                  <text class='n'>{{item.price}}</text>
                 </text>
-                <text class='attr'>/1盒</text>
-                <text class='nums'>x3</text>
+                <text class='attr'>/1{{item.spec_type}}</text>
+                <text class='nums'>x{{item.total}}</text>
             </navigator>
         </view>
-        <view class='item'>
-            <navigator>
-                <image class='pic' src='http://kzjimg01.b0.upaiyun.com/1508118546272.jpg'></image>
-                <view class='name'>仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶 </view>
-                <text class='price'>￥
-                    <text class='n'>25.90</text>
-                </text>
-                <text class='attr'>/1盒</text>
-                <text class='nums'>x3</text>
-            </navigator>
-        </view>
+      </block>
     </view>
-    <view class='total'> 登记信息：198 1775 8883</view>
+    <view class='total'> 登记信息：{{item.number}}</view>
+    <block wx:if="{{OrderItem.status == 0}}">
     <view class='control'>
-        <text class='cancel-btn'>取消预定</text>
+        <text class='cancel-btn' data-id="{{OrderItem.id}}" catchtap="CancelPeservation">取消预定</text>
     </view>
+    </block>
+    <block wx:if="{{OrderItem.status == 1}}">
+    <view class='control'>
+        <text class='delete-btn' data-id="{{OrderItem.id}}" catchtap="DeletePeservation">删除预定</text>
+        <text class='resubmit-btn' data-id="{{OrderItem.id}}" catchtap="AgainPeservation">重新提交</text>
+    </view>
+    </block>
+    <block wx:if="{{OrderItem.status == 2}}">
+    <view class='control'>
+        <text class='delete-btn' data-id="{{OrderItem.id}}" catchtap="DeletePeservation">删除预定</text>
+        <text class='refund-btn' data-id="{{OrderItem.id}}" catchtap="CustomerService">申请售后</text>
+        <text class='resubmit-btn' data-id="{{OrderItem.id}}" catchtap="AgainPeservation">重新提交</text>
+    </view>
+    </block>
+    <block wx:if="{{OrderItem.status == 3}}">
+    <view class='control'>
+        <text class='delete-btn' data-id="{{OrderItem.id}}" catchtap="DeletePeservation">删除预定</text>
+        <text class='resubmit-btn' data-id="{{OrderItem.id}}" catchtap="AgainPeservation">重新提交</text>
+    </view>
+    </block>
 </view>
-<view class='orderlists'>
-    <view class='title'>
-        <text class='shopicon'></text>
-        <text class='name'>康之家药店</text>
-        <text class='success'>已审核</text>
-    </view>
-    <view class='lists'>
-        <view class='item'>
-            <navigator>
-                <image class='pic' src='http://kzjimg01.b0.upaiyun.com/1508118546272.jpg'></image>
-                <view class='name'>仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶 </view>
-                <text class='price'>￥
-                    <text class='n'>25.90</text>
-                </text>
-                <text class='attr'>/1盒</text>
-                <text class='nums'>x3</text>
-            </navigator>
-        </view>
-        <view class='total'> 登记信息：198 1775 8883</view>
-        <view class='control'>
-            <text class='cancel-btn'>取消预定</text>
-        </view>
-    </view>
-</view>
-<view class='orderlists'>
-    <view class='title'>
-        <text class='shopicon'></text>
-        <text class='name'>康之家药店</text>
-        <text class='completion'>审核完成</text>
-    </view>
-    <view class='lists'>
-        <view class='item'>
-            <navigator>
-                <image class='pic' src='http://kzjimg01.b0.upaiyun.com/1508118546272.jpg'></image>
-                <view class='name'>仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶 </view>
-                <text class='price'>￥
-                    <text class='n'>25.90</text>
-                </text>
-                <text class='attr'>/1盒</text>
-                <text class='nums'>x3</text>
-            </navigator>
-        </view>
-        <view class='total'> 登记信息：198 1775 8883</view>
-        <view class='control'>
-            <text class='delete-btn'>删除预定</text>
-            <text class='resubmit-btn'>重新提交</text>
-        </view>
-    </view>
-</view>
-<view class='orderlists'>
-    <view class='title'>
-        <text class='shopicon'></text>
-        <text class='name'>康之家药店</text>
-        <text class='cancel'>已取消</text>
-    </view>
-    <view class='lists'>
-        <view class='item'>
-            <navigator>
-                <image class='pic' src='http://kzjimg01.b0.upaiyun.com/1508118546272.jpg'></image>
-                <view class='name'>仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶 </view>
-                <text class='price'>￥
-                    <text class='n'>25.90</text>
-                </text>
-                <text class='attr'>/1盒</text>
-                <text class='nums'>x3</text>
-            </navigator>
-        </view>
-        <view class='total'> 登记信息：198 1775 8883</view>
-        <view class='control'>
-            <text class='delete-btn'>删除预定</text>
-            <text class='resubmit-btn'>重新提交</text>
-        </view>
-    </view>
-</view>
-<import src="/pages/Common/floatcustomer.wxml" />
-<template is="floatcustomer" data="" />
+</block>
+<!-- 无订单状态 -->
+<view wx:if="{{OrderList.length == 0}}" class='empty'>暂无数据</view>
+
+<!-- 客服悬浮按钮 -->
+<Floatcustomer id='Floatcustomer' ></Floatcustomer>
+
 <import src="/pages/Common/footer.wxml" />
-<template is="footer" data="" />
+<template is="footer" wx:if="{{OrderList.length != 0 && !isNeedLoad}}" data="" />
+
+<!-- 提示组件 -->
+<Dialog id="Dialog"></Dialog>
+<!-- 售后弹窗 -->
+<CustomerService id="CustomerService" bind:SaveEvent="CustomerServiceFn"></CustomerService>

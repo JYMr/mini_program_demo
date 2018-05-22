@@ -29,4 +29,4 @@
 
 <view class="mask" wx:if="{{isShow}}" bindtap="CloseEdit"></view>
 
-<Dialog id="Dialog" bind:EditEvent="HandleEditEvent"></Dialog>
+<Dialog id="Dialog"></Dialog>
