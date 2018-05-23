@@ -11,7 +11,7 @@ class GroupBuyController{
      * 获取拼团数据
      * @return {Promise}
      */
-    GetList(params){
+    getList(params){
         return request.get(`${URI}/GetGroupBuyList`, params).then(res => res.data)
     }
 
@@ -19,12 +19,32 @@ class GroupBuyController{
      * 获取拼团商品数据
      * @return {Promise}
      */
-    GetDetail(params){
+    getDetail(params){
         return request.get(`${URI}/GetGroupBuyDetail`, params).then(res => res.data)
     }
 
-    GetRecommend(params){
+    /**
+     * 获取推荐拼团
+     * @return {Promise}
+     */
+    getRecommend(params){
         return request.get(`${URI}/GetRecommend`, params).then(res => res.data)
+    }
+
+    /**
+     * 获取拼团提交订单数据
+     * @return {Promise}
+     */
+    getConfirmGroupBuyOrder(params){
+        return request.get(`${URI}/getGroupBuyConfirm`, params).then(res => res.data)
+    }
+
+    /**
+     * 获取拼团分享数据数据
+     * @return {Promise}
+     */
+    getGroupBuyShare(params){
+        return request.get(`${URI}/getGroupBuyShare`, params).then(res => res.data)
     }
 
 }

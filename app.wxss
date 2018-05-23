@@ -6,12 +6,6 @@ page{font-family:"Helvetica Neue",Verdana,Helvetica,Arial,"Microsoft Yahei","Hir
 .footer{ padding: 25rpx 0; text-align: center; font-size: 24rpx; color: #dddddd; line-height: 2;}
 .footer .img{ width: 154rpx; height: 38rpx;}
 
-.float-customer{ height: 120rpx; display: inline-block; position: fixed; left: 20rpx; z-index: 500; bottom: 40rpx;background: #fff;  border-radius: 120rpx;box-shadow: rgba(0, 0,0,0.1) 5rpx 10rpx 20rpx;}
-.float-customer .default{ width: 120rpx; height: 120rpx;background: url(http://www.kzj365.com/mini_program/images/chaticon.png) no-repeat center center #37c4a4; background-size: 46rpx; float: left; box-shadow: rgba(55, 196, 164, 0.5) 5rpx 10rpx 20rpx; border-radius: 100%;}
-.float-customer .extend{ width: 0; height: 120rpx; overflow: hidden;-webkit-transition: all .2s ease-out;transition: all .2s ease-out;}
-.float-customer .extend .text{ width: 250rpx; height: 100%; display: flex; justify-content: center; align-items: center; text-align: center; float: left;  font-size: 30rpx; color: #37c4a4; font-weight: 700; position: relative;}
-.float-customer .extend .text:first-child:after{ content: ''; display: inline-block; border-right: #ddd 2rpx solid; height:27rpx; position: absolute; z-index: 100; top: 0; bottom: 0; right: 0; margin: auto;}
-.float-customer .extend.open{ width: 500rpx;}
 
 .empty{ text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; min-height: 600rpx; color: #ddd; line-height: 2;font-size: 36rpx; position: fixed; top: 50%; transform: translate(0, -50%);}
 .empty::before{ content: ''; width: 222rpx; height: 259rpx; display: inline-block; background: url(http://www.kzj365.com/mini_program/images/emptyList_icon.png) no-repeat center center; background-size:100%;margin-bottom: 30rpx;}

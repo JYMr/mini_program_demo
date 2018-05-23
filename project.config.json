@@ -61,6 +61,24 @@
 					"name": "AddressList",
 					"pathName": "pages/User/AddressList/AddressList",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "GroupBuyConfirm",
+					"pathName": "pages/GroupBuy/GroupBuyConfirm/GroupBuyConfirm",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "GroupBuyShare",
+					"pathName": "pages/GroupBuy/GroupBuyShare/GroupBuyShare",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "Cart",
+					"pathName": "pages/Cart/Cart",
+					"query": ""
 				}
 			]
 		}

@@ -1,10 +1,13 @@
 const app = getApp()
+const userController = require('../../controllers/userController').controller
+
 Page({
     /**
      * 页面的初始数据
      */
     data: {
         userInfo: {},
+        OrderNum: [0, 0, 0, 0, 0],
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
     },
     /**
@@ -25,6 +28,7 @@ Page({
                 }
             })
         }
+        this.GetOrderNum()
     },
     /**
      * 生命周期函数--监听页面初次渲染完成
@@ -40,7 +44,17 @@ Page({
 
     },
     //获取订单数据
-    GetOrderNum(){
-        
+    GetOrderNum() {
+        wx.showLoading({
+            mask: true
+        });
+        userController.getUserData().then(res => {
+            if (res.status == 0) {
+                this.setData({
+                    OrderNum: res.data
+                })
+            }
+            wx.hideLoading();
+        })
     }
 })

@@ -39,7 +39,7 @@ Page({
             title: '加载数据中...',
             mask: true
         });
-       GroupBuyController.GetList({
+       GroupBuyController.getList({
             no: this.data.pageNo
        }).then(res=>{
             if(res.status == 0){

@@ -1,4 +1,5 @@
 // pages/GroupBuy/GroupBuyShare/GroupBuyShare.js
+const GroupBuyController = require('../../controllers/GroupBuyController').controller;
 Page({
 
     /**
@@ -14,10 +15,10 @@ Page({
             second: '00'
         },
         Default_avatar: 'http://www.kzj365.com/mini_program/images/avatar_default.png',
-        ShareData:{
+        ShareData: {
             id: 12,
             GoodsInfo: {
-                id:231321,
+                id: 231321,
                 url: '',
                 title: '仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶',
                 price: '25.90',
@@ -45,9 +46,14 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        if(options.status){
+        if (options.status) {
             this.setData({
                 status: options.status
+            })
+        }
+        if (options.id) {
+            this.setData({
+                GroupId: options.id
             })
         }
         this.GetShaerData();
@@ -67,34 +73,47 @@ Page({
 
     },
     //获取拼团数据
-    GetShaerData(id){
-        this.MakeDefaultData(6);
-        this.TimeOutFn();
+    GetShaerData(id) {
+
+        wx.showLoading({
+            title: '加载数据中...',
+            mask: true
+        });
+        GroupBuyController.getGroupBuyShare({
+            id: this.data.GroupId
+        }).then(res => {
+            if (res.status == 0) {
+                res.data = this.MakeDefaultData(res.data, res.data.GroupNumber)
+                this.setData({
+                    ShareData: res.data
+                })
+                this.TimeOutFn();
+            }
+            wx.hideLoading();
+
+        })
     },
     //补全数据列表
-    MakeDefaultData(n) {
-        let _List = this.data.ShareData
-        if (n > _List.ShareMenberList.length) {
-            let _Length = _List.ShareMenberList.length
+    MakeDefaultData(list, n) {
+        if (n > list.ShareMenberList.length) {
+            let _Length = list.ShareMenberList.length
             for (let i = 0; i < n - _Length; i++) {
-                _List.ShareMenberList.push({
+                list.ShareMenberList.push({
                     id: '',
                     avatar: this.data.Default_avatar
                 })
             }
-            this.setData({
-                ShareData: _List
-            })
         }
+        return list;
     },
     //拼团计时
-    TimeOutFn(){
+    TimeOutFn() {
         let FinishTime = this.data.ShareData.finishTime;
         let ServerTime = this.data.ShareData.serverTime;
         let _TimeOut = this.data.TimeOut
         let _time = FinishTime - ServerTime
 
-        if (_time > 0){
+        if (_time > 0) {
             let GroupTime = setInterval(() => {
                 _time = FinishTime - ServerTime
                 if (_time > 0) {
@@ -104,7 +123,7 @@ Page({
                     _TimeOut.hours = _hours < 10 ? ('0' + _hours) : _hours
                     _TimeOut.minute = _minute < 10 ? ('0' + _minute) : _minute
                     _TimeOut.second = _second < 10 ? ('0' + _second) : _second
-                }else {
+                } else {
                     _TimeOut.hours = '00'
                     _TimeOut.minute = '00'
                     _TimeOut.second = '00'
@@ -126,8 +145,8 @@ Page({
             title: this.data.ShareData.ShareTitle || this.data.ShareData.GoodsInfo.title,
             path: '/' + this.route + '?id' + GroupId,
             imageUrl: this.data.ShareData.ShareUrl || this.data.ShareData.GoodsInfo.url,
-            success: res=>{
-                if(res.errMsg == 'shareAppMessage:ok'){
+            success: res => {
+                if (res.errMsg == 'shareAppMessage:ok') {
                     this.Dialog.ShowDialog({
                         type: 'Message',
                         title: '分享成功'
@@ -138,9 +157,9 @@ Page({
                     })
                 }
             },
-            fail: err=>{
-                if(err.errMsg != 'shareAppMessage:fail cancel'){
-                     this.Dialog.ShowDialog({
+            fail: err => {
+                if (err.errMsg != 'shareAppMessage:fail cancel') {
+                    this.Dialog.ShowDialog({
                         type: 'Message',
                         title: err.errMsg.split(':')[1],
                         messageType: 'fail'

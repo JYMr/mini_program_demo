@@ -1,4 +1,6 @@
 const app = getApp()
+const orderController = require('../../controllers/orderController').controller;
+const groupBuyController = require('../../controllers/GroupBuyController').controller;
 Page({
 
     /**
@@ -7,45 +9,7 @@ Page({
     data: {
         GoodsId: '',
         GroupId: '',
-        OrderData: {
-            Address: {
-                /* id: 564,
-                 name: '张晓峰',
-                 mobile: 18858424268,
-                 province: '广东省',
-                 city: '湛江市',
-                 area: '霞山区',
-                 address: '万达广场附近大厦电子科技有限公司（ 产品研发部3室）',
-                 isDefault: true*/
-            },
-            GoodsList: [{
-                    id: 1516,
-                    title: '仁和健途(jintoo)高级大胶原蛋白壳寡糖果味饮品480ml/瓶1',
-                    imagesrc: '',
-                    total: '5',
-                    marketprice: '27.90',
-                    goods_type: '4',
-                    spec_type: '盒',
-                    isChoose: '1',
-                    GroupType: true
-                },
-                {
-                    id: 1516,
-                    title: '仁和健途(jintoo)高级大胶原蛋白壳寡糖果味饮品480ml/瓶1',
-                    imagesrc: '',
-                    total: '5',
-                    marketprice: '27.90',
-                    goods_type: '4',
-                    spec_type: '盒',
-                    isChoose: '1',
-                    GroupType: false
-                }
-            ],
-            TotalNum: 3,
-            TotalPrice: 77.00,
-            isNeedExpressPrice: false,
-            cashStatus: false //货到付款状态
-        },
+        OrderData: {},
         PayWay: 0,
         AddressId: '',
         ReMark: '',
@@ -56,16 +20,17 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        if(options.id){
+        if (options.id) {
             this.setData({
                 GoodsId: options.id
             })
         }
-        if(options.gid){
-             this.setData({
+        if (options.gid) {
+            this.setData({
                 GroupId: options.gid
             })
         }
+        this.GetOrderData();
     },
 
     /**
@@ -89,12 +54,44 @@ Page({
         }
     },
     //查询订单信息
-    GetOrderData(){
+    GetOrderData() {
         //注意区分用户新下拼团单和支付已有拼团单
+        wx.showLoading({
+            title: '加载数据中...',
+            mask: true
+        });
+        groupBuyController.getConfirmGroupBuyOrder({
+            id: this.data.GoodsId,
+            gid: this.data.GroupId
+        }).then(res => {
+            if (res.status == 0) {
+                this.setData({
+                    OrderData: res.data
+                })
+                wx.hideLoading();
+            }
+        })
     },
     //查询选择地址数据
     GetAddress() {
+         wx.showLoading({
+            title: '加载数据中...',
+            mask: true
+        });
 
+        orderController.getAddress({
+            id: this.data.AddressId
+        }).then(res => {
+            if (res.status == 0) {
+                let _orderData = this.data.OrderData;
+                console.log(_orderData)
+                _orderData.Address = res.data;
+                this.setData({
+                    OrderData: _orderData
+                })
+                wx.hideLoading();
+            }
+        })
     },
     //显示添加地址
     ShowEdit() {
@@ -128,7 +125,7 @@ Page({
     ConfirmOrder() {
         console.log('提交订单');
         wx.redirectTo({
-            url: '/pages/GroupBuy/GroupBuyShare/GroupBuyShare?id=3'
+            url: '/pages/GroupBuy/GroupBuyShare/GroupBuyShare?id=3&status=1'
         })
     },
     //备注输入绑定

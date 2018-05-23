@@ -1,5 +1,5 @@
 // pages/search.js
-Component({
+Page({
     data: {
         selectHide: false,
         searchstory: [],

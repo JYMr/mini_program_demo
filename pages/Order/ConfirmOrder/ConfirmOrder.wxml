@@ -31,7 +31,6 @@
                 <text class='nums'>x{{item.total}}</text>
             </navigator>
         </view>
-        
     </view>
     <view class='remarks'>
         <text class="l">订单备注：</text>

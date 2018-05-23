@@ -77,7 +77,7 @@ Page({
             title: '加载数据中...',
             mask: true
         });
-        GroupBuyController.GetDetail({
+        GroupBuyController.getDetail({
             id: this.data.GoodsId
         }).then(res=>{
             if(res.status == 0){
@@ -97,7 +97,7 @@ Page({
     },
     //获取拼团推荐列表
     GetRecommend(){
-        GroupBuyController.GetRecommend({
+        GroupBuyController.getRecommend({
             id: this.data.GoodsId
         }).then(res=>{
             if(res.status == 0){

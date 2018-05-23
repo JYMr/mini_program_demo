@@ -1,6 +1,8 @@
 {
-  "usingComponents": {
-    "Nav": "/pages/Common/Nav/Nav",
-    "Dialog": "/pages/Common/Dialog/Dialog"
-  }
+    "navigationBarTitleText": "购物车",
+    "usingComponents":
+    {
+        "Nav": "/pages/Common/Nav/Nav",
+        "Dialog": "/pages/Common/Dialog/Dialog"
+    }
 }

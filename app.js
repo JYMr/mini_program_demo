@@ -1,5 +1,6 @@
 //app.js
 const Util = require('/utils/util.js')
+const request = require('/utils/kzj.request.js')
 App({
     onLaunch: function() {
         wx.checkSession({
@@ -13,6 +14,13 @@ App({
                     success: res => {
                         // 发送 res.code 到后台换取 openId, sessionKey, unionId
                         console.log(res)
+                        request.get('https://4a0096a3-fd57-474d-9724-ed37426b5f75.mock.pstmn.io/Login', {
+                            code: res.code
+                        }).then(res => {
+                            if(res.data.status == 0){
+                                wx.setStorageSync('token', res.data.token)
+                            }
+                        })
                     }
                 })
             }
@@ -39,9 +47,9 @@ App({
         userInfo: null,
         defaultImg: 'http://www.kzj365.com/mini_program/images/default.png',
         tel: '18819446959',
-        AddressId: ''//用于订单地址选择
+        AddressId: '' //用于订单地址选择
     },
-    Util:{
+    Util: {
         handleDate: Util
     },
     errImg: function(e, that) {

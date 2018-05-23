@@ -38,5 +38,6 @@
 .Group-Fixed .Icon-btn{width: 144rpx;font-size: 20rpx;color: #bbbbbb;text-align: center;box-sizing: border-box;border-right: 1rpx solid  #f4f4f4;float: left;border-top: 1rpx solid  #f4f4f4;}
 .Group-Fixed .Icon-btn image{width: 46rpx;height: 46rpx;display: block;margin: 0 auto;margin-bottom: 11rpx;margin-top: 10rpx;}
 
-.Group-btn{height: 98rpx;background-color: #ff5c58;line-height: 98rpx;font-size: 32rpx;color: #fff;text-align: center;}
+.Group-btn{height: 98rpx;background-color: #ff5c58;line-height: 98rpx;font-size: 32rpx;color: #fff;text-align: center;border-radius: 0;}
+.Group-btn:after{border: none;}
 .Group-btn.left{margin-left: 144rpx;}

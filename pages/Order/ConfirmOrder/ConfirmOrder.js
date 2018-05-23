@@ -112,7 +112,6 @@ Page({
                 wx.hideLoading();
             }
         })
-
     },
     //显示添加地址
     ShowEdit() {
