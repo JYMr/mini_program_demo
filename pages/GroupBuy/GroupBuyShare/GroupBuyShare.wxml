@@ -74,7 +74,7 @@
 
 		<!-- 团主 -->
 		<block wx:if="{{ShareData.isGroupKing && (ShareData.GroupNumber - ShareData.GroupHasNumber > 0)}}">
-			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" wx:if="{{status == 0}}" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
+			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" wx:if="{{status == 0}}" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
 				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
 				更多拼团
 			</navigator>
@@ -83,7 +83,7 @@
 			</button>
 		</block>
 		<block wx:if="{{ShareData.isGroupKing && (ShareData.GroupNumber - ShareData.GroupHasNumber <= 0)}}">
-			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" wx:if="{{status == 0}}" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
+			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" wx:if="{{status == 0}}" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
 				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
 				更多拼团
 			</navigator>
@@ -94,7 +94,7 @@
 
 		<!-- 非团主 -->
 		<block wx:if="{{!ShareData.isGroupKing && ShareData.GroupNumber - ShareData.GroupHasNumber <= 0}}">
-			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
+			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
 				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
 				更多拼团
 			</navigator>
@@ -104,7 +104,7 @@
 		</block>
 
 		<block class="title"  wx:if="{{!ShareData.isGroupKing && (ShareData.GroupNumber - ShareData.GroupHasNumber > 0)}}">
-			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" wx:if="{{status == 0}}" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
+			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" wx:if="{{status == 0}}" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
 				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
 				更多拼团
 			</navigator>

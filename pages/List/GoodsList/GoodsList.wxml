@@ -1,30 +1,28 @@
-<search id='search' inputValue='{{inputValue}}' selectHide='{{selectHide}}'></search>
-
+<import src="/pages/Common/TypeIcon.wxml" />
+<search id='search' inputValue='{{keyword}}' selectHide='{{selectHide}}' bind:SearchEvent="SearchtoList"></search>
 <block wx:if='{{contentlist.length!=0}}'>
-<view class="header" hidden="{{hideHeader}}">
-  <view>下拉刷新中……</view>
-  <view>{{refreshTime}}</view>
-</view>
-<!-- 列表 -->
-<scroll-view class="lists-view" scroll-y bindscrolltoupper="refresh" bindscrolltolower="loadMore">
-  <block wx:for='{{contentlist}}'  wx:for-item="item" wx:for-index='index' wx:key="story_{{index}}">
-  <view class='item'>
-    <navigator url='../goods/goods?id={{item.goods_id}}'>
-      <image class='pic' src='{{item.goods_img}}' lazy-load='true'></image>
-      <view class='name'><text class='type {{item.goods_type==2?"redbg":""}}'>{{item.goods_type==3?'rx':'otc'}}</text>{{item.goods_name}}</view>
-      <view class='price'>￥<text class='nums'>{{item.goods_price}}</text></view>
-    </navigator>
-  </view>
-  </block>
-</scroll-view>
-
-<view class="bottom" hidden="{{hideBottom}}">
-  <view>{{loadMoreData}}</view>
-  <view>{{refreshTime}}</view>
-</view>
+    <!-- 列表 -->
+    <scroll-view class="lists-view" scroll-y bindscrolltoupper="refresh" bindscrolltolower="loadMore">
+        <block wx:for='{{contentlist}}' wx:for-item="item" wx:for-index='index' wx:key="story_{{index}}">
+            <view class='item'>
+                <navigator url='/pages/Goods/GoodsDetail/GoodsDetail?id={{item.id}}'>
+                    <image class='pic' src='{{item.imagesrc}}' lazy-load='true'></image>
+                    <view class='name'>
+                        <text class='type {{item.goods_type==2?"redbg":""}}'>{{item.goods_type==3?'rx':'otc'}}</text>{{item.title}}</view>
+                    <view class='price'>￥
+                        <text class='nums'>{{item.marketprice}}</text>
+                    </view>
+                </navigator>
+            </view>
+        </block>
+    </scroll-view>
+    <view class="bottom" hidden="{{hideBottom}}">
+        <view>{{loadMoreData}}</view>
+        <view>{{refreshTime}}</view>
+    </view>
 </block>
 <view wx:else class='empty'>暂无数据</view>
-<view class='footer-out'>
-<import hidden="{{hideBottom}}" src="/pages/Common/footer.wxml"/>
-<template is="footer" data=""/>
+<view class='footer-out' wx:if="{{isEnd}}">
+    <import hidden="{{hideBottom}}" src="/pages/Common/footer.wxml" />
+    <template is="footer" data="" />
 </view>

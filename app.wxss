@@ -1,11 +1,11 @@
 /**app.wxss**/
-page{font-family:"Helvetica Neue",Verdana,Helvetica,Arial,"Microsoft Yahei","Hiragino Sans GB","Heiti SC","WenQuanYi Micro Hei",sans-serif;background:#f4f4f4;color: #555;font-size: 28rpx; line-height: 1.5;}
+page{ font-family: 'Helvetica Neue',Verdana,Helvetica,Arial,'Microsoft Yahei','Hiragino Sans GB','Heiti SC','WenQuanYi Micro Hei',sans-serif;font-size: 28rpx;line-height: 1.5;color: #555;background: #f4f4f4;}
 
 .show{ display: block;}
 .hide{ display: none;}
-.footer{ padding: 25rpx 0; text-align: center; font-size: 24rpx; color: #dddddd; line-height: 2;}
-.footer .img{ width: 154rpx; height: 38rpx;}
+.footer{font-size: 24rpx;line-height: 2; padding: 25rpx 0;text-align: center;color: #ddd;}
+.footer .img{ width: 154rpx;height: 38rpx;}
 
 
-.empty{ text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; min-height: 600rpx; color: #ddd; line-height: 2;font-size: 36rpx; position: fixed; top: 50%; transform: translate(0, -50%);}
-.empty::before{ content: ''; width: 222rpx; height: 259rpx; display: inline-block; background: url(http://www.kzj365.com/mini_program/images/emptyList_icon.png) no-repeat center center; background-size:100%;margin-bottom: 30rpx;}
+.empty{font-size: 36rpx;line-height: 2;position: fixed;top: 50%;width: 100%;min-height: 600rpx;transform: translate(0, -50%); text-align: center;color: #ddd;}
+.empty::before{display: block;width: 222rpx;height: 259rpx;margin: 0 auto 30rpx; content: '';background: url(http://www.kzj365.com/mini_program/images/emptyList_icon.png) no-repeat center center;background-size: 100%;}

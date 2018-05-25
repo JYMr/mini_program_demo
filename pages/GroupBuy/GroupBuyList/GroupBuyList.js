@@ -7,7 +7,7 @@ Page({
      */
     data: {
         GroupBuyData: [],
-        pageNo: 0
+        pageNo: 1
     },
 
     /**
@@ -33,21 +33,29 @@ Page({
         })
         this.GetGroupList();
     },
+    //监听用户下拉动作
+    onPullDownRefresh() {
+        this.setData({
+            pageNo: 1
+        })
+        this.GetGroupList();
+    },
     //获取团购列表数据
-    GetGroupList(){
+    GetGroupList() {
         wx.showLoading({
             title: '加载数据中...',
             mask: true
         });
-       GroupBuyController.getList({
+        GroupBuyController.getList({
             no: this.data.pageNo
-       }).then(res=>{
-            if(res.status == 0){
+        }).then(res => {
+            if (res.status == 0) {
                 this.setData({
                     GroupBuyData: this.data.GroupBuyData.concat(res.List)
                 })
                 wx.hideLoading();
+                wx.stopPullDownRefresh();
             }
-       })
+        })
     }
 })

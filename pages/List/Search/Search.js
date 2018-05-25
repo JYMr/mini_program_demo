@@ -1,24 +1,10 @@
 // pages/search.js
+const searchController = require('../../controllers/searchController').controller;
 Page({
     data: {
         selectHide: false,
         searchstory: [],
-        hotgoods: [
-            '泛福舒',
-            '血尔口服液',
-            '安宫牛黄丸',
-            '汇仁肾宝',
-            '万艾可',
-            '昂润比斯海乐',
-            '汇仁肾宝',
-            '泛福舒',
-            '血尔口服液',
-            '安宫牛黄丸',
-            '汇仁肾宝',
-            '万艾可',
-            '昂润比斯海乐',
-            '汇仁肾宝'
-        ]
+        hotgoods: []
     },
     clearSearchStorage: function() {
         wx.showModal({
@@ -64,7 +50,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-
+        this.GetKeyWordList();
     },
 
     /**
@@ -85,39 +71,21 @@ Page({
             selectHide: false
         })
     },
-
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide: function() {
-
+    //处理搜索事件
+    SearchtoList(e){
+        let keyword = e.detail.keyword;
+        wx.navigateTo({
+            url: '/pages/List/GoodsList/GoodsList?search=' + keyword
+        })
     },
-
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload: function() {
-
-    },
-
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function() {
-
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function() {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function() {
-
+    //获取关键字列表
+    GetKeyWordList(){
+        searchController.GetSearchKeyWord().then(res=>{
+            if(res.status == 0){
+                this.setData({
+                    hotgoods: res.list
+                })
+            }
+        })
     }
 })

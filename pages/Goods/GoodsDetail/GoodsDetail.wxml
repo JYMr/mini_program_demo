@@ -1,4 +1,6 @@
 <!--pages/goods/index.wxml-->
+
+<!-- 引入药品图标模板 -->
 <import src="/pages/Common/TypeIcon.wxml" />
 <!-- banner -->
 <swiper class="goodsilder" indicator-dots="true" autoplay="true" interval="5000" duration="500">
@@ -19,18 +21,26 @@
     <view class='item'>
         <text class='icon'></text>药师服务</view>
 </view>
+
 <!-- 基本信息 -->
-<view class='goodsinfo'>
+<view class='goodsinfo' wx:if="{{goodsinfo.id}}">
     <button class='share' open-type="share"></button>
     <view class='name'>
-        <template is="TypeIcon" data="{{type: goodsinfo.type}}" />{{goodsinfo.name}}    </view>
-    <view class='price-item'>
-        <text class='price'>¥<text class='nums'>{{goodsinfo.price}}</text></text><text class='market'>¥<text class='nums'>{{goodsinfo.market}}</text></text>
-    </view>
+        <template is="TypeIcon" data="{{type: goodsinfo.type}}" />{{goodsinfo.name}}</view>
+    <view class='price-item'></view>
     <view class='detail'>{{goodsinfo.manufacturer}}</view>
 </view>
+<!-- 预加载样式 -->
+<view class='goodsinfo load' wx:if="{{goodsinfo.id == undefined}}">
+    <view class='share'></view>
+    <view class='name'></view>
+    <view class='price-item'></view>
+    <view class='detail'></view>
+</view>
+
+
 <!-- 规格 -->
-<view class='goodsattr' bindtap="showModal">商品规格:
+<view class='goodsattr' bindtap="showModal" wx:if="{{spec.speclists}}">商品规格:
     <text>{{goodsinfo.selectspec!='' ? goodsinfo.selectspec : "请选择"}}</text>
 </view>
 <!-- nav -->
@@ -39,14 +49,15 @@
     <view class='item {{tabsindex=="1" ? "hover" : ""}}' data-id="1" >说明书</view>
 </view>
 <view wx:if='{{goodsnavbool}}' class='goodsnav-blank'></view>
+
 <!-- 图文详情 -->
-<view class='infogrid {{tabsindex=="0" ? "show" : "hide"}}'>
-    <view class='goodsdetail'>
-        <block wx:for='{{goodsinfo.detaildata}}' wx:for-item="item" wx:for-index='index' wx:key="detail_{{index}}">
-            <image src='{{item}}'></image>
-        </block>
+    <view class='infogrid {{tabsindex=="0" ? "show" : "hide"}}'>
+        <view class='goodsdetail'>
+            <block wx:for='{{goodsinfo.detaildata}}' wx:for-item="item" wx:for-index='index' wx:key="detail_{{index}}">
+                <image src='{{item}}' mode="widthFix"></image>
+            </block>
+        </view>
     </view>
-</view>
 <!-- 说明书 -->
 <view class='infogrid {{tabsindex=="1" ? "show" : "hide"}}'>
     <view class='instructions'>

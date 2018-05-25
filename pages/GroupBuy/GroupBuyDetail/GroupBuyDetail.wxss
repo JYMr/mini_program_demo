@@ -26,6 +26,12 @@ page{padding-bottom: 98rpx;}
 .goodsinfo .share:after{border: none;}
 .goodsinfo .detail{ font-size: 24rpx; color: #999;}
 
+/*预加载样式*/
+.goodsinfo.load .name{background: #ddd;border-radius: 6rpx;height: 60rpx;margin-right: 80rpx; margin-bottom: 25rpx;}
+.goodsinfo.load .share{ position: absolute;top: 30rpx;right: 30rpx;width: 36rpx;height: 36rpx;background: #ddd;border-radius: 6rpx;}
+.goodsinfo.load .price-item{ margin-bottom: 25rpx;background: #ddd;border-radius: 6rpx;height: 60rpx;width: 200rpx;}
+.goodsinfo.load .detail{background: #ddd;border-radius: 6rpx;height: 30rpx;}
+
 .GroupBuyNumber{padding-bottom: 27rpx;}
 .GroupBuyNumber text{color: #bbb;font-size: 24rpx;}
 .GroupBuyNumber .num{background-image: linear-gradient(-81deg, #ff5959 0%, #ff9d34 100%), linear-gradient(#ff5c58, #ff5c58);color: #FFF;font-size: 24rpx;line-height: 30rpx;padding: 0 8rpx;margin-right: 10rpx;}

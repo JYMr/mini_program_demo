@@ -12,6 +12,16 @@ Page({
     },
     onLoad: function() {
         this.GetHomeData();
+        wx.setTopBarText({
+            text: '12312klksdjlsdf'
+        })
+        wx.showTabBarRedDot({
+            index: 2
+        })
+        wx.showTabBarRedDot({
+            index: 3
+        })
+
     },
     onReady: function() {
         this.search = this.selectComponent("#search");
@@ -30,11 +40,11 @@ Page({
             });
         } else if (type == 1) {
             //活动页跳转
-            /* 
+
             wx.navigateTo({
-                url: 'pages/category/category?id=' + _id
+                url: '/pages/List/Activity/Activity?id=' + _id
             });
-            */
+
         }
     },
     //获取首页数据
@@ -47,7 +57,7 @@ Page({
         indexControllers.getIndex({
             no: this.data.pageNo
         }).then(res => {
-            if(res.status == 0){
+            if (res.status == 0) {
                 this.setData({
                     navmeau: res.navmeau,
                     collage: res.collage,

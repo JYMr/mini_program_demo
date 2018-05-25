@@ -24,5 +24,3 @@
 <!-- footer -->
 <import src="/pages/Common/footer.wxml" />
 <template is="footer" data="" />
-<!-- 导航 -->
-<Nav id="nav"></Nav>

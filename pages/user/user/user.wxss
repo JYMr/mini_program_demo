@@ -1,7 +1,7 @@
 /* pages/user/user.wxss */
 .defaultinfo{ background:url(http://www.kzj365.com/mini_program/images/userdefaulticon.png) no-repeat center center #37c4a4; background-size: 100% 100%; padding: 36rpx 27rpx; color: #fff; display: flex; flex-direction: row; align-items: center; font-size: 30rpx;}
-.defaultinfo .avatar{ border-radius: 100%; width: 132rpx; height: 132rpx; border: #2c9d83 6rpx solid;}
-.defaultinfo .nickname{ margin-left: 30rpx; display: inline-block;}
+.defaultinfo .avatar{ border-radius: 100%; width: 132rpx; height: 132rpx; border: #2c9d83 6rpx solid;overflow: hidden;}
+.defaultinfo .nickname{ margin-left: 30rpx; display: inline-block;height: 30rpx;width: 200rpx;}
 .meau{ background: #fff; margin-bottom: 20rpx;}
 .meau .title{ height: 100rpx; line-height: 100rpx; border-bottom: #f4f4f4 1px solid; font-size: 30rpx; font-weight: 700; position: relative;}
 .meau .title navigator{ padding: 0 30rpx; display: block;}

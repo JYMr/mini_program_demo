@@ -25,14 +25,14 @@
                     <swiper autoplay="true" interval="3000" duration="500" circular='true'>
                         <block wx:for="{{collage}}" wx:for-index='key' wx:for-item='item' wx:key="GroupBuy_{{key}}">
                             <swiper-item>
-                                <view class='pic'>
+                                <navigator class='pic' url='../GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{item.id}}'>
                                     <image src="{{item.siderimg}}" class="slide-image" />
                                     <view class='discount'>
                                         <text class='n'>立省</text>
                                         <text class='nums'>￥{{item.discont}} </text>
                                     </view>
                                     <view class='name'>{{item.name}}</view>
-                                </view>
+                                </navigator>
                                 <view class='bottom'>
                                     <navigator class='join-btn' url='../GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{item.id}}'>去拼团</navigator>
                                     <text class='price'>¥{{item.price}}</text>/{{item.attr}}｜已售{{item.sale}}
@@ -68,5 +68,3 @@
         <template is="footer" data="" />
     </view>
 </view>
-<!-- 导航 -->
-<Nav id="nav"></Nav>

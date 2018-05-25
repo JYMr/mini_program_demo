@@ -1,5 +1,4 @@
 {
-  "usingComponents": {
-    "Nav": "/pages/Common/Nav/Nav"
-  }
+	"enablePullDownRefresh": true,
+	"backgroundTextStyle": "dark"
 }

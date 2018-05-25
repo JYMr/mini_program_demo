@@ -68,7 +68,7 @@ Page({
      * 页面相关事件处理函数--监听用户下拉动作
      */
     onPullDownRefresh: function() {
-
+        this.GetCartList();
     },
 
     //获取购物车数据
@@ -90,6 +90,7 @@ Page({
                 this.handleGroup();
                 //统计
                 this.ListTotal();
+                wx.stopPullDownRefresh();
                 wx.hideLoading();
             }
         })

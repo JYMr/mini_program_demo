@@ -1,4 +1,4 @@
-const BASE_URL = "";
+const BASE_URL = "https://api.77lemon.top";
 
 class Request {
     /**
@@ -15,7 +15,13 @@ class Request {
                 data: Object.assign({}, {'token': token}, params),//置入token
                 header: { 'Content-Type': 'application/json' },
                 success: resolve,
-                fail: reject
+                fail: err=>{
+                    wx.showToast({
+                        title: '网络错误',
+                        icon: 'none'
+                    })
+                    reject()
+                }
             })
         })
     }

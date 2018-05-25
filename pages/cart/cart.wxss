@@ -28,8 +28,8 @@
 .cart-item .bottom .control .disabled{ color: #a4aab3;}
 .cart-item .bottom .control .nums{ float: left; height:50rpx; width:60rpx; text-align: center; color: #222; }
 
-.floattotal{ position: fixed; bottom: 96rpx; left: 0; right: 0; margin: auto; z-index: 500; background: #fff; box-shadow: rgba(0, 0,0,0.1) 5rpx 10rpx 20rpx;font-weight: 700;}
-.floattotal .allselect{ float: left; color: #ddd; margin-top: 20rpx; margin-left: 30rpx;  }
+.floattotal{ position: fixed; bottom:0; left: 0; right: 0; margin: auto; z-index: 500; background: #fff; box-shadow: rgba(0, 0,0,0.1) 5rpx 10rpx 20rpx;font-weight: 700;}
+.floattotal .allselect{ float: left; color: #ddd; margin-top: 30rpx; margin-left: 30rpx;  }
 .floattotal .allselect .icon{ width: 36rpx; height: 36rpx; border-radius: 100%; display: inline-block; margin-right: 20rpx; background:url(http://www.kzj365.com/mini_program/images/successicon.png) no-repeat center center #ddd; background-size: 100%; vertical-align: middle; position: relative; top: -2px;}
 .floattotal .allselect.on{ color: #3cc6a6;}
 .floattotal .allselect.on .icon{ background-color: #3cc6a6;}

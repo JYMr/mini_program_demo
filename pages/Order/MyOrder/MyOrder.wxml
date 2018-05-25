@@ -83,7 +83,7 @@
 </block>
 
 <!-- 无订单状态 -->
-<view wx:if="{{OrderList.length == 0}}" class='empty'>暂无数据</view>
+<view wx:if="{{OrderList.length == 0}}" class='empty' bindtap="reload">暂无数据</view>
 
 <!-- 客服悬浮按钮 -->
 <Floatcustomer id='Floatcustomer' ></Floatcustomer>

@@ -34,7 +34,7 @@
 .step .step3{z-index: 2;position: relative;background-color: #47d8b7;}
 .step .step4{z-index: 1;position: relative;background-color: #51e3c2;}
 
-.Group-Fixed{position: fixed;bottom: 0;width: 100%;height: 98rpx;}
+.Group-Fixed{position: fixed;bottom: 0;width: 100%;height: 98rpx;background-color: #FFF;}
 .Group-Fixed .Icon-btn{width: 144rpx;font-size: 20rpx;color: #bbbbbb;text-align: center;box-sizing: border-box;border-right: 1rpx solid  #f4f4f4;float: left;border-top: 1rpx solid  #f4f4f4;}
 .Group-Fixed .Icon-btn image{width: 46rpx;height: 46rpx;display: block;margin: 0 auto;margin-bottom: 11rpx;margin-top: 10rpx;}
 

@@ -19,11 +19,11 @@
     </view>
     <view class="input-item">
         <text>联系人</text>
-        <input type="number" bindinput="BindNameChange" value="{{UserInfo.name}}"/>
+        <input type="text" bindinput="BindNameChange" value="{{UserInfo.name}}"/>
     </view>
     <view class="input-item">
         <text>手机号</text>
-        <input type="number" bindinput="BindMobileChange" value="{{UserInfo.mobile}}"/>
+        <input type="number" bindinput="BindMobileChange" confirm-type="next" value="{{UserInfo.mobile}}"/>
     </view>
     <view class="CustomerServiceBtn{{ValiStatus ? ' active':''}}" bindtap="save">
         保存

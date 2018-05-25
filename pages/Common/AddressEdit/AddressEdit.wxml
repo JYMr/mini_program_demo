@@ -7,7 +7,7 @@
 	</view>
 	<view class="input-item">
 		<text>联系号码</text>
-		<input type="number" bindinput="BindMobileChange" value="{{Detail.mobile}}"/>
+		<input type="number" bindinput="BindMobileChange" value="{{Detail.mobile}}" confirm-type="next" />
 	</view>
 	<view class="input-item">
 		<text>选择地区</text>

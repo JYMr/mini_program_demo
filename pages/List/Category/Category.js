@@ -1,220 +1,78 @@
 // pages/cate/cate.js
+const categoryController = require('../../controllers/categoryController.js').controller;
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        cateItems: [{
-                cate_id: 1,
-                cate_name: "专科用药",
-                ishaveChild: true,
-                children: [{
-                        child_id: 1,
-                        name: '藏王天宝 补肾丸',
-                        image: "http://kzjimg01.b0.upaiyun.com/1505198984892.jpg",
-                        id: '8183'
-                    },
-                    {
-                        child_id: 2,
-                        name: '藏王天宝 补肾丸',
-                        image: "http://kzjimg01.b0.upaiyun.com/1505198984892.jpg",
-                        id: '8183'
-                    },
-                    {
-                        child_id: 3,
-                        name: '藏王天宝 补肾丸',
-                        image: "http://kzjimg01.b0.upaiyun.com/1505198984892.jpg",
-                        id: '8183'
-                    },
-                    {
-                        child_id: 4,
-                        name: '藏王天宝 补肾丸',
-                        image: "http://kzjimg01.b0.upaiyun.com/1505198984892.jpg",
-                        id: '8183'
-                    }
-
-                ]
-            },
-            {
-                cate_id: 2,
-                cate_name: "家庭用药",
-                ishaveChild: true,
-                children: [{
-                        child_id: 1,
-                        name: '藏王天宝 补肾丸2',
-                        image: "http://kzjimg01.b0.upaiyun.com/1505198984892.jpg",
-                        id: '8183'
-                    },
-                    {
-                        child_id: 2,
-                        name: '藏王天宝 补肾丸2',
-                        image: "http://kzjimg01.b0.upaiyun.com/1505198984892.jpg",
-                        id: '8183'
-                    },
-
-                ]
-            },
-            {
-                cate_id: 3,
-                cate_name: "医疗器械",
-                ishaveChild: true,
-                children: [{
-                        child_id: 1,
-                        name: '藏王天宝 补肾丸3',
-                        image: "http://kzjimg01.b0.upaiyun.com/1505198984892.jpg",
-                        id: '8183'
-                    },
-
-                ]
-            },
-            {
-                cate_id: 4,
-                cate_name: "成人用品",
-                ishaveChild: true,
-                children: [{
-                        child_id: 1,
-                        name: '藏王天宝 补肾丸3',
-                        image: "http://kzjimg01.b0.upaiyun.com/1505198984892.jpg",
-                        id: '8183'
-                    },
-                    {
-                        child_id: 2,
-                        name: '藏王天宝 补肾丸3',
-                        image: "http://kzjimg01.b0.upaiyun.com/1505198984892.jpg",
-                        id: '8183'
-                    },
-                    {
-                        child_id: 3,
-                        name: '藏王天宝 补肾丸',
-                        image: "http://kzjimg01.b0.upaiyun.com/1505198984892.jpg",
-                        id: '8183'
-                    },
-                    {
-                        child_id: 4,
-                        name: '藏王天宝 补肾丸',
-                        image: "http://kzjimg01.b0.upaiyun.com/1505198984892.jpg",
-                        id: '8183'
-                    }
-                ]
-            },
-            {
-                cate_id: 5,
-                cate_name: "健康体检",
-                ishaveChild: true,
-                children: [{
-                        child_id: 1,
-                        name: '藏王天宝 补肾丸5',
-                        image: "http://kzjimg01.b0.upaiyun.com/1505198984892.jpg",
-                        id: '8183'
-                    },
-                    {
-                        child_id: 2,
-                        name: '藏王天宝 补肾丸3',
-                        image: "http://kzjimg01.b0.upaiyun.com/1505198984892.jpg",
-                        id: '8183'
-                    },
-                    {
-                        child_id: 3,
-                        name: '藏王天宝 补肾丸',
-                        image: "http://kzjimg01.b0.upaiyun.com/1505198984892.jpg",
-                        id: '8183'
-                    },
-                    {
-                        child_id: 4,
-                        name: '藏王天宝 补肾丸',
-                        image: "http://kzjimg01.b0.upaiyun.com/1505198984892.jpg",
-                        id: '8183'
-                    }
-                ]
-            },
-            {
-                cate_id: 6,
-                cate_name: "专科用药",
-                ishaveChild: false,
-                children: [
-
-                ]
-            }
-        ],
-        curNav: 1,
-        curIndex: 0
-    },
-    //事件处理函数  
-    switchRightTab: function(e) {
-        // 获取item项的id，和数组的下标值  
-        let id = e.target.dataset.id,
-            index = parseInt(e.target.dataset.index);
-        // 把点击到的某一项，设为当前index  
-        this.setData({
-            curNav: id,
-            curIndex: index
-        })
+        CategoryList: [],
+        ChildList: [],
+        chooseId: null
     },
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        if(options.id){
+        if (options.id) {
             this.setData({
-                curNav: options.id,
-                curIndex: this.getDataIndex(options.id)
+                chooseId: options.id
             });
         }
+        this.getCategory();
     },
     //根据Id获取子数据索引
-    getDataIndex(id){
+    getDataIndex(id) {
         let _cateItemData = this.data.cateItems;
-        for(let key in _cateItemData){
-            if(_cateItemData[key].id == id) return key;
+        for (let key in _cateItemData) {
+            if (_cateItemData[key].cate_id == id) return key;
         }
     },
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function() {
+    //获取一级数据
+    getCategory() {
+        wx.showLoading({
+            title: '加载数据中...',
+            mask: true
+        });
+        categoryController.getcategory().then(res => {
+            if (res.status == 0) {
+                if (res.data.length > 0) {
 
+                    let _curIndex = this.getDataIndex();
+                    this.setData({
+                        CategoryList: res.data
+                    })
+                    this.getcategoryChild(res.data[0].cate_id, true);
+                }
+            }
+        })
     },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function() {
-
+    //获取一级数据
+    getcategoryChild(id, flag) {
+        if (!flag) {
+            wx.showLoading({
+                title: '加载数据中...',
+                mask: true
+            });
+        }
+        categoryController.getcategoryChild({
+            id: this.data.chooseId || id
+        }).then(res => {
+            if (res.status == 0) {
+                this.setData({
+                    ChildList: res.data
+                })
+                wx.hideLoading();
+            }
+        })
     },
-
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide: function() {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload: function() {
-
-    },
-
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function() {
-
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function() {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function() {
-
+    //事件处理函数  
+    switchRightTab: function(e) {
+        // 获取item项的id，和数组的下标值  
+        let id = e.target.dataset.id;
+        this.setData({
+            chooseId: id,
+        })
+        this.getcategoryChild();
     }
 })

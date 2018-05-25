@@ -1,4 +1,6 @@
 <!--pages/GroupBuy/GroupBuyDetail/GroupBuyDetail.wxml-->
+<!-- 引入药品图标模板 -->
+<import src="/pages/Common/TypeIcon.wxml" />
 <view class='infogrid show'>
     <swiper class="goodsilder" indicator-dots="true" autoplay="true" interval="5000" duration="500">
         <block wx:for="{{goodsinfo.siderimg}}" wx:key="{{index}}">
@@ -7,7 +9,7 @@
             </swiper-item>
         </block>
     </swiper>
-    <view class="GroupBuyTime">
+    <view class="GroupBuyTime" wx:if="{{goodsinfo.startTime && goodsinfo.finishTime}}">
         <image src="http://www.kzj365.com/mini_program/images/time_icon.png"></image>
         活动时间：{{goodsinfo.startTime}} 至 {{goodsinfo.finishTime}}
     </view>
@@ -21,10 +23,12 @@
         <view class='item'>
             <text class='icon'></text>药师服务</view>
     </view>
-    <view class='goodsinfo'>
+
+    <!-- 基本信息 -->
+    <view class='goodsinfo' wx:if="{{goodsinfo.id}}">
         <button class='share' open-type="share"></button>
         <view class='name'>
-            <text class='i {{goodsinfo.type==2?"redbg":""}}'>{{goodsinfo.type==3?'rx':'otc'}}</text>{{goodsinfo.name}}
+            <template is="TypeIcon" data="{{type: goodsinfo.type}}" />{{goodsinfo.name}}
         </view>
         <view class='price-item'>
             <text class='price'>
@@ -42,6 +46,14 @@
         </view>
         <view class='detail'>{{goodsinfo.manufacturer}}</view>
     </view>
+    <!-- 预加载样式 -->
+    <view class='goodsinfo load' wx:if="{{goodsinfo.id == undefined}}">
+        <view class='share'></view>
+        <view class='name'></view>
+        <view class='price-item'></view>
+        <view class='detail'></view>
+    </view>
+
     <view class="GroupBuyText">
         <text class="title">拼团说明</text>
         <view class="step">
@@ -56,7 +68,6 @@
         </view>
         <text>支付开团并邀请好友参加，人数不足自动退款</text>
     </view>
-
     <!-- 推荐拼团 -->
     <view class="MemberList" wx:if="{{GroupList.length != 0}}">
         <view class="title">小伙伴在开团，可直接参与</view>
@@ -69,68 +80,59 @@
                         <text>{{item.number}}</text> 人</view>
                     <text>剩余{{item.time || '99:59:59'}}</text>
                 </view>
-
                 <view class="item-link{{item.serverTime >= item.finishTime ? ' disable' : ''}}" wx:if="{{hasUserInfo}}">
-
                     <navigator url="/pages/GroupBuy/GroupBuyConfirm/GroupBuyConfirm?gid={{item.id}}" wx:if="{{item.serverTime < item.finishTime}}">去参团</navigator>
                     <block wx:if="{{item.serverTime >= item.finishTime}}">已结束
                     </block>
-
                 </view>
-
                 <button class="item-link{{item.serverTime >= item.finishTime ? ' disable' : ''}}" wx:if="{{!hasUserInfo}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" data-id="{{item.id}}">去参团</button>
             </view>
         </view>
     </view>
-
     <view class="Detail-tab">
         <view class="tab-item{{DetailActive == 0 ? ' active' : ''}}" data-index="0" bindtap="TabToggle">图文详情</view>
         <view class="tab-item{{DetailActive == 1 ? ' active' : ''}}" data-index="1" bindtap="TabToggle">说明书</view>
     </view>
     <view class="Detail-content">
         <view class="content-item" wx:if="{{DetailActive == 0}}">
-             <view class='goodsdetail'>
+            <view class='goodsdetail'>
                 <block wx:for='{{goodsinfo.detaildata}}' wx:for-item="item" wx:for-index='index' wx:key="detail_{{index}}">
-                    <image src='{{item}}'></image>
+                    <image src='{{item}}' mode="widthFix"></image>
                 </block>
             </view>
         </view>
         <view class="content-item" wx:if="{{DetailActive == 1}}">
-             <view class='instructions'>
+            <view class='instructions'>
                 <view class="table">
                     <block wx:for="{{goodsinfo.manual}}" wx:key="manual_{{index}}">
-                    <view class="tr">
-                        <view class="th">{{item.key}}</view>
-                        <view class="td">{{item.value}}</view>
-                    </view>
+                        <view class="tr">
+                            <view class="th">{{item.key}}</view>
+                            <view class="td">{{item.value}}</view>
+                        </view>
                     </block>
                 </view>
             </view>
         </view>
     </view>
-
     <import src="/pages/Common/footer.wxml" />
     <template is="footer" data="" />
-
     <view class="Detail-Fixed">
         <view class="Icon-btn" bindtap="ToggleChaticonMenu">
             <image src="http://www.kzj365.com/mini_program/images/phoneicon.png"></image>
             联系客服
         </view>
         <view class="Detail-btn">
-            <navigator class="btn btn-1" url="/pages/Goods/GoodsDetail/GoodsDetail?id={{goodsinfo.id}}">￥48.80
+            <navigator class="btn btn-1" url="/pages/Goods/GoodsDetail/GoodsDetail?id={{goodsinfo.id}}">￥{{goodsinfo.price}}
                 <text>单独购买</text>
             </navigator>
-
             <!-- 有用户权限 -->
-            <view class="btn{{isAllow ? '' : ' disabled'}}" wx:if="{{hasUserInfo || !isAllow}}" catchtap="ConfirmGroupOrder">￥15.90
-                <text>2人开团</text>
+            <view class="btn{{isAllow ? '' : ' disabled'}}" wx:if="{{hasUserInfo || !isAllow}}" catchtap="ConfirmGroupOrder">￥{{goodsinfo.groupprice}}
+                <text>{{goodsinfo.groupnendNum}}人开团</text>
             </view>
             <!-- 无用户权限 -->
-            <button class='btn' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" wx:if="{{!hasUserInfo && isAllow}}">￥15.90
-                <text>2人开团</text>
+            <button class='btn' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" wx:if="{{!hasUserInfo && isAllow}}">￥{{goodsinfo.groupprice}}{{goodsinfo.groupprice}}
+                <text>{{goodsinfo.groupnendNum}}人开团</text>
             </button>
-
         </view>
     </view>
     <view class="Menu" wx:if="{{ChaticonMenu}}">
@@ -143,5 +145,4 @@
     </view>
     <view class="mask" wx:if="{{ChaticonMenu}}" bindtap="ToggleChaticonMenu"></view>
 </view>
-
 <Dialog id="Dialog"></Dialog>

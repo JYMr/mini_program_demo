@@ -70,9 +70,9 @@ Component({
                 var searchData = wx.getStorageSync('searchData') || []
                 searchData.push(this.data.inputValue)
                 wx.setStorageSync('searchData', searchData)
-                wx.navigateTo({
-                    url: "/pages/List/GoodsList/GoodsList?search=" + this.data.inputValue
-                })
+                this.triggerEvent("SearchEvent", {
+                    keyword: this.data.inputValue
+                });
             } else {
                 wx.showToast({
                     title: '请输入关键词！',

@@ -41,6 +41,4 @@
     </view>
     <text class="allselect{{isAllSelect ? ' on': ''}}" bindtap="AllSelect"><text class='icon'></text>全选</text>
 </view>
-<!-- 导航 -->
-<Nav id="nav"></Nav>
 <Dialog id="Dialog"></Dialog>

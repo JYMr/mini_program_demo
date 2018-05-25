@@ -32,6 +32,12 @@ page{background:#f4f4f4; margin-bottom: 118rpx; color: #555;font-size: 28rpx;}
 .goodsinfo .share:after{border: none;}
 .goodsinfo .detail{ font-size: 24rpx; color: #999;}
 
+/*预加载样式*/
+.goodsinfo.load .name{background: #ddd;border-radius: 6rpx;height: 60rpx;margin-right: 80rpx; margin-bottom: 25rpx;}
+.goodsinfo.load .share{ position: absolute;top: 30rpx;right: 30rpx;width: 36rpx;height: 36rpx;background: #ddd;border-radius: 6rpx;}
+.goodsinfo.load .price-item{ margin-bottom: 25rpx;background: #ddd;border-radius: 6rpx;height: 60rpx;width: 200rpx;}
+.goodsinfo.load .detail{background: #ddd;border-radius: 6rpx;height: 30rpx;}
+
 .goodsattr{ background: #fff; height: 88rpx; line-height: 88rpx; padding: 0 30rpx;  font-size: 30rpx; margin-bottom: 20rpx;}
 .goodsattr .attr{ color:#36c0a1;}
 

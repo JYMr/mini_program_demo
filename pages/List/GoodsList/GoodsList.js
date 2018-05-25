@@ -1,46 +1,16 @@
 // pages/cate/lists.js
-var pageNum = 1
-var url = "http://m.kzj365.com/ajaxSearchCategoryGoodsInfo.htm";
-var GetList = function(that) {
-    that.setData({
-        hidden: false
-    });
-    wx.request({
-        url: url,
-        data: {
-            c_id: 46,
-            pageSize: 10,
-            page: pageNum
-        },
-        success: function(res) {
-            var contentlist = that.data.contentlist;
-
-            for (var i = 0; i < res.data.length; i++) {
-                contentlist.push(res.data[i])
-            }
-            that.setData({
-                contentlist: contentlist
-            });
-            pageNum++;
-            that.setData({
-                hidden: true
-            });
-        }
-    });
-}
+const searchController = require('../../controllers/searchController').controller;
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        inputValue: '',
-        hideHeader: true,
-        hideBottom: true,
+        keyword: '',//搜索关键词
         selectHide: false,
-        contentlist: [ //商品列表
-
-        ]
+        contentlist: [], //商品列表
+        pageNo: 1,
+        isEnd: false
     },
 
     /**
@@ -49,14 +19,14 @@ Page({
     onLoad: function(options) {
         if (options.search) {
             this.setData({
-                inputValue: options.search,
+                keyword: options.search,
                 selectHide: true
             })
             wx.setNavigationBarTitle({
                 title: options.search + '列表'
             })
         }
-        //GetList(this) 
+        this.GetListData(this) 
     },
 
     /**
@@ -74,48 +44,43 @@ Page({
     },
 
     /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide: function() {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload: function() {
-
-    },
-
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function() {
-        var that = this;
-        pageNum = 1;
-        that.setData({
-            msgList: [],
-            scrollTop: 0,
-            hideHeader: false
-        });
-        GetList(that);
-        wx.stopPullDownRefresh();
-    },
-
-    /**
      * 页面上拉触底事件的处理函数
      */
     onReachBottom: function() {
-        //上拉  
-        var that = this
-        GetList(that)
-
+        //上拉 
+        this.setData({
+            pageNo: ++this.data.pageNo
+        }) 
+        this.GetListData()
     },
+    //获取列表
+    GetListData() {
 
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function() {
+        wx.showLoading({
+            title: '加载数据中...',
+            mask: true
+        });
 
+        searchController.GetSearchList({
+            keyword: this.data.keyword,
+            no: this.data.pageNo
+        }).then(res => {
+            if (res.status == 0) {
+                this.setData({
+                    contentlist: this.data.contentlist.concat(res.list)
+                })
+                wx.hideLoading();
+            }
+        })
+    },
+    //处理搜索事件
+    SearchtoList(e){
+        let keyword = e.detail.keyword;
+        this.setData({
+            keyword: keyword,
+            contentlist: [],
+            pageNo: 1
+        })
+        this.GetListData();
     }
 })

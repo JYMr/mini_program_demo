@@ -14,7 +14,7 @@ App({
                     success: res => {
                         // 发送 res.code 到后台换取 openId, sessionKey, unionId
                         console.log(res)
-                        request.get('https://4a0096a3-fd57-474d-9724-ed37426b5f75.mock.pstmn.io/Login', {
+                        request.get('https://api.77lemon.top/Login', {
                             code: res.code
                         }).then(res => {
                             if(res.data.status == 0){

@@ -1,4 +1,5 @@
 // pages/user/myorder.js
+const orderController = require('../../controllers/orderController').controller;
 Page({
 
     /**
@@ -9,7 +10,8 @@ Page({
         OrderList: [],
         ListNo: 1,
         ListSize: 8,
-        isNeedLoad: true
+        isNeedLoad: true,
+        LoadError: false
     },
 
     /**
@@ -43,7 +45,7 @@ Page({
     /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom(){
+    onReachBottom() {
         console.log('触底');
         this.setData({
             ListNo: ++this.data.ListNo
@@ -52,26 +54,31 @@ Page({
     },
     //获取订单数据
     GetOrderList() {
-         wx.showLoading({
+        wx.showLoading({
             title: '加载数据中...',
             mask: true
         });
-        setTimeout(()=>{
-            let List = [{id: '1658',status: 0,orderPrice: 75.90,isNeedExpress: false,total: 3,goods_list: [{id: 1516,src: '',title: '仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶',total: 3,spec_type: '盒',goods_type: '0',isGroup: false,price: 25.90}]},{id: '1658',status: 2,orderPrice: 25.90,isNeedExpress: true,total: 8,goods_list: [{id: 1516,src: '',title: '仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶',total: 5,spec_type: '盒',goods_type: '2',isGroup: true,price: 25.90},{id: 1516,src: '',title: '仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶',total: 1,spec_type: '盒',goods_type: '4',isGroup: false,price: 25.90}]},{id: '1658',status: 1,orderPrice: 75.90,isNeedExpress: false,total: 3,goods_list: [{id: 1516,src: '',title: '仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶',total: 3,spec_type: '盒',goods_type: '4',isGroup: false,price: 25.90}]},{id: '1658',status: 3,orderPrice: 75.90,isNeedExpress: false,total: 3,goods_list: [{id: 1516,src: '',title: '仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶',total: 3,spec_type: '盒',goods_type: '4',isGroup: false,price: 25.90}],ExpressSlotNumber: '2515446551321321',ExpressSlotName: '申通快递'},{id: '1658',status: 4,orderPrice: 75.90,isNeedExpress: false,total: 3,goods_list: [{id: 1516,src: '',title: '仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶',total: 3,spec_type: '盒',goods_type: '4',isGroup: false,price: 25.90}]}];
-            this.setData({
-                OrderList: List,
-                status: 0
-            })
-             wx.hideLoading();
-        }, 500)
+        orderController.getOrder({
+            status: this.data.Status,
+            no: this.data.ListNo
+        }).then(res => {
+            if (res.status == 0) {
+                this.setData({
+                    OrderList: res.list,
+                    ListNo: ++this.data.ListNo
+                })
+                wx.hideLoading();
+            }
+        })
     },
     //切换订单状态
     TabToggle(e) {
         let _Status = e.currentTarget.dataset.status;
-        this.GetOrderList();
         this.setData({
-            Status: _Status
+            Status: _Status,
+            OrderList: []
         })
+        this.GetOrderList();
     },
     //取消订单
     CancelOrder(e) {
@@ -116,14 +123,14 @@ Page({
                     //调用复制API
                     wx.setClipboardData({
                         data: _expressNumber,
-                        success: res=>{
+                        success: res => {
                             this.Dialog.CloseDialog();
                             this.Dialog.ShowDialog({
                                 title: '复制成功',
                                 type: 'Message'
                             });
                         },
-                        fail: err=>{
+                        fail: err => {
                             this.Dialog.CloseDialog();
                             this.Dialog.ShowDialog({
                                 title: '复制失败',
@@ -147,7 +154,7 @@ Page({
         });
     },
     //处理售后弹窗回调
-    CustomerServiceFn(e){
+    CustomerServiceFn(e) {
         console.log(e)
         let _id = e.detail.id;
         this.CustomerServiceComponent.Close();
@@ -190,8 +197,14 @@ Page({
         console.log('支付 - id:' + _id);
     },
     //删除订单
-    DeleteOrder(e){
+    DeleteOrder(e) {
         let _id = e.currentTarget.dataset.id;
         console.log('支付 - id:' + _id);
+    },
+    //重新加载数据
+    reload(){
+        if(this.data.OrderList.length ==0 && this.data.LoadError){
+            this.GetOrderList();
+        }
     }
 })
