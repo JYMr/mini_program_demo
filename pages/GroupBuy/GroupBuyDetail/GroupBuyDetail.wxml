@@ -130,7 +130,7 @@
                 <text>{{goodsinfo.groupnendNum}}人开团</text>
             </view>
             <!-- 无用户权限 -->
-            <button class='btn' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" wx:if="{{!hasUserInfo && isAllow}}">￥{{goodsinfo.groupprice}}{{goodsinfo.groupprice}}
+            <button class='btn' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" wx:if="{{!hasUserInfo && isAllow}}">￥{{goodsinfo.groupprice}}
                 <text>{{goodsinfo.groupnendNum}}人开团</text>
             </button>
         </view>

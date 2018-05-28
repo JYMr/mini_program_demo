@@ -6,18 +6,42 @@ Page({
         searchstory: [],
         hotgoods: []
     },
-    clearSearchStorage: function() {
-        wx.showModal({
-            title: '提示',
-            content: '确定清除历史记录?',
-            success: function(res) {
-                if (res.confirm) {
+    /**
+     * 生命周期函数--监听页面加载
+     */
+    onLoad: function(options) {
+        this.GetKeyWordList();
+    },
+
+    /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+    onReady: function() {
+        this.search = this.selectComponent("#search");
+        this.Dialog = this.selectComponent('#Dialog')
+    },
+    /**
+     * 生命周期函数--监听页面显示
+     */
+    onShow: function() {
+        var searchstory = wx.getStorageSync('searchData').reverse();
+        this.setData({
+            searchstory: searchstory,
+            inputValue: '',
+            selectHide: false
+        })
+    },
+    clearSearchStorage() {
+        this.Dialog.ShowDialog({
+            type: 'Confirm',
+            title: '确定清除历史记录?',
+            callback: res=>{
+                if(res.name == 'confirm'){
                     wx.setStorageSync('searchData', [])
                     this.setData({
                         searchstory: []
                     })
-                } else if (res.cancel) {
-                    console.log('用户点击取消')
+                    this.Dialog.CloseDialog();
                 }
             }
         })
@@ -45,31 +69,6 @@ Page({
                 duration: 2000
             })
         }
-    },
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    onLoad: function(options) {
-        this.GetKeyWordList();
-    },
-
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function() {
-        this.search = this.selectComponent("#search");
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function() {
-        var searchstory = wx.getStorageSync('searchData').reverse();
-        this.setData({
-            searchstory: searchstory,
-            inputValue: '',
-            selectHide: false
-        })
     },
     //处理搜索事件
     SearchtoList(e){

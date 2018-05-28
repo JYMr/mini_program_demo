@@ -14,7 +14,7 @@ App({
                     success: res => {
                         // 发送 res.code 到后台换取 openId, sessionKey, unionId
                         console.log(res)
-                        request.get('https://api.77lemon.top/Login', {
+                        request.get('/Login', {
                             code: res.code
                         }).then(res => {
                             if(res.data.status == 0){

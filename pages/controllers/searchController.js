@@ -30,7 +30,7 @@ class SearchController{
     GetSearchList(params){
         return request.get(`${URI}/getSearchList`, params).then(res => res.data)
     }
-
+    
 }
 /**
  * 实例化对象

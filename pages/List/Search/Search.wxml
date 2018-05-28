@@ -29,3 +29,4 @@
         </view>
     </block>
 </view>
+<Dialog id="Dialog"></Dialog>

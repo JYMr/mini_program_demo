@@ -1,5 +1,4 @@
 <!--pages/goods/index.wxml-->
-
 <!-- 引入药品图标模板 -->
 <import src="/pages/Common/TypeIcon.wxml" />
 <!-- banner -->
@@ -21,7 +20,6 @@
     <view class='item'>
         <text class='icon'></text>药师服务</view>
 </view>
-
 <!-- 基本信息 -->
 <view class='goodsinfo' wx:if="{{goodsinfo.id}}">
     <button class='share' open-type="share"></button>
@@ -37,27 +35,24 @@
     <view class='price-item'></view>
     <view class='detail'></view>
 </view>
-
-
 <!-- 规格 -->
 <view class='goodsattr' bindtap="showModal" wx:if="{{spec.speclists}}">商品规格:
     <text>{{goodsinfo.selectspec!='' ? goodsinfo.selectspec : "请选择"}}</text>
 </view>
 <!-- nav -->
 <view class="goodsnav {{goodsnavbool ?'goodsnavfixed':''}}" bindtap="TabToggle">
-    <view class='item {{tabsindex=="0" ? "hover" : ""}}' data-id="0" >图文详情</view>
-    <view class='item {{tabsindex=="1" ? "hover" : ""}}' data-id="1" >说明书</view>
+    <view class='item {{tabsindex=="0" ? "hover" : ""}}' data-id="0">图文详情</view>
+    <view class='item {{tabsindex=="1" ? "hover" : ""}}' data-id="1">说明书</view>
 </view>
 <view wx:if='{{goodsnavbool}}' class='goodsnav-blank'></view>
-
 <!-- 图文详情 -->
-    <view class='infogrid {{tabsindex=="0" ? "show" : "hide"}}'>
-        <view class='goodsdetail'>
-            <block wx:for='{{goodsinfo.detaildata}}' wx:for-item="item" wx:for-index='index' wx:key="detail_{{index}}">
-                <image src='{{item}}' mode="widthFix"></image>
-            </block>
-        </view>
+<view class='infogrid {{tabsindex=="0" ? "show" : "hide"}}'>
+    <view class='goodsdetail'>
+        <block wx:for='{{goodsinfo.detaildata}}' wx:for-item="item" wx:for-index='index' wx:key="detail_{{index}}">
+            <image src='{{item}}' mode="widthFix"></image>
+        </block>
     </view>
+</view>
 <!-- 说明书 -->
 <view class='infogrid {{tabsindex=="1" ? "show" : "hide"}}'>
     <view class='instructions'>
@@ -71,41 +66,35 @@
         </view>
     </view>
 </view>
-
 <!-- float -->
 <view class='goodsfloat'>
+    <!-- 非处方药 -->
+    <block wx:if="{{goodsinfo.added != 1 && goodsinfo.stock > 0 && goodsinfo.type != 0}}">
+        <view class='buy' bindtap="showModal" data-type="Buy">立即购买</view>
+        <view class='addcart' bindtap="showModal" data-type="Cart">加入购物车</view>
+        <navigator url='/pages/Cart/Cart' class='cart' hover-class='none'>
+            <view class='icon'></view>
+            <view>购物车</view>
+        </navigator>
+    </block>
+    <!-- 处方药 -->
+    <block wx:if="{{goodsinfo.added != 1 && goodsinfo.stock > 0 && goodsinfo.type == 0}}">
+        <view class='buy' bindtap="showModal" data-type="RxBuy">立即预定</view>
+        <view class='addcart green' bindtap="showModal" data-type="RxCart">加入预定清单</view>
+        <navigator url='/pages/Goods/Reservation/Reservation' class='list' hover-class='none'>
+            <view class='icon'></view>
+            <view>预定清单</view>
+        </navigator>
+    </block>
     <navigator class='phone' hover-class='none'>
         <view class='icon'></view>
         <view>联系客服</view>
     </navigator>
-
-
-    <!-- 非处方药 -->
-    <block wx:if="{{goodsinfo.added != 1 && goodsinfo.stock > 0 && goodsinfo.type != 0}}">
-    <navigator url='/pages/Cart/Cart' class='cart' hover-class='none'>
-        <view class='icon'></view>
-        <view>购物车</view>
-    </navigator>
-    <view class='addcart' bindtap="showModal" data-type="Cart">加入购物车</view>
-    <view class='buy' bindtap="showModal" data-type="Buy">立即购买</view> 
-    </block>
-
-    <!-- 处方药 -->
-     <block wx:if="{{goodsinfo.added != 1 && goodsinfo.stock > 0 && goodsinfo.type == 0}}">
-    <navigator url='/pages/Goods/Reservation/Reservation' class='list' hover-class='none'>
-        <view class='icon'></view>
-        <view>预定清单</view>
-    </navigator>
-    <view class='addcart green' bindtap="showModal" data-type="RxCart">加入预定清单</view>
-    <view class='buy' bindtap="showModal" data-type="RxBuy">立即预定</view> 
-    </block>
-
     <!-- 下架 -->
     <view class='gray' wx:if="{{goodsinfo.added == 1}}">该商品已下架</view>
     <!-- 缺货 -->
     <view class='gray' wx:if="{{goodsinfo.stock == 0}}">该商品已缺货</view>
 </view>
-
 <!-- 属性弹出框 -->
 <view class='prop' id='select-attr' wx:if="{{showModalStatus}}">
     <view class='select-attr' animation="{{animationData}}">
@@ -122,7 +111,7 @@
                 <view class='t'>规格</view>
                 <view class='lists'>
                     <block wx:for="{{spec.speclists}}" wx:for-item="item" wx:for-index='index' wx:key="spec_{{index}}">
-                        <view class="item{{item.isselect?' on':''}}{{item.stock > 0?'':' disabled'}}"  data-index="{{index}}" data-type="spec" bindtap='ClickAttr'>{{item.name}}</view>
+                        <view class="item{{item.isselect?' on':''}}{{item.stock > 0?'':' disabled'}}" data-index="{{index}}" data-type="spec" bindtap='ClickAttr'>{{item.name}}</view>
                     </block>
                 </view>
             </view>
@@ -132,7 +121,7 @@
                 <view class='t'>优惠套餐</view>
                 <view class='lists'>
                     <block wx:for="{{spec.packager}}" wx:key="packager_{{index}}">
-                        <view class="item{{item.isselect?' on':''}}"  data-index="{{index}}" data-type="packager" bindtap='ClickAttr'>{{item.name}}</view>
+                        <view class="item{{item.isselect?' on':''}}" data-index="{{index}}" data-type="packager" bindtap='ClickAttr'>{{item.name}}</view>
                     </block>
                 </view>
             </view>
@@ -145,31 +134,24 @@
                 <view class='plus{{num >= goodsinfo.stock ? " disabled":""}}' hover-class="hover" bindtap="bindPlus">+</view>
             </view>
         </view>
-
         <!-- 非处方药按钮 -->
         <block wx:if="{{ goodsinfo.type != 0}}">
             <!-- 有UserInfo权限 -->
             <view class='comfirm-btn' hover-class="hover" wx:if="{{hasUserInfo || ModalMode == 'Cart' ||  ModalMode == ''}}" bindtap="ModalConfirm">确定</view>
-
             <!-- 无UserInfo权限 -->
             <button class='comfirm-btn' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" wx:if="{{!hasUserInfo && ModalMode == 'Buy'}}" bindtap="ModalConfirm">确定</button>
         </block>
-
         <!-- 处方药按钮 -->
         <block wx:if="{{ goodsinfo.type == 0}}">
             <!-- 有UserInfo权限 -->
             <view class='comfirm-btn green' hover-class="hover" wx:if="{{hasUserInfo || ModalMode == 'RxCart'}}" bindtap="ModalConfirm">加入预定清单</view>
-
             <!-- 无UserInfo权限 -->
             <button class='comfirm-btn green' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" wx:if="{{!hasUserInfo && ModalMode == 'RxBuy'}}" bindtap="ModalConfirm">预定</button>
         </block>
-
     </view>
     <view class='gray-bg' bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
 </view>
-
 <import src="/pages/Common/footer.wxml" />
 <template is="footer" data="" />
-
 <Dialog id="Dialog"></Dialog>
 <ReservationInput id="ReservationInput" bind:SaveEvent="RxBuyFn"></ReservationInput>

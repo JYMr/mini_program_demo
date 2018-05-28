@@ -22,7 +22,7 @@ page{padding-bottom: 98rpx;}
 .goodsinfo .price .nums{ font-size: 46rpx;}
 .goodsinfo .market{ color: #bbbbbb; font-size: 18rpx;}
 .goodsinfo .market .nums{ font-size:30rpx; text-decoration: line-through;}
-.goodsinfo .share{ position: absolute;top: 30rpx;right: 30rpx;width: 36rpx;height: 36rpx;margin-right: 0;margin-left: 0;padding-right: 0;padding-left: 0;border-radius: 0;background: url(http://www.kzj365.com/mini_program/images/shareicon.png) no-repeat center center;background-size: 100%;}
+.goodsinfo .share{ position: absolute;top: 30rpx;right: 30rpx;width: 80rpx;height: 36rpx;margin-right: 0;margin-left: 0;padding-right: 0;padding-left: 0;border-radius: 0;background: url(http://www.kzj365.com/mini_program/images/shareicon.png) no-repeat top right;background-size: 30rpx;}
 .goodsinfo .share:after{border: none;}
 .goodsinfo .detail{ font-size: 24rpx; color: #999;}
 

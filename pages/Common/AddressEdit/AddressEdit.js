@@ -58,21 +58,31 @@ Component({
             var _Detail = option ? Object.assign(this.data.Detail, option) : {};
 
             this.setData({
-                Detail: _Detail,
-                region: [
-                    _Detail.province || this.data.region[0],
-                    _Detail.city || this.data.region[1],
-                    _Detail.area || this.data.region[2]
-                ],
                 isShow: true
-            });
+            })
 
-            this.ValiData();
+            setTimeout(() => {
+                //延时300ms，等待过度动画，避免textarea动画中文字偏移
+
+                this.setData({
+                    Detail: _Detail,
+                    region: [
+                        _Detail.province || this.data.region[0],
+                        _Detail.city || this.data.region[1],
+                        _Detail.area || this.data.region[2]
+                    ]
+                });
+
+                this.ValiData();
+            }, 300)
         },
         //关闭弹窗
         CloseEdit() {
             this.setData({
-                isShow: false
+                isShow: false,
+                Detail: {},
+                region: ['广东省', '广州市', '白云区'],
+                ValiStatus: false
             })
         },
         //保存编辑地址
