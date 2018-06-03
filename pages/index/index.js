@@ -12,16 +12,6 @@ Page({
     },
     onLoad: function() {
         this.GetHomeData();
-        wx.setTopBarText({
-            text: '12312klksdjlsdf'
-        })
-        wx.showTabBarRedDot({
-            index: 2
-        })
-        wx.showTabBarRedDot({
-            index: 3
-        })
-
     },
     onReady: function() {
         this.search = this.selectComponent("#search");

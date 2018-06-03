@@ -24,7 +24,10 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-        var searchstory = wx.getStorageSync('searchData').reverse();
+        var searchstory = wx.getStorageSync('searchData');
+        if(searchstory && searchstory.length > 0){
+            searchstory = searchstory.reverse();
+        }
         this.setData({
             searchstory: searchstory,
             inputValue: '',

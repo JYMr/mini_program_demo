@@ -86,10 +86,10 @@
             <view>预定清单</view>
         </navigator>
     </block>
-    <navigator class='phone' hover-class='none'>
+    <view class='phone' hover-class='none' bindtap="ToggleChaticonMenu">
         <view class='icon'></view>
         <view>联系客服</view>
-    </navigator>
+    </view>
     <!-- 下架 -->
     <view class='gray' wx:if="{{goodsinfo.added == 1}}">该商品已下架</view>
     <!-- 缺货 -->
@@ -151,7 +151,19 @@
     </view>
     <view class='gray-bg' bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
 </view>
+
+<view class="Menu" wx:if="{{ChaticonMenu}}">
+    <view class="Menu-item">
+        <image src="http://www.kzj365.com/mini_program/images/message_icon.png"></image>
+        在线咨询
+    </view>
+    <view class="Menu-item" bindtap="Calling">免费热线：400-636-5343</view>
+    <view class="Menu-item cancel" bindtap="ToggleChaticonMenu">取消</view>
+</view>
+<view class="mask" wx:if="{{ChaticonMenu}}" bindtap="ToggleChaticonMenu"></view>
+
 <import src="/pages/Common/footer.wxml" />
 <template is="footer" data="" />
+
 <Dialog id="Dialog"></Dialog>
 <ReservationInput id="ReservationInput" bind:SaveEvent="RxBuyFn"></ReservationInput>

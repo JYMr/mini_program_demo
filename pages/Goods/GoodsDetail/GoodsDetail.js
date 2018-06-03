@@ -7,15 +7,16 @@ Page({
         id: '',
         num: 1,
         tabsindex: 0,
-        goodsinfo: {},//商品信息
-        spec: {},//规格
+        goodsinfo: {}, //商品信息
+        spec: {}, //规格
         chooseSpecId: '',
         showModalStatus: false, //是否显示
         ModalMode: 'Buy', //遮罩模式
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         hasUserInfo: false,
-        goodsnavtop: 0,//导航是否浮动
-        goodsnavbool:false 
+        goodsnavtop: 0, //导航是否浮动
+        goodsnavbool: false,
+        ChaticonMenu: false
     },
     /**
      * 生命周期函数--监听页面加载
@@ -63,22 +64,22 @@ Page({
         this.ReservationInput = this.selectComponent('#ReservationInput');
         var that = this;
         var query = wx.createSelectorQuery()
-        query.select('.goodsnav').boundingClientRect(function (res) {
-          that.setData({
-            goodsnavtop: res.top
-          })
+        query.select('.goodsnav').boundingClientRect(function(res) {
+            that.setData({
+                goodsnavtop: res.top
+            })
         }).exec()
     },
-    onPageScroll: function (e) { // 获取滚动条当前位置
-      if (e.scrollTop > this.data.goodsnavtop) {
-        this.setData({
-          goodsnavbool: true
-        })
-      } else {
-        this.setData({
-          goodsnavbool: false
-        })
-      }
+    onPageScroll: function(e) { // 获取滚动条当前位置
+        if (e.scrollTop > this.data.goodsnavtop) {
+            this.setData({
+                goodsnavbool: true
+            })
+        } else {
+            this.setData({
+                goodsnavbool: false
+            })
+        }
     },
     /**
      * 生命周期函数--监听页面显示
@@ -111,13 +112,13 @@ Page({
                 }
             },
             fail: err => {
-                if (err.errMsg != 'shareAppMessage:fail cancel') {
-                    this.Dialog.ShowDialog({
-                        type: 'Message',
-                        title: err.errMsg.split(':')[1],
-                        messageType: 'fail'
-                    })
-                }
+                /* if (err.errMsg != 'shareAppMessage:fail cancel') {
+                     this.Dialog.ShowDialog({
+                         type: 'Message',
+                         title: err.errMsg.split(':')[1],
+                         messageType: 'fail'
+                     })
+                 }*/
             }
         }
         return ShareOption;
@@ -182,13 +183,13 @@ Page({
     AddCart() {
         goodscontroller.addCart({
             //购物车提交的数据
-        }).then(res =>{
-            if(res.status == 0){
+        }).then(res => {
+            if (res.status == 0) {
                 this.Dialog.ShowDialog({
                     type: 'Message',
                     title: '加入购物车成功'
                 })
-            }else{
+            } else {
                 this.Dialog.ShowDialog({
                     type: 'Message',
                     title: '加入购物车失败',
@@ -198,16 +199,16 @@ Page({
         })
     },
     //加入预定清单
-    AddRxCart() {  
+    AddRxCart() {
         goodscontroller.addRxCart({
             id: this.data.id
-        }).then(res =>{
-            if(res.status == 0){
+        }).then(res => {
+            if (res.status == 0) {
                 this.Dialog.ShowDialog({
                     type: 'Message',
                     title: '加入清单成功'
                 })
-            }else{
+            } else {
                 this.Dialog.ShowDialog({
                     type: 'Message',
                     title: '加入清单失败',
@@ -270,14 +271,14 @@ Page({
             //处理规格选择
             let _List = _Spec.speclists;
             let _ChooseIndex = e.currentTarget.dataset.index;
-            let _SpecId = null;//选择的商品规格id
+            let _SpecId = null; //选择的商品规格id
 
             for (let key in _List) {
                 //判断规格id以及规格库存
                 if (_ChooseIndex == key && _List[key].stock > 0 && !_List[key].isselect) {
                     _List[key].isselect = true;
                     _SpecId = _List[key].id;
-                }else{
+                } else {
                     _List[key].isselect = false;
                 }
             }
@@ -304,15 +305,15 @@ Page({
         }
     },
     //默认规格选中
-    DefaultAttr(spec, mode){
+    DefaultAttr(spec, mode) {
 
-        if(mode == 'spec' || mode == undefined){
-            if(spec.packager.length > 0 && spec.speclists[0].stock > 0){
+        if (mode == 'spec' || mode == undefined) {
+            if (spec.packager.length > 0 && spec.speclists[0].stock > 0) {
                 spec.speclists[0].isselect = true;
             }
         }
-        if(mode == 'packager' || mode == undefined){
-            if(spec.packager.length > 0){
+        if (mode == 'packager' || mode == undefined) {
+            if (spec.packager.length > 0) {
                 spec.packager[0].isselect = true;
             }
         }
@@ -355,9 +356,9 @@ Page({
         })
         var goodsnavtop = this.data.goodsnavtop;
         if (wx.pageScrollTo) {
-          wx.pageScrollTo({
-            scrollTop: goodsnavtop
-          })
+            wx.pageScrollTo({
+                scrollTop: goodsnavtop
+            })
         }
     },
     // 显示遮罩层
@@ -401,6 +402,12 @@ Page({
                 showModalStatus: false
             })
         }.bind(this), 200)
+    },
+    //联系客服弹层
+    ToggleChaticonMenu() {
+        this.setData({
+            ChaticonMenu: !this.data.ChaticonMenu
+        })
     },
     //处理图片错误
     errImg(event) {

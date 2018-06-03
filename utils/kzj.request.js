@@ -1,4 +1,5 @@
 const BASE_URL = "https://api.77lemon.top";
+const app = getApp();
 
 class Request {
     /**
@@ -12,10 +13,11 @@ class Request {
         return new Promise((resolve, reject) => {
             wx.request({
                 url: `${BASE_URL}${url}`,
-                data: Object.assign({}, {'token': token}, params),//置入token
-                header: { 'Content-Type': 'application/json' },
+                method: 'POST',
+                data: Object.assign({}, { 'token': token }, params), //置入token
+                header: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 success: resolve,
-                fail: err=>{
+                fail: err => {
                     wx.showToast({
                         title: '网络错误',
                         icon: 'none'

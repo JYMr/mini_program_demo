@@ -1,15 +1,15 @@
 {
 	"description": "项目配置文件。",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.9.94",
-	"appid": "wx80d3cb4fab88b84a",
+	"libVersion": "2.0.8",
+	"appid": "wx9db8f06f6cabfde5",
 	"projectname": "wechatmin",
 	"isGameTourist": false,
 	"condition": {
@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 15,
 			"list": [
 				{
 					"id": 0,
@@ -120,6 +120,12 @@
 					"id": -1,
 					"name": "Search",
 					"pathName": "pages/List/Search/Search",
+					"query": ""
+				},
+				{
+					"id": 15,
+					"name": "Index",
+					"pathName": "pages/Index/Index",
 					"query": ""
 				}
 			]

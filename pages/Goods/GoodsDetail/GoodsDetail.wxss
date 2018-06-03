@@ -41,7 +41,7 @@ page{background:#f4f4f4; margin-bottom: 118rpx; color: #555;font-size: 28rpx;}
 .goodsattr{ background: #fff; height: 88rpx; line-height: 88rpx; padding: 0 30rpx;  font-size: 30rpx; margin-bottom: 20rpx;}
 .goodsattr .attr{ color:#36c0a1;}
 
-.goodsfloat{position: fixed; z-index: 99; left:0; right: 0; bottom: 0; margin: auto; max-width: 750rpx; background: #fff; box-shadow: rgba(0,0, 0, 0.1) 0 -1px 3px; text-align: center; height: 98rpx;}
+.goodsfloat{position: fixed; z-index: 101; left:0; right: 0; bottom: 0; margin: auto; max-width: 750rpx; background: #fff; box-shadow: rgba(0,0, 0, 0.1) 0 -1px 3px; text-align: center; height: 98rpx;}
 .goodsfloat .phone{ width: 143rpx; height: 100%; border-right: #f4f4f4 1rpx solid; color: #bbb; font-size: 20rpx; display: flex; flex-direction: column; align-items: center; justify-content: center; float: left; }
 .goodsfloat .phone .icon{ width: 46rpx; height: 46rpx;background: url(http://www.kzj365.com/mini_program/images/phoneicon.png) no-repeat center center; background-size: 100%; margin-bottom:11rpx;}
 .goodsfloat .cart{ width: 143rpx; height: 100%; color: #bbb; font-size: 20rpx;display: flex; flex-direction: column; align-items: center; justify-content: center;  float: right;}
@@ -95,4 +95,11 @@ page{background:#f4f4f4; margin-bottom: 118rpx; color: #555;font-size: 28rpx;}
 .instructions .th,.instructions .td {padding:30rpx;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;width:100%;}
 .instructions .th { width: 30%; }
 
-
+.mask{position: fixed;top: 0;bottom: 0;left: 0;right: 0;background: rgba(0,0,0,.6);z-index: 99;}
+.Menu{position: fixed;background-color: #f4f4f4;bottom: 98rpx;width: 100%;z-index: 100;animation-name: MenuUp;animation-duration: .3s;animation-fill-mode: both;}
+.Menu-item{line-height: 100rpx;color: #37c4a4;font-size: 32rpx;text-align: center;background-color: #FFF;}
+.Menu-item + .Menu-item{border-top: 1rpx solid #f4f4f4;}
+.Menu-item image{width: 36rpx;height: 36rpx;}
+.Menu-item.cancel{color: #555;border-top: none;margin-top: 20rpx;}
+@keyframes MenuUp{from{transform: translate3d(0, 100%, 0);opacity: 0;}
+    to{transform: translate(0, 0);opacity: 1;}}

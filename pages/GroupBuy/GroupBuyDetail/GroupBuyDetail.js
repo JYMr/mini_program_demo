@@ -213,13 +213,13 @@ Page({
                 }
             },
             fail: err=>{
-                if(err.errMsg != 'shareAppMessage:fail cancel'){
+               /* if(err.errMsg != 'shareAppMessage:fail cancel'){
                      this.Dialog.ShowDialog({
                         type: 'Message',
                         title: err.errMsg.split(':')[1],
                         messageType: 'fail'
                     })
-                }
+                }*/
             }
         }
         return ShareOption;

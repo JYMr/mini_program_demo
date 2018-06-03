@@ -6,8 +6,6 @@ Page({
      * 页面的初始数据
      */
     data: {
-        //status 0: 普通状态 1: 下单成功进入分享页
-        status: 0,
         GroupId: '12312',
         TimeOut: {
             hours: '00',
@@ -46,11 +44,6 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        if (options.status) {
-            this.setData({
-                status: options.status
-            })
-        }
         if (options.id) {
             this.setData({
                 GroupId: options.id
@@ -144,28 +137,7 @@ Page({
         let ShareOption = {
             title: this.data.ShareData.ShareTitle || this.data.ShareData.GoodsInfo.title,
             path: '/' + this.route + '?id' + GroupId,
-            imageUrl: this.data.ShareData.ShareUrl || this.data.ShareData.GoodsInfo.url,
-            success: res => {
-                if (res.errMsg == 'shareAppMessage:ok') {
-                    this.Dialog.ShowDialog({
-                        type: 'Message',
-                        title: '分享成功'
-                    })
-                    //无拼团Id， 为初下拼团订单
-                    this.setData({
-                        status: 0
-                    })
-                }
-            },
-            fail: err => {
-                if (err.errMsg != 'shareAppMessage:fail cancel') {
-                    this.Dialog.ShowDialog({
-                        type: 'Message',
-                        title: err.errMsg.split(':')[1],
-                        messageType: 'fail'
-                    })
-                }
-            }
+            imageUrl: this.data.ShareData.ShareUrl || this.data.ShareData.GoodsInfo.url
         }
         return ShareOption;
     }

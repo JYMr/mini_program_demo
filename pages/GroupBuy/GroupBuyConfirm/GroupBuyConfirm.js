@@ -125,7 +125,7 @@ Page({
     ConfirmOrder() {
         console.log('提交订单');
         wx.redirectTo({
-            url: '/pages/GroupBuy/GroupBuyShare/GroupBuyShare?id=3&status=1'
+            url: '/pages/GroupBuy/GroupBuyShare/GroupBuyShare?id=3'
         })
     },
     //备注输入绑定
