@@ -157,7 +157,7 @@
         <image src="http://www.kzj365.com/mini_program/images/message_icon.png"></image>
         在线咨询
     </view>
-    <view class="Menu-item" bindtap="Calling">免费热线：400-636-5343</view>
+    <view class="Menu-item" bindtap="Calling">免费热线：{{mobile}}</view>
     <view class="Menu-item cancel" bindtap="ToggleChaticonMenu">取消</view>
 </view>
 <view class="mask" wx:if="{{ChaticonMenu}}" bindtap="ToggleChaticonMenu"></view>

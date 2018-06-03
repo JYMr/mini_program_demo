@@ -5,7 +5,7 @@
     <scroll-view class="lists-view" scroll-y bindscrolltoupper="refresh" bindscrolltolower="loadMore">
         <block wx:for='{{contentlist}}' wx:for-item="item" wx:for-index='index' wx:key="story_{{index}}">
             <view class='item'>
-                <navigator url='/pages/Goods/GoodsDetail/GoodsDetail?id={{item.id}}'>
+                <navigator url='/pages/Goods/GoodsDetail/GoodsDetail?id={{item.id}}' hover-class="none">
                     <image class='pic' src='{{item.imagesrc}}' lazy-load='true'></image>
                     <view class='name'>
                         <text class='type {{item.goods_type==2?"redbg":""}}'>{{item.goods_type==3?'rx':'otc'}}</text>{{item.title}}</view>

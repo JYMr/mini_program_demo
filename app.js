@@ -79,7 +79,7 @@ App({
     globalData: {
         userInfo: null,
         defaultImg: 'http://www.kzj365.com/mini_program/images/default.png',
-        tel: '18819446959',
+        tel: '',
         AddressId: '' //用于订单地址选择
     },
     Util: {

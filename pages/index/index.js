@@ -30,11 +30,9 @@ Page({
             });
         } else if (type == 1) {
             //活动页跳转
-
             wx.navigateTo({
                 url: '/pages/List/Activity/Activity?id=' + _id
             });
-
         }
     },
     //获取首页数据
@@ -53,6 +51,8 @@ Page({
                     collage: res.collage,
                     recommendgoods: res.recommendgoods
                 })
+                //设置客服地址
+                app.globalData.tel = res.mobile;
                 wx.hideLoading();
             }
         })

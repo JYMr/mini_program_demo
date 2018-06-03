@@ -9,6 +9,7 @@ Page({
         tabsindex: 0,
         goodsinfo: {}, //商品信息
         spec: {}, //规格
+        mobile: '',
         chooseSpecId: '',
         showModalStatus: false, //是否显示
         ModalMode: 'Buy', //遮罩模式
@@ -16,7 +17,7 @@ Page({
         hasUserInfo: false,
         goodsnavtop: 0, //导航是否浮动
         goodsnavbool: false,
-        ChaticonMenu: false
+        ChaticonMenu: false//客服菜单
     },
     /**
      * 生命周期函数--监听页面加载
@@ -47,6 +48,12 @@ Page({
             })
         }
 
+        if(app.globalData.tel){
+            this.setData({
+                mobile: app.globalData.tel
+            })
+        }
+
         if (options.id) {
             this.setData({
                 id: options.id
@@ -54,6 +61,9 @@ Page({
             this.GetGoodsData();
         } else {
             //无Id，关闭页面
+            wx.navigateBack({
+                delta: 1
+            })
         }
     },
     /**
