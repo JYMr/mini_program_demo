@@ -2,11 +2,11 @@
 <import src="/pages/Common/TypeIcon.wxml" />
 
 <view class='ordernav'>
-    <view class='item{{Status == 0 ? " on" : ""}}' bindtap="TabToggle" data-status="0">全部</view>
-    <view class='item{{Status == 1 ? " on" : ""}}' bindtap="TabToggle" data-status="1">待付款</view>
-    <view class='item{{Status == 2 ? " on" : ""}}' bindtap="TabToggle" data-status="2">待分享</view>
-    <view class='item{{Status == 3 ? " on" : ""}}' bindtap="TabToggle" data-status="3">待发货</view>
-    <view class='item{{Status == 4 ? " on" : ""}}' bindtap="TabToggle" data-status="4">已发货</view>
+    <view class='item{{Status == "" ? " on" : ""}}' bindtap="TabToggle" data-status="">全部</view>
+    <view class='item{{Status === 0 ? " on" : ""}}' bindtap="TabToggle" data-status="0">待付款</view>
+    <view class='item{{Status == 1 ? " on" : ""}}' bindtap="TabToggle" data-status="1">待分享</view>
+    <view class='item{{Status == 2 ? " on" : ""}}' bindtap="TabToggle" data-status="2">待发货</view>
+    <view class='item{{Status == 3 ? " on" : ""}}' bindtap="TabToggle" data-status="3">已发货</view>
     <view class='item{{Status == 5 ? " on" : ""}}' bindtap="TabToggle" data-status="5">已完成</view>
 </view>
 <view class='ordernav-bank'></view>
@@ -20,20 +20,19 @@
         <text class='pedpay' wx:if="{{OrderItem.status == 0}}">待付款</text>
         <text class='pedpay' wx:if="{{OrderItem.status == 1}}">待分享</text>
         <text class='pedpay' wx:if="{{OrderItem.status == 2}}">待发货</text>
-        <text class='pedpay' wx:if="{{OrderItem.status == 3}}">已发货</text>
-        <text class='pedpay' wx:if="{{OrderItem.status == 4}}">已完成</text>
-        <text class='pedpay' wx:if="{{OrderItem.status == 5}}">待付款</text>
+        <text class='pedpay' wx:if="{{OrderItem.status == 3 || OrderItem.status == 4}}">已发货</text>
+        <text class='pedpay' wx:if="{{OrderItem.status == 5}}">已完成</text>
 
     </view>
     <view class='lists'>
         <block wx:for="{{OrderItem.goods_list}}" wx:for-index="goods_index"  wx:for-item="item" wx:key="goods_{{goods_index}}">
         <view class='item'>
-            <image class='pic' src='http://kzjimg01.b0.upaiyun.com/1508118546272.jpg'></image>
-            <view class='name'><template is="TypeIcon" data="{{type: item.goods_type}}" />{{item.title}}</view>
-            <text class='price'>￥<text class='n'>{{item.price}}</text></text>
-            <text class='attr'>/1{{item.spec_type}}</text>
+            <image class='pic' src='{{item.goodsImageUrl}}'></image>
+            <view class='name'><template is="TypeIcon" data="{{type: item.goods_type}}" />{{item.goodsName}}</view>
+            <text class='price'>￥<text class='n'>{{item.goodsInfoPrice}}</text></text>
+            <text class='attr'>/1{{item.goodsDeno}}</text>
             <text class='ctype' wx:if="{{item.isGroup}}">疗程装</text>
-            <text class='nums'>x{{item.total}}</text>
+            <text class='nums'>x{{item.goodsInfoNum}}</text>
         </view>
         </block>
         
@@ -44,6 +43,7 @@
     </view>
 
     <!-- 按钮状态 -->
+    <!-- 待付款 -->
     <block wx:if="{{OrderItem.status == 0}}">
         <view class='control'>
             <text class='cancel-btn' data-id="{{OrderItem.id}}" catchtap="CancelOrder">取消订单</text>
@@ -51,6 +51,7 @@
         </view>
     </block>
 
+    <!-- 待分享 -->
     <block wx:if="{{OrderItem.status == 1}}">
         <view class='control'>
             <text class='cancel-btn' data-id="{{OrderItem.id}}" catchtap="CancelOrder">取消订单</text>
@@ -58,13 +59,16 @@
         </view>
     </block>
 
+    <!-- 待发货 -->
     <block wx:if="{{OrderItem.status == 2}}">
         <view class='control'>
             <text class='cancel-btn' data-id="{{OrderItem.id}}" catchtap="CancelOrder">取消订单</text>
         </view>
     </block>
 
-    <block wx:if="{{OrderItem.status == 3}}">
+    <!-- 已发货 -->
+    <!-- 3已经发货 4待收货 -->
+    <block wx:if="{{OrderItem.status == 3 || OrderItem.status == 4}}">
         <view class='control'>
             <text class='cancel-btn' data-id="{{OrderItem.id}}" data-expressnumber="{{OrderItem.ExpressSlotNumber}}" data-expressname="{{OrderItem.ExpressSlotName}}" catchtap="ExpressNumber">物流单号</text>
             <text class='cancel-btn' data-id="{{OrderItem.id}}" catchtap="CancelOrder">取消订单</text>
@@ -72,7 +76,8 @@
         </view>
     </block>
 
-    <block wx:if="{{OrderItem.status == 4}}">
+    <!-- 已完成 -->
+    <block wx:if="{{OrderItem.status == 5}}">
         <view class='control'>
             <text class='cancel-btn' data-id="{{OrderItem.id}}" catchtap="DeleteOrder">删除订单</text>
             <text class='cancel-btn' data-id="{{OrderItem.id}}" catchtap="CustomerService">申请售后</text>
@@ -90,7 +95,7 @@
 
 <!-- 页脚 -->
 <import src="/pages/Common/footer.wxml" />
-<template is="footer" wx:if="{{OrderList.length != 0 && !isNeedLoad}}" data="" />
+<template is="footer" wx:if="{{OrderList.length != 0 && !isEnd}}" data="" />
 
 <!-- 提示组件 -->
 <Dialog id="Dialog"></Dialog>

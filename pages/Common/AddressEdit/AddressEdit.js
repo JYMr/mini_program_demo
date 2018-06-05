@@ -6,13 +6,13 @@ Component({
         ValiStatus: false,
         isPicker: false,
         Detail: {
-            name: '',
-            mobile: '',
-            province: '',
-            city: '',
-            area: '',
-            address: '',
-            id: ''
+            addr_recipient: '',
+            addr_mobile: '',
+            addr_province: '',
+            addr_city: '',
+            addr_area: '',
+            addr_address: '',
+            addr_id: ''
         },
         region: ['广东省', '广州市', '白云区']
     },
@@ -25,19 +25,19 @@ Component({
         ValiData(status) {
             let flag = true;
             let msg = '';
-            if (this.data.Detail.name == '') {
+            if (this.data.Detail.addr_recipient == '') {
                 msg = '收货人不能为空';
                 flag = false;
             }
-            if (this.data.Detail.mobile == '') {
+            if (this.data.Detail.addr_mobile == '') {
                 if (msg == '') msg = '联系号码不能为空';
                 flag = false;
             }
-            if (!/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/.test(this.data.Detail.mobile)) {
+            if (!/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/.test(this.data.Detail.addr_mobile)) {
                 if (msg == '') msg = '联系号码格式错误';
                 flag = false;
             }
-            if (this.data.Detail.address == '') {
+            if (this.data.Detail.addr_address == '' || this.data.Detail.addr_address == undefined) {
                 if (msg == '') msg = '详细地址不能为空';
                 flag = false;
             }
@@ -67,9 +67,9 @@ Component({
                 this.setData({
                     Detail: _Detail,
                     region: [
-                        _Detail.province || this.data.region[0],
-                        _Detail.city || this.data.region[1],
-                        _Detail.area || this.data.region[2]
+                        _Detail.addr_province || this.data.region[0],
+                        _Detail.addr_city || this.data.region[1],
+                        _Detail.addr_area || this.data.region[2]
                     ]
                 });
 
@@ -91,45 +91,58 @@ Component({
 
                 //拼装数据
                 let data = {
-                    name: this.data.Detail.name,
-                    mobile: this.data.Detail.mobile,
-                    province: this.data.Detail.province,
-                    city: this.data.Detail.city,
-                    area: this.data.Detail.area,
-                    address: this.data.Detail.address,
-                    id: this.data.Detail.address
+                    addr_recipient: this.data.Detail.addr_recipient,
+                    addr_mobile: this.data.Detail.addr_mobile,
+                    addr_province: this.data.Detail.addr_province || this.data.region[0],
+                    addr_city: this.data.Detail.addr_city || this.data.region[1],
+                    addr_area: this.data.Detail.addr_area || this.data.region[2],
+                    addr_address: this.data.Detail.addr_address
                 }
+                console.log(data)
                 wx.showLoading({
                     mask: true
                 });
-                if (this.data.Detail.address) {
-                    //id为空，新增地址
-
-                    addressController.addAddress(data).then(res => {
-                        if (res.status == 0) {
-                            //操作完成，发送EditEvent事件
-                            this.triggerEvent("EditEvent", {
-                                id: res.id
-                            });
-                        }
-                        wx.hideLoading();
-                    })
-                } else {
+                if (this.data.Detail.addr_id) {
                     //编辑模式
-                    addressController.editAddress(data).then(res => {
-                        if (res.status == 0) {
+                    //组合id
+                    let temp_data = Object.assign({addr_id: this.data.Detail.addr_id}, data);
+                    addressController.editAddress(temp_data).then(res => {
+                        if (res.done) {
                             //操作完成，发送EditEvent事件
                             this.triggerEvent("EditEvent");
+                        }else{
+                            this.Dialog.ShowDialog({
+                                type: "Message",
+                                title: res.msg,
+                                messageType: 'fail'
+                            })
                         }
                         wx.hideLoading();
-                    })
+                    });
+                } else {
+                    //id为空，新增地址
+                    addressController.addAddress(data).then(res => {
+                        if (res.done) {
+                            //操作完成，发送EditEvent事件
+                            this.triggerEvent("EditEvent", {
+                                addr_id: res.result.addr_id
+                            });
+                        }else{
+                            this.Dialog.ShowDialog({
+                                type: "Message",
+                                title: res.msg,
+                                messageType: 'fail'
+                            })
+                        }
+                        wx.hideLoading();
+                    });
                 }
             }
         },
         //表单事件绑定
         BindNameChange(e) {
             let _tempData = this.data.Detail;
-            _tempData.name = e.detail.value;
+            _tempData.addr_recipient = e.detail.value;
             this.setData({
                 Detail: _tempData
             })
@@ -137,7 +150,7 @@ Component({
         },
         BindMobileChange(e) {
             let _tempData = this.data.Detail;
-            _tempData.mobile = e.detail.value;
+            _tempData.addr_mobile = e.detail.value;
             this.setData({
                 Detail: _tempData
             })
@@ -145,7 +158,7 @@ Component({
         },
         BindAddressChange(e) {
             let _tempData = this.data.Detail;
-            _tempData.address = e.detail.value;
+            _tempData.addr_address = e.detail.value;
             this.setData({
                 Detail: _tempData
             })
@@ -155,9 +168,9 @@ Component({
         bindRegionChange(e) {
             let _ChooseArray = e.detail.value;
             let _Detail = this.data.Detail;
-            _Detail.province = _ChooseArray[0];
-            _Detail.city = _ChooseArray[1];
-            _Detail.area = _ChooseArray[2];
+            _Detail.addr_province = _ChooseArray[0];
+            _Detail.addr_city = _ChooseArray[1];
+            _Detail.addr_area = _ChooseArray[2];
             this.setData({
                 region: e.detail.value,
                 Detail: _Detail

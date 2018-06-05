@@ -35,43 +35,42 @@ Page({
             mask: true
         });
         categoryController.getcategory().then(res => {
-            if (res.status == 0) {
-                if (res.data.length > 0) {
-
-                    let _curIndex = this.getDataIndex();
-                    this.setData({
-                        CategoryList: res.data
-                    })
-                    this.getcategoryChild(res.data[0].cate_id, true);
-                }
-            }
-        })
-    },
-    //获取一级数据
-    getcategoryChild(id, flag) {
-        if (!flag) {
-            wx.showLoading({
-                title: '加载数据中...',
-                mask: true
-            });
-        }
-        categoryController.getcategoryChild({
-            id: this.data.chooseId || id
-        }).then(res => {
-            if (res.status == 0) {
+            if (res.done) {
+                //let _curIndex = this.getDataIndex();
                 this.setData({
-                    ChildList: res.data
+                    CategoryList: res.result.categorylist
                 })
+                this.getcategoryChild();
                 wx.hideLoading();
             }
         })
+    },
+    //获取二级数据
+    getcategoryChild() {
+        let id = this.data.chooseId;
+        if (id) {
+            for (let item of this.data.CategoryList) {
+                if (item.catId == id) {
+                    this.setData({
+                        ChildList: item.subCategorys || [],
+                        chooseId: item.catId
+                    })
+                }
+            }
+        } else {
+            console.log(this.data.CategoryList[0].subCategorys)
+            this.setData({
+                ChildList: this.data.CategoryList[0].subCategorys || [],
+                chooseId: this.data.CategoryList[0].catId
+            })
+        }
     },
     //事件处理函数  
     switchRightTab: function(e) {
         // 获取item项的id，和数组的下标值  
         let id = e.target.dataset.id;
         this.setData({
-            chooseId: id,
+            chooseId: id
         })
         this.getcategoryChild();
     }

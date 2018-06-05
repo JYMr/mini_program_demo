@@ -11,7 +11,7 @@ Page({
         scanresult: ''
     },
     onLoad: function() {
-        this.GetHomeData();
+        //this.GetHomeData();
     },
     onReady: function() {
         this.search = this.selectComponent("#search");

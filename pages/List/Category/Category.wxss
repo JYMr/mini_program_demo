@@ -14,6 +14,6 @@ page{ font-size: 28rpx;height: 100%;color: #555;background: #f4f4f4;}
 .scroll-view .scroll-grid .item:nth-child(3n){ border-right: none;}
 .scroll-view .scroll-grid navigator{ padding: 33rpx 33rpx 15rpx;}
 .scroll-view .scroll-grid .pic{ display: inline-block;width: 106rpx;height: 106rpx;margin-bottom: 20rpx;}
-.scroll-view .scroll-grid .name{ font-size: 26rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;color: #888;}
+.scroll-view .scroll-grid .name{ font-size: 26rpx;overflow: hidden;color: #888;margin: 0 -20rpx;line-height: 32rpx; height: 32rpx;}
 .footer-out{ margin-left: 202rpx;}
 .empty{ position: absolute;margin: 150rpx -30rpx 0;}

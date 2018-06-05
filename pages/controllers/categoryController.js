@@ -5,19 +5,11 @@ const URI = '';
 
 class CategoryController {
     /**
-     * 获取一级分类数据
+     * 获取分类数据
      * @return {Promise}
      */
     getcategory(params) {
-        return request.get(`${URI}/getCategory`, params).then(res => res.data)
-    }
-
-    /**
-     * 获取二级分类数据
-     * @return {Promise}
-     */
-    getcategoryChild(params) {
-        return request.get(`${URI}/getCategoryChild`, params).then(res => res.data)
+        return request.get(`${URI}/api/getCategoryList.shtml`, params).then(res => res.data)
     }
 
 }

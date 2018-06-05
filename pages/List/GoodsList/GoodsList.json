@@ -1,5 +1,5 @@
 {
-    "navigationBarTitleText": "列表",
+    "navigationBarTitleText": "搜索结果",
     "usingComponents":
     {
         "search": "/pages/Common/Search/Search"

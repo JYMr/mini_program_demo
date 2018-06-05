@@ -42,9 +42,6 @@ Component({
         /*
          * 公有方法
          */
-        bindchange: function(e) {
-            console.log('bindchange')
-        },
         bindInput: function(e) {
             var selectHide = false;
             if (e.detail.value != '') {
@@ -67,9 +64,15 @@ Component({
             let localStorageValue = [];
             if (this.data.inputValue != '') {
                 //调用API从本地缓存中获取数据
-                var searchData = wx.getStorageSync('searchData') || []
-                searchData.push(this.data.inputValue)
-                wx.setStorageSync('searchData', searchData)
+                var searchData = wx.getStorageSync('searchData') || [];
+                var tempSearchData = [];
+                for (let item of searchData) {
+                    if (item != this.data.inputValue) {
+                        tempSearchData.push(item);
+                    }
+                }
+                tempSearchData.push(this.data.inputValue)
+                wx.setStorageSync('searchData', tempSearchData)
                 this.triggerEvent("SearchEvent", {
                     keyword: this.data.inputValue
                 });
@@ -100,7 +103,6 @@ Component({
             that.dialog = that.selectComponent("#Dialog");
             wx.scanCode({
                 success: (res) => {
-
                     wx.showLoading({
                         title: '识别中...',
                         mask: true
@@ -108,15 +110,15 @@ Component({
                     this.scanresult = "结果:" + res.result + "二维码类型:" + res.scanType + "字符集:" + res.charSet + "路径:" + res.path;
 
                     searchController.ScalCode({
-                        result: res.result
-                    }).then(res=>{
-                        if(res.status == 0){
+                        barcode: res.result
+                    }).then(res => {
+                        if (res.done) {
                             wx.hideLoading();
                             //获取商品id
                             wx.navigateTo({
-                                url: '/pages/Goods/GoodsDetail/GoodsDetail?id=' + res.data.id
+                                url: '/pages/Goods/GoodsDetail/GoodsDetail?id=' + res.result.goods_id
                             })
-                        }else if(res.status == -1){
+                        } else{
                             wx.hideLoading();
                             that.dialog.ShowDialog({
                                 type: 'Slot'
@@ -126,6 +128,7 @@ Component({
                 },
                 fail: (res) => {
 
+                    console.log(res)
                 },
                 complete: (res) => {}
             });

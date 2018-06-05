@@ -1,31 +1,31 @@
 <!--pages/address/addressList/addressList.wxml-->
 <view class="addressList">
-	<view class="addressItem{{item.isDefault ? ' active': ''}}" wx:for="{{AddressList}}" wx:for-item="item"  wx:for-index="index" wx:key="{{index}}" data-id="{{item.id}}" bindtap="ChooseAddress">
+	<view class="addressItem{{item.addr_default == 1 ? ' active': ''}}" wx:for="{{AddressList}}" wx:for-item="item"  wx:for-index="index" wx:key="{{index}}" data-id="{{item.addr_id}}" bindtap="ChooseAddress">
 		<view class="addressData">
-			<text class="name">{{item.name}}</text><text class="mobile">{{item.mobile}}</text>
-			<text class="detail">{{item.province}}{{item.city}}{{item.area}}{{item.address}}</text>
+			<text class="name">{{item.addr_recipient}}</text><text class="mobile">{{item.addr_mobile}}</text>
+			<text class="detail">{{item.addr_province}}{{item.addr_city}}{{item.addr_area}}{{item.addr_address}}</text>
 		</view>
 		<view class="addressBottonGroup">
-			<view class="addressDefault" data-id="{{item.id}}"  catchtap="ChooseDefault">
+			<view class="addressDefault" data-id="{{item.addr_id}}"  catchtap="ChooseDefault">
 				<view class="addressDefaultIcon"></view>
 				<text>默认地址</text>
 			</view>
 			<view class="addressButton">
-				<view class="addressButton-item" data-id="{{item.id}}" catchtap="EditFn">
+				<view class="addressButton-item" data-id="{{item.addr_id}}" catchtap="EditFn">
 					<view class="icon icon-edit"></view>
 					<text>编辑</text>
 				</view>
-				<view class="addressButton-item" data-id="{{item.id}}" catchtap="DelFu">
+				<view class="addressButton-item" data-id="{{item.addr_id}}" catchtap="DelFu">
 					<view class="icon icon-delete"></view>
 					<text>删除</text>
 				</view>
 			</view>
 		</view>
 	</view>
-	<import src="../../Common/footer.wxml"/>
-	<template is="footer" data=""/> 
+	<import src="/pages/Common/footer.wxml"/>
+	<template is="footer" data="" wx:if="{{AddressList.length > 0}}"/> 
 </view>
-
+<view class="empty" wx:if="{{AddressList.length == 0 && !isLoading}}">没有收货地址哦</view>
 <view class="addAddressBtn" catchtap="AddFn">添加收货地址</view>
 
 <AddressEdit id="AddressEdit" bind:EditEvent="HandleEditEvent"></AddressEdit>

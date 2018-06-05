@@ -12,7 +12,7 @@ class SearchController{
      * @return {Promise}
      */
     ScalCode(params){
-        return request.get(`${URI}/scalCode`, params).then(res => res.data)
+        return request.get(`${URI}/api/searchBarcode.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -20,7 +20,7 @@ class SearchController{
      * @return {Promise}
      */
     GetSearchKeyWord(params){
-        return request.get(`${URI}/getSearchKeyWord`, params).then(res => res.data)
+        return request.get(`${URI}/api/searchGoodsName.shtml`, params).then(res => res.data)
     }
 
     /**

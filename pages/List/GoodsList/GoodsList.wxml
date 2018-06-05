@@ -5,12 +5,12 @@
     <scroll-view class="lists-view" scroll-y bindscrolltoupper="refresh" bindscrolltolower="loadMore">
         <block wx:for='{{contentlist}}' wx:for-item="item" wx:for-index='index' wx:key="story_{{index}}">
             <view class='item'>
-                <navigator url='/pages/Goods/GoodsDetail/GoodsDetail?id={{item.id}}' hover-class="none">
-                    <image class='pic' src='{{item.imagesrc}}' lazy-load='true'></image>
+                <navigator url='/pages/Goods/GoodsDetail/GoodsDetail?id={{item.goods_id}}' hover-class="none">
+                    <image class='pic' src='{{item.goods_img}}' lazy-load='true'></image>
                     <view class='name'>
-                        <text class='type {{item.goods_type==2?"redbg":""}}'>{{item.goods_type==3?'rx':'otc'}}</text>{{item.title}}</view>
+                        <template is="TypeIcon" data="{{type: item.goods_type}}" />{{item.goods_name}}</view>
                     <view class='price'>￥
-                        <text class='nums'>{{item.marketprice}}</text>
+                        <text class='nums'>{{item.goods_price}}</text>
                     </view>
                 </navigator>
             </view>

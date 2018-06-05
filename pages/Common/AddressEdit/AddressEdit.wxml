@@ -3,11 +3,11 @@
 	<text class="title">新增地址</text>
 	<view class="input-item">
 		<text>收货人</text>
-		<input type="text" bindinput="BindNameChange" value="{{Detail.name}}"/>
+		<input type="text" bindinput="BindNameChange" value="{{Detail.addr_recipient}}"/>
 	</view>
 	<view class="input-item">
 		<text>联系号码</text>
-		<input type="number" bindinput="BindMobileChange" value="{{Detail.mobile}}" confirm-type="next" />
+		<input type="number" bindinput="BindMobileChange" value="{{Detail.addr_mobile}}" confirm-type="next" />
 	</view>
 	<view class="input-item">
 		<text>选择地区</text>
@@ -19,7 +19,7 @@
 	</view>
 	<view class="input-item">
 		<text>详细地址</text>
-		<textarea bindinput="BindAddressChange" value="{{Detail.address}}"></textarea>
+		<textarea bindinput="BindAddressChange" value="{{Detail.addr_address}}"></textarea>
 	</view>
 	<view class="AddressBtn{{ValiStatus ? ' active':''}}" bindtap="saveEdit">
 		保存

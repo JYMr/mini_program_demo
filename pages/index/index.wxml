@@ -13,6 +13,7 @@
             </block>
         </view>
     </block>
+    <!-- 加载过程展示的模块 -->
     <block wx:if="{{navmeau.length == 0}}">
         <view class="navmeau navmeau-empty">
             <block wx:for="{{4}}" wx:key="navmeau_{{index}}">
@@ -72,6 +73,36 @@
                 </view>
             </view>
         </block>
+
+        <!-- 加载过程展示的模块 -->
+        <block wx:if="{{collage.length == 0}}">
+            <view class='index-grid hot-grid grid-empty'>
+                <view class='title'></view>
+                <view class='slide'>
+                    <view class="slide-image"></view>
+                    <view class='bottom'>
+                        <view class='join-btn'></view>
+                        <view class='price'></view>
+                    </view>
+                </view>
+            </view>
+        </block>
+         <block wx:if="{{recommendgoods.length == 0}}">
+            <view class='index-grid lists-grid grid-empty'>
+                <view class='title'></view>
+                <view class='goodslists'>
+                    <view class='item'>
+                        <view class="image"></view>
+                        <view class='name'></view>
+                    </view>
+                    <view class='item'>
+                        <view class="image"></view>
+                        <view class='name'></view>
+                    </view>
+                </view>
+            </view>
+        </block>
+
         <view class='chat-btn' bindtap='calling'>药师咨询电话</view>
         <!-- footer -->
         <import src="/pages/Common/footer.wxml" />

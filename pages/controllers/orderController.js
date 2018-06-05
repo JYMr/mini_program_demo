@@ -34,7 +34,7 @@ class OrderController {
      * @return {Promise}
      */
     getOrder(params) {
-        return request.get(`${URI}/getOrder`, params).then(res => res.data)
+        return request.get(`${URI}/api/getMyOrderList.shtml`, params).then(res => res.data)
     }
 
 }

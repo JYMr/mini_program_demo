@@ -6,11 +6,11 @@ Page({
      * 页面的初始数据
      */
     data: {
-        Status: 0,
+        Status: "",
         OrderList: [],
         ListNo: 1,
         ListSize: 8,
-        isNeedLoad: true,
+        isEnd: true,
         LoadError: false
     },
 
@@ -59,13 +59,13 @@ Page({
             mask: true
         });
         orderController.getOrder({
-            status: this.data.Status,
-            no: this.data.ListNo
+            orderStatus: this.data.Status,
+            pageNo: this.data.ListNo
         }).then(res => {
-            if (res.status == 0) {
+            if (res.done) {
                 this.setData({
-                    OrderList: res.list,
-                    ListNo: ++this.data.ListNo
+                    OrderList: res.result.orderList,
+                    ListNo: res.result.nextPage
                 })
                 wx.hideLoading();
             }

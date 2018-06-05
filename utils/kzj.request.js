@@ -1,4 +1,6 @@
+//const BASE_URL = "http://192.168.40.82:8080";
 const BASE_URL = "https://api.77lemon.top";
+//const BASE_URL = "http://192.168.40.93:8090";
 const app = getApp();
 
 class Request {
@@ -10,13 +12,23 @@ class Request {
      */
     getApi(url, params) {
         let token = wx.getStorageSync('token') || '';
-        return new Promise((resolve, reject) => {
+
+        const promise = new Promise((resolve, reject) => {
             wx.request({
                 url: `${BASE_URL}${url}`,
                 method: 'POST',
                 data: Object.assign({}, { 'token': token }, params), //置入token
                 header: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                success: resolve,
+                success: res=>{
+                    if(res.statusCode == 200){
+                        resolve(res)
+                    }else{
+                        wx.showToast({
+                            title: '服务器出错,请重试',
+                            icon: 'none'
+                        })
+                    }
+                },
                 fail: err => {
                     wx.showToast({
                         title: '网络错误',
@@ -26,6 +38,18 @@ class Request {
                 }
             })
         })
+
+        /*if (token == '') {
+           return new Promise((resolve, reject) => {
+                wx.showToast({
+                    title: '状态失效，请关闭小程序后，重新打开',
+                    icon: 'none'
+                })
+                reject()
+            })
+        } else {*/
+            return promise
+        //}
     }
 
 }

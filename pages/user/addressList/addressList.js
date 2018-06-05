@@ -10,6 +10,7 @@ Page({
      */
     data: {
         AddressList: [],
+        isLoading: false,
         ChooseMode: false
     },
     /**
@@ -43,13 +44,18 @@ Page({
     onShow: function() {
 
     },
-
     getAddressData() {
         wx.showLoading();
+        this.setData({
+            isLoading: true
+        })
         addressController.getAddressData().then(res => {
-            this.setData({
-                AddressList: res.data
-            });
+            if (res.done) {
+                this.setData({
+                    AddressList: res.result.list,
+                    isLoading: false
+                });
+            }
             wx.hideLoading();
         });
     },
@@ -76,20 +82,23 @@ Page({
                         mask: true
                     });
                     addressController.delAddress({
-                        id: _id
+                        addr_id: _id
                     }).then(res => {
                         this.Dialog.CloseDialog();
-                        if (res.status == 0) {
+                        if (res.done) {
                             this.Dialog.ShowDialog({
                                 type: 'Message',
                                 title: '删除成功!'
-                            })
+                            });
+                            setTimeout(()=>{
+                                this.getAddressData();
+                            }, 1500)
                         } else {
                             this.Dialog.ShowDialog({
                                 type: 'Message',
                                 title: '删除失败!',
                                 messageType: 'fail'
-                            })
+                            });
                         }
                         wx.hideLoading();
                     })
@@ -107,9 +116,10 @@ Page({
             mask: true
         });
         addressController.setAddressDefault({
-            id: id
+            addr_id: id,
+            status:　1
         }).then(res => {
-            if (res.status == 0) {
+            if (res.done) {
 
                 let _Detail = this.data.AddressList;
                 for (let item of _Detail) {
@@ -118,6 +128,7 @@ Page({
                 this.setData({
                     AddressList: _Detail
                 })
+                this.getAddressData();
             } else {
                 this.Dialog.ShowDialog({
                     type: 'Message',
@@ -153,7 +164,7 @@ Page({
     //遍历查找地址对象
     SearchObject(id) {
         for (let item of this.data.AddressList) {
-            if (id == item.id) {
+            if (id == item.addr_id) {
                 return item;
             }
         }

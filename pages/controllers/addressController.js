@@ -9,7 +9,7 @@ class AddressController {
      * @return {Promise}
      */
     getAddressData(params) {
-        return request.get(`${URI}/getAddressData`, params).then(res => res.data)
+        return request.get(`${URI}/api/getUserAddrApiList.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -17,7 +17,7 @@ class AddressController {
      * @return {Promise}
      */
     setAddressDefault(params) {
-        return request.get(`${URI}/setAddressDefault`, params).then(res => res.data)
+        return request.get(`${URI}/api/updateUserAddrApiDefault.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -25,7 +25,7 @@ class AddressController {
      * @return {Promise}
      */
     addAddress(params) {
-        return request.get(`${URI}/addAddress`, params).then(res => res.data)
+        return request.get(`${URI}/api/insertUserAddrApi.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -33,7 +33,7 @@ class AddressController {
      * @return {Promise}
      */
     editAddress(params) {
-        return request.get(`${URI}/editAddress`, params).then(res => res.data)
+        return request.get(`${URI}/api/updateUserAddrApi.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -41,7 +41,7 @@ class AddressController {
      * @return {Promise}
      */
     delAddress(params) {
-        return request.get(`${URI}/delAddress`, params).then(res => res.data)
+        return request.get(`${URI}/api/deleteUserAddrApi.shtml`, params).then(res => res.data)
     }
 }
 /**

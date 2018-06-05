@@ -3,7 +3,7 @@
 <view class='searchlists'>
     <!-- 热门搜索 -->
     <view class='hotlists'>
-        <view class='title'>热门搜索</view>
+        <view class='title'>热门搜索<view class="loading"></view></view>
         <block wx:if="{{hotgoods.length!=0}}">
             <view class='con'>
                 <block wx:for="{{hotgoods}}" wx:for-item="item" wx:for-index='index' wx:key="hot_{{index}}">

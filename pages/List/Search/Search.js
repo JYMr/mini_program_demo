@@ -45,6 +45,8 @@ Page({
                         searchstory: []
                     })
                     this.Dialog.CloseDialog();
+                }else{
+                    this.Dialog.CloseDialog();
                 }
             }
         })
@@ -59,9 +61,17 @@ Page({
         let localStorageValue = [];
         if (this.data.inputValue != '') {
             //调用API从本地缓存中获取数据
-            var searchData = wx.getStorageSync('searchData') || []
-            searchData.push(this.data.inputValue)
-            wx.setStorageSync('searchData', searchData)
+            var searchData = wx.getStorageSync('searchData') || [];
+            var tempSearchData = [];
+            //过滤历史列表中相同的搜索记录
+            for(let item of searchData){
+                if(item != this.data.inputValue) {
+                    tempSearchData.push(item);
+                }
+            }
+            tempSearchData.push(this.data.inputValue)
+            wx.setStorageSync('searchData', tempSearchData)
+            //跳转列表
             wx.navigateTo({
                 url: "/pages/List/GoodsList/GoodsList?search=" + this.data.inputValue
             })

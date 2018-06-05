@@ -14,7 +14,7 @@ App({
                     success: res => {
                         // 发送 res.code 到后台换取 openId, sessionKey, unionId
                         wx.request({
-                            url: 'http://192.168.40.82:8080/api/apiUserLogin.shtml',
+                            url: 'http://192.168.40.93:8090/api/userApiLogin.shtml',
                             method: 'POST',
                             data: {
                                 code: res.code

@@ -6,10 +6,13 @@ Page({
      * 页面的初始数据
      */
     data: {
-        keyword: '',//搜索关键词
+        keyword: '', //搜索关键词
         selectHide: false,
         contentlist: [], //商品列表
+        categoryId: '',
+        categoryName: '',
         pageNo: 1,
+        pagesize: 8,
         isEnd: false
     },
 
@@ -22,11 +25,17 @@ Page({
                 keyword: options.search,
                 selectHide: true
             })
+            this.GetListData(this)
+        }
+        if (options.id && options.name) {
+            this.setData({
+                categoryId: options.id,
+                categoryName: options.name
+            })
             wx.setNavigationBarTitle({
-                title: options.search + '列表'
+                title: this.data.categoryName
             })
         }
-        this.GetListData(this) 
     },
 
     /**
@@ -48,9 +57,13 @@ Page({
      */
     onReachBottom: function() {
         //上拉 
-        this.setData({
-            pageNo: ++this.data.pageNo
-        }) 
+        if (this.data.isEnd) {
+            wx.showToast({
+                title: '已经到底了哦',
+                icon: 'none'
+            })
+            return;
+        }
         this.GetListData()
     },
     //获取列表
@@ -61,20 +74,58 @@ Page({
             mask: true
         });
 
-        searchController.GetSearchList({
-            keyword: this.data.keyword,
-            no: this.data.pageNo
+        searchController.GetSearchKeyWord({
+            goodsname: this.data.keyword,
+            pageNo: this.data.pageNo,
+            pageSize: this.data.pagesize
         }).then(res => {
-            if (res.status == 0) {
+            if (res.done) {
+                //处理价格，保留两位小数
+                for (let item of res.result.goodsList.list) {
+                    item.goods_price = parseFloat(item.goods_price).toFixed(2);
+                }
                 this.setData({
-                    contentlist: this.data.contentlist.concat(res.list)
+                    contentlist: this.data.contentlist.concat(res.result.goodsList.list),
+                    pageNo: res.result.goodsList.nextPage,
+                    isEnd: this.data.pageNo == res.result.goodsList.nextPage //判断是否为最后一页
                 })
+                wx.hideLoading();
+            } else {
                 wx.hideLoading();
             }
         })
     },
+    //获取商品分类列表
+    GetCategoryList(){
+
+       /* wx.showLoading({
+            title: '加载数据中...',
+            mask: true
+        });
+
+        searchController.GetSearchKeyWord({
+            goodsname: this.data.keyword,
+            pageNo: this.data.pageNo,
+            pageSize: this.data.pagesize
+        }).then(res => {
+            if (res.done) {
+                //处理价格，保留两位小数
+                for (let item of res.result.goodsList.list) {
+                    item.goods_price = parseFloat(item.goods_price).toFixed(2);
+                }
+                this.setData({
+                    contentlist: this.data.contentlist.concat(res.result.goodsList.list),
+                    pageNo: res.result.goodsList.nextPage,
+                    isEnd: this.data.pageNo == res.result.goodsList.nextPage //判断是否为最后一页
+                })
+                wx.hideLoading();
+            } else {
+                wx.hideLoading();
+            }
+        })*/
+    },
     //处理搜索事件
-    SearchtoList(e){
+    SearchtoList(e) {
         let keyword = e.detail.keyword;
         this.setData({
             keyword: keyword,
