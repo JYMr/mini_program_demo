@@ -80,6 +80,7 @@ App({
         userInfo: null,
         defaultImg: 'http://www.kzj365.com/mini_program/images/default.png',
         tel: '',
+        isOpen: '',//后台设置开启购买
         AddressId: '' //用于订单地址选择
     },
     Util: {

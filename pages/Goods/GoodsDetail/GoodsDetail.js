@@ -10,14 +10,15 @@ Page({
         goodsinfo: {}, //商品信息
         spec: {}, //规格
         mobile: '',
-        chooseSpecId: '',
+        chooseSpecId: '',//选择的规格id
+        selectSpecName: '',//选择的规格名称
         showModalStatus: false, //是否显示
         ModalMode: 'Buy', //遮罩模式
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         hasUserInfo: false,
         goodsnavtop: 0, //导航是否浮动
         goodsnavbool: false,
-        ChaticonMenu: false//客服菜单
+        ChaticonMenu: false //客服菜单
     },
     /**
      * 生命周期函数--监听页面加载
@@ -48,7 +49,7 @@ Page({
             })
         }
 
-        if(app.globalData.tel){
+        if (app.globalData.tel) {
             this.setData({
                 mobile: app.globalData.tel
             })
@@ -102,34 +103,11 @@ Page({
      */
     onShareAppMessage() {
         let _ImageUrl = app.globalData.defaultImg;
-        let _GoodsImageList = this.data.goodsinfo.siderimg;
-        for (let item of _GoodsImageList) {
-            if (item != app.globalData.defaultImg) {
-                _ImageUrl = item;
-                break;
-            }
-        }
+        let _GoodsImageList = this.data.goodsinfo.goodsImg;
         let ShareOption = {
-            title: this.data.goodsinfo.name,
+            title: this.data.goodsinfo.goodsName,
             path: '' + this.route,
-            imageUrl: _ImageUrl,
-            success: res => {
-                if (res.errMsg == 'shareAppMessage:ok') {
-                    this.Dialog.ShowDialog({
-                        type: 'Message',
-                        title: '分享成功'
-                    })
-                }
-            },
-            fail: err => {
-                /* if (err.errMsg != 'shareAppMessage:fail cancel') {
-                     this.Dialog.ShowDialog({
-                         type: 'Message',
-                         title: err.errMsg.split(':')[1],
-                         messageType: 'fail'
-                     })
-                 }*/
-            }
+            imageUrl:_GoodsImageList ||  _ImageUrl
         }
         return ShareOption;
     },
@@ -141,50 +119,30 @@ Page({
         });
         //接口加载数据
         goodscontroller.getGoodsDetail({
-            id: this.data.id
+            goodsId: this.data.id
         }).then(res => {
-            if (res.status == 0) {
+            if (res.done) {
                 //提取规格信息
                 let _Spec = {};
-                _Spec.name = res.goodsinfo.name;
-                _Spec.price = res.goodsinfo.price;
-                _Spec.src = res.goodsinfo.siderimg[0];
-                _Spec.speclists = res.goodsinfo.speclists;
-                _Spec.packager = res.goodsinfo.packager;
+                _Spec.name = res.result.goodsdetail.goodsName;
+                _Spec.price = res.result.goodsdetail.goodsPrice.toFixed(2);
+                _Spec.src = res.result.goodsdetail.goodsImg;
+                _Spec.speclists = res.result.goodsdetail.specGoodsApis;
+                _Spec.packager = res.result.goodsdetail.goodsCombinations;
+
+                //处理价格小数点
+                res.result.goodsdetail.goodsPrice = res.result.goodsdetail.goodsPrice.toFixed(2)
+                res.result.goodsdetail.goodsMarketPrice = res.result.goodsdetail.goodsMarketPrice.toFixed(2)
+
+                this.setData({
+                    goodsinfo: res.result.goodsdetail,
+                    spec: _Spec,
+                    chooseSpecId: res.result.goodsdetail.goodsId
+                })
 
                 //框选默认规格
                 _Spec = this.DefaultAttr(_Spec);
 
-                this.setData({
-                    goodsinfo: res.goodsinfo,
-                    spec: _Spec,
-                    chooseSpecId: res.goodsinfo.id
-                })
-                wx.hideLoading();
-            }
-        })
-    },
-    //刷新套餐规格信息
-    ReloadGoodsData(id) {
-        wx.showLoading({
-            title: '加载数据中...',
-            mask: true
-        });
-        goodscontroller.getGoodsSpec({
-            id: id
-        }).then(res => {
-            if (res.status == 0) {
-                //框选套餐默认规格
-                let _spec = this.data.spec;
-                _spec.name = res.Spec.name;
-                _spec.price = res.Spec.price;
-                _spec.market = res.Spec.market;
-                _spec.src = res.Spec.src;
-                _spec.packager = res.Spec.packager;
-                _spec = this.DefaultAttr(_spec, 'packager');
-                this.setData({
-                    spec: _spec
-                })
                 wx.hideLoading();
             }
         })
@@ -248,6 +206,8 @@ Page({
         this.setData({
             num: --_num
         });
+        //处理套餐
+        this.AutoPackager();
     },
     /* 点击加号 */
     bindPlus(e) {
@@ -256,6 +216,8 @@ Page({
         this.setData({
             num: ++_num
         });
+        //处理套餐
+        this.AutoPackager();
     },
     /* 输入框事件 */
     bindManual(e) {
@@ -272,11 +234,36 @@ Page({
             num: _num
         });
     },
+    //数量变化自动选择套餐
+    AutoPackager() {
+        let _List = this.data.spec;
+        //判断是否有套餐
+        if (_List.packager && _List.packager.length > 0) {
+            let  isSelectKey = 0;
+            for (let key in _List.packager) {
+                //判断数量是否符合套餐数量
+                if(this.data.num >= _List.packager[key].packageCount){
+                    //添加选中
+                    _List.packager[key].isselect = true;
+                    //除去其他套餐选中
+                    if(key > 0){
+                        for(let ukey = key - 1; ukey >= 0; ukey--){
+                            _List.packager[ukey].isselect = false;
+                        }
+                    }
+                }
+            }
+
+            this.setData({
+                spec: _List
+            })
+        }
+    },
     //规格选择
     ClickAttr(e) {
         let type = e.currentTarget.dataset.type;
         let _Spec = this.data.spec;
-
+        let _Name = this.data.selectspec;
         if (type == 'spec') {
             //处理规格选择
             let _List = _Spec.speclists;
@@ -285,32 +272,48 @@ Page({
 
             for (let key in _List) {
                 //判断规格id以及规格库存
-                if (_ChooseIndex == key && _List[key].stock > 0 && !_List[key].isselect) {
+                if (_ChooseIndex == key && _List[key].goodsStock > 0 && !_List[key].isselect) {
+                    //选中规格
                     _List[key].isselect = true;
-                    _SpecId = _List[key].id;
+                    //获取规格ID
+                    _SpecId = _List[key].goodsId;
+                    //获取规格名
+                    _Name = _List[key].goodsSpec
+                    //获取规格商品名
+                    _Spec.name = _List[key].goodsName;
+                    //获取规格商品主图
+                    _Spec.src = _List[key].goodsImg;
+                    //获取规格商品价格
+                    _Spec.price = _List[key].goodsPrice.toFixed(2);
+
                 } else {
                     _List[key].isselect = false;
                 }
             }
             this.setData({
-                spec: _Spec
+                spec: _Spec,
+                chooseSpecId: _SpecId,
+                selectSpecName:  _Name
             })
-            if (_SpecId) {
-                //套餐选择
-                this.ReloadGoodsData(_SpecId);
-            }
         } else if (type == 'packager') {
             //处理套餐选择
+
+            //如果为处方药，仅提供展示
+            if(this.data.goodsinfo.goodsType == 0) return;
             let _List = _Spec.packager;
+            //套餐数量
+            let _Num = 1;
             let _ChooseIndex = e.currentTarget.dataset.index;
             for (let key in _List) {
                 _List[key].isselect = false;
                 if (_ChooseIndex == key) {
                     _List[key].isselect = true;
+                    _Num = _List[key].packageCount;
                 }
             }
             this.setData({
-                spec: _Spec
+                spec: _Spec,
+                num: _Num
             })
         }
     },
@@ -318,11 +321,12 @@ Page({
     DefaultAttr(spec, mode) {
 
         if (mode == 'spec' || mode == undefined) {
-            if (spec.packager.length > 0 && spec.speclists[0].stock > 0) {
+            if (spec.packager.length > 0 && spec.speclists[0].goodsStock > 0) {
                 spec.speclists[0].isselect = true;
             }
         }
         if (mode == 'packager' || mode == undefined) {
+            if(this.data.goodsinfo.goodsType == 0) return;
             if (spec.packager.length > 0) {
                 spec.packager[0].isselect = true;
             }

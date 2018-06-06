@@ -98,7 +98,6 @@ Component({
                     addr_area: this.data.Detail.addr_area || this.data.region[2],
                     addr_address: this.data.Detail.addr_address
                 }
-                console.log(data)
                 wx.showLoading({
                     mask: true
                 });

@@ -3,9 +3,9 @@
 <import src="/pages/Common/TypeIcon.wxml" />
 <!-- banner -->
 <swiper class="goodsilder" indicator-dots="true" autoplay="true" interval="5000" duration="500">
-    <block wx:for="{{goodsinfo.siderimg}}" wx:for-item="item" wx:for-index='index' wx:key="slider_{{index}}">
+    <block wx:for="{{goodsinfo.goodsImages}}" wx:for-item="item" wx:for-index='index' wx:key="slider_{{index}}">
         <swiper-item>
-            <image src="{{item?item:defaultImg}}" binderror="errImg" data-err-img="goodsinfo.siderimg[{{index}}]" class="slide-image" />
+            <image src="{{item.imageArtworkName}}" binderror="errImg" data-err-img="goodsinfo.siderimg[{{index}}]" class="slide-image" />
         </swiper-item>
     </block>
 </swiper>
@@ -21,15 +21,25 @@
         <text class='icon'></text>药师服务</view>
 </view>
 <!-- 基本信息 -->
-<view class='goodsinfo' wx:if="{{goodsinfo.id}}">
+<view class='goodsinfo' wx:if="{{goodsinfo.goodsId}}">
     <button class='share' open-type="share"></button>
     <view class='name'>
-        <template is="TypeIcon" data="{{type: goodsinfo.type}}" />{{goodsinfo.name}}</view>
-    <view class='price-item'></view>
-    <view class='detail'>{{goodsinfo.manufacturer}}</view>
+        <template is="TypeIcon" data="{{type: goodsinfo.goodsType}}" />{{goodsinfo.goodsName}}
+    </view>
+    <view class='price-item'>
+        <text class='price'>
+            <text>¥</text>
+            <text class='nums'>{{goodsinfo.goodsPrice}}</text>
+        </text>
+        <text class='market'>
+            <text>¥</text>
+            <text class='nums'>{{goodsinfo.goodsMarketPrice}}</text>
+        </text>
+    </view>
+    <view class='detail'>{{goodsinfo.goodsSubtitle}}</view>
 </view>
 <!-- 预加载样式 -->
-<view class='goodsinfo load' wx:if="{{goodsinfo.id == undefined}}">
+<view class='goodsinfo load' wx:if="{{goodsinfo.goodsId == undefined}}">
     <view class='share'></view>
     <view class='name'></view>
     <view class='price-item'></view>
@@ -37,7 +47,7 @@
 </view>
 <!-- 规格 -->
 <view class='goodsattr' bindtap="showModal" wx:if="{{spec.speclists}}">商品规格:
-    <text>{{goodsinfo.selectspec!='' ? goodsinfo.selectspec : "请选择"}}</text>
+    <text>{{selectSpecName!='' ? selectSpecName : "请选择"}}</text>
 </view>
 <!-- nav -->
 <view class="goodsnav {{goodsnavbool ?'goodsnavfixed':''}}" bindtap="TabToggle">
@@ -48,8 +58,8 @@
 <!-- 图文详情 -->
 <view class='infogrid {{tabsindex=="0" ? "show" : "hide"}}'>
     <view class='goodsdetail'>
-        <block wx:for='{{goodsinfo.detaildata}}' wx:for-item="item" wx:for-index='index' wx:key="detail_{{index}}">
-            <image src='{{item}}' mode="widthFix"></image>
+        <block wx:for='{{goodsinfo.goodsDescImgs}}' wx:for-item="item" wx:for-index='index' wx:key="detail_{{index}}">
+            <image src='{{item.goodsDescImg}}' mode="widthFix"></image>
         </block>
     </view>
 </view>
@@ -57,10 +67,10 @@
 <view class='infogrid {{tabsindex=="1" ? "show" : "hide"}}'>
     <view class='instructions'>
         <view class="table">
-            <block wx:for="{{goodsinfo.manual}}" wx:key="manual_{{index}}">
+            <block wx:for="{{goodsinfo.books}}" wx:key="manual_{{index}}">
                 <view class="tr">
-                    <view class="th">{{item.key}}</view>
-                    <view class="td">{{item.value}}</view>
+                    <view class="th">{{item.bookname}}</view>
+                    <view class="td">{{item.bookvalue}}</view>
                 </view>
             </block>
         </view>
@@ -69,7 +79,7 @@
 <!-- float -->
 <view class='goodsfloat'>
     <!-- 非处方药 -->
-    <block wx:if="{{goodsinfo.added != 1 && goodsinfo.stock > 0 && goodsinfo.type != 0}}">
+    <block wx:if="{{goodsinfo.goodsAdded != 0 && goodsinfo.goodsStock > 0 && goodsinfo.goodsType != 0}}">
         <view class='buy' bindtap="showModal" data-type="Buy">立即购买</view>
         <view class='addcart' bindtap="showModal" data-type="Cart">加入购物车</view>
         <navigator url='/pages/Cart/Cart' class='cart' hover-class='none'>
@@ -78,7 +88,7 @@
         </navigator>
     </block>
     <!-- 处方药 -->
-    <block wx:if="{{goodsinfo.added != 1 && goodsinfo.stock > 0 && goodsinfo.type == 0}}">
+    <block wx:if="{{goodsinfo.goodsAdded != 0 && goodsinfo.goodsStock > 0 && goodsinfo.goodsType == 0}}">
         <view class='buy' bindtap="showModal" data-type="RxBuy">立即预定</view>
         <view class='addcart green' bindtap="showModal" data-type="RxCart">加入预定清单</view>
         <navigator url='/pages/Goods/Reservation/Reservation' class='list' hover-class='none'>
@@ -91,16 +101,16 @@
         <view>联系客服</view>
     </view>
     <!-- 下架 -->
-    <view class='gray' wx:if="{{goodsinfo.added == 1}}">该商品已下架</view>
+    <view class='gray' wx:if="{{goodsinfo.goodsAdded == 0}}">该商品已下架</view>
     <!-- 缺货 -->
-    <view class='gray' wx:if="{{goodsinfo.stock == 0}}">该商品已缺货</view>
+    <view class='gray' wx:if="{{goodsinfo.goodsStock == 0}}">该商品已缺货</view>
 </view>
 <!-- 属性弹出框 -->
 <view class='prop' id='select-attr' wx:if="{{showModalStatus}}">
     <view class='select-attr' animation="{{animationData}}">
         <view class='close' bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
         <view class='info'>
-            <image class='pic' src='{{spec.src}}'></image>
+            <image class='pic' src='{{spec.src}}' binderror="errImg"></image>
             <view class='price'>¥
                 <text class='nums'>{{spec.price}}</text>
             </view>
@@ -111,7 +121,7 @@
                 <view class='t'>规格</view>
                 <view class='lists'>
                     <block wx:for="{{spec.speclists}}" wx:for-item="item" wx:for-index='index' wx:key="spec_{{index}}">
-                        <view class="item{{item.isselect?' on':''}}{{item.stock > 0?'':' disabled'}}" data-index="{{index}}" data-type="spec" bindtap='ClickAttr'>{{item.name}}</view>
+                        <view class="item{{item.isselect?' on':''}}{{item.goodsStock > 0?'':' disabled'}}" data-index="{{index}}" data-type="spec" bindtap='ClickAttr'>{{item.goodsSpec}}</view>
                     </block>
                 </view>
             </view>
@@ -121,12 +131,12 @@
                 <view class='t'>优惠套餐</view>
                 <view class='lists'>
                     <block wx:for="{{spec.packager}}" wx:key="packager_{{index}}">
-                        <view class="item{{item.isselect?' on':''}}" data-index="{{index}}" data-type="packager" bindtap='ClickAttr'>{{item.name}}</view>
+                        <view class="item{{item.isselect?' on':''}}" data-index="{{index}}" data-type="packager" bindtap='ClickAttr'>{{item.combinationTitle}}</view>
                     </block>
                 </view>
             </view>
         </block>
-        <view class='grid'>
+        <view class='grid' wx:if="{{goodsinfo.goodsType != 0}}">
             <view class='t'>数量</view>
             <view class='control'>
                 <view class='mins{{num <= 1 ? " disabled":""}}' bindtap="bindMinus" hover-class="hover">-</view>

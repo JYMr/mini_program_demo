@@ -35,6 +35,7 @@ Page({
             wx.setNavigationBarTitle({
                 title: this.data.categoryName
             })
+            this.GetCategoryList();
         }
     },
 
@@ -66,7 +67,7 @@ Page({
         }
         this.GetListData()
     },
-    //获取列表
+    //获取搜索列表
     GetListData() {
 
         wx.showLoading({
@@ -74,7 +75,7 @@ Page({
             mask: true
         });
 
-        searchController.GetSearchKeyWord({
+        searchController.GetSearchList({
             goodsname: this.data.keyword,
             pageNo: this.data.pageNo,
             pageSize: this.data.pagesize
@@ -98,31 +99,31 @@ Page({
     //获取商品分类列表
     GetCategoryList(){
 
-       /* wx.showLoading({
+        wx.showLoading({
             title: '加载数据中...',
             mask: true
         });
 
-        searchController.GetSearchKeyWord({
-            goodsname: this.data.keyword,
+        searchController.GetCategoryList({
+            categoryId: this.data.categoryId,
             pageNo: this.data.pageNo,
             pageSize: this.data.pagesize
         }).then(res => {
             if (res.done) {
                 //处理价格，保留两位小数
-                for (let item of res.result.goodsList.list) {
+                for (let item of res.result.goodslist.list) {
                     item.goods_price = parseFloat(item.goods_price).toFixed(2);
                 }
                 this.setData({
-                    contentlist: this.data.contentlist.concat(res.result.goodsList.list),
-                    pageNo: res.result.goodsList.nextPage,
-                    isEnd: this.data.pageNo == res.result.goodsList.nextPage //判断是否为最后一页
+                    contentlist: this.data.contentlist.concat(res.result.goodslist.list),
+                    pageNo: res.result.goodslist.nextPage,
+                    isEnd: this.data.pageNo == res.result.goodslist.nextPage //判断是否为最后一页
                 })
                 wx.hideLoading();
             } else {
                 wx.hideLoading();
             }
-        })*/
+        })
     },
     //处理搜索事件
     SearchtoList(e) {

@@ -4,7 +4,8 @@ Page({
     data: {
         selectHide: false,
         searchstory: [],
-        hotgoods: []
+        hotgoods: [],
+        SearchHotListLoading: false
     },
     /**
      * 生命周期函数--监听页面加载
@@ -92,10 +93,14 @@ Page({
     },
     //获取关键字列表
     GetKeyWordList(){
+        this.setData({
+            SearchHotListLoading: true
+        })
         searchController.GetSearchKeyWord().then(res=>{
-            if(res.status == 0){
+            if(res.done){
                 this.setData({
-                    hotgoods: res.list
+                    hotgoods: res.result.kewordlist,
+                    SearchHotListLoading: false
                 })
             }
         })

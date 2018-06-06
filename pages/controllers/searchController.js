@@ -16,21 +16,28 @@ class SearchController{
     }
 
     /**
-     * 获取搜索关键词列表
-     * @return {Promise}
-     */
-    GetSearchKeyWord(params){
-        return request.get(`${URI}/api/searchGoodsName.shtml`, params).then(res => res.data)
-    }
-
-    /**
      * 获取搜索列表
      * @return {Promise}
      */
+    GetSearchKeyWord(params){
+        return request.get(`${URI}/api/getHotSearchList.shtml`, params).then(res => res.data)
+    }
+
+    /**
+     * 获取搜索商品列表
+     * @return {Promise}
+     */
     GetSearchList(params){
-        return request.get(`${URI}/getSearchList`, params).then(res => res.data)
+        return request.get(`${URI}/api/searchGoodsName.shtml`, params).then(res => res.data)
     }
     
+    /**
+     * 获取分类商品列表
+     * @return {Promise}
+     */
+    GetCategoryList(params){
+        return request.get(`${URI}/api/getGoodsListByCategoryId.shtml`, params).then(res => res.data)
+    }
 }
 /**
  * 实例化对象

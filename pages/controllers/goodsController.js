@@ -12,7 +12,7 @@ class GoodsController{
      * @return {Promise}
      */
     getGoodsDetail(params){
-      return request.get(`${URI}/getGoodsDetail`, params).then(res => res.data)
+      return request.get(`${URI}/api/getGoodsDetailByGoodsId.shtml`, params).then(res => res.data)
     }
 	    
 	/**
