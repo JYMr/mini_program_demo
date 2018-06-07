@@ -2,43 +2,43 @@
 <import src="/pages/Common/TypeIcon.wxml" />
 
 <view class='statusbox'>
-    <block wx:if="{{OrderData.status == 0}}">
+    <block wx:if="{{OrderData.orderType == 0}}">
         <text class="t">待付款</text>
         <view class='c'>2小时内没完成支付，订单将被取消!</view>
     </block>
-    <block wx:if="{{OrderData.status == 1}}">
+    <block wx:if="{{OrderData.orderType == 1}}">
         <text class="t">待分享</text>
         <view class='c'>分享给朋友能提高拼团成功率</view>
     </block>
-    <block wx:if="{{OrderData.status == 2}}">
+    <block wx:if="{{OrderData.orderType == 2}}">
         <text class="t">待发货</text>
         <view class='c'>亲，我们将尽快为您发货</view>
     </block>
-    <block wx:if="{{OrderData.status == 3}}">
+    <block wx:if="{{OrderData.orderType == 3}}">
         <text class="t">已发货</text>
         <view class='c'>亲，请复制物流单号去查询！</view>
     </block>
-    <block wx:if="{{OrderData.status == 4}}">
+    <block wx:if="{{OrderData.orderType == 4}}">
         <text class="t">交易完成</text>
         <view class='c'>亲，如有需要请再次购买</view>
     </block>
-    <block wx:if="{{OrderData.status == 5}}">
+    <block wx:if="{{OrderData.orderType == 5}}">
         <text class="t">待付款</text>
         <view class='c'>2小时内没完成支付，订单将被取消!</view>
     </block>
-    <block wx:if="{{OrderData.status == 6}}">
+    <block wx:if="{{OrderData.orderType == 6}}">
         <text class="t">取消中</text>
         <view class='c'>客服正在确认是否已发货</view>
     </block>
-    <block wx:if="{{OrderData.status == 7}}">
+    <block wx:if="{{OrderData.orderType == 7}}">
         <text class="t">已取消</text>
         <view class='c'>退款原路返回，请耐心等候！</view>
     </block>
-    <block wx:if="{{OrderData.status == 8}}">
+    <block wx:if="{{OrderData.orderType == 8}}">
         <text class="t">售后中</text>
         <view class='c'>客服正在处理，尽快帮你完成售后</view>
     </block>
-    <block wx:if="{{OrderData.status == 9}}">
+    <block wx:if="{{OrderData.orderType == 9}}">
         <text class="t">售后完成</text>
         <view class='c'>如有疑问，请咨询客服</view>
     </block>
@@ -46,10 +46,10 @@
 
 <view class='addaddress'>
     <view class='info'>
-        <view class='t'><text class='name'>{{OrderData.Address.name}}</text>  <text class='tel'>{{OrderData.Address.mobile}}</text> 
-            <text class='tip' wx:if="{{OrderData.Address.isDefault}}">默认</text>
+        <view class='t'><text class='name'>{{OrderData.shippingPerson}}</text>  <text class='tel'>{{OrderData.shippingPhone}}</text> 
+            <text class='tip' wx:if="{{OrderData.addrDefault == 1}}">默认</text>
         </view>
-        <view class='c'>{{OrderData.Address.province}}{{OrderData.Address.city}}{{OrderData.Address.area}}{{OrderData.Address.address}}</view>
+        <view class='c'>{{OrderData.shippingAddress}}</view>
     </view>
 </view>
 <view class='orderlists'>
@@ -58,15 +58,16 @@
         <text class='name'>康之家药店</text>
     </view>
     <view class='lists'>
-        <navigator class='item' wx:for="{{OrderData.goods_list}}" url="/pages/Goods/GoodsDetail/GoodsDetail" wx:key="{{index}}">
-            <image class='pic' src='http://kzjimg01.b0.upaiyun.com/1508118546272.jpg'></image>
-            <view class='name'><template is="TypeIcon" data="{{type: item.goods_type}}" />{{item.title}}</view>
-            <text class='price'>￥<text class='n'>{{item.price}}</text></text>
-            <text class='attr'>/1{{item.spec_type}}</text>
-            <text class='ctype' wx:if="{{item.isGroup}}">疗程装</text>
-            <text class='nums'>x{{item.total}}</text>
-        </navigator>
-        
+        <block wx:for="{{OrderData.orderGoods}}" wx:key="goods_{{index}}">
+            <navigator class='item' url="/pages/Goods/GoodsDetail/GoodsDetail?id={{item.orderGoodsId}}">
+                <image class='pic' src='{{item.goodsImageUrl}}'></image>
+                <view class='name'><template is="TypeIcon" data="{{type: item.goodsType}}" />{{item.goodsName}}</view>
+                <text class='price'>￥<text class='n'>{{item.goodsInfoPrice}}</text></text>
+                <text class='attr'>/1{{item.goodsDeno}}</text>
+                <text class='ctype' wx:if="{{item.isGroup}}">疗程装</text>
+                <text class='nums'>x{{item.goodsInfoNum}}</text>
+            </navigator>
+        </block>
     </view>
     <view class='total'> 共3件商品 合计：￥{{OrderData.orderPrice}} 
         <block wx:if="{{OrderData.isNeedExpress}}">（包含快递费10元）</block>
@@ -74,16 +75,16 @@
     </view>
 </view>
 <view class='totalinfo'>
-    <view>订单编号：{{OrderData.orderNumber}}</view>
+    <view>订单编号：{{OrderData.orderCode}}</view>
     <view>支付方式：
-        <text class='status' wx:if="{{OrderData.status == 0}}">待付款</text>
-        <text class='status' wx:if="{{OrderData.status == 1}}">待分享</text>
-        <text class='status' wx:if="{{OrderData.status == 2}}">待发货</text>
-        <text class='status' wx:if="{{OrderData.status == 3}}">已发货</text>
-        <text class='status' wx:if="{{OrderData.status == 4}}">已完成</text>
-        <text class='status' wx:if="{{OrderData.status == 5}}">待付款</text>
+        <text class='status' wx:if="{{OrderData.orderType == 0}}">待付款</text>
+        <text class='status' wx:if="{{OrderData.orderType == 1}}">待分享</text>
+        <text class='status' wx:if="{{OrderData.orderType == 2}}">待发货</text>
+        <text class='status' wx:if="{{OrderData.orderType == 3}}">已发货</text>
+        <text class='status' wx:if="{{OrderData.orderType == 4}}">已完成</text>
+        <text class='status' wx:if="{{OrderData.orderType == 5}}">待付款</text>
     </view>
-    <view>下单时间：{{OrderData.orderTime}}</view>
+    <view>下单时间：{{OrderData.orderCreateTime}}</view>
 </view>
 
 <import src="/pages/Common/footer.wxml" />
@@ -91,44 +92,44 @@
 
 <view class='floatcontrol-blank'></view>
 <view class='floatcontrol'>
-    <block wx:if="{{OrderData.status == 0}}">
+    <block wx:if="{{OrderData.orderType == 0}}">
         <text class='cancel-btn' catchtap="CancelOrder">取消订单</text>
         <text class='gopay-btn' catchtap="PayMent">去支付</text>
     </block>
-    <block wx:if="{{OrderData.status == 1}}">
+    <block wx:if="{{OrderData.orderType == 1}}">
         <text class='cancel-btn' catchtap="CancelOrder">取消订单</text>
         <text class='gopay-btn' data-id="{{OrderItem.id}}" catchtap="InviteJoin">邀请参团</text>
     </block>
-    <block wx:if="{{OrderData.status == 2}}">
+    <block wx:if="{{OrderData.orderType == 2}}">
         <text class='cancel-btn' catchtap="CustomerService">申请售后</text>
     </block>
-    <block wx:if="{{OrderData.status == 3}}">
+    <block wx:if="{{OrderData.orderType == 3}}">
         <text class='cancel-btn' catchtap="ExpressNumber">物流单号</text>
         <text class='cancel-btn' catchtap="CustomerService">申请售后</text>
         <text class='cancel-btn green' catchtap="ConfirmOrder">确认收货</text>
     </block>
-    <block wx:if="{{OrderData.status == 4}}">
+    <block wx:if="{{OrderData.orderType == 4}}">
         <text class='cancel-btn' catchtap="DeleteOrder">删除订单</text>
         <text class='cancel-btn' catchtap="CustomerService">申请售后</text>
         <text class='cancel-btn' catchtap="BuyingAgain">再次购买</text>
     </block>
-    <block wx:if="{{OrderData.status == 5}}">
+    <block wx:if="{{OrderData.orderType == 5}}">
         <text class='cancel-btn' catchtap="CancelOrder">取消订单</text>
         <text class='gopay-btn' catchtap="PayMent">去支付</text>
     </block>
-    <block wx:if="{{OrderData.status == 6}}">
+    <block wx:if="{{OrderData.orderType == 6}}">
         <text class='cancel-btn' catchtap="CancelOrder">取消订单</text>
     </block>
-    <block wx:if="{{OrderData.status == 7}}">
+    <block wx:if="{{OrderData.orderType == 7}}">
         <text class='cancel-btn' catchtap="CancelOrder">取消订单</text>
         <text class='cancel-btn' catchtap="BuyingAgain">再次购买</text>
     </block>
-    <block wx:if="{{OrderData.status == 8}}">
+    <block wx:if="{{OrderData.orderType == 8}}">
         <text class='cancel-btn' catchtap="ExpressNumber">物流单号</text>
         <text class='cancel-btn' catchtap="CustomerService">申请售后</text>
         <text class='cancel-btn green' catchtap="ConfirmOrder">确认收货</text>
     </block>
-    <block wx:if="{{OrderData.status == 9}}">
+    <block wx:if="{{OrderData.orderType == 9}}">
         <text class='cancel-btn' catchtap="DeleteOrder">删除订单</text>
         <text class='cancel-btn' catchtap="BuyingAgain">再次购买</text>
     </block>

@@ -20,8 +20,8 @@ App({
                                 code: res.code
                             },
                             header: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                            success: function(res){
-                                if(res.data.done){
+                            success: function(res) {
+                                if (res.data.done) {
                                     wx.setStorageSync('token', res.data.result.token)
                                 }
                             },
@@ -80,18 +80,17 @@ App({
         userInfo: null,
         defaultImg: 'http://www.kzj365.com/mini_program/images/default.png',
         tel: '',
-        isOpen: '',//后台设置开启购买
+        isOpen: '', //后台设置开启购买
         AddressId: '' //用于订单地址选择
     },
     Util: {
         handleDate: Util
     },
     errImg: function(e, that) {
-        var _errImg = e.target.dataset.errImg;
-        var _objImg = "'" + _errImg + "'";
-        var _errObj = {};
-        _errObj[_errImg] = this.globalData.defaultImg;
-        that.setData(_errObj); //注意这里的赋值方式...  
+        let _obj = e.target.dataset.obj;
+        let _errObj = {};
+        _errObj[_obj] = this.globalData.defaultImg;
+        that.setData(_errObj);
     },
     calling: function() { //拨打电话
         wx.makePhoneCall({

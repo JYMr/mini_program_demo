@@ -37,6 +37,14 @@ class OrderController {
         return request.get(`${URI}/api/getMyOrderList.shtml`, params).then(res => res.data)
     }
 
+    /**
+     * 加载订单详情
+     * @return {Promise}
+     */
+    getOrderDetail(params) {
+        return request.get(`${URI}/api/getOrderInfo.shtml`, params).then(res => res.data)
+    }
+
 }
 /**
  * 实例化对象

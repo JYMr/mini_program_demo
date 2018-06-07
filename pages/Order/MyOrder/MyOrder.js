@@ -6,11 +6,11 @@ Page({
      * 页面的初始数据
      */
     data: {
-        Status: "",
+        Status: "-1",
         OrderList: [],
         ListNo: 1,
         ListSize: 8,
-        isEnd: true,
+        isEnd: false,
         LoadError: false
     },
 
@@ -46,10 +46,7 @@ Page({
      * 页面上拉触底事件的处理函数
      */
     onReachBottom() {
-        console.log('触底');
-        this.setData({
-            ListNo: ++this.data.ListNo
-        })
+        if(this.data.isEnd) return;
         this.GetOrderList();
     },
     //获取订单数据
@@ -58,14 +55,23 @@ Page({
             title: '加载数据中...',
             mask: true
         });
+        let _Status = this.data.Status == -1 ? '' : this.data.Status
         orderController.getOrder({
-            orderStatus: this.data.Status,
+            orderStatus: _Status,
             pageNo: this.data.ListNo
         }).then(res => {
             if (res.done) {
+                //处理订单价格数据
+                for(let item of res.result.orderList.list){
+                    for(let uitem of item.orderGoods){
+                        uitem.goodsInfoPrice = uitem.goodsInfoPrice.toFixed(2)
+                    }
+                    item.orderPrice = item.orderPrice.toFixed(2)
+                }         
                 this.setData({
-                    OrderList: res.result.orderList,
-                    ListNo: res.result.nextPage
+                    OrderList: this.data.OrderList.concat(res.result.orderList.list),
+                    ListNo: res.result.orderList.nextPage,
+                    isEnd: res.result.orderList.totalPage == this.data.ListNo
                 })
                 wx.hideLoading();
             }

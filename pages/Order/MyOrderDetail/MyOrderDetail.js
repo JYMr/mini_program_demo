@@ -1,4 +1,5 @@
 // pages/cart/detail.js
+const orderController = require('../../controllers/orderController').controller;
 const app =getApp();
 Page({
 
@@ -6,55 +7,20 @@ Page({
      * 页面的初始数据
      */
     data: {
-        OrderData: {
-            id: '1658',
-            status: 2,
-            orderPrice: 25.90,
-            isNeedExpress: true,
-            total: 8,
-            orderNumber: '1156132213',
-            orderTime: '1526542446',
-            ExpressNumber: '2515446551321321',
-            ExpressName: '申通快递',
-            goods_list: [{
-                    id: 1516,
-                    src: '',
-                    title: '仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶',
-                    total: 5,
-                    spec_type: '盒',
-                    goods_type: '1',
-                    isGroup: true,
-                    price: 25.90
-                },
-                {
-                    id: 1516,
-                    src: '',
-                    title: '仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶',
-                    total: 1,
-                    spec_type: '盒',
-                    goods_type: '2',
-                    isGroup: false,
-                    price: 25.90
-                }
-            ],
-            Address: {
-                id: 564,
-                name: '张晓峰',
-                mobile: 18858424268,
-                province: '广东省',
-                city: '湛江市',
-                area: '霞山区',
-                address: '万达广场附近大厦电子科技有限公司（ 产品研发部3室）',
-                isDefault: true
-            },
-        }
+        OrderId: '',
+        OrderData: {}
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        this.GetOrderDetail();
+        if(options.id){
+            this.setData({
+                OrderId: options.id
+            })
+            this.GetOrderDetail();
+        }
     },
 
     /**
@@ -78,8 +44,17 @@ Page({
             title: '加载数据中...',
             mask: true
         });
+        orderController.getOrderDetail({
+            orderId: this.data.OrderId
+        }).then(res=>{
+            if(res.done){
+                this.setData({
+                    OrderData: res.result.orderInfo
+                })
+            }
+            wx.hideLoading();
+        })
         this.HandleData();
-        wx.hideLoading();
     },
     //处理数据
     HandleData() {

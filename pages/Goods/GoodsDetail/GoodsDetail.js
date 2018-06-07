@@ -134,14 +134,22 @@ Page({
                 res.result.goodsdetail.goodsPrice = res.result.goodsdetail.goodsPrice.toFixed(2)
                 res.result.goodsdetail.goodsMarketPrice = res.result.goodsdetail.goodsMarketPrice.toFixed(2)
 
+                //处理商品轮播图为空
+                if(res.result.goodsdetail.goodsImages.length == 0){
+                    res.result.goodsdetail.goodsImages.push({
+                        imageArtworkName: app.globalData.defaultImg
+                    })
+                }
+
+                //框选默认规格
+                _Spec = this.DefaultAttr(_Spec, res.result.goodsdetail.goodsType);
+
                 this.setData({
                     goodsinfo: res.result.goodsdetail,
                     spec: _Spec,
                     chooseSpecId: res.result.goodsdetail.goodsId
                 })
 
-                //框选默认规格
-                _Spec = this.DefaultAttr(_Spec);
 
                 wx.hideLoading();
             }
@@ -233,6 +241,8 @@ Page({
         this.setData({
             num: _num
         });
+        //处理套餐
+        this.AutoPackager();
     },
     //数量变化自动选择套餐
     AutoPackager() {
@@ -259,7 +269,7 @@ Page({
             })
         }
     },
-    //规格选择
+    //规格选择,套餐选择
     ClickAttr(e) {
         let type = e.currentTarget.dataset.type;
         let _Spec = this.data.spec;
@@ -318,15 +328,15 @@ Page({
         }
     },
     //默认规格选中
-    DefaultAttr(spec, mode) {
+    DefaultAttr(spec, type, mode) {
 
         if (mode == 'spec' || mode == undefined) {
-            if (spec.packager.length > 0 && spec.speclists[0].goodsStock > 0) {
+            if (spec.speclists.length > 0 && spec.speclists[0].goodsStock > 0) {
                 spec.speclists[0].isselect = true;
             }
         }
         if (mode == 'packager' || mode == undefined) {
-            if(this.data.goodsinfo.goodsType == 0) return;
+            if(type == 0) return;
             if (spec.packager.length > 0) {
                 spec.packager[0].isselect = true;
             }
@@ -451,5 +461,8 @@ Page({
                 }
             })
         }
+    },
+    ErrorImage(e){
+       app.errImg(e, this);
     }
 })

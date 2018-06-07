@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 10,
 			"list": [
 				{
 					"id": 0,
@@ -93,10 +93,10 @@
 					"query": "id=15"
 				},
 				{
-					"id": -1,
+					"id": 10,
 					"name": "MyOrder",
 					"pathName": "pages/Order/MyOrder/MyOrder",
-					"query": "id=2"
+					"query": "status=-1"
 				},
 				{
 					"id": -1,
@@ -105,10 +105,10 @@
 					"query": ""
 				},
 				{
-					"id": -1,
+					"id": 12,
 					"name": "MyOrderDetail",
 					"pathName": "pages/Order/MyOrderDetail/MyOrderDetail",
-					"query": ""
+					"query": "id=9"
 				},
 				{
 					"id": 13,

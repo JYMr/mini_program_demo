@@ -5,7 +5,7 @@
 <swiper class="goodsilder" indicator-dots="true" autoplay="true" interval="5000" duration="500">
     <block wx:for="{{goodsinfo.goodsImages}}" wx:for-item="item" wx:for-index='index' wx:key="slider_{{index}}">
         <swiper-item>
-            <image src="{{item.imageArtworkName}}" binderror="errImg" data-err-img="goodsinfo.siderimg[{{index}}]" class="slide-image" />
+            <image src="{{item.imageArtworkName}}" binderror="errImg" data-obj="goodsinfo.goodsImages[{{index}}].imageArtworkName" class="slide-image" />
         </swiper-item>
     </block>
 </swiper>
@@ -59,7 +59,7 @@
 <view class='infogrid {{tabsindex=="0" ? "show" : "hide"}}'>
     <view class='goodsdetail'>
         <block wx:for='{{goodsinfo.goodsDescImgs}}' wx:for-item="item" wx:for-index='index' wx:key="detail_{{index}}">
-            <image src='{{item.goodsDescImg}}' mode="widthFix"></image>
+            <image src='{{item.goodsDescImg}}' mode="widthFix" binderror="ErrorImage" data-obj="goodsinfo.goodsDescImgs[{{index}}].goodsDescImg"></image>
         </block>
     </view>
 </view>
@@ -110,7 +110,7 @@
     <view class='select-attr' animation="{{animationData}}">
         <view class='close' bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
         <view class='info'>
-            <image class='pic' src='{{spec.src}}' binderror="errImg"></image>
+            <image class='pic' src='{{spec.src}}' binderror="ErrorImage" data-obj="spec.src"></image>
             <view class='price'>¥
                 <text class='nums'>{{spec.price}}</text>
             </view>
@@ -145,14 +145,14 @@
             </view>
         </view>
         <!-- 非处方药按钮 -->
-        <block wx:if="{{ goodsinfo.type != 0}}">
+        <block wx:if="{{ goodsinfo.goodsType != 0}}">
             <!-- 有UserInfo权限 -->
             <view class='comfirm-btn' hover-class="hover" wx:if="{{hasUserInfo || ModalMode == 'Cart' ||  ModalMode == ''}}" bindtap="ModalConfirm">确定</view>
             <!-- 无UserInfo权限 -->
             <button class='comfirm-btn' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" wx:if="{{!hasUserInfo && ModalMode == 'Buy'}}" bindtap="ModalConfirm">确定</button>
         </block>
         <!-- 处方药按钮 -->
-        <block wx:if="{{ goodsinfo.type == 0}}">
+        <block wx:if="{{ goodsinfo.goodsType == 0}}">
             <!-- 有UserInfo权限 -->
             <view class='comfirm-btn green' hover-class="hover" wx:if="{{hasUserInfo || ModalMode == 'RxCart'}}" bindtap="ModalConfirm">加入预定清单</view>
             <!-- 无UserInfo权限 -->
