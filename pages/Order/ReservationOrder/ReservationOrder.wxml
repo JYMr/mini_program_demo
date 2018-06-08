@@ -1,4 +1,7 @@
 <import src="/pages/Common/TypeIcon.wxml" />
+<!-- 引入过滤器 -->
+<wxs module="Filter" src="../../Common/filter/filter.wxs"></wxs>
+
 <view class='ordernav'>
     <view class='item{{Status == "" ? " on" : ""}}' bindtap="TabToggle" data-status="">全部</view>
     <view class='item{{Status == 1 ? " on" : ""}}' bindtap="TabToggle" data-status="1">待审核</view>
@@ -23,7 +26,7 @@
                 <view class='name'><template is="TypeIcon" data="{{type: item.goods_type}}" />{{item.goodsName}}</view>
                 <text class='price'>
                   <text>￥</text>
-                  <text class='n'>{{item.goodsPrice}}</text>
+                  <text class='n'>{{Filter.toFixed(item.goodsPrice)}}</text>
                 </text>
                 <text class='attr' wx:if="{{item.goodsUnit}}">/1{{item.goodsUnit}}</text>
                 <text class='nums'>x{{item.goodsInfoNum}}</text>

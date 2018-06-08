@@ -64,11 +64,11 @@ Page({
         }).then(res => {
             if (res.done) {
                 //处理价格小数点
-                res.result.orderInfo.orderPrice = res.result.orderInfo.orderPrice.toFixed(2)
+                /*res.result.orderInfo.orderPrice = res.result.orderInfo.orderPrice.toFixed(2)
                 for (let item of res.result.orderInfo.orderGoods) {
                     item.goodsPrice = item.goodsPrice.toFixed(2)
                 }
-
+*/
                 this.setData({
                     OrderData: res.result.orderInfo
                 })
@@ -86,12 +86,6 @@ Page({
             orderId: this.data.OrderId
         }).then(res => {
             if (res.done) {
-                //处理价格小数点
-                res.result.orderInfo.orderPrice = res.result.orderInfo.orderPrice.toFixed(2)
-                for (let item of res.result.orderInfo.orderGoods) {
-                    item.goodsPrice = item.goodsPrice.toFixed(2)
-                }
-
                 this.setData({
                     OrderData: res.result.orderInfo
                 })

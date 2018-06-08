@@ -1,14 +1,17 @@
 // pages/cate/cate.js
 const categoryController = require('../../controllers/categoryController.js').controller;
+const app = getApp();
+
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
+        chooseId: null,
         CategoryList: [],
         ChildList: [],
-        chooseId: null
+        DefaultImage: ''
     },
     /**
      * 生命周期函数--监听页面加载
@@ -20,6 +23,12 @@ Page({
             });
         }
         this.getCategory();
+
+
+        //获取全局默认图片底图
+        this.setData({
+            DefaultImage: app.globalData.defaultImg
+        })
     },
     //根据Id获取子数据索引
     getDataIndex(id) {
@@ -58,7 +67,6 @@ Page({
                 }
             }
         } else {
-            console.log(this.data.CategoryList[0].subCategorys)
             this.setData({
                 ChildList: this.data.CategoryList[0].subCategorys || [],
                 chooseId: this.data.CategoryList[0].catId
@@ -73,5 +81,8 @@ Page({
             chooseId: id
         })
         this.getcategoryChild();
+    },
+    ErrorImage(e) {
+        app.errImg(e, this);
     }
 })

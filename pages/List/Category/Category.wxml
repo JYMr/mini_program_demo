@@ -11,7 +11,7 @@
                 <block wx:for="{{ChildList}}" wx:for-item="item" wx:for-index='index' wx:key="scroll_{{index}}">
                     <view class='item'>
                         <navigator url='/pages/List/GoodsList/GoodsList?id={{item.catId}}&name={{item.catName}}'>
-                            <image class='pic' src='{{item.catImage}}'></image>
+                            <image class='pic' src='{{item.catImage ||DefaultImage}}' binderror="ErrorImage" data-obj="ChildList[{{index}}].catImage" lazy-load="true"></image>
                             <view class='name'>{{item.catName}}</view>
                         </navigator>
                     </view>

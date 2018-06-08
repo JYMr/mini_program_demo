@@ -84,10 +84,6 @@ Page({
             pageSize: this.data.pagesize
         }).then(res => {
             if (res.done) {
-                //处理价格，保留两位小数
-                for (let item of res.result.goodsList.list) {
-                    item.goods_price = parseFloat(item.goods_price).toFixed(2);
-                }
                 this.setData({
                     contentlist: this.data.contentlist.concat(res.result.goodsList.list),
                     pageNo: res.result.goodsList.nextPage,

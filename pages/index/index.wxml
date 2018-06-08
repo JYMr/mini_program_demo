@@ -1,5 +1,6 @@
 <!--pages/index.wxml-->
 <!-- 搜索 -->
+<wxs module="Filter" src="../Common/filter/filter.wxs"></wxs>
 <view class='index'>
     <search id='search' inputValue='{{inputValue}}' classtype='search-index-out' selectHide='{{selectHide}}' clickable="true"></search>
     <!-- 菜单 -->
@@ -44,13 +45,13 @@
                                     <image src="{{item.purchase_image || DefaultImage}}" class="slide-image"  mode="aspectFill"  binderror="ErrorImage" data-obj="collage[{{index}}].purchase_image"/>
                                     <view class='discount'>
                                         <text class='n'>立省</text>
-                                        <text class='nums'>￥{{item.preferen_price}} </text>
+                                        <text class='nums'>￥{{Filter.toFixed(item.preferen_price)}} </text>
                                     </view>
                                     <view class='name'>{{item.purchase_name}}</view>
                                 </navigator>
                                 <view class='bottom'>
                                     <navigator class='join-btn' url='../GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{item.goods_id}}'>去拼团</navigator>
-                                    <text class='price'>¥{{item.purchase_price}}</text><block wx:if="{{item.goods_unit}}">/1{{item.goods_unit}}</block>｜已售{{item.effective_stock + item.sale_number}}
+                                    <text class='price'>¥{{Filter.toFixed(item.purchase_price)}}</text><block wx:if="{{item.goods_unit}}">/1{{item.goods_unit}}</block>｜已售{{item.effective_stock + item.sale_number}}
                                 </view>
                             </swiper-item>
                         </block>
@@ -70,7 +71,7 @@
                             <navigator hover-class='none' url='/pages/Goods/GoodsDetail/GoodsDetail?id={{item.goods.goods_id}}'>
                                 <image class='pic' src='{{item.goods.goods_img || DefaultImage}}' binderror="ErrorImage" data-obj="recommendgoods[{{index}}].goods.goods_img"></image>
                                 <view class='name'>{{item.goods.goods_name}}</view>
-                                <text class='price'>¥{{item.goods.goods_price}}</text>
+                                <text class='price'>¥{{Filter.toFixed(item.goods.goods_price)}}</text>
                             </navigator>
                         </view>
                     </block>

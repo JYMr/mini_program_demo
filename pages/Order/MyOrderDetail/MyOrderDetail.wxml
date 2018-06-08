@@ -1,4 +1,7 @@
 <!--pages/cart/detail.wxml-->
+<!-- 引入过滤器 -->
+<wxs module="Filter" src="../../Common/filter/filter.wxs"></wxs>
+
 <import src="/pages/Common/TypeIcon.wxml" />
 <view class='statusbox'>
     <block wx:if="{{OrderData.orderStatus == 7}}">
@@ -60,7 +63,7 @@
                 <image class='pic' src='{{item.goodsImageUrl ||DefaultImage}}' binderror="ErrorImage" data-obj="OrderData.orderGoods[{{index}}].goodsImageUrl"></image>
                 <view class='name'>
                     <template is="TypeIcon" data="{{type: item.goodsType}}" />{{item.goodsTitle}} {{item.goodsSpec}}</view>
-                <text class='price'>￥<text class='n'>{{item.goodsPrice}}</text>
+                <text class='price'>￥<text class='n'>{{Filter.toFixed(item.goodsPrice)}}</text>
                 </text>
                 <text class='attr' wx:if="{{item.goodsDeno}}">/1{{item.goodsDeno}}</text>
                 <text class='ctype' wx:if="{{item.isGroup}}">疗程装</text>
@@ -68,7 +71,7 @@
             </navigator>
         </block>
     </view>
-    <view class='total'> 共3件商品 合计：￥{{OrderData.orderPrice}}
+    <view class='total'> 共3件商品 合计：￥{{Filter.toFixed(OrderData.orderPrice)}}
         <block wx:if="{{OrderData.isNeedExpress}}">（包含快递费10元）</block>
         <block wx:if="{{!OrderData.isNeedExpress}}">（免运费）</block>
     </view>

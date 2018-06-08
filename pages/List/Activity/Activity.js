@@ -37,10 +37,6 @@ Page({
             actId: this.data.id
         }).then(res => {
             if (res.done) {
-                //处理价格
-                for(let item of res.result.activity.act_goodses){
-                    item.goods.goods_price = item.goods.goods_price.toFixed(2)
-                }
                 this.setData({
                     activityData: res.result.activity
                 })

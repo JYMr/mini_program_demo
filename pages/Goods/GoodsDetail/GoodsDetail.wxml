@@ -1,6 +1,8 @@
 <!--pages/goods/index.wxml-->
 <!-- 引入药品图标模板 -->
 <import src="/pages/Common/TypeIcon.wxml" />
+<!-- 引入过滤器 -->
+<wxs module="Filter" src="../../Common/filter/filter.wxs"></wxs>
 <!-- banner -->
 <swiper class="goodsilder" indicator-dots="true" autoplay="true" interval="5000" duration="500">
     <block wx:for="{{goodsinfo.goodsImages}}" wx:for-item="item" wx:for-index='index' wx:key="slider_{{index}}">
@@ -29,11 +31,11 @@
     <view class='price-item'>
         <text class='price'>
             <text>¥</text>
-            <text class='nums'>{{goodsinfo.goodsPrice}}</text>
+            <text class='nums'>{{Filter.toFixed(goodsinfo.goodsPrice)}}</text>
         </text>
         <text class='market'>
             <text>¥</text>
-            <text class='nums'>{{goodsinfo.goodsMarketPrice}}</text>
+            <text class='nums'>{{Filter.toFixed(goodsinfo.goodsMarketPrice)}}</text>
         </text>
     </view>
     <view class='detail'>{{goodsinfo.goodsSubtitle}}</view>
@@ -69,7 +71,7 @@
                     <navigator class="recommend-item" hover-class="none" url="/pages/Goods/GoodsDetail/GoodsDetail?id={{item.goods.goods_id}}">
                         <image src="{{item.goods.goods_img || DefaultImage}}" data-obj="goodsinfo.associateGoodses[{{index}}].goods.goods_img" binderror="ErrorImage" lazy-load="true"></image>
                         <view class="name">{{item.goods.goods_name}}</view>
-                        <text class="price">¥{{item.goods.goods_price}}</text>
+                        <text class="price">¥{{Filter.toFixed(item.goods.goods_price)}}</text>
                     </navigator>
                 </swiper-item>
             </swiper>

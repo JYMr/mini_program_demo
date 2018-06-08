@@ -131,13 +131,6 @@ Page({
                 _Spec.speclists = res.result.goodsdetail.specGoodsApis || [];
                 _Spec.packager = res.result.goodsdetail.goodsCombinations || [];
 
-                //处理价格小数点
-                res.result.goodsdetail.goodsPrice = res.result.goodsdetail.goodsPrice.toFixed(2)
-                res.result.goodsdetail.goodsMarketPrice = res.result.goodsdetail.goodsMarketPrice.toFixed(2)
-                for(let item of res.result.goodsdetail.associateGoodses){
-                    item.goods.goods_price = item.goods.goods_price.toFixed(2)
-                }
-
                 //处理商品轮播图为空
                 if(res.result.goodsdetail.goodsImages.length == 0){
                     res.result.goodsdetail.goodsImages.push({

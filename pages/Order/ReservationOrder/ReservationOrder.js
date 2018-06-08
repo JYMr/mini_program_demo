@@ -61,12 +61,6 @@ Page({
             pageNo: this.data.ListNo
         }).then(res => {
             if (res.done) {
-                //处理价格小数点
-                for (let item of res.result.needList.list) {
-                    for (let uitem of item.needGoods) {
-                        uitem.goodsPrice = uitem.goodsPrice.toFixed(2)
-                    }
-                }
                 this.setData({
                     OrderList: this.data.OrderList.concat(res.result.needList.list),
                     ListNo: res.result.needList.nextPage,
