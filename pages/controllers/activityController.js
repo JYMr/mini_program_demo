@@ -9,7 +9,7 @@ class ActivityController {
      * @return {Promise}
      */
     getAddressData(params) {
-        return request.get(`${URI}/getActivity`, params).then(res => res.data)
+        return request.get(`${URI}/api/getActivityByActId.shtml`, params).then(res => res.data)
     }
 
 }

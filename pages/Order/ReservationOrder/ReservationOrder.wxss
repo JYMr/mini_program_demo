@@ -12,9 +12,8 @@
 .orderlists .title .success{ font-size: 30rpx; font-weight: 700; color: #37c4a4; float: right;}
 .orderlists .title .cancel,.orderlists .title .completion{ font-size: 30rpx; font-weight: 700; color: #ddd; float: right;}
 .orderlists .lists{ border-bottom: #f4f4f4 1px solid;}
-.orderlists .lists .item{background: #fafafa; position: relative; margin-bottom: 10rpx; }
+.orderlists .lists .item{background: #fafafa; position: relative; margin-bottom: 10rpx; padding: 30rpx; display: block; overflow: hidden;}
 .orderlists .lists .item:last-child{ margin-bottom: 0;}
-.orderlists .lists navigator{ padding: 30rpx; display: block; overflow: hidden; }
 .orderlists .lists .pic{ width: 140rpx; height: 140rpx; float: left; margin-right: 30rpx;}
 .orderlists .lists .name{ text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;  color: #4a5259; font-size: 26rpx; height: 100rpx; line-height: 1.4;}
 .orderlists .lists .type{ background: #37c4a4; display: inline-block; line-height: 30rpx; vertical-align: middle; padding: 0 10rpx;  height: 30rpx; color: #fff; text-align: center; margin-right: 10rpx; text-transform: uppercase; border-radius: 50rpx;}

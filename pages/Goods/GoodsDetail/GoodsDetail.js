@@ -18,7 +18,8 @@ Page({
         hasUserInfo: false,
         goodsnavtop: 0, //导航是否浮动
         goodsnavbool: false,
-        ChaticonMenu: false //客服菜单
+        ChaticonMenu: false, //客服菜单
+        DefaultImage: ''
     },
     /**
      * 生命周期函数--监听页面加载
@@ -49,11 +50,10 @@ Page({
             })
         }
 
-        if (app.globalData.tel) {
-            this.setData({
-                mobile: app.globalData.tel
-            })
-        }
+        this.setData({
+            mobile: app.globalData.tel,
+            DefaultImage: app.globalData.defaultImg
+        })
 
         if (options.id) {
             this.setData({
@@ -66,6 +66,7 @@ Page({
                 delta: 1
             })
         }
+
     },
     /**
      * 生命周期函数--监听页面初次渲染完成
@@ -106,7 +107,7 @@ Page({
         let _GoodsImageList = this.data.goodsinfo.goodsImg;
         let ShareOption = {
             title: this.data.goodsinfo.goodsName,
-            path: '' + this.route,
+            path: '' + this.route + '?id=' + this.data.id,
             imageUrl:_GoodsImageList ||  _ImageUrl
         }
         return ShareOption;
@@ -124,15 +125,18 @@ Page({
             if (res.done) {
                 //提取规格信息
                 let _Spec = {};
-                _Spec.name = res.result.goodsdetail.goodsName;
+                _Spec.name = res.result.goodsdetail.goodsTitle;
                 _Spec.price = res.result.goodsdetail.goodsPrice.toFixed(2);
                 _Spec.src = res.result.goodsdetail.goodsImg;
-                _Spec.speclists = res.result.goodsdetail.specGoodsApis;
-                _Spec.packager = res.result.goodsdetail.goodsCombinations;
+                _Spec.speclists = res.result.goodsdetail.specGoodsApis || [];
+                _Spec.packager = res.result.goodsdetail.goodsCombinations || [];
 
                 //处理价格小数点
                 res.result.goodsdetail.goodsPrice = res.result.goodsdetail.goodsPrice.toFixed(2)
                 res.result.goodsdetail.goodsMarketPrice = res.result.goodsdetail.goodsMarketPrice.toFixed(2)
+                for(let item of res.result.goodsdetail.associateGoodses){
+                    item.goods.goods_price = item.goods.goods_price.toFixed(2)
+                }
 
                 //处理商品轮播图为空
                 if(res.result.goodsdetail.goodsImages.length == 0){
@@ -290,7 +294,7 @@ Page({
                     //获取规格名
                     _Name = _List[key].goodsSpec
                     //获取规格商品名
-                    _Spec.name = _List[key].goodsName;
+                    _Spec.name = _List[key].goodsTitle;
                     //获取规格商品主图
                     _Spec.src = _List[key].goodsImg;
                     //获取规格商品价格
@@ -331,13 +335,13 @@ Page({
     DefaultAttr(spec, type, mode) {
 
         if (mode == 'spec' || mode == undefined) {
-            if (spec.speclists.length > 0 && spec.speclists[0].goodsStock > 0) {
+            if (spec.speclists != undefined && spec.speclists.length > 0 && spec.speclists[0].goodsStock > 0) {
                 spec.speclists[0].isselect = true;
             }
         }
         if (mode == 'packager' || mode == undefined) {
-            if(type == 0) return;
-            if (spec.packager.length > 0) {
+            if(type == 0) return spec;
+            if (spec.packager != undefined && spec.packager.length > 0 && spec.packager.packageCount == 1) {
                 spec.packager[0].isselect = true;
             }
         }

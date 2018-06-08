@@ -4,23 +4,23 @@
         <view class='index-grid hot-grid'>
             <navigator class='slide' wx:for="{{GroupBuyData}}" url='/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail' wx:key="GroupBuyData_{{index}}" hover-class="none">
                 <view class='pic'>
-                    <image src="{{item.siderimg}}" class="slide-image" />
+                    <image src="{{item.purchase_image || DefaultImage}}" class="slide-image" lazy-load="true" mode="aspectFill" binderror="ErrorImage" data-obj="GroupBuyData[{{index}}].purchase_image"/>
                     <view class='discount'>
                         <text class='n'>立省</text>
-                        <text class='nums'>￥{{item.discont}} </text>
+                        <text class='nums'>￥{{item.preferen_price}} </text>
                     </view>
-                    <view class='name'>{{item.name}}</view>
+                    <view class='name'>{{item.purchase_name}}</view>
                 </view>
                 <view class='bottom'>
                     <view class='join-btn'>
-                    	<text>12人团</text><text>去拼团</text>
+                    	<text>{{item.people_number}}人团</text><text>去拼团</text>
                 	</view>
-                    <text class='price'>¥{{item.price}}</text>/{{item.attr}}｜已售{{item.sale}}
+                    <text class='price'>¥{{item.purchase_price}}</text>/1{{item.goods_unit}}｜已售{{item.virtua_sale_number + item.sale_number}}
                 </view>
             </navigator>
         </view>
     </block>
 </view>
 <!-- footer -->
-<import src="/pages/Common/footer.wxml" />
-<template is="footer" data="" />
+<import src="/pages/Common/footer.wxml"/>
+<template is="footer" data="" wx:if="{{GroupBuyData.length != 0 && isEnd}}"/>

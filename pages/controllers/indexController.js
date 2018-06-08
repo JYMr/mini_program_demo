@@ -12,7 +12,7 @@ class IndexController{
      * @return {Promise}
      */
     getIndex(){
-        return request.get(`${URI}/getIndex`).then(res => res.data)
+        return request.get(`${URI}/api/getIndexActivityAndReGoodsAndPurchase.shtml`).then(res => res.data)
     }
 
 }

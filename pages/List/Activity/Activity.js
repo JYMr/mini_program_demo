@@ -7,8 +7,9 @@ Page({
      * 页面的初始数据
      */
     data: {
-        id: 214864,
-        activityData: {}
+        id: '',
+        activityData: {},
+        DefaultImage: ''
     },
 
     /**
@@ -21,6 +22,11 @@ Page({
             })
             this.getActivityData();
         }
+
+        //获取全局默认图片底图
+        this.setData({
+            DefaultImage: app.globalData.defaultImg
+        })
     },
     getActivityData() {
         wx.showLoading({
@@ -28,11 +34,20 @@ Page({
             mask: true
         });
         activityControllers.getAddressData({
-            id: this.data.id
+            actId: this.data.id
         }).then(res => {
-            if (res.status == 0) {
+            if (res.done) {
+                //处理价格
+                for(let item of res.result.activity.act_goodses){
+                    item.goods.goods_price = item.goods.goods_price.toFixed(2)
+                }
                 this.setData({
-                    activityData: res.data
+                    activityData: res.result.activity
+                })
+                
+                //设置标题
+                wx.setNavigationBarTitle({
+                    title: res.result.activity.act_name || '搜索'
                 })
             }
             wx.hideLoading();
@@ -41,6 +56,9 @@ Page({
     //拨打电话
     calling: function() {
         app.calling()
+    },
+    ErrorImage(e) {
+        app.errImg(e, this);
     }
 
 })

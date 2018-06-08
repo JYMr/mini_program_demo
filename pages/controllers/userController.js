@@ -9,7 +9,7 @@ class UserController {
      * @return {Promise}
      */
     getUserData(params) {
-        return request.get(`${URI}/getUserData`, params).then(res => res.data)
+        return request.get(`${URI}/api/getMyOrderCount.shtml`, params).then(res => res.data)
     }
 
 }

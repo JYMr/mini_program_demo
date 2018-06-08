@@ -24,7 +24,7 @@
 <view class='goodsinfo' wx:if="{{goodsinfo.goodsId}}">
     <button class='share' open-type="share"></button>
     <view class='name'>
-        <template is="TypeIcon" data="{{type: goodsinfo.goodsType}}" />{{goodsinfo.goodsName}}
+        <template is="TypeIcon" data="{{type: goodsinfo.goodsType}}" />{{goodsinfo.goodsTitle}}
     </view>
     <view class='price-item'>
         <text class='price'>
@@ -61,6 +61,19 @@
         <block wx:for='{{goodsinfo.goodsDescImgs}}' wx:for-item="item" wx:for-index='index' wx:key="detail_{{index}}">
             <image src='{{item.goodsDescImg}}' mode="widthFix" binderror="ErrorImage" data-obj="goodsinfo.goodsDescImgs[{{index}}].goodsDescImg"></image>
         </block>
+        <!-- 商品推荐 -->
+        <view class="product-recommend" wx:if="{{goodsinfo.associateGoodses.length > 0}}">
+            <view class="recommend-title">看该商品的用户还浏览过</view>
+            <swiper display-multiple-items="2.5" class="recommend-list">
+                <swiper-item wx:for="{{goodsinfo.associateGoodses}}" wx:key="recommend_{{index}}">
+                    <navigator class="recommend-item" hover-class="none" url="/pages/Goods/GoodsDetail/GoodsDetail?id={{item.goods.goods_id}}">
+                        <image src="{{item.goods.goods_img || DefaultImage}}" data-obj="goodsinfo.associateGoodses[{{index}}].goods.goods_img" binderror="ErrorImage" lazy-load="true"></image>
+                        <view class="name">{{item.goods.goods_name}}</view>
+                        <text class="price">¥{{item.goods.goods_price}}</text>
+                    </navigator>
+                </swiper-item>
+            </swiper>
+        </view>
     </view>
 </view>
 <!-- 说明书 -->
@@ -110,13 +123,13 @@
     <view class='select-attr' animation="{{animationData}}">
         <view class='close' bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
         <view class='info'>
-            <image class='pic' src='{{spec.src}}' binderror="ErrorImage" data-obj="spec.src"></image>
+            <image class='pic' src='{{spec.src  || DefaultImage}}' binderror="ErrorImage" data-obj="spec.src"></image>
             <view class='price'>¥
                 <text class='nums'>{{spec.price}}</text>
             </view>
             <view class='name'>{{spec.name}}</view>
         </view>
-        <block wx:if="{{spec.speclists}}">
+        <block wx:if="{{spec.speclists.length > 0}}">
             <view class='grid attr'>
                 <view class='t'>规格</view>
                 <view class='lists'>
@@ -126,7 +139,7 @@
                 </view>
             </view>
         </block>
-        <block wx:if="{{spec.packager}}">
+        <block wx:if="{{spec.packager.length > 0}}">
             <view class='grid packager'>
                 <view class='t'>优惠套餐</view>
                 <view class='lists'>
@@ -157,6 +170,7 @@
             <view class='comfirm-btn green' hover-class="hover" wx:if="{{hasUserInfo || ModalMode == 'RxCart'}}" bindtap="ModalConfirm">加入预定清单</view>
             <!-- 无UserInfo权限 -->
             <button class='comfirm-btn green' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" wx:if="{{!hasUserInfo && ModalMode == 'RxBuy'}}" bindtap="ModalConfirm">预定</button>
+            <button class='comfirm-btn green' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" wx:if="{{!hasUserInfo && ModalMode == ''}}" bindtap="hideModal">预定</button>
         </block>
     </view>
     <view class='gray-bg' bindtap="hideModal" wx:if="{{showModalStatus}}"></view>

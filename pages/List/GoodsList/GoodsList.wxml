@@ -6,9 +6,9 @@
         <block wx:for='{{contentlist}}' wx:for-item="item" wx:for-index='index' wx:key="story_{{index}}">
             <view class='item'>
                 <navigator url='/pages/Goods/GoodsDetail/GoodsDetail?id={{item.goods_id}}' hover-class="none">
-                    <image class='pic' src='{{item.goods_img}}' lazy-load='true'></image>
+                    <image class='pic' src='{{item.goods_img || DefaultImage}}' binderror="ErrorImage" data-obj="contentlist[{{index}}].goods_img" lazy-load='true'></image>
                     <view class='name'>
-                        <template is="TypeIcon" data="{{type: item.goods_type}}" />{{item.goods_name}}</view>
+                        <template is="TypeIcon" data="{{type: item.goods_type}}" />{{item.goods_title}} {{item.goods_spec}}</view>
                     <view class='price'>￥
                         <text class='nums'>{{item.goods_price}}</text>
                     </view>

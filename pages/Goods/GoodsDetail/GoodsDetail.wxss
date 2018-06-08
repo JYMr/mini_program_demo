@@ -85,7 +85,7 @@ page{background:#f4f4f4; margin-bottom: 118rpx; color: #555;font-size: 28rpx;}
 .select-attr .comfirm-btn.green.hover{background-color: #37c4a4;}
 .select-attr .close{ position: absolute; z-index: 100; right: 30rpx; top: 30rpx; display: inline-block; width: 40rpx; height: 40rpx;background: url(http://www.kzj365.com/mini_program/images/closeicon.png) no-repeat center center; background-size: 100%;}
 
-.goodsdetail{ text-align: center; background: #fff;}
+.goodsdetail{ text-align: center;}
 .goodsdetail image{ width: 100%; vertical-align: middle;}
 
 .instructions{ padding: 30rpx; padding-bottom: 0;}
@@ -103,3 +103,12 @@ page{background:#f4f4f4; margin-bottom: 118rpx; color: #555;font-size: 28rpx;}
 .Menu-item.cancel{color: #555;border-top: none;margin-top: 20rpx;}
 @keyframes MenuUp{from{transform: translate3d(0, 100%, 0);opacity: 0;}
     to{transform: translate(0, 0);opacity: 1;}}
+
+/*商品推荐*/
+.product-recommend{overflow: auto;margin-top: 20rpx;background-color: #FFF;}
+.product-recommend .recommend-title{text-align: left;line-height: 36rpx;border-left: 10rpx solid #37C4A4;margin: 36rpx 30rpx;color: #222;font-size: 36rpx;padding-left: 20rpx;}
+.product-recommend .recommend-list{height: 432rpx;text-align: left;}
+.product-recommend .recommend-item{padding: 30rpx;}
+.product-recommend .recommend-item image{width: 220rpx;height: 220rpx;margin-bottom: 30rpx;}
+.product-recommend .recommend-item .name{font-size: 26rpx;color: #555;line-height: 36rpx; height: 72rpx;overflow:hidden;text-overflow:ellipsis;line-clamp:2;box-orient:vertical;}
+.product-recommend .recommend-item .price{color: #FF5656;font-size: 35rpx}

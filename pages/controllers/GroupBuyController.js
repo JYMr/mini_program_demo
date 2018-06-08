@@ -12,7 +12,7 @@ class GroupBuyController{
      * @return {Promise}
      */
     getList(params){
-        return request.get(`${URI}/GetGroupBuyList`, params).then(res => res.data)
+        return request.get(`${URI}/api/queryPurchaseList.shtml`, params).then(res => res.data)
     }
 
     /**

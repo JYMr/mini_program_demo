@@ -13,16 +13,16 @@
     </view>
     <view class='con'>
         <navigator class='item' url="/pages/Order/MyOrder/MyOrder?status=1">
-            <text class='num' wx:if="{{OrderNum[0] != 0}}">{{OrderNum[0]}}</text>
+            <text class='num' wx:if="{{OrderNum.notpay != 0}}">{{OrderNum.notpay}}</text>
             <text class='icon01'></text>待付款</navigator>
         <navigator class='item' url="/pages/Order/MyOrder/MyOrder?status=2">
-            <text class='num' wx:if="{{OrderNum[1] != 0}}">{{OrderNum[1]}}</text>
+            <text class='num' wx:if="{{OrderNum.share != 0}}">{{OrderNum.share}}</text>
             <text class='icon02'></text>待分享</navigator>
         <navigator class='item' url="/pages/Order/MyOrder/MyOrder?status=3">
-            <text class='num' wx:if="{{OrderNum[2] != 0}}">{{OrderNum[2]}}</text>
+            <text class='num' wx:if="{{OrderNum.notdelivery != 0}}">{{OrderNum.notdelivery}}</text>
             <text class='icon03'></text>待发货</navigator>
         <navigator class='item' url="/pages/Order/MyOrder/MyOrder?status=4">
-            <text class='num' wx:if="{{OrderNum[3] != 0}}">{{OrderNum[3]}}</text>
+            <text class='num' wx:if="{{OrderNum.deliveryed != 0}}">{{OrderNum.deliveryed}}</text>
             <text class='icon04'></text>已发货</navigator>
     </view>
 </view>
@@ -30,7 +30,7 @@
     <view class='item'>
         <navigator url="/pages/Order/ReservationOrder/ReservationOrder">
             <text class='prestand-icon'></text>我的预定
-            <text class='nums' wx:if="{{OrderNum[4] != 0}}">{{OrderNum[4]}}</text>
+            <!-- <text class='nums' wx:if="0"></text> -->
         </navigator>
     </view>
     <view class='item'>

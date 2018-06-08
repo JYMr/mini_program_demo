@@ -2,31 +2,31 @@
 <import src="/pages/Common/TypeIcon.wxml" />
 
 <view class='ordernav'>
-    <view class='item{{Status == 0 ? " on" : ""}}' bindtap="TabToggle" data-status="0">售后中</view>
-    <view class='item{{Status == 1 ? " on" : ""}}' bindtap="TabToggle" data-status="1">售后完成</view>
+    <view class='item{{Status == 1 ? " on" : ""}}' bindtap="TabToggle" data-status="1">售后中</view>
+    <view class='item{{Status == 2 ? " on" : ""}}' bindtap="TabToggle" data-status="2">售后完成</view>
 </view>
 <view class='ordernav-bank'></view>
 
 <block wx:for="{{OrderList}}" wx:for-index="index"  wx:for-item="OrderItem" wx:key="order_{{index}}" wx:if="{{OrderList.length > 0}}">
-<navigator class='orderlists' url="../../Order/MyOrderDetail/MyOrderDetail?id={{OrderItem.id}}">
+<navigator class='orderlists' url="../../Order/MyOrderDetail/MyOrderDetail?id={{OrderItem.orderId}}&status=1" hover-class="none">
     <view class='title'>
         <text class='shopicon'></text>
         <text class='name'>康之家药店</text>
         <!-- 状态 -->
-        <block wx:if="{{OrderItem.status == 0}}"><text class='pedpay'>退货</text></block>
-        <block wx:if="{{OrderItem.status == 1}}"><text class='pedpay'>换货</text></block>
-        <block wx:if="{{OrderItem.status == 3}}"><text class='success' >完成</text></block>
+        <block wx:if="{{OrderItem.aftersalesStatus == 1 && OrderItem.aftersalesType == 1}}"><text class='pedpay'>退款</text></block>
+        <block wx:if="{{OrderItem.aftersalesStatus == 1 && OrderItem.aftersalesType == 2}}"><text class='pedpay'>换货</text></block>
+        <block wx:if="{{OrderItem.aftersalesStatus == 2}}"><text class='pedpay'>售后完成</text></block>
 
     </view>
     <view class='lists'>
-        <block wx:for="{{OrderItem.goods_list}}" wx:for-index="goods_index"  wx:for-item="item" wx:key="goods_{{goods_index}}">
+        <block wx:for="{{OrderItem.orderGoods}}" wx:for-index="goods_index"  wx:for-item="item" wx:key="goods_{{goods_index}}">
         <view class='item'>
-            <image class='pic' src='http://kzjimg01.b0.upaiyun.com/1508118546272.jpg'></image>
-            <view class='name'><template is="TypeIcon" data="{{type: item.goods_type}}" />{{item.title}}</view>
-            <text class='price'>￥<text class='n'>{{item.price}}</text></text>
-            <text class='attr'>/1{{item.spec_type}}</text>
+            <image class='pic' src='{{item.goodsImg || DefaultImage}}' binderror="ErrorImage"></image>
+            <view class='name'><template is="TypeIcon" data="{{type: item.goodsType}}" />{{item.goodsName}}</view>
+            <text class='price'>￥<text class='n'>{{item.goodsPrice}}</text></text>
+            <text class='attr'>/1{{item.goodsUnit}}</text>
             <text class='ctype' wx:if="{{item.isGroup}}">疗程装</text>
-            <text class='nums'>x{{item.total}}</text>
+            <text class='nums'>x{{item.goodsInfoNum}}</text>
         </view>
         </block>
     </view>
@@ -46,7 +46,7 @@
 
 <!-- 页脚 -->
 <import src="/pages/Common/footer.wxml" />
-<template is="footer" wx:if="{{OrderList.length != 0 && !isNeedLoad}}" data="" />
+<template is="footer" wx:if="{{OrderList.length != 0 && isEnd}}" data="" />
 
 <!-- 提示组件 -->
 <Dialog id="Dialog"></Dialog>

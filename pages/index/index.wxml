@@ -3,18 +3,22 @@
 <view class='index'>
     <search id='search' inputValue='{{inputValue}}' classtype='search-index-out' selectHide='{{selectHide}}' clickable="true"></search>
     <!-- 菜单 -->
-    <block wx:if="{{navmeau.length != 0}}">
+    <block wx:if="{{!isLoading}}">
         <view class='navmeau'>
+            <view class='navli' bindtap="IndexCategroyTap" data-type="0">
+                <image class='icon' src='http://www.kzj365.com/mini_program/images/navmeauicon01.png'></image>
+                <text>分类</text>
+            </view>
             <block wx:for='{{navmeau}}' wx:for-item='item' wx:key="navmeau_{{index}}">
-                <view class='navli' bindtap="IndexCategroyTap" data-id="{{item.id}}" data-type="{{item.type}}">
-                    <image class='icon' src='{{item.img}}'></image>
-                    <text>{{item.name}}</text>
+                <view class='navli' bindtap="IndexCategroyTap" data-actid="{{item.act_id}}" data-oneid="{{item.cat_id_one}}" data-twoid="{{item.cat_id_two}}" data-type="{{item.act_type}}">
+                    <image class='icon' src='{{item.icon_url}}'></image>
+                    <text>{{item.act_name}}</text>
                 </view>
             </block>
         </view>
     </block>
     <!-- 加载过程展示的模块 -->
-    <block wx:if="{{navmeau.length == 0}}">
+    <block wx:if="{{navmeau.length == 0 && isLoading}}">
         <view class="navmeau navmeau-empty">
             <block wx:for="{{4}}" wx:key="navmeau_{{index}}">
                 <view class='navli'>
@@ -36,17 +40,17 @@
                     <swiper autoplay="true" interval="3000" duration="500" circular='true'>
                         <block wx:for="{{collage}}" wx:for-index='key' wx:for-item='item' wx:key="GroupBuy_{{key}}">
                             <swiper-item>
-                                <navigator class='pic' url='/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{item.id}}' hover-class='none'>
-                                    <image src="{{item.siderimg}}" class="slide-image" />
+                                <navigator class='pic' url='/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{item.goods_id}}' hover-class='none'>
+                                    <image src="{{item.purchase_image || DefaultImage}}" class="slide-image"  mode="aspectFill"  binderror="ErrorImage" data-obj="collage[{{index}}].purchase_image"/>
                                     <view class='discount'>
                                         <text class='n'>立省</text>
-                                        <text class='nums'>￥{{item.discont}} </text>
+                                        <text class='nums'>￥{{item.preferen_price}} </text>
                                     </view>
-                                    <view class='name'>{{item.name}}</view>
+                                    <view class='name'>{{item.purchase_name}}</view>
                                 </navigator>
                                 <view class='bottom'>
-                                    <navigator class='join-btn' url='../GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{item.id}}'>去拼团</navigator>
-                                    <text class='price'>¥{{item.price}}</text>/{{item.attr}}｜已售{{item.sale}}
+                                    <navigator class='join-btn' url='../GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{item.goods_id}}'>去拼团</navigator>
+                                    <text class='price'>¥{{item.purchase_price}}</text><block wx:if="{{item.goods_unit}}">/1{{item.goods_unit}}</block>｜已售{{item.effective_stock + item.sale_number}}
                                 </view>
                             </swiper-item>
                         </block>
@@ -63,19 +67,18 @@
                 <view class='goodslists'>
                     <block wx:for="{{recommendgoods}}" wx:for-index='key' wx:for-item='item' wx:key="recommend_{{key}}">
                         <view class='item'>
-                            <navigator hover-class='none' url='/pages/Goods/GoodsDetail/GoodsDetail?id={{item.id}}'>
-                                <image class='pic' src='{{item.img}}'></image>
-                                <view class='name'>{{item.name}}</view>
-                                <text class='price'>¥{{item.price}}</text>
+                            <navigator hover-class='none' url='/pages/Goods/GoodsDetail/GoodsDetail?id={{item.goods.goods_id}}'>
+                                <image class='pic' src='{{item.goods.goods_img || DefaultImage}}' binderror="ErrorImage" data-obj="recommendgoods[{{index}}].goods.goods_img"></image>
+                                <view class='name'>{{item.goods.goods_name}}</view>
+                                <text class='price'>¥{{item.goods.goods_price}}</text>
                             </navigator>
                         </view>
                     </block>
                 </view>
             </view>
         </block>
-
         <!-- 加载过程展示的模块 -->
-        <block wx:if="{{collage.length == 0}}">
+        <block wx:if="{{collage.length == 0 && isLoading}}">
             <view class='index-grid hot-grid grid-empty'>
                 <view class='title'></view>
                 <view class='slide'>
@@ -87,7 +90,7 @@
                 </view>
             </view>
         </block>
-         <block wx:if="{{recommendgoods.length == 0}}">
+        <block wx:if="{{recommendgoods.length == 0 && isLoading}}">
             <view class='index-grid lists-grid grid-empty'>
                 <view class='title'></view>
                 <view class='goodslists'>
@@ -102,7 +105,6 @@
                 </view>
             </view>
         </block>
-
         <view class='chat-btn' bindtap='calling'>药师咨询电话</view>
         <!-- footer -->
         <import src="/pages/Common/footer.wxml" />

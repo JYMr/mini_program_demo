@@ -87,6 +87,7 @@ App({
         handleDate: Util
     },
     errImg: function(e, that) {
+        console.log("!!!")
         let _obj = e.target.dataset.obj;
         let _errObj = {};
         _errObj[_obj] = this.globalData.defaultImg;

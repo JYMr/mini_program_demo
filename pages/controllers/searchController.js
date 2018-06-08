@@ -28,7 +28,7 @@ class SearchController{
      * @return {Promise}
      */
     GetSearchList(params){
-        return request.get(`${URI}/api/searchGoodsName.shtml`, params).then(res => res.data)
+        return request.get(`${URI}/api/searchGoodsTitle.shtml`, params).then(res => res.data)
     }
     
     /**

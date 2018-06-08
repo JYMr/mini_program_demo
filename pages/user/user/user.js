@@ -49,9 +49,9 @@ Page({
             mask: true
         });
         userController.getUserData().then(res => {
-            if (res.status == 0) {
+            if (res.done) {
                 this.setData({
-                    OrderNum: res.data
+                    OrderNum: res.result
                 })
             }
             wx.hideLoading();

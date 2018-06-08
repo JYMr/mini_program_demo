@@ -28,3 +28,8 @@
 .orderlists .aftersale-btn{font-size: 26rpx;line-height: 46rpx;display: inline-block;box-sizing: border-box;width: 140rpx;height: 50rpx;margin-left: 20rpx;text-align: center;color: #fff; border: #ddd 1px solid;border-radius: 10rpx;background: #ddd;}
 .orderlists .gopay-btn,.orderlists .joingroup-btn{font-size: 26rpx;line-height: 46rpx;display: inline-block;box-sizing: border-box;width: 140rpx;height: 50rpx;margin-left: 20rpx;text-align: center;color: #fff; border: #ff5c58 1px solid;border-radius: 10rpx;background: #ff5c58;}
 .orderlists .green{color: #fff;border-color: #37c4a4; background-color: #37c4a4;}
+.orderlists .disabled{background-color: #DDDDDD;color: #FFF;}
+.orderlists .TypeIcon{ background: #37c4a4; display: inline-block; line-height: 30rpx; vertical-align: middle; padding: 0 10rpx; font-size: 24rpx; height: 30rpx; color: #fff; text-align: center; margin-right: 10rpx; text-transform: uppercase; border-radius: 50rpx;}
+.orderlists .TypeIcon.redbg{ background: #ff5c58;}
+.orderlists .TypeIcon.bjp{height: 30rpx;width: 47rpx;
+	background: url("http://www.kzj365.com/mini_program/images/bjpicon.png") center center no-repeat;background-size: 47rpx 30rpx;}

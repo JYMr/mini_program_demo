@@ -1,26 +1,40 @@
 // pages/cart/detail.js
 const orderController = require('../../controllers/orderController').controller;
-const app =getApp();
+const app = getApp();
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
+        Status: 0, //0： 普通订单状态, 1: 售后订单状态
         OrderId: '',
-        OrderData: {}
+        OrderData: {},
+        DefaultImage: ''
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        if(options.id){
+        if (options.id) {
             this.setData({
                 OrderId: options.id
             })
-            this.GetOrderDetail();
         }
+
+        if (options.status) {
+            this.setData({
+                OrderId: options.status
+            })
+        }
+
+        this.GetOrderData();
+
+        //获取全局默认图片底图
+        this.setData({
+            DefaultImage: app.globalData.defaultImg
+        })
     },
 
     /**
@@ -31,47 +45,63 @@ Page({
         this.CustomerServiceComponent = this.selectComponent('#CustomerService');
         this.Floatcustomer = this.selectComponent("#Floatcustomer");
     },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function() {
-
+    //加载数据
+    GetOrderData() {
+        if (this.data.Status == 1) {
+            this.GetAfterSalesInfo();
+        } else {
+            this.GetOrderDetail();
+        }
     },
     //获取订单详细数据
-    GetOrderDetail(){
+    GetOrderDetail() {
         wx.showLoading({
             title: '加载数据中...',
             mask: true
         });
         orderController.getOrderDetail({
             orderId: this.data.OrderId
-        }).then(res=>{
-            if(res.done){
+        }).then(res => {
+            if (res.done) {
+                //处理价格小数点
+                res.result.orderInfo.orderPrice = res.result.orderInfo.orderPrice.toFixed(2)
+                for (let item of res.result.orderInfo.orderGoods) {
+                    item.goodsPrice = item.goodsPrice.toFixed(2)
+                }
+
                 this.setData({
                     OrderData: res.result.orderInfo
                 })
             }
             wx.hideLoading();
         })
-        this.HandleData();
     },
-    //处理数据
-    HandleData() {
-        let _Data = this.data.OrderData;
-        let date = new Date(_Data.orderTime * 1000);
+    //获取售后订单详细数据
+    GetAfterSalesInfo() {
+        wx.showLoading({
+            title: '加载数据中...',
+            mask: true
+        });
+        orderController.GetAfterSalesList({
+            orderId: this.data.OrderId
+        }).then(res => {
+            if (res.done) {
+                //处理价格小数点
+                res.result.orderInfo.orderPrice = res.result.orderInfo.orderPrice.toFixed(2)
+                for (let item of res.result.orderInfo.orderGoods) {
+                    item.goodsPrice = item.goodsPrice.toFixed(2)
+                }
 
-        _Data.orderTime = app.Util.handleDate.formatTime(date);
-
-        this.setData({
-            OrderData: _Data
+                this.setData({
+                    OrderData: res.result.orderInfo
+                })
+            }
+            wx.hideLoading();
         })
     },
-
     //取消订单
     CancelOrder(e) {
-        let _id = this.data.OrderData.id;
-        console.log('取消订单 - id:' + _id);
+        let _id = this.data.OrderId;
 
         this.Dialog.ShowDialog({
             title: '亲，真的不想买了么？',
@@ -82,7 +112,36 @@ Page({
             ],
             callback: res => {
                 if (res.name == 'yes') {
-                    console.log('取消');
+                    //请求
+                    wx.showLoading({
+                        title: '提交中...',
+                        mask: true
+                    });
+                    orderController.CancelOrder({
+                        orderId: _id
+                    }).then(res => {
+                        if (res.done) {
+                            let _Msg = '取消成功!';
+                            //判断resultMsg是否存在
+                            if (res.result) _Msg = res.result.resultMsg;
+                            this.Dialog.ShowDialog({
+                                title: _Msg,
+                                type: 'Message'
+                            });
+                            //刷新数据
+                            setTimeout(() => {
+                                //等待动画
+                                this.GetOrderData();
+                            }, 1500)
+                        } else {
+                            this.Dialog.ShowDialog({
+                                title: res.result.resultMsg || '取消失败，请重试!',
+                                type: 'Message',
+                                messageType: 'fail'
+                            });
+                        }
+                        wx.hideLoading();
+                    })
                 }
                 this.Dialog.CloseDialog();
             }
@@ -90,12 +149,11 @@ Page({
     },
     //物流单号
     ExpressNumber(e) {
-        let _id = this.data.OrderData.id;
-        let _expressName = this.data.OrderData.ExpressName;
-        let _expressNumber = this.data.OrderData.ExpressNumber;
+        let _id = this.data.OrderId;
+        let _expressName = this.data.OrderData.logisticsCompany;
+        let _expressNumber = this.data.OrderData.logisticsCode;
 
         let _title = _expressName + _expressNumber;
-        console.log('物流单号 - id:' + _id);
 
         this.Dialog.ShowDialog({
             title: _title || '暂无单号信息',
@@ -106,19 +164,18 @@ Page({
             ],
             callback: res => {
                 if (res.name == 'copy') {
-                    console.log('物流单号');
 
                     //调用复制API
                     wx.setClipboardData({
                         data: _expressNumber,
-                        success: res=>{
+                        success: res => {
                             this.Dialog.CloseDialog();
                             this.Dialog.ShowDialog({
                                 title: '复制成功',
                                 type: 'Message'
                             });
                         },
-                        fail: err=>{
+                        fail: err => {
                             this.Dialog.CloseDialog();
                             this.Dialog.ShowDialog({
                                 title: '复制失败',
@@ -135,26 +192,73 @@ Page({
     },
     //申请售后
     CustomerService(e) {
-        let _id = this.data.OrderData.id;
-        console.log('申请售后 - id:' + _id);
-        this.CustomerServiceComponent.Show({
-            id: _id
-        });
+        let _code = e.currentTarget.dataset.code;
+        let disabledStatus = e.currentTarget.dataset.disabled;
+        if (!disabledStatus) {
+            this.CustomerServiceComponent.Show({
+                code: _code
+            });
+        } else {
+            this.Dialog.ShowDialog({
+                title: '该订单已经申请过售后，请等待商家处理!',
+                type: 'Alert',
+                callback: res => {
+                    if (res) {
+                        this.Dialog.CloseDialog();
+                    }
+                }
+            });
+        }
     },
     //处理售后弹窗回调
-    CustomerServiceFn(e){
-        console.log(e)
-        let _id = e.detail.id;
+    CustomerServiceFn(e) {
+        let _code = e.detail.code;
+        let _type = e.detail.type;
+        let _reason = e.detail.reason;
+        let _name = e.detail.name;
+        let _mobile = e.detail.mobile;
         this.CustomerServiceComponent.Close();
+
+        //请求
+        wx.showLoading({
+            title: '提交中...',
+            mask: true
+        });
+        orderController.ApplyAfterSales({
+            orderCode: _code,
+            aftersalesType: _type,
+            aftersalesReason: _reason,
+            aftersalesCustomerName: _name,
+            aftersalesCustomerMobile: _mobile
+        }).then(res => {
+            if (res.done) {
+                this.Dialog.ShowDialog({
+                    title: res.msg || '申请售后成功!',
+                    type: 'Message'
+                });
+                //刷新数据
+                setTimeout(() => {
+                    //等待动画
+                    this.GetOrderData();
+                }, 1500)
+            } else {
+                this.Dialog.ShowDialog({
+                    title: res.msg || '申请售后失败，请重试!',
+                    type: 'Message',
+                    messageType: 'fail'
+                });
+            }
+            wx.hideLoading();
+        })
     },
     //再次购买
     BuyingAgain(e) {
-        let _id = this.data.OrderData.id;
+        let _id = this.data.OrderId;
         console.log('再次购买 - id:' + _id);
     },
     //邀请参团
     InviteJoin(e) {
-        let _id = this.data.OrderData.id;
+        let _id = this.data.OrderId;
         console.log('邀请参团 - id:' + _id);
         wx.navigateTo({
             url: '/pages/GroupBuy/GroupBuyShare/GroupBuyShare?id' + _id
@@ -162,8 +266,9 @@ Page({
     },
     //确认收货
     ConfirmOrder(e) {
-        let _id = this.data.OrderData.id;
+        let _id = this.data.OrderId;
         console.log('确认收货 - id:' + _id);
+        //确认弹窗
         this.Dialog.ShowDialog({
             title: '亲，已经收到货了么？',
             type: 'Confirm',
@@ -174,19 +279,90 @@ Page({
             callback: res => {
                 if (res.name == 'yes') {
                     console.log('确认收货');
+                    //请求
+                    wx.showLoading({
+                        title: '提交中...',
+                        mask: true
+                    });
+                    orderController.SubmitReceiving({
+                        orderId: _id
+                    }).then(res => {
+                        if (res.done) {
+                            this.Dialog.ShowDialog({
+                                title: res.msg || '确认收货成功',
+                                type: 'Message'
+                            });
+                            //刷新数据
+                            setTimeout(() => {
+                                //等待动画
+                                this.GetOrderData();
+                            }, 1500)
+                        } else {
+                            this.Dialog.ShowDialog({
+                                title: res.msg || '确认收货失败，请重试!',
+                                type: 'Message',
+                                messageType: 'fail'
+                            });
+                        }
+                        wx.hideLoading();
+                    })
                 }
                 this.Dialog.CloseDialog();
             }
         })
     },
     //支付
-    PayMent(e) {
-        let _id = this.data.OrderData.id;
+    PayToOrder(e) {
+        let _id = this.data.OrderId;
         console.log('支付 - id:' + _id);
     },
     //删除订单
-    DeleteOrder(e){
-        let _id = this.data.OrderData.id;
-        console.log('支付 - id:' + _id);
+    DeleteOrder(e) {
+        let _id = this.data.OrderId;
+
+        this.Dialog.ShowDialog({
+            title: '亲，真的要删除该订单吗？',
+            type: 'Confirm',
+            btnArray: [
+                { title: '是', name: 'yes' },
+                { title: '否', name: 'no' }
+            ],
+            callback: res => {
+                if (res.name == 'yes') {
+
+                    wx.showLoading({
+                        title: '提交中...',
+                        mask: true
+                    });
+
+                    orderController.DeleteOrder({
+                        orderId: _id
+                    }).then(res => {
+                        if (res.done) {
+                            this.Dialog.ShowDialog({
+                                title: res.msg || '删除订单成功',
+                                type: 'Message'
+                            });
+                            //刷新数据
+                            setTimeout(() => {
+                                //等待动画
+                                this.GetOrderData();
+                            }, 1500)
+                        } else {
+                            this.Dialog.ShowDialog({
+                                title: res.msg || '删除订单失败，请重试!',
+                                type: 'Message',
+                                messageType: 'fail'
+                            });
+                        }
+                        wx.hideLoading();
+                    })
+
+                }
+            }
+        })
+    },
+    ErrorImage(e) {
+        app.errImg(e, this);
     }
 })

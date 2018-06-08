@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 10,
+			"current": 8,
 			"list": [
 				{
 					"id": 0,
@@ -84,13 +84,13 @@
 					"id": 8,
 					"name": "Activity",
 					"pathName": "pages/List/Activity/Activity",
-					"query": "id=21312"
+					"query": "id=43"
 				},
 				{
 					"id": 9,
 					"name": "Category",
 					"pathName": "pages/List/Category/Category",
-					"query": "id=15"
+					"query": ""
 				},
 				{
 					"id": 10,
@@ -108,7 +108,7 @@
 					"id": 12,
 					"name": "MyOrderDetail",
 					"pathName": "pages/Order/MyOrderDetail/MyOrderDetail",
-					"query": "id=9"
+					"query": "id=4"
 				},
 				{
 					"id": 13,
@@ -132,6 +132,18 @@
 					"id": -1,
 					"name": "GoodsList",
 					"pathName": "pages/List/GoodsList/GoodsList",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "CustomerService",
+					"pathName": "pages/User/CustomerService/CustomerService",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "ReservationOrder",
+					"pathName": "pages/Order/ReservationOrder/ReservationOrder",
 					"query": ""
 				}
 			]

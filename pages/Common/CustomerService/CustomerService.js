@@ -8,7 +8,7 @@ Component({
         UserInfo:{
             name: '',
             mobile: '',
-            type: 0,
+            type: 1,
             reason: ''
         },
         reason_list: ['错拍/多拍','不想买了','发货慢','其它'],

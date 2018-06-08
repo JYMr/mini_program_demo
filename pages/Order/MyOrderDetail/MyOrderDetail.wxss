@@ -26,8 +26,6 @@
 
 .orderlists .lists .pic{ width: 140rpx; height: 140rpx; float: left; margin-right: 30rpx;}
 .orderlists .lists .name{ text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;  color: #4a5259; font-size: 26rpx; height: 100rpx; line-height: 1.4;}
-.orderlists .lists .type{ background: #37c4a4; display: inline-block; line-height: 30rpx; vertical-align: middle; padding: 0 10rpx;  height: 30rpx; color: #fff; text-align: center; margin-right: 10rpx; text-transform: uppercase; border-radius: 50rpx; position: relative; top: -2px;}
-.orderlists .lists .type.redbg{ background: #ff5c58;}
 .orderlists .lists .price{color: #ff5c58; font-size: 20rpx;font-weight: 700;}
 .orderlists .lists .price .n{ font-size: 30rpx;}
 .orderlists .lists .attr{ color: #888;}
@@ -39,6 +37,11 @@
 .orderlists .aftersale-btn{ border:#ddd 1px solid; border-radius: 10rpx; color: #fff; font-size: 26rpx; height: 50rpx; line-height: 46rpx; box-sizing: border-box; text-align: center; width: 140rpx; display: inline-block; background: #ddd; margin-left: 20rpx;}
 .orderlists .gopay-btn,.orderlists .joingroup-btn{ border:#ff5c58 1px solid; border-radius: 10rpx; color: #fff; font-size: 26rpx; height: 50rpx; line-height: 46rpx; box-sizing: border-box; text-align: center; width: 140rpx; display: inline-block; background: #ff5c58; margin-left: 20rpx;}
 
+.orderlists .TypeIcon{ background: #37c4a4; display: inline-block; line-height: 30rpx; vertical-align: middle; padding: 0 10rpx; font-size: 24rpx; height: 30rpx; color: #fff; text-align: center; margin-right: 10rpx; text-transform: uppercase; border-radius: 50rpx;}
+.orderlists .TypeIcon.redbg{ background: #ff5c58;}
+.orderlists .TypeIcon.bjp{height: 30rpx;width: 47rpx;
+	background: url("http://www.kzj365.com/mini_program/images/bjpicon.png") center center no-repeat;background-size: 47rpx 30rpx;}
+
 .totalinfo{ background: #fff; margin-bottom: 20rpx; padding:20rpx 30rpx; line-height: 2; color: #888;}
 .totalinfo .status{ color: #ff5c58;}
 
@@ -47,3 +50,4 @@
 .floatcontrol .cancel-btn,.floatcontrol .rebuy-btn,.floatcontrol .delete-btn{ border:#ddd 1px solid; border-radius: 10rpx; color: #888; font-size: 26rpx; height: 50rpx; line-height: 46rpx; box-sizing: border-box; text-align: center; width: 140rpx; display: inline-block; background: #fff; margin-left: 20rpx;}
 .floatcontrol .aftersale-btn{ border:#ddd 1px solid; border-radius: 10rpx; color: #fff; font-size: 26rpx; height: 50rpx; line-height: 46rpx; box-sizing: border-box; text-align: center; width: 140rpx; display: inline-block; background: #ddd; margin-left: 20rpx;}
 .floatcontrol .gopay-btn,.floatcontrol .joingroup-btn{ border:#ff5c58 1px solid; border-radius: 10rpx; color: #fff; font-size: 26rpx; height: 50rpx; line-height: 46rpx; box-sizing: border-box; text-align: center; width: 140rpx; display: inline-block; background: #ff5c58; margin-left: 20rpx;}
+.floatcontrol .disabled{background-color: #DDDDDD;color: #FFF;}

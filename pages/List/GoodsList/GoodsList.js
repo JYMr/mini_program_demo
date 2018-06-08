@@ -1,5 +1,6 @@
 // pages/cate/lists.js
 const searchController = require('../../controllers/searchController').controller;
+var app = getApp();
 Page({
 
     /**
@@ -13,7 +14,8 @@ Page({
         categoryName: '',
         pageNo: 1,
         pagesize: 8,
-        isEnd: false
+        isEnd: false,
+        DefaultImage: ''
     },
 
     /**
@@ -27,16 +29,17 @@ Page({
             })
             this.GetListData(this)
         }
-        if (options.id && options.name) {
+        if (options.id) {
             this.setData({
-                categoryId: options.id,
-                categoryName: options.name
-            })
-            wx.setNavigationBarTitle({
-                title: this.data.categoryName
+                categoryId: options.id
             })
             this.GetCategoryList();
         }
+
+        //获取全局默认图片底图
+        this.setData({
+            DefaultImage: app.globalData.defaultImg
+        })
     },
 
     /**
@@ -76,7 +79,7 @@ Page({
         });
 
         searchController.GetSearchList({
-            goodsname: this.data.keyword,
+            goodstitle: this.data.keyword,
             pageNo: this.data.pageNo,
             pageSize: this.data.pagesize
         }).then(res => {
@@ -97,7 +100,7 @@ Page({
         })
     },
     //获取商品分类列表
-    GetCategoryList(){
+    GetCategoryList() {
 
         wx.showLoading({
             title: '加载数据中...',
@@ -119,6 +122,11 @@ Page({
                     pageNo: res.result.goodslist.nextPage,
                     isEnd: this.data.pageNo == res.result.goodslist.nextPage //判断是否为最后一页
                 })
+
+                //设置标题
+                wx.setNavigationBarTitle({
+                    title: res.result.category.catName || '搜索'
+                })
                 wx.hideLoading();
             } else {
                 wx.hideLoading();
@@ -134,5 +142,8 @@ Page({
             pageNo: 1
         })
         this.GetListData();
+    },
+    ErrorImage(e) {
+        app.errImg(e, this);
     }
 })
