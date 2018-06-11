@@ -21,6 +21,7 @@
 .lists .item button{background-color: #FFF;text-align: left;font-size: 30rpx; color: #888888;height: 100rpx; line-height: 100rpx;}
 .lists .item button:after{border: 0;}
 .lists .item navigator{padding: 0 30rpx; }
+.lists .item view{padding: 0 30rpx;}
 .lists .item::after{ content: ''; width: 14rpx; height: 24rpx; margin-right: 10rpx; background: url(http://www.kzj365.com/mini_program/images/ciricon.png) no-repeat center center; background-size: 100%; display: inline-block; position: absolute; top: 0; bottom: 0; right: 40rpx; margin: auto; z-index: 100;}
 .lists .prestand-icon{ width: 32rpx; height: 36rpx; margin-top: 32rpx; margin-right: 34rpx; background: url(http://www.kzj365.com/mini_program/images/myprestandingicon.png) no-repeat center center; background-size: 100%; float: left;}
 .lists .address-icon{ width: 30rpx; height: 37rpx; margin-top: 32rpx; margin-right: 36rpx; background: url(http://www.kzj365.com/mini_program/images/adressicon.png) no-repeat center center; background-size: 100%; float: left;}

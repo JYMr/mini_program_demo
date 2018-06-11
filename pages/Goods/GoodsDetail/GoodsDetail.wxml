@@ -97,7 +97,7 @@
     <block wx:if="{{goodsinfo.goodsAdded != 0 && goodsinfo.goodsStock > 0 && goodsinfo.goodsType != 0}}">
         <view class='buy' bindtap="showModal" data-type="Buy">立即购买</view>
         <view class='addcart' bindtap="showModal" data-type="Cart">加入购物车</view>
-        <navigator url='/pages/Cart/Cart' class='cart' hover-class='none'>
+        <navigator url='/pages/Cart/Cart' open-type="switchTab" class='cart' hover-class='none'>
             <view class='icon'></view>
             <view>购物车</view>
         </navigator>
@@ -178,18 +178,9 @@
     <view class='gray-bg' bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
 </view>
 
-<view class="Menu" wx:if="{{ChaticonMenu}}">
-    <view class="Menu-item">
-        <image src="http://www.kzj365.com/mini_program/images/message_icon.png"></image>
-        在线咨询
-    </view>
-    <view class="Menu-item" bindtap="Calling">免费热线：{{mobile}}</view>
-    <view class="Menu-item cancel" bindtap="ToggleChaticonMenu">取消</view>
-</view>
-<view class="mask" wx:if="{{ChaticonMenu}}" bindtap="ToggleChaticonMenu"></view>
-
 <import src="/pages/Common/footer.wxml" />
 <template is="footer" data="" />
 
 <Dialog id="Dialog"></Dialog>
+<MenuCustomer id="MenuCustomer"></MenuCustomer>
 <ReservationInput id="ReservationInput" bind:SaveEvent="RxBuyFn"></ReservationInput>

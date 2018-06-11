@@ -15,9 +15,14 @@ Component({
      * 组件的初始数据
      */
     data: {
-        openbool: false
+        openbool: false,
+        isOpenCustomerService: false
     },
-
+    ready(){
+        this.setData({
+            isOpenCustomerService: app.globalData.isOpenCustomerService
+        })
+    },
     /**
      * 组件的方法列表
      */

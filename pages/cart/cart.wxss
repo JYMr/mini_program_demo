@@ -1,4 +1,6 @@
 /* pages/cart.wxss */
+.Cart-list{padding-bottom:98rpx;}
+
 .cart-title{ height: 88rpx; line-height: 88rpx; border-bottom: #f4f4f4 1px solid; background: #fff; font-weight: 700; padding: 0 30rpx; font-size: 30rpx;}
 .cart-title .edit{ float: right; color: #888;}
 .cart-title .allselect{ float: left; color: #ddd; }
@@ -12,9 +14,9 @@
 .cart-item .select.on{ background-color: #3cc6a6;}
 .cart-item .pic{ width: 140rpx; height: 140rpx; float: left; margin-right: 30rpx;}
 .cart-item .name{ text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;  color: #4a5259; font-size: 26rpx; height: 100rpx; line-height: 1.4;}
-.cart-item .type{ background: #37c4a4; display: inline-block; line-height: 30rpx; vertical-align: middle; padding: 0 10rpx;  height: 30rpx; color: #fff; text-align: center; margin-right: 10rpx; text-transform: uppercase; border-radius: 50rpx; position: relative; top: -2px;}
-.cart-item .type.redbg{ background: #ff5c58;}
-.cart-item .type.bjp{height: 30rpx;width: 47rpx;
+.cart-item .TypeIcon{ background: #37c4a4; display: inline-block; line-height: 30rpx; vertical-align: middle; padding: 0 10rpx; font-size: 24rpx; height: 30rpx; color: #fff; text-align: center; margin-right: 10rpx; text-transform: uppercase; border-radius: 50rpx;}
+.cart-item .TypeIcon.redbg{ background: #ff5c58;}
+.cart-item .TypeIcon.bjp{height: 30rpx;width: 47rpx;
 	background: url("http://www.kzj365.com/mini_program/images/bjpicon.png") center center no-repeat;background-size: 47rpx 30rpx;}
 .cart-item .price{color: #ff5c58; font-size: 20rpx; font-weight: 700;}
 .cart-item .price .n{ font-size: 30rpx;}

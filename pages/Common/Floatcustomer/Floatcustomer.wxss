@@ -7,5 +7,5 @@
 .float-customer .contact-btn::after{ display: none;}
 .float-customer .tel-btn::before{ content: ''; display: inline-block; border-left: #ddd 2rpx solid; height:27rpx; position: absolute; z-index: 100; top: 0; bottom: 0; left: 0; margin: auto;}
 .float-customer-out .gray-white{ position: fixed; left: 0; right: 0; top: 0; bottom: 0; margin: auto; z-index: 400; display: none}
-.floatopen .extend{ width: 500rpx}
+.floatopen .extend{ width: auto}
 .floatopen .gray-white{ display: block;}

@@ -16,8 +16,17 @@ Page({
         this.setData({
             DefaultImage: app.globalData.defaultImg
         })
-        //加载首页数据
-        this.GetHomeData();
+        let token = wx.getStorageSync('token') || '';
+        
+        if(token){
+            //加载首页数据
+            this.GetHomeData();
+        }else{
+            //首次进入，等待login登录回调
+            app.tokenReadyCallback = res =>{
+                this.GetHomeData();
+            }
+        }
     },
     onReady: function() {
         this.search = this.selectComponent("#search");
@@ -61,10 +70,6 @@ Page({
             no: this.data.pageNo
         }).then(res => {
             if (res.done) {
-                //处理价格，保留两位小数点
-               /* for (let item of res.result.reGoods) {
-                    item.goods.goods_price = item.goods.goods_price.toFixed(2)
-                }*/
                 //计算立省
                 this.setData({
                     navmeau: res.result.activities,

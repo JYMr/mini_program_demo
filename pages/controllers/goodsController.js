@@ -24,14 +24,6 @@ class GoodsController{
      }
 
      /**
-     * 加入购物车
-     * @return {Promise}
-     */
-     addCart(params){
-     	return request.get(`${URI}/AddCart`, params).then(res => res.data)
-     }
-
-     /**
      * 加入预定清单
      * @return {Promise}
      */

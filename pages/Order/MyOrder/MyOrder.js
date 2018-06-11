@@ -105,11 +105,8 @@ Page({
                         orderId: _id
                     }).then(res => {
                         if (res.done) {
-                            let _Msg = '取消成功!';
-                            //判断resultMsg是否存在
-                            if (res.result) _Msg = res.result.resultMsg;
                             this.Dialog.ShowDialog({
-                                title: _Msg,
+                                title: res.msg || '取消成功!',
                                 type: 'Message'
                             });
                             //刷新数据
@@ -119,7 +116,7 @@ Page({
                             }, 1500)
                         } else {
                             this.Dialog.ShowDialog({
-                                title: res.result.resultMsg || '取消失败，请重试!',
+                                title: res.msg || '取消失败，请重试!',
                                 type: 'Message',
                                 messageType: 'fail'
                             });
@@ -358,5 +355,8 @@ Page({
             pageNo: 1
         })
         this.GetOrderList();
+    },
+    ErrorImage(e) {
+        app.errImg(e, this);
     }
 })

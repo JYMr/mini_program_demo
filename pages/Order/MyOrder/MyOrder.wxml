@@ -32,12 +32,12 @@
         <view class='lists'>
             <block wx:for="{{OrderItem.orderGoods}}" wx:for-index="goods_index" wx:for-item="item" wx:key="goods_{{goods_index}}">
                 <view class='item'>
-                    <image class='pic' src='{{item.goodsImg || DefaultImage}}'></image>
+                    <image class='pic' src='{{item.goodsImg || DefaultImage}}' binderror="ErrorImage"></image>
                     <view class='name'>
                         <template is="TypeIcon" data="{{type: item.goodsType}}" />{{item.goodsTitle}}</view>
                     <text class='price'>￥<text class='n'>{{Filter.toFixed(item.goodsPrice)}}</text></text>
                     <text class='attr' wx:if="{{item.goodsUnit}}">/1{{item.goodsUnit}}</text>
-                    <text class='ctype' wx:if="{{item.isGroup}}">疗程装</text>
+                    <text class='ctype' wx:if="{{item.combinationType == 1}}">疗程装</text>
                     <text class='nums'>x{{item.goodsInfoNum}}</text>
                 </view>
             </block>

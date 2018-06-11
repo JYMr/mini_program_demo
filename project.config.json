@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 18,
+			"current": 19,
 			"list": [
 				{
 					"id": 0,
@@ -145,6 +145,12 @@
 					"name": "ReservationOrder",
 					"pathName": "pages/Order/ReservationOrder/ReservationOrder",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "Reservation",
+					"pathName": "pages/Goods/Reservation/Reservation",
+					"query": "id=43"
 				}
 			]
 		}

@@ -42,10 +42,12 @@
             <text class='CustomerService-icon'></text>售后服务</navigator>
     </view>
     <view class='item'>
-        <button open-type="contact">
+        <view bindtap="Customer">
             <text class='contact-icon'></text>联系客服
-        </button>
+        </view>
     </view>
 </view>
 <import src="/pages/Common/footer.wxml" />
 <template is="footer" data="" />
+
+<MenuCustomer id="MenuCustomer"></MenuCustomer>

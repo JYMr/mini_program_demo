@@ -95,15 +95,6 @@ page{background:#f4f4f4; margin-bottom: 118rpx; color: #555;font-size: 28rpx;}
 .instructions .th,.instructions .td {padding:30rpx;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;width:100%;}
 .instructions .th { width: 30%; }
 
-.mask{position: fixed;top: 0;bottom: 0;left: 0;right: 0;background: rgba(0,0,0,.6);z-index: 99;}
-.Menu{position: fixed;background-color: #f4f4f4;bottom: 98rpx;width: 100%;z-index: 100;animation-name: MenuUp;animation-duration: .3s;animation-fill-mode: both;}
-.Menu-item{line-height: 100rpx;color: #37c4a4;font-size: 32rpx;text-align: center;background-color: #FFF;}
-.Menu-item + .Menu-item{border-top: 1rpx solid #f4f4f4;}
-.Menu-item image{width: 36rpx;height: 36rpx;}
-.Menu-item.cancel{color: #555;border-top: none;margin-top: 20rpx;}
-@keyframes MenuUp{from{transform: translate3d(0, 100%, 0);opacity: 0;}
-    to{transform: translate(0, 0);opacity: 1;}}
-
 /*商品推荐*/
 .product-recommend{overflow: auto;margin-top: 20rpx;background-color: #FFF;}
 .product-recommend .recommend-title{text-align: left;line-height: 36rpx;border-left: 10rpx solid #37C4A4;margin: 36rpx 30rpx;color: #222;font-size: 36rpx;padding-left: 20rpx;}

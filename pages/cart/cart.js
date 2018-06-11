@@ -16,7 +16,8 @@ Page({
         ExpressText: '',
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         hasUserInfo: false,
-        timer: null
+        timer: null,
+        DefaultImage: ''
     },
 
     /**
@@ -48,6 +49,10 @@ Page({
                 }
             })
         }
+
+        this.setData({
+            DefaultImage: app.globalData.defaultImg
+        })
     },
 
     /**
@@ -77,17 +82,19 @@ Page({
             title: '加载数据中...',
             mask: true
         });
-        cartController.getCartData().then(res => {
-            if (res.status == 0) {
+        cartController.getCartData({
+            shopcart_type: 1
+        }).then(res => {
+            if (res.done) {
 
                 this.setData({
-                    CartList: res.list
+                    CartList: res.result.shopCartApiList
                 })
 
                 //检查是否全选
-                this.CheckAllSelect();
+                //this.CheckAllSelect();
                 //处理优惠套餐
-                this.handleGroup();
+                //this.handleGroup();
                 //统计
                 this.ListTotal();
                 wx.stopPullDownRefresh();
@@ -127,10 +134,10 @@ Page({
         for (let item of _List) {
             //是否选中
             if (item.isChoose == '1') {
-                _TotalNum = _TotalNum + parseInt(item.total);
+                _TotalNum = _TotalNum + parseInt(item.shopcart_num);
                 _TotalPrice = parseFloat(
-                    parseFloat(_TotalPrice) + (parseInt(item.total) * parseFloat(item.price))
-                ).toFixed(2)
+                    parseFloat(_TotalPrice) + (parseInt(item.shopcart_num) * parseFloat(item.goods_price))
+                )
             }
         }
         _TotalPrice = this.handleExpress(_TotalPrice);
@@ -143,12 +150,16 @@ Page({
     //return 处理后价格
     handleExpress(TotalPrice) {
         if (TotalPrice < this.data.MaxExpress) {
-            TotalPrice = parseFloat(
-                parseFloat(TotalPrice) + parseFloat(this.data.ExpressPrice)
-            ).toFixed(2);
-            this.setData({
-                ExpressText: '（包含快递费10元）'
-            })
+            if (TotalPrice > 0) {
+                TotalPrice = parseFloat(TotalPrice) + parseFloat(this.data.ExpressPrice);
+                this.setData({
+                    ExpressText: '（包含快递费10元）'
+                })
+            } else {
+                this.setData({
+                    ExpressText: '（买满99包邮）'
+                })
+            }
         } else {
             this.setData({
                 ExpressText: '(已免邮)'
@@ -164,8 +175,8 @@ Page({
         let _total = 0;
         let _List = this.data.CartList;
         for (let item of _List) {
-            if (item.id == _id && item.stock > item.total) {
-                _total = ++item.total;
+            if (item.shopcart_id == _id && item.goods_stock > item.shopcart_num) {
+                _total = ++item.shopcart_num;
             }
         }
         if (_total != 0)
@@ -173,7 +184,7 @@ Page({
         this.setData({
             CartList: _List
         });
-        this.handleGroup();
+        //this.handleGroup();
         this.ListTotal();
     },
     //数量减少
@@ -184,8 +195,8 @@ Page({
         let _total = 0;
         let _List = this.data.CartList;
         for (let item of _List) {
-            if (item.id == _id && item.total > 1) {
-                _total = --item.total;
+            if (item.shopcart_id == _id && item.shopcart_num > 1) {
+                _total = --item.shopcart_num;
             }
         }
         if (_total != 0)
@@ -193,7 +204,7 @@ Page({
         this.setData({
             CartList: _List
         });
-        this.handleGroup();
+        //this.handleGroup();
         this.ListTotal();
     },
     //数量提交函数,延迟提交，避免连续点击
@@ -201,10 +212,26 @@ Page({
         if (this.data.timer) {
             clearTimeout(this.data.timer);
         }
+        let _List = this.data.CartList;
         let _thistime = setTimeout(() => {
             cartController.setCartTotal({
-                id: id,
-                total: total
+                shopcart_id: id,
+                shopcart_num: total
+            }).then(res => {
+                if (res.done) {
+                    for (let item of _List) {
+                        if (item.shopcart_id == id) {
+                            item.promotion = res.result.shopCartApi1.promotion;
+                            item.goods_stock = res.result.shopCartApi1.goods_stock;
+                            item.goods_price = res.result.shopCartApi1.goods_price
+                        }
+                    }
+                    this.setData({
+                        CartList: _List
+                    })
+                } else {
+
+                }
             })
         }, 500)
         this.setData({
@@ -217,21 +244,19 @@ Page({
         let _isChoose = 0;
         let _List = this.data.CartList;
         for (let item of _List) {
-            if (item.id == _id) {
+            if (item.shopcart_id == _id) {
                 item.isChoose = item.isChoose == '1' ? '0' : '1'
                 _isChoose = item.isChoose
             }
         }
         //非编辑模式下，提交选中状态
-        if (!this.data.editMode) {
-            /**
-             * 此处接口提交选中状态
-             */
+        /*if (!this.data.editMode) {
+            //此处接口提交选中状态
             cartController.setCartChoose({
                 id: _id,
                 isChoose: _isChoose
             })
-        }
+        }*/
 
         this.setData({
             CartList: _List
@@ -260,6 +285,7 @@ Page({
         for (let item of _List) {
             item.isChoose = !_status;
         }
+        this.ListTotal();
         this.setData({
             isAllSelect: !_status,
             CartList: _List
@@ -277,7 +303,7 @@ Page({
         let DelList = new Array();
         for (let item of _List) {
             if (item.isChoose == '1') {
-                DelList.push(item.id);
+                DelList.push(item.shopcart_id);
             }
         }
         if (DelList.length == 0) {
@@ -302,9 +328,10 @@ Page({
                         mask: true
                     });
                     cartController.delCart({
-                        id: DelList.toString()
+                        shopcartids: DelList.toString(),
+                        shopcart_type: 1
                     }).then(res => {
-                        if (res.status == 0) {
+                        if (res.done) {
                             this.Dialog.ShowDialog({
                                 type: 'Message',
                                 title: '删除成功'
@@ -312,6 +339,12 @@ Page({
                             setTimeout(() => {
                                 this.GetCartList()
                             }, 1500)
+                        } else {
+                            this.Dialog.ShowDialog({
+                                type: 'Message',
+                                title: res.msg || '删除失败',
+                                messageType: 'fail'
+                            })
                         }
                         wx.hideLoading();
                     })
@@ -345,5 +378,8 @@ Page({
                 }
             })
         }
+    },
+    ErrorImage(e) {
+        app.errImg(e, this);
     }
 })

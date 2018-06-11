@@ -4,11 +4,11 @@ const request = require('/utils/kzj.request.js')
 App({
     onLaunch: function() {
         wx.checkSession({
-            success: function() {
+            success: ()=> {
                 //session_key 未过期，并且在本生命周期一直有效
                 console.log('session_key 未过期')
             },
-            fail: function() {
+            fail: ()=> {
                 // session_key 已经失效，需要重新执行登录流程
                 wx.login({
                     success: res => {
@@ -20,9 +20,12 @@ App({
                                 code: res.code
                             },
                             header: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                            success: function(res) {
+                            success: res=> {
                                 if (res.data.done) {
                                     wx.setStorageSync('token', res.data.result.token)
+                                    if (this.tokenReadyCallback) {
+                                        this.tokenReadyCallback(res)
+                                    }
                                 }
                             },
                             fail: err => {}
@@ -79,8 +82,9 @@ App({
     globalData: {
         userInfo: null,
         defaultImg: 'http://www.kzj365.com/mini_program/images/default.png',
-        tel: '',
+        tel: '11',
         isOpen: '', //后台设置开启购买
+        isOpenCustomerService: false,
         AddressId: '' //用于订单地址选择
     },
     Util: {
@@ -103,5 +107,6 @@ App({
                 console.log("拨打电话失败！")
             }
         })
-    }
+    },
+    tokenReadyCallback: function(){}
 })

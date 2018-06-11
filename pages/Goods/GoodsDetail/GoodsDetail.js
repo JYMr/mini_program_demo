@@ -1,25 +1,23 @@
-const goodscontroller = require('../../controllers/goodsController.js').controller
+const goodscontroller = require('../../controllers/goodsController.js').controller;
+const cartController = require('../../controllers/cartController').controller;
 var app = getApp();
 
-var selectAttrid = []; //选择的属性id
 Page({
-    data: { //页面的初始数据
+    data: {
         id: '',
         num: 1,
         tabsindex: 0,
         goodsinfo: {}, //商品信息
         spec: {}, //规格
-        mobile: '',
-        chooseSpecId: '',//选择的规格id
-        selectSpecName: '',//选择的规格名称
+        chooseSpecId: '', //选择的规格id
+        selectSpecName: '', //选择的规格名称
         showModalStatus: false, //是否显示
         ModalMode: 'Buy', //遮罩模式
+        goodsnavtop: 0, //tab距离顶部的距离
+        goodsnavbool: false, //tab是否浮动
+        DefaultImage: '', //默认底图
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
-        hasUserInfo: false,
-        goodsnavtop: 0, //导航是否浮动
-        goodsnavbool: false,
-        ChaticonMenu: false, //客服菜单
-        DefaultImage: ''
+        hasUserInfo: false
     },
     /**
      * 生命周期函数--监听页面加载
@@ -50,22 +48,32 @@ Page({
             })
         }
 
-        this.setData({
-            mobile: app.globalData.tel,
-            DefaultImage: app.globalData.defaultImg
-        })
-
         if (options.id) {
             this.setData({
                 id: options.id
             });
-            this.GetGoodsData();
+
+            let token = wx.getStorageSync('token') || '';
+            if (token) {
+                //加载数据
+                this.GetGoodsData();
+            } else {
+                //首次进入，等待login登录回调
+                app.tokenReadyCallback = res => {
+                    this.GetGoodsData();
+                }
+            }
         } else {
             //无Id，关闭页面
             wx.navigateBack({
                 delta: 1
             })
         }
+
+        //设置默认底图
+        this.setData({
+            DefaultImage: app.globalData.defaultImg
+        })
 
     },
     /**
@@ -74,6 +82,8 @@ Page({
     onReady() {
         this.Dialog = this.selectComponent('#Dialog');
         this.ReservationInput = this.selectComponent('#ReservationInput');
+        this.MenuCustomer = this.selectComponent('#MenuCustomer');
+
         var that = this;
         var query = wx.createSelectorQuery()
         query.select('.goodsnav').boundingClientRect(function(res) {
@@ -82,7 +92,8 @@ Page({
             })
         }).exec()
     },
-    onPageScroll: function(e) { // 获取滚动条当前位置
+    onPageScroll: function(e) {
+        // 获取滚动条当前位置
         if (e.scrollTop > this.data.goodsnavtop) {
             this.setData({
                 goodsnavbool: true
@@ -94,12 +105,6 @@ Page({
         }
     },
     /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow() {
-
-    },
-    /**
      * 用户点击右上角分享
      */
     onShareAppMessage() {
@@ -108,7 +113,7 @@ Page({
         let ShareOption = {
             title: this.data.goodsinfo.goodsName,
             path: '' + this.route + '?id=' + this.data.id,
-            imageUrl:_GoodsImageList ||  _ImageUrl
+            imageUrl: _GoodsImageList || _ImageUrl
         }
         return ShareOption;
     },
@@ -132,7 +137,7 @@ Page({
                 _Spec.packager = res.result.goodsdetail.goodsCombinations || [];
 
                 //处理商品轮播图为空
-                if(res.result.goodsdetail.goodsImages.length == 0){
+                if (res.result.goodsdetail.goodsImages.length == 0) {
                     res.result.goodsdetail.goodsImages.push({
                         imageArtworkName: app.globalData.defaultImg
                     })
@@ -149,23 +154,33 @@ Page({
 
 
                 wx.hideLoading();
+            } else {
+                wx.showToast({
+                    title: '拉去商品数据失败，请返回重试',
+                    icon: 'none'
+                })
             }
         })
     },
     //加入购物车
     AddCart() {
-        goodscontroller.addCart({
-            //购物车提交的数据
+        cartController.addCart({
+            shopcart_goods_id: this.data.id,
+            shopcart_num: this.data.num,
+            shopcart_type: 1
         }).then(res => {
-            if (res.status == 0) {
+            if (res.done) {
                 this.Dialog.ShowDialog({
                     type: 'Message',
                     title: '加入购物车成功'
                 })
+                this.setData({
+                    editMode: false
+                })
             } else {
                 this.Dialog.ShowDialog({
                     type: 'Message',
-                    title: '加入购物车失败',
+                    title: res.msg || '加入购物车失败',
                     messageType: 'fail'
                 })
             }
@@ -246,15 +261,15 @@ Page({
         let _List = this.data.spec;
         //判断是否有套餐
         if (_List.packager && _List.packager.length > 0) {
-            let  isSelectKey = 0;
+            let isSelectKey = 0;
             for (let key in _List.packager) {
                 //判断数量是否符合套餐数量
-                if(this.data.num >= _List.packager[key].packageCount){
+                if (this.data.num >= _List.packager[key].packageCount) {
                     //添加选中
                     _List.packager[key].isselect = true;
                     //除去其他套餐选中
-                    if(key > 0){
-                        for(let ukey = key - 1; ukey >= 0; ukey--){
+                    if (key > 0) {
+                        for (let ukey = key - 1; ukey >= 0; ukey--) {
                             _List.packager[ukey].isselect = false;
                         }
                     }
@@ -300,13 +315,13 @@ Page({
             this.setData({
                 spec: _Spec,
                 chooseSpecId: _SpecId,
-                selectSpecName:  _Name
+                selectSpecName: _Name
             })
         } else if (type == 'packager') {
             //处理套餐选择
 
             //如果为处方药，仅提供展示
-            if(this.data.goodsinfo.goodsType == 0) return;
+            if (this.data.goodsinfo.goodsType == 0) return;
             let _List = _Spec.packager;
             //套餐数量
             let _Num = 1;
@@ -333,7 +348,7 @@ Page({
             }
         }
         if (mode == 'packager' || mode == undefined) {
-            if(type == 0) return spec;
+            if (type == 0) return spec;
             if (spec.packager != undefined && spec.packager.length > 0 && spec.packager.packageCount == 1) {
                 spec.packager[0].isselect = true;
             }
@@ -426,9 +441,7 @@ Page({
     },
     //联系客服弹层
     ToggleChaticonMenu() {
-        this.setData({
-            ChaticonMenu: !this.data.ChaticonMenu
-        })
+        this.MenuCustomer.ShowMenu();
     },
     //处理图片错误
     errImg(event) {
@@ -459,7 +472,7 @@ Page({
             })
         }
     },
-    ErrorImage(e){
-       app.errImg(e, this);
+    ErrorImage(e) {
+        app.errImg(e, this);
     }
 })

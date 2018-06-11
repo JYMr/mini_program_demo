@@ -1,7 +1,7 @@
 //const BASE_URL = "http://192.168.40.82:8080";
 //const BASE_URL = "https://api.77lemon.top";
-//const BASE_URL = "http://192.168.40.93:8090";
-const BASE_URL = "http://7.167.61.111:8090"
+const BASE_URL = "http://192.168.40.93:8090";
+// BASE_URL = "http://7.167.61.111:8090"
 const app = getApp();
 
 class Request {
@@ -13,7 +13,6 @@ class Request {
      */
     getApi(url, params) {
         let token = wx.getStorageSync('token') || '';
-
         const promise = new Promise((resolve, reject) => {
             wx.request({
                 url: `${BASE_URL}${url}`,
@@ -40,7 +39,7 @@ class Request {
             })
         })
 
-        /*if (token == '') {
+        if (token == '') {
            return new Promise((resolve, reject) => {
                 wx.showToast({
                     title: '状态失效，请关闭小程序后，重新打开',
@@ -48,9 +47,9 @@ class Request {
                 })
                 reject()
             })
-        } else {*/
+        } else {
             return promise
-        //}
+        }
     }
 
 }

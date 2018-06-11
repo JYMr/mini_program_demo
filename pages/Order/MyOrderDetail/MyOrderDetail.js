@@ -63,12 +63,6 @@ Page({
             orderId: this.data.OrderId
         }).then(res => {
             if (res.done) {
-                //处理价格小数点
-                /*res.result.orderInfo.orderPrice = res.result.orderInfo.orderPrice.toFixed(2)
-                for (let item of res.result.orderInfo.orderGoods) {
-                    item.goodsPrice = item.goodsPrice.toFixed(2)
-                }
-*/
                 this.setData({
                     OrderData: res.result.orderInfo
                 })
@@ -115,21 +109,18 @@ Page({
                         orderId: _id
                     }).then(res => {
                         if (res.done) {
-                            let _Msg = '取消成功!';
-                            //判断resultMsg是否存在
-                            if (res.result) _Msg = res.result.resultMsg;
                             this.Dialog.ShowDialog({
-                                title: _Msg,
+                                title: res.msg || '取消成功!',
                                 type: 'Message'
                             });
                             //刷新数据
                             setTimeout(() => {
                                 //等待动画
-                                this.GetOrderData();
+                                this.ReloadOrderData();
                             }, 1500)
                         } else {
                             this.Dialog.ShowDialog({
-                                title: res.result.resultMsg || '取消失败，请重试!',
+                                title: res.msg || '取消失败，请重试!',
                                 type: 'Message',
                                 messageType: 'fail'
                             });

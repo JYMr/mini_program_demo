@@ -9,6 +9,7 @@ Page({
         userInfo: {},
         OrderNum: [0, 0, 0, 0, 0],
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
+        isOpenCustomerService: false
     },
     /**
      * 生命周期函数--监听页面加载
@@ -28,20 +29,13 @@ Page({
                 }
             })
         }
+        this.setData({
+            isOpenCustomerService: app.globalData.isOpenCustomerService
+        })
         this.GetOrderNum()
     },
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function() {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function() {
-
+    onReady() {
+        this.MenuCustomer = this.selectComponent('#MenuCustomer');
     },
     //获取订单数据
     GetOrderNum() {
@@ -56,5 +50,8 @@ Page({
             }
             wx.hideLoading();
         })
+    },
+    Customer(){
+        this.MenuCustomer.ShowMenu(false);
     }
 })

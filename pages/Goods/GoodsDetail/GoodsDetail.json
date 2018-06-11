@@ -2,6 +2,7 @@
   "navigationBarTitleText": "商品详情",
   "usingComponents": {
     "Dialog": "/pages/Common/Dialog/Dialog",
-    "ReservationInput": "/pages/Common/ReservationInput/ReservationInput"
+    "ReservationInput": "/pages/Common/ReservationInput/ReservationInput",
+    "MenuCustomer": "/pages/Common/MenuCustomer/MenuCustomer"
   }
 }
