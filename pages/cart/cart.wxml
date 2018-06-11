@@ -1,13 +1,13 @@
 <!--pages/cart.wxml-->
 <import src="/pages/Common/TypeIcon.wxml" />
 <wxs module="Filter" src="../Common/filter/filter.wxs"></wxs>
-<view class='cart-title'>
+<view class='cart-title' wx:if="{{CartList.length > 0 }}">
     <text class="allselect{{isAllSelect ? ' on': ''}}" bindtap="AllSelect">
         <text class='icon'></text>全选</text>
     <text class='edit' wx:if="{{!editMode}}" bindtap="editMode">编辑</text>
     <text class='edit' wx:if="{{editMode}}" bindtap="editMode">完成</text>
 </view>
-<view class="Cart-list">
+<view class="Cart-list" wx:if="{{CartList.length > 0 }}">
     <block wx:for="{{CartList}}" wx:key="{{index}}">
         <view class='cart-item'>
             <view class='goods'>
@@ -34,7 +34,7 @@
         </view>
     </block>
 </view>
-<view class='floattotal'>
+<view class='floattotal' wx:if="{{CartList.length > 0 }}">
     <!-- 有UserInfo权限 -->
     <view class='buy-btn' wx:if="{{!editMode && hasUserInfo}}">去结算 ({{GoodsTotalNum}})</view>
     <!-- 无UserInfo权限 -->
@@ -50,4 +50,6 @@
     <text class="allselect{{isAllSelect ? ' on': ''}}" bindtap="AllSelect">
         <text class='icon'></text>全选</text>
 </view>
+
+<view class="empty" wx:if="{{CartList.length == 0 }}">购物车暂无商品</view>
 <Dialog id="Dialog"></Dialog>

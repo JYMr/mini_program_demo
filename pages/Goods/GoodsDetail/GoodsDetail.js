@@ -188,10 +188,12 @@ Page({
     },
     //加入预定清单
     AddRxCart() {
-        goodscontroller.addRxCart({
-            id: this.data.id
+        cartController.addCart({
+            shopcart_goods_id: this.data.id,
+            shopcart_num: this.data.num,
+            shopcart_type: 2
         }).then(res => {
-            if (res.status == 0) {
+            if (res.done) {
                 this.Dialog.ShowDialog({
                     type: 'Message',
                     title: '加入清单成功'

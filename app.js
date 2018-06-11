@@ -82,7 +82,7 @@ App({
     globalData: {
         userInfo: null,
         defaultImg: 'http://www.kzj365.com/mini_program/images/default.png',
-        tel: '11',
+        mobile: '11',
         isOpen: '', //后台设置开启购买
         isOpenCustomerService: false,
         AddressId: '' //用于订单地址选择

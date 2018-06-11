@@ -1,16 +1,10 @@
 // pages/Common/MenuCustomer/MenuCustomer.js
-var app = getApp();
+const app = getApp();
 Component({
     data: {
         isShow: false,
         mobile: '',
         flag: true
-    },
-    ready(){
-        this.setData({
-            mobile: app.globalData.tel,
-            isOpenCustomerService: app.globalData.isOpenCustomerService
-        })
     },
     methods: {
         ToggleChaticonMenu() {
@@ -18,16 +12,18 @@ Component({
                 isShow: !this.data.isShow
             })
         },
-        ShowMenu(flag){
-            if(flag === undefined){
+        ShowMenu(flag) {
+            if (flag === undefined) {
                 flag = true
             }
             this.setData({
+                mobile: app.globalData.mobile,
+                isOpenCustomerService: app.globalData.isOpenCustomerService,
                 isShow: true,
                 flag: flag
             })
         },
-        Calling(){
+        Calling() {
             app.calling();
         }
     }

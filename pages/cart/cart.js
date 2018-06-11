@@ -1,6 +1,6 @@
 // pages/cart.js
-const app = getApp();
 const cartController = require('../controllers/cartController').controller;
+const app = getApp();
 Page({
     /**
      * 页面的初始数据

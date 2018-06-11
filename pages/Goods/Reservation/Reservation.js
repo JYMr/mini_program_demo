@@ -1,16 +1,18 @@
 // pages/cart/reservation.js
-let app = getApp(); 
+const cartController = require('../../controllers/cartController').controller;
+const app = getApp();
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        List: [],
+        NeedList: [],
         editMode: false,
         isAllSelect: false,
         GoodsTotalNum: 0,
         GoodsTotalPrice: 0,
+        DefaultImage: '',
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         hasUserInfo: false,
     },
@@ -21,11 +23,11 @@ Page({
     onLoad: function(options) {
         this.GetList();
 
-        if(app.globalData.userInfo){
+        if (app.globalData.userInfo) {
             this.setData({
                 hasUserInfo: true
             })
-        }else if (this.data.canIUse) {
+        } else if (this.data.canIUse) {
             // 所以此处加入 callback 以防止这种情况
             app.userInfoReadyCallback = res => {
                 this.setData({
@@ -44,6 +46,10 @@ Page({
                 }
             })
         }
+
+        this.setData({
+            DefaultImage: app.globalData.defaultImg
+        })
     },
 
     /**
@@ -59,87 +65,50 @@ Page({
     onShow: function() {
 
     },
-//获取购物车数据
+    //获取购物车数据
     GetList() {
         wx.showLoading({
             title: '加载数据中...',
             mask: true
         });
-        let Data = [{
-                id: 1516,
-                title: '仁和健途(jintoo)高级大胶原蛋白壳寡糖果味饮品480ml/瓶1',
-                imagesrc: '',
-                total: '5',
-                stock: '56',
-                marketprice: '27.90',
-                productprice: '',
-                goods_type: '4',
-                spec_type: '盒',
-                isChoose: '1',
-                goods_group: [{
-                    name: '3盒起480元；',
-                    num: '3',
-                    price: '25.90'
-                },
-                {
-                    name: '5盒起480元；',
-                    num: '5',
-                    price: '21.90'
-                }]
-            },
-            {
-                id: 15126,
-                title: '仁和健途(jintoo)高级大胶原蛋白壳寡糖果味饮品480ml/瓶2',
-                imagesrc: '',
-                total: '3',
-                stock: '56',
-                marketprice: '27.90',
-                productprice: '',
-                goods_type: '1',
-                spec_type: '件',
-                isChoose: '1',
-                goods_group: [{
-                    name: '3盒起480元；',
-                    num: '3',
-                    price: '25.90'
-                }]
+        cartController.getCartData({
+            shopcart_type: 2
+        }).then(res => {
+            if (res.done) {
+                this.setData({
+                    NeedList: res.result.shopCartApiList
+                })
             }
-        ];
-        setTimeout(() => {
-            this.setData({
-                List: Data
-            })
-            this.CheckAllSelect();
-            wx.hideLoading();
-        }, 500);
+             wx.hideLoading();
+        })
     },
     //复选框事件
-    HandleCheckBox(e){
-        let _id =  e.currentTarget.dataset.id;
-        let _List = this.data.List;
-        for(let item of _List){
-            if(item.id == _id){
+    HandleCheckBox(e) {
+        let _id = e.currentTarget.dataset.id;
+        let _List = this.data.NeedList;
+        for (let item of _List) {
+            if (item.shopcart_id == _id) {
                 item.isChoose = item.isChoose == '1' ? '0' : '1'
             }
         }
         //非编辑模式下，提交选中状态
-        if(!this.data.editMode){
+        if (!this.data.editMode) {
             /**
-            * 此处接口提交选中状态
-            */
+             * 此处接口提交选中状态
+             */
         }
         this.setData({
-            List: _List
+            NeedList: _List
         });
         this.CheckAllSelect();
     },
     //检查是否全选
-    CheckAllSelect(){
-        let _List = this.data.List;
+    CheckAllSelect() {
+        let _List = this.data.NeedList;
         let length = _List.length;
         let ChooseLength = 0;
-        for(let item of _List){
-            if(item.isChoose == '1'){
+        for (let item of _List) {
+            if (item.isChoose == '1') {
                 ChooseLength++;
             }
         }
@@ -148,33 +117,33 @@ Page({
         })
     },
     //全选或反选
-    AllSelect(){
+    AllSelect() {
         let _status = this.data.isAllSelect;
-        let _List = this.data.List;
-        for(let item of _List){
+        let _List = this.data.NeedList;
+        for (let item of _List) {
             item.isChoose = !_status;
         }
         this.setData({
             isAllSelect: !_status,
-            List: _List
+            NeedList: _List
         })
     },
     //编辑模式
-    editMode(){
+    editMode() {
         this.setData({
             editMode: !this.data.editMode
         })
     },
     //删除购物车操作
-    DelList(){
-        let _List = this.data.List;
+    DelList() {
+        let _List = this.data.NeedList;
         let DelList = new Array();
-        for(let item of _List){
-            if(item.isChoose == '1'){
-                DelList.push(item.id);
+        for (let item of _List) {
+            if (item.isChoose == '1') {
+                DelList.push(item.shopcart_id);
             }
         }
-        if(DelList.length == 0){
+        if (DelList.length == 0) {
             this.Dialog.ShowDialog({
                 title: '请勾选你需要删除的商品',
                 type: 'Message',
@@ -186,22 +155,47 @@ Page({
             title: '确定删除选中预定清单的商品',
             type: 'Confirm',
             callback: res => {
-                if(res.name == 'confirm'){
+                if (res.name == 'confirm') {
                     /**
-                    * 此处删除接口
-                    */
-                }else{
-                    this.Dialog.CloseDialog(); 
+                     * 此处删除接口
+                     */
+                    this.Dialog.CloseDialog();
+                    wx.showLoading({
+                        mask: true
+                    });
+                    cartController.delCart({
+                        shopcartids: DelList.toString(),
+                        shopcart_type: 2
+                    }).then(res => {
+                        if (res.done) {
+                            this.Dialog.ShowDialog({
+                                type: 'Message',
+                                title: '删除成功'
+                            })
+                            setTimeout(() => {
+                                this.GetList()
+                            }, 1500)
+                        } else {
+                            this.Dialog.ShowDialog({
+                                type: 'Message',
+                                title: res.msg || '删除失败',
+                                messageType: 'fail'
+                            })
+                        }
+                        wx.hideLoading();
+                    })
+                } else {
+                    this.Dialog.CloseDialog();
                 }
             }
         })
     },
-    ConfirmOrder(){
+    ConfirmOrder() {
         console.log('提交订单操作')
     },
     //申请授权判断
-    getUserInfo(e){
-        if(e.detail.userInfo){
+    getUserInfo(e) {
+        if (e.detail.userInfo) {
             this.setData({
                 hasUserInfo: true
             })
@@ -211,14 +205,17 @@ Page({
             /*wx.navigateTo({
                 url: '/pages/index/index'
             });*/
-        }else{
+        } else {
             this.Dialog.ShowDialog({
                 title: '授权登录，方可购买商品',
                 type: 'Alert',
                 callback: res => {
-                    this.Dialog.CloseDialog(); 
+                    this.Dialog.CloseDialog();
                 }
             })
         }
+    },
+    ErrorImage(e) {
+        app.errImg(e, this);
     }
 })
