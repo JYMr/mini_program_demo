@@ -111,14 +111,24 @@
             <view>预定清单</view>
         </navigator>
     </block>
+    
+    <!-- 下架 -->
+    <view class='gray' wx:if="{{goodsinfo.goodsAdded == 0}}">该商品已下架</view>
+    <navigator url='/pages/Cart/Cart' open-type="switchTab" class='cart' hover-class='none' wx:if="{{goodsinfo.goodsAdded == 0}}">
+        <view class='icon'></view>
+        <view>购物车</view>
+    </navigator>
+    <!-- 缺货 -->
+    <view class='gray' wx:if="{{goodsinfo.goodsStock == 0}}">该商品已缺货</view>
+    <navigator url='/pages/Cart/Cart' open-type="switchTab" class='cart' hover-class='none' wx:if="{{goodsinfo.goodsStock == 0}}">
+        <view class='icon'></view>
+        <view>购物车</view>
+    </navigator>
+
     <view class='phone' hover-class='none' bindtap="ToggleChaticonMenu">
         <view class='icon'></view>
         <view>联系客服</view>
     </view>
-    <!-- 下架 -->
-    <view class='gray' wx:if="{{goodsinfo.goodsAdded == 0}}">该商品已下架</view>
-    <!-- 缺货 -->
-    <view class='gray' wx:if="{{goodsinfo.goodsStock == 0}}">该商品已缺货</view>
 </view>
 <!-- 属性弹出框 -->
 <view class='prop' id='select-attr' wx:if="{{showModalStatus}}">

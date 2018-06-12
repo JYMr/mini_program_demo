@@ -1,5 +1,5 @@
 <!--pages/address/addressList/addressList.wxml-->
-<view class="addressList">
+<view class="addressList" wx:wx:if="{{AddressList.length > 0}}">
 	<view class="addressItem{{item.addr_default == 1 ? ' active': ''}}" wx:for="{{AddressList}}" wx:for-item="item"  wx:for-index="index" wx:key="{{index}}" data-id="{{item.addr_id}}" bindtap="ChooseAddress">
 		<view class="addressData">
 			<text class="name">{{item.addr_recipient}}</text><text class="mobile">{{item.addr_mobile}}</text>

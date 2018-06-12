@@ -10,7 +10,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.0.8",
 	"appid": "wx9db8f06f6cabfde5",
-	"projectname": "wechatmin",
+	"projectname": "wechatminCom",
 	"isGameTourist": false,
 	"condition": {
 		"search": {
@@ -42,7 +42,7 @@
 					"id": 1,
 					"name": "GoodsDetail",
 					"pathName": "pages/Goods/GoodsDetail/GoodsDetail",
-					"query": "id=20"
+					"query": "id=6"
 				},
 				{
 					"id": -1,
@@ -51,10 +51,10 @@
 					"query": "id=2131"
 				},
 				{
-					"id": -1,
+					"id": 3,
 					"name": "ConfirmOrder",
 					"pathName": "pages/Order/ConfirmOrder/ConfirmOrder",
-					"query": "id=123&type=2&num=1"
+					"query": "mode=0&id=45,48"
 				},
 				{
 					"id": -1,

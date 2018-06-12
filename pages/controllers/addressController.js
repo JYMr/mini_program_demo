@@ -13,6 +13,14 @@ class AddressController {
     }
 
     /**
+     * 根据Id获取地址数据
+     * @return {Promise}
+     */
+    getAddressById(params) {
+        return request.get(`${URI}/api/getUserAddrApiByAddrId.shtml`, params).then(res => res.data)
+    }
+
+    /**
      * 更改地址默认状态
      * @return {Promise}
      */

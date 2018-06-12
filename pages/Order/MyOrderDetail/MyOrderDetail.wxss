@@ -51,3 +51,4 @@
 .floatcontrol .aftersale-btn{ border:#ddd 1px solid; border-radius: 10rpx; color: #fff; font-size: 26rpx; height: 50rpx; line-height: 46rpx; box-sizing: border-box; text-align: center; width: 140rpx; display: inline-block; background: #ddd; margin-left: 20rpx;}
 .floatcontrol .gopay-btn,.floatcontrol .joingroup-btn{ border:#ff5c58 1px solid; border-radius: 10rpx; color: #fff; font-size: 26rpx; height: 50rpx; line-height: 46rpx; box-sizing: border-box; text-align: center; width: 140rpx; display: inline-block; background: #ff5c58; margin-left: 20rpx;}
 .floatcontrol .disabled{background-color: #DDDDDD;color: #FFF;}
+.floatcontrol .green{color: #fff;border-color: #37c4a4; background-color: #37c4a4;}

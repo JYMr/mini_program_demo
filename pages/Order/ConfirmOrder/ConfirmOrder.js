@@ -1,36 +1,55 @@
 // pages/order/order.js
-const app = getApp()
 const orderController = require('../../controllers/orderController').controller;
-Page({
+const addressController = require('../../controllers/addressController').controller;
+const app = getApp();
 
-    /**
-     * 页面的初始数据
-     */
+Page({
     data: {
+        Mode: 0, //订单提交模式： 0 购物车结算  1 单件购买
         GoodsId: '',
+        CartsIdList: '',
         type: '', //type
         num: '',
         OrderData: {},
-        PayWay: 0,
+        PayWay: 2,
         AddressId: '',
         ReMark: '',
-        PayListStatus: false //选择支付方式列表
+        cashStatus: '', //货到付款状态 true为开启
+        PayListStatus: false, //选择支付方式列表
+        DefaultImage: ''
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        if (options.id) {
+        if (options.mode) {
             this.setData({
-                GoodsId: options.id
+                Mode: options.mode
             })
+        }
+        if (options.id) {
+            if (this.data.Mode == 0) {
+                this.setData({
+                    CartsIdList: options.id
+                })
+            } else {
+                this.setData({
+                    GoodsId: options.id
+                })
+            }
         }
         if (options.num) {
             this.setData({
                 num: options.num
             })
         }
+
+        //获取全局默认图片底图
+        this.setData({
+            DefaultImage: app.globalData.defaultImg,
+            cashStatus: app.globalData.cashStatus
+        })
 
         this.GetOrderData();
     },
@@ -62,30 +81,33 @@ Page({
             mask: true
         });
 
-        //若GoodsId为空，则为购物车结算
-        let id = this.data.GoodsId;
-        if (id) {
-            //单间商品提交
-            orderController.getOneData({
-                id: this.data.GoodsId,
-                num: this.data.num
+        if (this.data.Mode == 0) {
+            //购物车结算
+            orderController.SubmitShopCart({
+                shopcartIds: this.data.CartsIdList
             }).then(res => {
-                if (res.status == 0) {
+                if (res.done) {
+                    let _AddressId = res.result.defalutUserAddr ? res.result.defalutUserAddr.addr_id : '';
                     this.setData({
-                        OrderData: res.data
+                        OrderData: res.result,
+                        AddressId: _AddressId
                     })
                     wx.hideLoading();
                 }
             })
         } else {
-            //购物车结算
-            orderController.getCartData({
-                id: this.data.GoodsId,
-                num: this.data.num
+            //单间商品提交
+            orderController.getOneData({
+                shopcart_goods_id: this.data.GoodsId,
+                shopcart_num: this.data.num,
+                shopcart_type: 1
             }).then(res => {
-                if (res.status == 0) {
+                if (res.done) {
+                    let _AddressId = res.result.defalutUserAddr ? res.result.defalutUserAddr.addr_id : '';
                     this.setData({
-                        OrderData: res.data
+                        OrderData: res.result,
+                        AddressId: _AddressId,
+                        CartsIdList: res.result.shopCartApi.shopcart_id
                     })
                     wx.hideLoading();
                 }
@@ -99,13 +121,12 @@ Page({
             mask: true
         });
 
-        orderController.getAddress({
-            id: this.data.AddressId
+        addressController.getAddressById({
+            addr_id: this.data.AddressId
         }).then(res => {
-            if (res.status == 0) {
+            if (res.done) {
                 let _orderData = this.data.OrderData;
-                console.log(_orderData)
-                _orderData.Address = res.data;
+                _orderData.defalutUserAddr = Object.assign(_orderData.defalutUserAddr || {}, res.result.userAddr);
                 this.setData({
                     OrderData: _orderData
                 })
@@ -119,11 +140,12 @@ Page({
     },
     //添加地址
     AddAddress(e) {
-        let id = e.detail.id;
+        let id = e.detail.addr_id;
         if (id != undefined) {
             this.setData({
                 AddressId: id
             });
+            this.AddressEdit.CloseEdit();
             this.GetAddress();
         }
     },
@@ -143,9 +165,28 @@ Page({
     },
     //提交订单
     ConfirmOrder() {
-        console.log('提交订单');
-        wx.redirectTo({
-            url: '/pages/Order/MyOrder/MyOrder?status=3'
+        wx.showLoading({
+            title: '提交订单中...',
+            mask: true
+        });
+        if (this.data.AddressId == '') {
+
+            return;
+        }
+        orderController.CreateOrder({
+            addrId: this.data.AddressId,
+            shopCartIds: this.data.CartsIdList,
+            orderPrice: this.data.OrderData.totalPrice,
+            remark: this.data.ReMark,
+            payWay: this.data.PayWay
+        }).then(res => {
+            if (res.done) {
+                setTimeout(() => {
+                    wx.redirectTo({
+                        url: '/pages/Order/MyOrder/MyOrder?status=3'
+                    })
+                }, 1500)
+            }
         })
     },
     //备注输入绑定
@@ -154,5 +195,8 @@ Page({
         this.setData({
             ReMark: _val
         })
+    },
+    ErrorImage(e) {
+        app.errImg(e, this);
     }
 })

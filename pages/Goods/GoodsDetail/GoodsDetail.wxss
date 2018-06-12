@@ -52,7 +52,7 @@ page{background:#f4f4f4; margin-bottom: 118rpx; color: #555;font-size: 28rpx;}
 .goodsfloat .addlist{ width: 233rpx; height: 100%; background: #37c4a4; color: #fff; font-size: 30rpx;display: flex; flex-direction: column; align-items: center; justify-content: center;  float: left;}
 .goodsfloat .buy{ width: 233rpx; height: 100%; background: #ff5c58; color: #fff; font-size: 30rpx;display: flex; flex-direction: column; align-items: center; justify-content: center;  float: right;}
 .goodsfloat .prestanding{ width: 233rpx; height: 100%; background: #ff5c58; color: #fff; font-size: 30rpx;display: flex; flex-direction: column; align-items: center; justify-content: center;  float: left;}
-.goodsfloat .gray{background-color: #bbbbbb;height: 100%;margin-left: 286rpx;color: #FFF;font-size: 30rpx;line-height: 98rpx;}
+.goodsfloat .gray{background-color: #bbbbbb;height: 100%;width: 465rpx;color: #FFF;font-size: 30rpx;line-height: 98rpx;float: right;}
 .goodsfloat .green{background-color: #37c4a4;}
 
 .prop{width: 100%; height: 100%;  position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 102; margin: auto;}

@@ -21,10 +21,10 @@
             <!-- 优先判断取消状态 -->
             <text class='pedpay' wx:if="{{OrderItem.orderStatus == 7}}">已取消</text>
             <text class='pedpay' wx:elif="{{OrderItem.orderCancelStatus == 1}}">取消中</text>
-            <text class='pedpay' wx:elif="{{OrderItem.orderCancelStatus == 2}}">取消被拒</text>
             <text class='pedpay' wx:elif="{{OrderItem.orderAfterStatus == 1}}">售后中</text>
             <text class='pedpay' wx:elif="{{OrderItem.orderStatus == 0}}">待付款</text>
             <text class='pedpay' wx:elif="{{OrderItem.orderStatus == 1}}">待分享</text>
+            <text class='pedpay' wx:elif="{{OrderItem.orderCancelStatus == 2 && OrderItem.orderStatus == 2}}">待发货</text>
             <text class='pedpay' wx:elif="{{OrderItem.orderStatus == 2}}">待发货</text>
             <text class='pedpay' wx:elif="{{OrderItem.orderStatus == 3}}">已发货</text>
             <text class='pedpay' wx:elif="{{OrderItem.orderStatus == 5}}">已完成</text>
@@ -43,14 +43,20 @@
             </block>
         </view>
         <view class='total'> 共{{OrderItem.total}}件商品 合计：￥{{Filter.toFixed(OrderItem.orderPrice)}}
-            <block wx:if="{{OrderItem.freeExpressPrice == 2}}">（包含快递费{{OrderItem.expressPrice}}元）</block>
+            <block wx:if="{{OrderItem.freeExpressPrice == 2}}">（包含快递费10元）</block>
             <block wx:if="{{!OrderItem.freeExpressPrice == 1}}">（免运费）</block>
         </view>
         <!-- 按钮状态 -->
         <!-- 已取消 -->
-         <block wx:if="{{OrderItem.orderCancelStatus == -1 || OrderItem.orderStatus == 7}}">
+         <block wx:if="{{OrderItem.orderStatus == 7}}">
             <view class='control'>
                 <text class='cancel-btn' data-id="{{OrderItem.orderId}}" catchtap="DeleteOrder">删除订单</text>
+            </view>
+        </block>
+         <!-- 取消中 -->
+        <block wx:elif="{{OrderItem.orderCancelStatus == 1}}">
+            <view class='control'>
+                <text class='cancel-btn disabled' data-id="{{OrderData.orderId}}" data-disabled="true" catchtap="DeleteOrder">取消订单</text>
             </view>
         </block>
         <!-- 待付款 -->
@@ -76,8 +82,8 @@
         <!-- 已发货 -->
         <block wx:elif="{{OrderItem.orderStatus == 3}}">
             <view class='control'>
-                <text class='cancel-btn' data-id="{{OrderItem.orderId}}" data-expressnumber="{{OrderItem.logisticsCode}}" data-expressname="{{OrderItem.ExpressSlotName}}" catchtap="ExpressNumber">物流单号</text>
-                <text class='cancel-btn' data-id="{{OrderItem.orderId}}" catchtap="CancelOrder">取消订单</text>
+                <text class='cancel-btn' data-id="{{OrderItem.orderId}}" data-expressnumber="{{OrderItem.logisticsCode}}" data-expressname="{{OrderItem.logisticsCompany}}" catchtap="ExpressNumber">物流单号</text>
+                <text class='cancel-btn{{OrderItem.orderAfterStatus == 1 ? " disabled" : ""}}' data-code="{{OrderItem.orderCode}}" data-disabled="{{OrderItem.orderAfterStatus == 1}}" catchtap="CustomerService">申请售后</text>
                 <text class='cancel-btn green' data-id="{{OrderItem.orderId}}" catchtap="ConfirmOrder">确认收货</text>
             </view>
         </block>

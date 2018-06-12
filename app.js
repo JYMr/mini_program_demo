@@ -14,7 +14,7 @@ App({
                     success: res => {
                         // 发送 res.code 到后台换取 openId, sessionKey, unionId
                         wx.request({
-                            url: 'http://192.168.40.93:8090/api/userApiLogin.shtml',
+                            url: 'http://1x7448h712.iok.la/api/userApiLogin.shtml',
                             method: 'POST',
                             data: {
                                 code: res.code
@@ -82,9 +82,10 @@ App({
     globalData: {
         userInfo: null,
         defaultImg: 'http://www.kzj365.com/mini_program/images/default.png',
-        mobile: '11',
+        mobile: '',
+        cashStatus: false,//货到付款开启状态
         isOpen: '', //后台设置开启购买
-        isOpenCustomerService: false,
+        isOpenCustomerService: false,//是否开启在线客服
         AddressId: '' //用于订单地址选择
     },
     Util: {

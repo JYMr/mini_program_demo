@@ -3,9 +3,9 @@ page{ font-family: 'Helvetica Neue',Verdana,Helvetica,Arial,'Microsoft Yahei','H
 
 .show{ display: block;}
 .hide{ display: none;}
-.footer{font-size: 24rpx;line-height: 2; padding: 25rpx 0;text-align: center;color: #ddd;}
+.footer{font-size: 24rpx;line-height: 2; padding:36rpx 0;text-align: center;color: #ddd;}
 .footer .img{ width: 154rpx;height: 38rpx;}
 
 
-.empty{font-size: 36rpx;line-height: 2;position: fixed;top: 50%;width: 100%;min-height: 600rpx;transform: translate(0, -50%); text-align: center;color: #ddd;}
+.empty{font-size: 30rpx;line-height: 1;position: fixed;top: 50%;width: 100%;min-height: 400rpx;transform: translate(0, -50%); text-align: center;color: #ddd;}
 .empty::before{display: block;width: 222rpx;height: 259rpx;margin: 0 auto 30rpx; content: '';background: url(http://www.kzj365.com/mini_program/images/emptyList_icon.png) no-repeat center center;background-size: 100%;}

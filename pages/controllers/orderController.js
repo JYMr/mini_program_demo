@@ -10,23 +10,23 @@ class OrderController {
      * @return {Promise}
      */
     getOneData(params) {
-        return request.get(`${URI}/getOneData`, params).then(res => res.data)
+        return request.get(`${URI}/api/buyNow.shtml`, params).then(res => res.data)
     }
 
     /**
      * 商品数据(购物车结算)
      * @return {Promise}
      */
-    getCartData(params) {
-        return request.get(`${URI}/getCartData`, params).then(res => res.data)
+    SubmitShopCart(params) {
+        return request.get(`${URI}/api/submitShopCart.shtml`, params).then(res => res.data)
     }
 
     /**
-     * 地址数据
+     * 结算订单
      * @return {Promise}
      */
-    getAddress(params) {
-        return request.get(`${URI}/getAddressById`, params).then(res => res.data)
+    CreateOrder(params) {
+        return request.get(`${URI}/api/createOrder.shtml`, params).then(res => res.data)
     }
 
     /**

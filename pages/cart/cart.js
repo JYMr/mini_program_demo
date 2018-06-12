@@ -97,7 +97,10 @@ Page({
                 //this.handleGroup();
                 //统计
                 this.ListTotal();
-                wx.stopPullDownRefresh();
+                setTimeout(function(){
+                  wx.stopPullDownRefresh();
+                },1)
+                
                 wx.hideLoading();
             }
         })
@@ -140,7 +143,7 @@ Page({
                 )
             }
         }
-        _TotalPrice = this.handleExpress(_TotalPrice);
+        this.handleExpress(_TotalPrice);
         this.setData({
             GoodsTotalNum: _TotalNum,
             GoodsTotalPrice: _TotalPrice
@@ -151,9 +154,8 @@ Page({
     handleExpress(TotalPrice) {
         if (TotalPrice < this.data.MaxExpress) {
             if (TotalPrice > 0) {
-                TotalPrice = parseFloat(TotalPrice) + parseFloat(this.data.ExpressPrice);
                 this.setData({
-                    ExpressText: '（包含快递费10元）'
+                    ExpressText: '还差' + parseFloat(this.data.MaxExpress - parseFloat(TotalPrice)).toFixed(2) + '元可以包邮'
                 })
             } else {
                 this.setData({
@@ -165,7 +167,6 @@ Page({
                 ExpressText: '(已免邮)'
             })
         }
-        return TotalPrice;
     },
     //数量增加
     bindPlus(e) {
@@ -223,7 +224,8 @@ Page({
                         if (item.shopcart_id == id) {
                             item.promotion = res.result.shopCartApi1.promotion;
                             item.goods_stock = res.result.shopCartApi1.goods_stock;
-                            item.goods_price = res.result.shopCartApi1.goods_price
+                            item.goods_price = res.result.shopCartApi1.goods_price;
+                            item.promotionF = res.result.shopCartApi1.promotionF;
                         }
                     }
                     this.setData({
@@ -285,11 +287,11 @@ Page({
         for (let item of _List) {
             item.isChoose = !_status;
         }
-        this.ListTotal();
         this.setData({
             isAllSelect: !_status,
             CartList: _List
         })
+        this.ListTotal();
     },
     //编辑模式
     editMode() {
@@ -355,7 +357,31 @@ Page({
         })
     },
     ConfirmOrder() {
-        console.log('提交订单操作')
+        let idList = this.GetChoose();
+        if (idList) {
+            wx.showLoading({
+                mask: true,
+                title: '加载中...'
+            });
+            wx.navigateTo({
+                url: '/pages/Order/ConfirmOrder/ConfirmOrder?mode=0&id=' + idList
+            })
+        } else {
+            this.Dialog.ShowDialog({
+                type: 'Message',
+                title: '请选择你要结算的商品',
+                messageType: 'fail'
+            })
+        }
+    },
+    //获取已选择的ID
+    GetChoose() {
+        let _List = this.data.CartList;
+        let _ChooseID = [];
+        for (let item of _List) {
+            if (item.isChoose) _ChooseID.push(item.shopcart_id);
+        }
+        return _ChooseID.toString();
     },
     //申请授权判断
     getUserInfo(e) {
@@ -366,9 +392,6 @@ Page({
             app.globalData.userInfo = e.detail.userInfo
             //此处提交订单
             this.ConfirmOrder();
-            /*wx.navigateTo({
-                url: '/pages/index/index'
-            });*/
         } else {
             this.Dialog.ShowDialog({
                 title: '授权登录，方可购买商品',

@@ -116,7 +116,7 @@ Page({
                             //刷新数据
                             setTimeout(() => {
                                 //等待动画
-                                this.ReloadOrderData();
+                                this.GetOrderData();
                             }, 1500)
                         } else {
                             this.Dialog.ShowDialog({
@@ -140,40 +140,48 @@ Page({
 
         let _title = _expressName + _expressNumber;
 
-        this.Dialog.ShowDialog({
-            title: _title || '暂无单号信息',
-            type: 'Confirm',
-            btnArray: [
-                { title: '复制', name: 'copy' },
-                { title: '取消', name: 'cancel' }
-            ],
-            callback: res => {
-                if (res.name == 'copy') {
+        if (_title) {
+            this.Dialog.ShowDialog({
+                title: _title,
+                type: 'Confirm',
+                btnArray: [
+                    { title: '复制', name: 'copy' },
+                    { title: '取消', name: 'cancel' }
+                ],
+                callback: res => {
+                    if (res.name == 'copy') {
 
-                    //调用复制API
-                    wx.setClipboardData({
-                        data: _expressNumber,
-                        success: res => {
-                            this.Dialog.CloseDialog();
-                            this.Dialog.ShowDialog({
-                                title: '复制成功',
-                                type: 'Message'
-                            });
-                        },
-                        fail: err => {
-                            this.Dialog.CloseDialog();
-                            this.Dialog.ShowDialog({
-                                title: '复制失败',
-                                type: 'Message',
-                                messageType: 'fail'
-                            });
-                        }
-                    });
+                        //调用复制API
+                        wx.setClipboardData({
+                            data: _expressNumber,
+                            success: res => {
+                                this.Dialog.CloseDialog();
+                                this.Dialog.ShowDialog({
+                                    title: '复制成功',
+                                    type: 'Message'
+                                });
+                            },
+                            fail: err => {
+                                this.Dialog.CloseDialog();
+                                this.Dialog.ShowDialog({
+                                    title: '复制失败',
+                                    type: 'Message',
+                                    messageType: 'fail'
+                                });
+                            }
+                        });
 
+                    }
+                    this.Dialog.CloseDialog();
                 }
-                this.Dialog.CloseDialog();
-            }
-        })
+            })
+        }else{
+            this.Dialog.ShowDialog({
+                title: '暂无单号信息',
+                type: 'Message',
+                messageType: 'fail'
+            })
+        }
     },
     //申请售后
     CustomerService(e) {
@@ -331,7 +339,7 @@ Page({
                             //刷新数据
                             setTimeout(() => {
                                 //等待动画
-                                this.GetOrderData();
+                                wx.navigateBack();
                             }, 1500)
                         } else {
                             this.Dialog.ShowDialog({

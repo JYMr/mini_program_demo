@@ -17,10 +17,6 @@
         <text class="t">售后中</text>
         <view class='c'>客服正在处理，尽快帮你完成售后</view>
     </block>
-    <block wx:elif="{{OrderData.orderCancelStatus == 2}}">
-        <text class="t">售后完成</text>
-        <view class='c'>如有疑问，请咨询客服</view>
-    </block>
     <block wx:elif="{{OrderData.orderStatus == 0}}">
         <text class="t">待付款</text>
         <view class='c'>2小时内没完成支付，订单将被取消!</view>
@@ -28,6 +24,10 @@
     <block wx:elif="{{OrderData.orderStatus == 1}}">
         <text class="t">待分享</text>
         <view class='c'>分享给朋友能提高拼团成功率</view>
+    </block>
+    <block wx:elif="{{OrderData.orderStatus == 2 && OrderData.orderCancelStatus == 1}}">
+        <text class="t">待发货</text>
+        <view class='c'>亲，我们将尽快为您发货</view>
     </block>
     <block wx:elif="{{OrderData.orderStatus == 2}}">
         <text class="t">待发货</text>
@@ -41,6 +41,11 @@
         <text class="t">交易完成</text>
         <view class='c'>亲，如有需要请再次购买</view>
     </block>
+
+ <!--    <block wx:elif="{{OrderData.orderCancelStatus == 2}}">
+     <text class="t">售后完成</text>
+     <view class='c'>如有疑问，请咨询客服</view>
+ </block> -->
 </view>
 <view class='addaddress'>
     <view class='info'>
@@ -97,9 +102,15 @@
 <view class='floatcontrol'>
     <!-- 按钮状态 -->
     <!-- 已取消 -->
-    <block wx:if="{{OrderData.orderCancelStatus == -1 || OrderData.orderStatus == 7}}">
+    <block wx:if="{{OrderData.orderStatus == 7}}">
         <view class='control'>
             <text class='cancel-btn' data-id="{{OrderData.orderId}}" catchtap="DeleteOrder">删除订单</text>
+        </view>
+    </block>
+    <!-- 取消中 -->
+    <block wx:elif="{{OrderData.orderCancelStatus == 1}}">
+        <view class='control'>
+            <text class='cancel-btn disabled' data-id="{{OrderData.orderId}}" data-disabled="true" catchtap="DeleteOrder">取消订单</text>
         </view>
     </block>
     <!-- 待付款 -->
@@ -126,7 +137,7 @@
     <block wx:elif="{{OrderData.orderStatus == 3}}">
         <view class='control'>
             <text class='cancel-btn' data-id="{{OrderData.orderId}}" data-expressnumber="{{OrderData.logisticsCode}}" data-expressname="{{OrderData.ExpressSlotName}}" catchtap="ExpressNumber">物流单号</text>
-            <text class='cancel-btn' data-id="{{OrderData.orderId}}" catchtap="CancelOrder">取消订单</text>
+            <text class='cancel-btn{{OrderItem.orderAfterStatus == 1 ? " disabled" : ""}}' data-code="{{OrderItem.orderCode}}" data-disabled="{{OrderItem.orderAfterStatus == 1}}" catchtap="CustomerService">申请售后</text>
             <text class='cancel-btn green' data-id="{{OrderData.orderId}}" catchtap="ConfirmOrder">确认收货</text>
         </view>
     </block>

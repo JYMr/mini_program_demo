@@ -210,7 +210,7 @@ Page({
     //非处方药提交订单
     BuyFn() {
         wx.navigateTo({
-            url: '/pages/Order/ConfirmOrder/ConfirmOrder?type=' + this.data.goodsinfo.type + '&id=' + this.data.chooseSpecId + '&num=' + this.data.num
+            url: '/pages/Order/ConfirmOrder/ConfirmOrder?mode=1&id=' + this.data.chooseSpecId + '&num=' + this.data.num
         })
     },
     //预定方法

@@ -7,13 +7,13 @@ Page({
      * 页面的初始数据
      */
     data: {
-        Status: "-1",//订单状态
-        OrderList: [],//订单数据
+        Status: "-1", //订单状态
+        OrderList: [], //订单数据
         pageNo: 1,
         ListSize: 8,
         isEnd: false,
         LoadError: false,
-        DefaultImage: ''//默认底图
+        DefaultImage: '' //默认底图
     },
 
     /**
@@ -136,40 +136,49 @@ Page({
 
         let _title = _expressName + _expressNumber;
 
-        this.Dialog.ShowDialog({
-            title: _title || '暂无单号信息',
-            type: 'Confirm',
-            btnArray: [
-                { title: '复制', name: 'copy' },
-                { title: '取消', name: 'cancel' }
-            ],
-            callback: res => {
-                if (res.name == 'copy') {
+        if (_title) {
+            this.Dialog.ShowDialog({
+                title: _title,
+                type: 'Confirm',
+                btnArray: [
+                    { title: '复制', name: 'copy' },
+                    { title: '取消', name: 'cancel' }
+                ],
+                callback: res => {
+                    if (res.name == 'copy') {
 
-                    //调用复制API
-                    wx.setClipboardData({
-                        data: _expressNumber,
-                        success: res => {
-                            this.Dialog.CloseDialog();
-                            this.Dialog.ShowDialog({
-                                title: '复制成功',
-                                type: 'Message'
-                            });
-                        },
-                        fail: err => {
-                            this.Dialog.CloseDialog();
-                            this.Dialog.ShowDialog({
-                                title: '复制失败',
-                                type: 'Message',
-                                messageType: 'fail'
-                            });
-                        }
-                    });
+                        //调用复制API
+                        wx.setClipboardData({
+                            data: _expressNumber,
+                            success: res => {
+                                this.Dialog.CloseDialog();
+                                this.Dialog.ShowDialog({
+                                    title: '复制成功',
+                                    type: 'Message'
+                                });
+                            },
+                            fail: err => {
+                                this.Dialog.CloseDialog();
+                                this.Dialog.ShowDialog({
+                                    title: '复制失败',
+                                    type: 'Message',
+                                    messageType: 'fail'
+                                });
+                            }
+                        });
 
+                    }
+                    this.Dialog.CloseDialog();
                 }
-                this.Dialog.CloseDialog();
-            }
-        })
+            })
+        }else{
+            this.Dialog.ShowDialog({
+                title: '暂无单号信息',
+                type: 'Message',
+                messageType: 'fail'
+            })
+        }
+
     },
     //申请售后
     CustomerService(e) {
