@@ -43,6 +43,7 @@ class CartController {
     addCart(params) {
         return request.get(`${URI}/api/insertShopCart.shtml`, params).then(res => res.data)
     }
+
 }
 /**
  * 实例化对象

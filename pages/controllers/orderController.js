@@ -62,14 +62,6 @@ class OrderController {
     }
 
     /**
-     * 需求列表
-     * @return {Promise}
-     */
-    GetNeedOrderList(params) {
-        return request.get(`${URI}/api/getNeedOrderList.shtml`, params).then(res => res.data)
-    }
-
-    /**
      * 取消订单
      * @return {Promise}
      */
@@ -99,6 +91,14 @@ class OrderController {
      */
     DeleteOrder(params) {
         return request.get(`${URI}/api/deleteOrder.shtml`, params).then(res => res.data)
+    }
+
+    /**
+     * 请求支付
+     * @return {Promise}
+     */
+    getPayMent(params) {
+        return request.get(`${URI}/api/getUnifiedOrderPayApi.shtml`, params).then(res => res.data)
     }
 
 }

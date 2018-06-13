@@ -26,7 +26,7 @@
 </view>
 <view class='floattotal'>
     <!-- 有UserInfo权限 -->
-    <view class='buy-btn' wx:if="{{!editMode && hasUserInfo}}">去预定</view>
+    <view class='buy-btn' wx:if="{{!editMode && hasUserInfo}}" bindtap="ShowReservationInput">去预定</view>
     <!-- 无UserInfo权限 -->
     <button class='buy-btn' wx:if="{{!editMode && !hasUserInfo}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">去预定</button>
 
@@ -36,3 +36,4 @@
 </view>
 
 <Dialog id="Dialog"></Dialog>
+<ReservationInput id="ReservationInput" bind:SaveEvent="ConfirmNeedOrder"></ReservationInput>

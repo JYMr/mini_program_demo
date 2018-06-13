@@ -1,8 +1,8 @@
 //const BASE_URL = "http://192.168.40.82:8080";
 //const BASE_URL = "https://api.77lemon.top";
-//const BASE_URL = "http://192.168.40.93:8080";
-// BASE_URL = "http://7.167.61.111:8090"
-const BASE_URL = "http://1x7448h712.iok.la";
+const BASE_URL = "http://192.168.40.93:8080";
+//const BASE_URL = "http://7.167.61.111:8090"
+//const BASE_URL = "http://1x7448h712.iok.la";
 const app = getApp();
 
 class Request {
@@ -14,6 +14,7 @@ class Request {
      */
     getApi(url, params) {
         let token = wx.getStorageSync('token') || '';
+        console.log(BASE_URL)
         const promise = new Promise((resolve, reject) => {
             wx.request({
                 url: `${BASE_URL}${url}`,

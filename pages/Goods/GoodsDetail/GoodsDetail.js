@@ -1,5 +1,6 @@
 const goodscontroller = require('../../controllers/goodsController.js').controller;
 const cartController = require('../../controllers/cartController').controller;
+const reservationController = require('../../controllers/reservationController').controller;
 var app = getApp();
 
 Page({
@@ -217,9 +218,28 @@ Page({
     RxBuyFn(e) {
         //获取返回用户填写的信息
         let UserInfo = e.detail;
-        wx.navigateTo({
-            url: '/pages/Order/ConfirmOrder/ConfirmOrder?type=' + this.data.goodsinfo.type + '&id=' + this.data.chooseSpecId + '&num=' + this.data.num
-        })
+        wx.showLoading({
+            title: '提交中...',
+            mask: true
+        });
+        reservationController.CreatelNeed({
+            needPerson: UserInfo.name,
+            needPhone: UserInfo.mobile,
+            goodsId: this.data.id
+        }).then(res => {
+            if (res.done) {
+                wx.navigateTo({
+                    url: '/pages/Order/ReservationOrder/ReservationOrder'
+                })
+            } else {
+                this.Dialog.ShowDialog({
+                    type: 'Message',
+                    title: res.msg || '提交预定失败',
+                    messageType: 'fail'
+                })
+            }
+            wx.hideLoading();
+        });
     },
     /* 点击减号 */
     bindMinus(e) {
@@ -234,7 +254,7 @@ Page({
     /* 点击加号 */
     bindPlus(e) {
         let _num = this.data.num;
-        if (_num >= this.data.goodsinfo.stock) return;
+        if (_num >= this.data.goodsinfo.goodsStock) return;
         this.setData({
             num: ++_num
         });
@@ -249,8 +269,8 @@ Page({
             _num = 1;
         }
         //判断库存
-        if (_num > this.data.goodsinfo.stock) {
-            _num = this.data.goodsinfo.stock;
+        if (_num > this.data.goodsinfo.goodsStock) {
+            _num = this.data.goodsinfo.goodsStock;
         }
         this.setData({
             num: _num

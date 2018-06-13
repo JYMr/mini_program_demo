@@ -25,7 +25,7 @@ Page({
 
         if (options.status) {
             this.setData({
-                OrderId: options.status
+                Status: options.status
             })
         }
 

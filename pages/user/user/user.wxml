@@ -42,7 +42,7 @@
             <text class='CustomerService-icon'></text>售后服务</navigator>
     </view>
     <view class='item'>
-        <view bindtap="Customer">
+        <view bindtap="OpenMenuCustomer">
             <text class='contact-icon'></text>联系客服
         </view>
     </view>

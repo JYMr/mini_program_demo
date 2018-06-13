@@ -1,5 +1,6 @@
 // pages/cart/reservation.js
 const cartController = require('../../controllers/cartController').controller;
+const reservationController = require('../../controllers/reservationController').controller;
 const app = getApp();
 Page({
 
@@ -46,7 +47,7 @@ Page({
                 }
             })
         }
-
+        //设置默认底图
         this.setData({
             DefaultImage: app.globalData.defaultImg
         })
@@ -57,13 +58,7 @@ Page({
      */
     onReady: function() {
         this.Dialog = this.selectComponent("#Dialog");
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function() {
-
+        this.ReservationInput = this.selectComponent("#ReservationInput");
     },
     //获取购物车数据
     GetList() {
@@ -79,7 +74,7 @@ Page({
                     NeedList: res.result.shopCartApiList
                 })
             }
-             wx.hideLoading();
+            wx.hideLoading();
         })
     },
     //复选框事件
@@ -90,12 +85,6 @@ Page({
             if (item.shopcart_id == _id) {
                 item.isChoose = item.isChoose == '1' ? '0' : '1'
             }
-        }
-        //非编辑模式下，提交选中状态
-        if (!this.data.editMode) {
-            /**
-             * 此处接口提交选中状态
-             */
         }
         this.setData({
             NeedList: _List
@@ -190,8 +179,56 @@ Page({
             }
         })
     },
-    ConfirmOrder() {
-        console.log('提交订单操作')
+    ShowReservationInput() {
+        let _ChooseId = this.GetChooseId();
+        if(_ChooseId == ''){
+            this.Dialog.ShowDialog({
+                title: '请选择需要预定的商品',
+                type: 'Message',
+                messageType: 'fail'
+            });
+            return;
+        }
+        this.ReservationInput.Show({
+            chooseid: _ChooseId
+        });
+    },
+    //获取选择预定商品ID
+    GetChooseId() {
+        let _List = this.data.NeedList;
+        let _ChooseArr = [];
+        for (let item of _List) {
+            if (item.isChoose == '1') {
+                _ChooseArr.push(item.shopcart_id);
+            }
+        }
+        return _ChooseArr.toString();
+    },
+    //提交预定
+    ConfirmNeedOrder(e){
+        let UserInfo = e.detail;
+        wx.showLoading({
+            title: '提交中...',
+            mask: true
+        });
+        reservationController.CreatelNeedByCart({
+            needPerson: UserInfo.name,
+            needPhone: UserInfo.mobile,
+            shopCartIds: UserInfo.chooseid
+        }).then(res => {
+            if (res.done) {
+                wx.navigateTo({
+                    url: '/pages/Order/ReservationOrder/ReservationOrder'
+                })
+            } else {
+                this.Dialog.ShowDialog({
+                    type: 'Message',
+                    title: res.msg || '提交预定失败',
+                    messageType: 'fail'
+                })
+            }
+            wx.hideLoading();
+        });
     },
     //申请授权判断
     getUserInfo(e) {
@@ -201,10 +238,7 @@ Page({
             })
             app.globalData.userInfo = e.detail.userInfo
             //此处提交订单
-            this.ConfirmOrder();
-            /*wx.navigateTo({
-                url: '/pages/index/index'
-            });*/
+            this.ShowReservationInput();
         } else {
             this.Dialog.ShowDialog({
                 title: '授权登录，方可购买商品',

@@ -45,12 +45,16 @@ Page({
         });
         categoryController.getcategory().then(res => {
             if (res.done) {
-                //let _curIndex = this.getDataIndex();
                 this.setData({
                     CategoryList: res.result.categorylist
                 })
                 this.getcategoryChild();
                 wx.hideLoading();
+            } else {
+                wx.showToast({
+                    title: res.msg || '服务器出错,请重试',
+                    icon: 'none'
+                })
             }
         })
     },

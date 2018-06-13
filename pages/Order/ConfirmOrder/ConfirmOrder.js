@@ -181,11 +181,19 @@ Page({
             payWay: this.data.PayWay
         }).then(res => {
             if (res.done) {
-                setTimeout(() => {
-                    wx.redirectTo({
-                        url: '/pages/Order/MyOrder/MyOrder?status=3'
-                    })
-                }, 1500)
+                wx.requestPayment({
+                    'timeStamp': res.result.timeStamp,
+                    'nonceStr': res.result.nonceStr,
+                    'package': res.result.package,
+                    'signType': res.result.signType,
+                    'paySign': res.result.paySign,
+                    'success': function(res) {
+                        console.log(res)
+                    },
+                    'fail': function(res) {
+                        console.log(res)
+                    }
+                })
             }
         })
     },

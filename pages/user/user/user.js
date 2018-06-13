@@ -2,42 +2,29 @@ const app = getApp()
 const userController = require('../../controllers/userController').controller
 
 Page({
-    /**
-     * 页面的初始数据
-     */
     data: {
-        userInfo: {},
-        OrderNum: [0, 0, 0, 0, 0],
+        OrderNum: {
+            notpay: 0,
+            share: 0,
+            notdelivery: 0,
+            deliveryed: 0
+        },
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         isOpenCustomerService: false
     },
-    /**
-     * 生命周期函数--监听页面加载
-     */
     onLoad: function(options) {
-        if (app.globalData.userInfo) {
-            this.setData({
-                userInfo: app.globalData.userInfo
-            })
-        } else if (this.data.canIUse) {
-            wx.getUserInfo({
-                success: res => {
-                    app.globalData.userInfo = res.userInfo
-                    this.setData({
-                        userInfo: res.userInfo
-                    })
-                }
-            })
-        }
+
+        //在线客服开启状态
         this.setData({
             isOpenCustomerService: app.globalData.isOpenCustomerService
         })
-        this.GetOrderNum()
+
+        this.GetOrderNum();
     },
     onReady() {
         this.MenuCustomer = this.selectComponent('#MenuCustomer');
     },
-    //获取订单数据
+    //获取订单数量
     GetOrderNum() {
         wx.showLoading({
             mask: true
@@ -51,7 +38,8 @@ Page({
             wx.hideLoading();
         })
     },
-    Customer(){
+    //开启客服菜单
+    OpenMenuCustomer() {
         this.MenuCustomer.ShowMenu(false);
     }
 })

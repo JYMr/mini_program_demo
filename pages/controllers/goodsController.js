@@ -30,7 +30,6 @@ class GoodsController{
      addRxCart(params){
      	return request.get(`${URI}/AddRxCart`, params).then(res => res.data)
      }
-
 }
 /**
  * 实例化对象

@@ -30,7 +30,6 @@ Page({
         })
         this.GetOrderList();
     },
-
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
@@ -39,7 +38,15 @@ Page({
         this.CustomerServiceComponent = this.selectComponent('#CustomerService');
         this.Floatcustomer = this.selectComponent("#Floatcustomer");
     },
-
+    /**
+     * 页面相关事件处理函数--监听用户下拉动作
+     */
+    onPullDownRefresh: function() {
+        this.GetOrderList();
+        this.setData({
+            pageNo: 1
+        })
+    },
     /**
      * 页面上拉触底事件的处理函数
      */
@@ -65,6 +72,10 @@ Page({
                     pageNo: res.result.orderList.nextPage,
                     isEnd: res.result.orderList.totalPage == this.data.pageNo
                 })
+
+                setTimeout(function() {
+                    wx.stopPullDownRefresh();
+                }, 1)
                 wx.hideLoading();
             } else {
                 wx.showToast({
@@ -79,6 +90,7 @@ Page({
         let _Status = e.currentTarget.dataset.status;
         this.setData({
             Status: _Status,
+            pageNo: 1,
             OrderList: []
         })
         this.GetOrderList();
@@ -171,7 +183,7 @@ Page({
                     this.Dialog.CloseDialog();
                 }
             })
-        }else{
+        } else {
             this.Dialog.ShowDialog({
                 title: '暂无单号信息',
                 type: 'Message',
@@ -304,7 +316,50 @@ Page({
     //支付
     PayToOrder(e) {
         let _id = e.currentTarget.dataset.id;
-        console.log('支付 - id:' + _id);
+        wx.showLoading({
+            title: '请求支付中...',
+            mask: true
+        });
+        orderController.getPayMent({
+            orderId: _id
+        }).then(res => {
+            if (res.done) {
+                wx.requestPayment({
+                    timeStamp: res.result.timeStamp,
+                    nonceStr: res.result.nonceStr,
+                    package: res.result.package,
+                    signType: res.result.signType,
+                    paySign: res.result.paySign,
+                    success: res => {
+                        this.Dialog.ShowDialog({
+                            title: '支付成功!',
+                            type: 'Message'
+                        });
+                        wx.hideLoading();
+                        setTimeout(() => {
+                            wx.navigateTo({
+                                url: '/pages/Order/MyOrderDetail/MyOrderDetail?status=0&id=' + _id
+                            })
+                        }, 1500)
+                    },
+                    fail: res => {
+                        wx.hideLoading();
+                        if (res.errMsg.indexOf('cancel') >= 0) {
+                            this.Dialog.ShowDialog({
+                                title: '支付已取消!',
+                                type: 'Message',
+                                messageType: 'fail'
+                            });
+                        } else {
+                            wx.showToast({
+                                title: res.errMsg,
+                                icon: 'none'
+                            })
+                        }
+                    }
+                })
+            }
+        })
     },
     //删除订单
     DeleteOrder(e) {

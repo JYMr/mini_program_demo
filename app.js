@@ -7,6 +7,8 @@ App({
             success: ()=> {
                 //session_key 未过期，并且在本生命周期一直有效
                 console.log('session_key 未过期')
+                this.GetParameter();
+                wx.setStorageSync("token", "cf1c801acbf0ac3276b87c4db8ed15d8")
             },
             fail: ()=> {
                 // session_key 已经失效，需要重新执行登录流程
@@ -14,7 +16,7 @@ App({
                     success: res => {
                         // 发送 res.code 到后台换取 openId, sessionKey, unionId
                         wx.request({
-                            url: 'http://1x7448h712.iok.la/api/userApiLogin.shtml',
+                            url: 'http://192.168.40.93:8080/api/userApiLogin.shtml',
                             method: 'POST',
                             data: {
                                 code: res.code
@@ -26,6 +28,7 @@ App({
                                     if (this.tokenReadyCallback) {
                                         this.tokenReadyCallback(res)
                                     }
+                                    this.GetParameter();
                                 }
                             },
                             fail: err => {}
@@ -84,7 +87,7 @@ App({
         defaultImg: 'http://www.kzj365.com/mini_program/images/default.png',
         mobile: '',
         cashStatus: false,//货到付款开启状态
-        isOpen: '', //后台设置开启购买
+        open_rx: '', //后台设置开启购买
         isOpenCustomerService: false,//是否开启在线客服
         AddressId: '' //用于订单地址选择
     },
@@ -92,7 +95,6 @@ App({
         handleDate: Util
     },
     errImg: function(e, that) {
-        console.log("!!!")
         let _obj = e.target.dataset.obj;
         let _errObj = {};
         _errObj[_obj] = this.globalData.defaultImg;
@@ -109,5 +111,13 @@ App({
             }
         })
     },
-    tokenReadyCallback: function(){}
+    GetParameter(){
+        request.get(`/api/getParameter.shtml`).then(res => {
+            if(res.data.done){
+                this.globalData.mobile = res.data.result.parameter.customer_phone;
+                this.globalData.cashStatus = res.data.result.parameter.open_cash_delivery == 1;
+                this.globalData.open_rx = res.data.result.parameter.open_rx;
+            }
+        })
+    }
 })

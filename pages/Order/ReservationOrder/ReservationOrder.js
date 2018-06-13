@@ -1,5 +1,5 @@
 // pages/user/myreservation.js
-const orderController = require('../../controllers/orderController').controller;
+const reservationController = require('../../controllers/reservationController').controller;
 var app = getApp();
 Page({
 
@@ -25,7 +25,7 @@ Page({
                 Status: options.status
             })
         }
-
+        //设置默认底图
         this.setData({
             DefaultImage: app.globalData.defaultImg
         })
@@ -56,7 +56,7 @@ Page({
             title: '加载数据中...',
             mask: true
         });
-        orderController.GetNeedOrderList({
+        reservationController.GetNeedOrderList({
             needStatus: this.data.Status,
             pageNo: this.data.ListNo
         }).then(res => {
@@ -75,6 +75,14 @@ Page({
             wx.hideLoading();
         })
     },
+    //重新加载数据
+    ReloadData() {
+        this.setData({
+            OrderList: [],
+            ListNo: 1
+        })
+        this.GetOrderList();
+    },
     //切换订单状态
     TabToggle(e) {
         let _Status = e.currentTarget.dataset.status;
@@ -86,9 +94,8 @@ Page({
         this.GetOrderList();
     },
     //取消预定
-    CancelPeservation(e) {
+    CancelReservation(e) {
         let _id = e.currentTarget.dataset.id;
-        console.log('取消预定 - id:' + _id);
 
         this.Dialog.ShowDialog({
             title: '亲，是否取消该预定？',
@@ -99,33 +106,45 @@ Page({
             ],
             callback: res => {
                 if (res.name == 'yes') {
-                    console.log('取消');
+
+                    //请求取消预定
+                    wx.showLoading({
+                        title: '加载数据中...',
+                        mask: true
+                    });
+
+                    reservationController.CancelNeed({
+                        needId: _id
+                    }).then(res => {
+                        if (res.done) {
+                            this.Dialog.ShowDialog({
+                                title: '取消成功!',
+                                type: 'Message',
+                            });
+                            setTimeout(() => {
+                                this.ReloadData();
+                            }, 1500)
+                        } else {
+                            this.Dialog.ShowDialog({
+                                title: res.msg || '取消失败，请重试!',
+                                type: 'Message',
+                                messageType: 'fail'
+                            });
+                        }
+                        wx.hideLoading();
+                    });
                 }
                 this.Dialog.CloseDialog();
             }
         })
     },
-    //申请售后
-    CustomerService(e) {
-        let _id = e.currentTarget.dataset.id;
-        console.log('申请售后 - id:' + _id);
-        this.CustomerServiceComponent.Show({
-            id: _id
-        });
-    },
-    //处理售后弹窗回调
-    CustomerServiceFn(e) {
-        console.log(e)
-        let _id = e.detail.id;
-        this.CustomerServiceComponent.Close();
-    },
     //重新提交
-    AgainPeservation(e) {
+    AgainReservation(e) {
         let _id = e.currentTarget.dataset.id;
         console.log('重新提交 - id:' + _id);
     },
     //删除预定
-    DeletePeservation(e) {
+    DeleteReservation(e) {
         let _id = e.currentTarget.dataset.id;
         console.log('预定 - id:' + _id);
         this.Dialog.ShowDialog({
@@ -137,10 +156,39 @@ Page({
             ],
             callback: res => {
                 if (res.name == 'yes') {
-                    console.log('取消');
+
+                    //请求删除预定
+                    wx.showLoading({
+                        title: '加载数据中...',
+                        mask: true
+                    });
+
+                    reservationController.DeleteNeed({
+                        needId: _id
+                    }).then(res => {
+                        if (res.done) {
+                            this.Dialog.ShowDialog({
+                                title: '删除成功!',
+                                type: 'Message',
+                            });
+                            setTimeout(() => {
+                                this.ReloadData();
+                            }, 1500)
+                        } else {
+                            this.Dialog.ShowDialog({
+                                title: res.msg || '取消失败，请重试!',
+                                type: 'Message',
+                                messageType: 'fail'
+                            });
+                        }
+                        wx.hideLoading();
+                    });
                 }
                 this.Dialog.CloseDialog();
             }
         })
+    },
+    ErrorImage(e) {
+        app.errImg(e, this);
     }
 })

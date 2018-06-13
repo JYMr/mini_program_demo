@@ -12,7 +12,7 @@ Page({
         ListNo: 1,
         ListSize: 8,
         isEnd: false,
-        DefaultImage: ''//默认底图
+        DefaultImage: '' //默认底图
     },
 
     /**
@@ -45,7 +45,7 @@ Page({
      * 页面上拉触底事件的处理函数
      */
     onReachBottom: function() {
-        if(this.data.isEnd) return;
+        if (this.data.isEnd) return;
         this.GetOrderList();
     },
     //获取订单数据
