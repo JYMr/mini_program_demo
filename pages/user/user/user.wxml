@@ -47,7 +47,10 @@
         </view>
     </view>
 </view>
+
+<!-- 页脚 -->
 <import src="/pages/Common/footer.wxml" />
 <template is="footer" data="" />
 
+<!-- 客服菜单 -->
 <MenuCustomer id="MenuCustomer"></MenuCustomer>

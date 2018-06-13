@@ -17,13 +17,13 @@ Page({
             DefaultImage: app.globalData.defaultImg
         })
         let token = wx.getStorageSync('token') || '';
-        
-        if(token){
+
+        if (token) {
             //加载首页数据
             this.GetHomeData();
-        }else{
+        } else {
             //首次进入，等待login登录回调
-            app.tokenReadyCallback = res =>{
+            app.tokenReadyCallback = res => {
                 this.GetHomeData();
             }
         }
@@ -80,6 +80,11 @@ Page({
                 //设置客服地址
                 app.globalData.tel = res.mobile;
                 wx.hideLoading();
+            } else {
+                wx.showToast({
+                    title: '服务器出错,请重试',
+                    icon: 'none'
+                })
             }
         })
     },

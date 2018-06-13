@@ -25,8 +25,13 @@
 	<import src="/pages/Common/footer.wxml"/>
 	<template is="footer" data="" wx:if="{{AddressList.length > 0}}"/> 
 </view>
-<view class="empty" wx:if="{{AddressList.length == 0 && !isLoading}}">没有收货地址哦</view>
+
 <view class="addAddressBtn" catchtap="AddFn">添加收货地址</view>
 
+<!-- 无地址状态 -->
+<view class="empty" wx:if="{{AddressList.length == 0 && !isLoading}}">没有收货地址哦</view>
+
+<!-- 地址编辑弹窗 -->
 <AddressEdit id="AddressEdit" bind:EditEvent="HandleEditEvent"></AddressEdit>
+<!-- 提示组件 -->
 <Dialog id="Dialog"></Dialog>

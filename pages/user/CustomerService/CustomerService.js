@@ -7,10 +7,9 @@ Page({
      * 页面的初始数据
      */
     data: {
-        Status: 1,
+        Status: 1, //售后状态
         OrderList: [],
-        ListNo: 1,
-        ListSize: 8,
+        pageNo: 1,
         isEnd: false,
         DefaultImage: '' //默认底图
     },
@@ -19,15 +18,17 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
+        
         if (options.status) {
             this.setData({
                 Status: options.status
-            })
+            });
         }
 
+        //获取全局默认图片底图
         this.setData({
             DefaultImage: app.globalData.defaultImg
-        })
+        });
 
         this.GetOrderList();
     },
@@ -56,15 +57,18 @@ Page({
         });
         orderController.GetAfterSalesList({
             aftersalesStatus: this.data.Status,
-            pageNo: this.data.ListNo
+            pageNo: this.data.pageNo
         }).then(res => {
             if (res.done) {
                 this.setData({
                     OrderList: this.data.OrderList.concat(res.result.orderList.list),
-                    isEnd: this.data.ListNo == res.result.orderList.totalPage
-                })
+                    isEnd: this.data.pageNo == res.result.orderList.totalPage
+                });
             } else {
-
+                wx.showToast({
+                    title: res.msg || '服务器出错,请重试',
+                    icon: 'none'
+                });
             }
             wx.hideLoading();
         })
@@ -74,9 +78,9 @@ Page({
         let _Status = e.currentTarget.dataset.status;
         this.setData({
             Status: _Status,
-            ListNo: 1,
+            pageNo: 1,
             OrderList: []
-        })
+        });
         this.GetOrderList();
     },
     ErrorImage(e) {

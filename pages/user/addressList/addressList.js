@@ -1,5 +1,4 @@
 // pages/address/addressList/addressList.js
-
 const app = getApp()
 const addressController = require('../../controllers/addressController').controller
 
@@ -13,6 +12,7 @@ Page({
         isLoading: false,
         ChooseMode: false
     },
+
     /**
      * 生命周期函数--监听页面加载
      */
@@ -20,8 +20,13 @@ Page({
         if (options.ChooseMode) {
             this.setData({
                 ChooseMode: options.ChooseMode
-            })
+            });
+
+            wx.setNavigationBarTitle({
+                title: '选择地址'
+            });
         }
+
         this.getAddressData();
     },
 
@@ -31,29 +36,23 @@ Page({
     onReady: function() {
         this.AddressEdit = this.selectComponent('#AddressEdit');
         this.Dialog = this.selectComponent('#Dialog');
-        if (this.data.ChooseMode) {
-            wx.setNavigationBarTitle({
-                title: '选择地址'
-            })
-        }
     },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function() {
-
-    },
+    //获取地址数据列表
     getAddressData() {
         wx.showLoading();
         this.setData({
             isLoading: true
-        })
+        });
         addressController.getAddressData().then(res => {
             if (res.done) {
                 this.setData({
                     AddressList: res.result.list,
                     isLoading: false
+                });
+            } else {
+                wx.showToast({
+                    title: res.msg || '服务器出错,请重试',
+                    icon: 'none'
                 });
             }
             wx.hideLoading();
@@ -61,17 +60,20 @@ Page({
     },
     //新增地址
     AddFn() {
+        //显示地址编辑窗
         this.AddressEdit.ShowEdit();
     },
     //编辑地址
     EditFn(event) {
         let id = event.currentTarget.dataset.id;
+        //根据Id搜索地址对象
         let option = this.SearchObject(id);
         this.AddressEdit.ShowEdit(option);
     },
     //删除地址
     DelFu(e) {
         let _id = e.currentTarget.dataset.id;
+        //确认弹窗
         this.Dialog.ShowDialog({
             type: 'Confirm',
             title: '是否删除该地址',
@@ -81,6 +83,7 @@ Page({
                     wx.showLoading({
                         mask: true
                     });
+
                     addressController.delAddress({
                         addr_id: _id
                     }).then(res => {
@@ -90,9 +93,10 @@ Page({
                                 type: 'Message',
                                 title: '删除成功!'
                             });
-                            setTimeout(()=>{
+                            //等待Dialog动画
+                            setTimeout(() => {
                                 this.getAddressData();
-                            }, 1500)
+                            }, 1500);
                         } else {
                             this.Dialog.ShowDialog({
                                 type: 'Message',
@@ -101,7 +105,7 @@ Page({
                             });
                         }
                         wx.hideLoading();
-                    })
+                    });
                 } else {
                     this.Dialog.CloseDialog();
                 }
@@ -117,33 +121,33 @@ Page({
         });
         addressController.setAddressDefault({
             addr_id: id,
-            status:　1
+            status: 　1
         }).then(res => {
             if (res.done) {
 
                 let _Detail = this.data.AddressList;
+                //更改数据默认状态
                 for (let item of _Detail) {
                     item.isDefault = id == item.id
                 }
                 this.setData({
                     AddressList: _Detail
-                })
+                });
                 this.getAddressData();
             } else {
                 this.Dialog.ShowDialog({
                     type: 'Message',
                     title: res.msg || '设置失败!',
                     messageType: 'fail'
-                })
+                });
             }
-
             wx.hideLoading();
-        })
+        });
     },
     //点击选择地址
     ChooseAddress(e) {
         if (this.data.ChooseMode) {
-            //选择地址
+            //选择地址,id存进公共globalData, 到订单页取用
             app.globalData.AddressId = e.currentTarget.dataset.id;
             wx.navigateBack();
         }
@@ -155,11 +159,11 @@ Page({
         this.Dialog.ShowDialog({
             type: 'Message',
             title: '保存成功'
-        })
-        //重新加载列表数据
+        });
         setTimeout(() => {
+            //重新加载列表数据
             this.getAddressData();
-        }, 1500)
+        }, 1500);
     },
     //遍历查找地址对象
     SearchObject(id) {
