@@ -1,6 +1,6 @@
 const app = getApp()
 const orderController = require('../../controllers/orderController').controller;
-const groupBuyController = require('../../controllers/GroupBuyController').controller;
+const groupBuyController = require('../../controllers/groupBuyController').controller;
 Page({
 
     /**

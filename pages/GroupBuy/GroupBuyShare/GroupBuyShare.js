@@ -1,5 +1,5 @@
 // pages/GroupBuy/GroupBuyShare/GroupBuyShare.js
-const GroupBuyController = require('../../controllers/GroupBuyController').controller;
+const GroupBuyController = require('../../controllers/groupBuyController').controller;
 Page({
 
     /**

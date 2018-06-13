@@ -1,6 +1,6 @@
 // pages/GroupBuy/GroupBuyDetail/GroupBuyDetail.js
 const app = getApp();
-const GroupBuyController = require('../../controllers/GroupBuyController').controller;
+const GroupBuyController = require('../../controllers/groupBuyController').controller;
 Page({
     data: {
         GoodsId: '',
@@ -78,22 +78,23 @@ Page({
             mask: true
         });
         GroupBuyController.getDetail({
-            id: this.data.GoodsId
+            p_id: this.data.GoodsId
         }).then(res=>{
-            if(res.status == 0){
+            if(res.done){
                 this.setData({
-                    goodsinfo: res.goodsinfo,
-                    isAllow: res.isAllow,
-                    GroupId: this.data.GroupId
+                    goodsinfo: res.result.pDetails,
+                    GroupList: res.result.proList
+                    //isAllow: res.isAllow,
+                    //GroupId: this.data.GroupId
                 })
-                this.handleData();
+                //this.handleData();
                 wx.hideLoading();
             }
         })
-        setTimeout(()=>{
+       /* setTimeout(()=>{
             //延迟加载推荐列表
             this.GetRecommend();
-        }, 500)
+        }, 500)*/
     },
     //获取拼团推荐列表
     GetRecommend(){

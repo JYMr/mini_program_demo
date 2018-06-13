@@ -1,5 +1,5 @@
 // pages/GroupBuy/GroupBuyList/GroupBuyList.js
-const GroupBuyController = require('../../controllers/GroupBuyController').controller;
+const GroupBuyController = require('../../controllers/groupBuyController').controller;
 var app = getApp();
 
 Page({

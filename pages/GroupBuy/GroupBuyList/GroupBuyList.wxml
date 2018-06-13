@@ -5,7 +5,7 @@
 <view>
     <block wx:if="{{GroupBuyData.length != 0}}">
         <view class='index-grid hot-grid'>
-            <navigator class='slide' wx:for="{{GroupBuyData}}" url='/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail' wx:key="GroupBuyData_{{index}}" hover-class="none">
+            <navigator class='slide' wx:for="{{GroupBuyData}}" url='/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{item.purchase_id}}' wx:key="GroupBuyData_{{index}}" hover-class="none">
                 <view class='pic'>
                     <image src="{{item.purchase_image || DefaultImage}}" class="slide-image" lazy-load="true" mode="aspectFill" binderror="ErrorImage" data-obj="GroupBuyData[{{index}}].purchase_image"/>
                     <view class='discount'>

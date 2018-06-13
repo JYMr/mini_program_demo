@@ -1,11 +1,13 @@
 <!--pages/GroupBuy/GroupBuyDetail/GroupBuyDetail.wxml-->
 <!-- 引入药品图标模板 -->
 <import src="/pages/Common/TypeIcon.wxml" />
+<!-- 引入过滤器 -->
+<wxs module="Filter" src="../../Common/filter/filter.wxs"></wxs>
 <view class='infogrid show'>
     <swiper class="goodsilder" indicator-dots="true" autoplay="true" interval="5000" duration="500">
-        <block wx:for="{{goodsinfo.siderimg}}" wx:key="{{index}}">
+        <block wx:for="{{goodsinfo.goods_images}}" wx:key="{{index}}">
             <swiper-item>
-                <image src="{{item?item:defaultImg}}" binderror="errImg" data-err-img="goodsinfo.siderimg[{{index}}]" class="slide-image" />
+                <image src="{{item.image_artwork_name}}" binderror="errImg" data-obj="goodsinfo.image_artwork_name[{{index}}]" class="slide-image" />
             </swiper-item>
         </block>
     </swiper>
@@ -25,29 +27,29 @@
     </view>
 
     <!-- 基本信息 -->
-    <view class='goodsinfo' wx:if="{{goodsinfo.id}}">
+    <view class='goodsinfo' wx:if="{{goodsinfo.purchase_id}}">
         <button class='share' open-type="share"></button>
         <view class='name'>
-            <template is="TypeIcon" data="{{type: goodsinfo.type}}" />{{goodsinfo.name}}
+            <template is="TypeIcon" data="{{type: goodsinfo.type}}" />{{goodsinfo.goods_title}}
         </view>
         <view class='price-item'>
             <text class='price'>
                 <text>¥</text>
-                <text class='nums'>{{goodsinfo.price}}</text>
+                <text class='nums'>{{Filter.toFixed(goodsinfo.purchase_price)}}</text>
             </text>
             <text class='market'>
                 <text>¥</text>
-                <text class='nums'>{{goodsinfo.market}}</text>
+                <text class='nums'>{{Filter.toFixed(goodsinfo.goods_market_price)}}</text>
             </text>
         </view>
         <view class="GroupBuyNumber">
-            <text class="num">已有{{goodsinfo.GroupNum}}人参团</text>
-            <text>{{goodsinfo.GroupBuy}}/{{goodsinfo.GroupStock}}件</text>
+            <text class="num">已有{{goodsinfo.virtua_sale_number + goodsinfo.sale_number}}人参团</text>
+            <text>{{goodsinfo.effective_stock + goodsinfo.virtua_sale_number}}/{{goodsinfo.initial_stock + goodsinfo.virtua_sale_number}}件</text>
         </view>
-        <view class='detail'>{{goodsinfo.manufacturer}}</view>
+        <view class='detail'>{{goodsinfo.goods_subtitle}}</view>
     </view>
     <!-- 预加载样式 -->
-    <view class='goodsinfo load' wx:if="{{goodsinfo.id == undefined}}">
+    <view class='goodsinfo load' wx:if="{{goodsinfo.purchase_id == undefined}}">
         <view class='share'></view>
         <view class='name'></view>
         <view class='price-item'></view>
@@ -96,18 +98,18 @@
     <view class="Detail-content">
         <view class="content-item" wx:if="{{DetailActive == 0}}">
             <view class='goodsdetail'>
-                <block wx:for='{{goodsinfo.detaildata}}' wx:for-item="item" wx:for-index='index' wx:key="detail_{{index}}">
-                    <image src='{{item}}' mode="widthFix"></image>
+                <block wx:for='{{goodsinfo.goods_desc_imgs}}' wx:for-item="item" wx:for-index='index' wx:key="detail_{{index}}">
+                    <image src='{{item.goodsDescImg}}' mode="widthFix"></image>
                 </block>
             </view>
         </view>
         <view class="content-item" wx:if="{{DetailActive == 1}}">
             <view class='instructions'>
                 <view class="table">
-                    <block wx:for="{{goodsinfo.manual}}" wx:key="manual_{{index}}">
+                    <block wx:for="{{goodsinfo.books}}" wx:key="manual_{{index}}">
                         <view class="tr">
-                            <view class="th">{{item.key}}</view>
-                            <view class="td">{{item.value}}</view>
+                            <view class="th">{{item.bookname}}</view>
+                            <view class="td">{{item.bookvalue}}</view>
                         </view>
                     </block>
                 </view>
@@ -122,16 +124,16 @@
             联系客服
         </view>
         <view class="Detail-btn">
-            <navigator class="btn btn-1" url="/pages/Goods/GoodsDetail/GoodsDetail?id={{goodsinfo.id}}">￥{{goodsinfo.price}}
+            <navigator class="btn btn-1" url="/pages/Goods/GoodsDetail/GoodsDetail?id={{goodsinfo.id}}">￥{{Filter.toFixed(goodsinfo.goods_price)}}
                 <text>单独购买</text>
             </navigator>
             <!-- 有用户权限 -->
-            <view class="btn{{isAllow ? '' : ' disabled'}}" wx:if="{{hasUserInfo || !isAllow}}" catchtap="ConfirmGroupOrder">￥{{goodsinfo.groupprice}}
-                <text>{{goodsinfo.groupnendNum}}人开团</text>
+            <view class="btn{{isAllow ? '' : ' disabled'}}" wx:if="{{hasUserInfo || !isAllow}}" catchtap="ConfirmGroupOrder">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
+                <text>{{goodsinfo.purchase_price}}人开团</text>
             </view>
             <!-- 无用户权限 -->
-            <button class='btn' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" wx:if="{{!hasUserInfo && isAllow}}">￥{{goodsinfo.groupprice}}
-                <text>{{goodsinfo.groupnendNum}}人开团</text>
+            <button class='btn' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" wx:if="{{!hasUserInfo && isAllow}}">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
+                <text>{{goodsinfo.purchase_price}}人开团</text>
             </button>
         </view>
     </view>

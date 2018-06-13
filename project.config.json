@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 2,
 			"list": [
 				{
 					"id": 0,
@@ -45,10 +45,10 @@
 					"query": "id=1"
 				},
 				{
-					"id": -1,
+					"id": 2,
 					"name": "GroupBuyDetail",
 					"pathName": "pages/GroupBuy/GroupBuyDetail/GroupBuyDetail",
-					"query": "id=2131"
+					"query": "id=66"
 				},
 				{
 					"id": 3,
