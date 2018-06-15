@@ -20,7 +20,7 @@
     </block>
     <!-- 加载过程展示的模块 -->
     <block wx:if="{{navmeau.length == 0 && isLoading}}">
-        <view class="navmeau navmeau-empty">
+        <view class="navmeau navmeau-empty" bindtap="GetHomeData">
             <block wx:for="{{4}}" wx:key="navmeau_{{index}}">
                 <view class='navli'>
                     <view class="icon"></view>
@@ -39,7 +39,7 @@
                 </view>
                 <view class='slide'>
                     <swiper autoplay="true" interval="3000" duration="500" circular='true'>
-                        <block wx:for="{{collage}}" wx:for-index='key' wx:for-item='item' wx:key="GroupBuy_{{key}}">
+                        <block wx:for="{{collage}}" wx:for-item='item' wx:key="GroupBuy_{{index}}">
                             <swiper-item>
                                 <navigator class='pic' url='/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{item.goods_id}}' hover-class='none'>
                                     <image src="{{item.purchase_image || DefaultImage}}" class="slide-image"  mode="aspectFill"  binderror="ErrorImage" data-obj="collage[{{index}}].purchase_image"/>
@@ -80,7 +80,7 @@
         </block>
         <!-- 加载过程展示的模块 -->
         <block wx:if="{{collage.length == 0 && isLoading}}">
-            <view class='index-grid hot-grid grid-empty'>
+            <view class='index-grid hot-grid grid-empty' bindtap="GetHomeData">
                 <view class='title'></view>
                 <view class='slide'>
                     <view class="slide-image"></view>
@@ -92,7 +92,7 @@
             </view>
         </block>
         <block wx:if="{{recommendgoods.length == 0 && isLoading}}">
-            <view class='index-grid lists-grid grid-empty'>
+            <view class='index-grid lists-grid grid-empty' bindtap="GetHomeData">
                 <view class='title'></view>
                 <view class='goodslists'>
                     <view class='item'>

@@ -8,6 +8,7 @@ Page({
         id: '',
         num: 1,
         tabsindex: 0,
+        isShare: false, //是否分享进入
         goodsinfo: {}, //商品信息
         spec: {}, //规格
         chooseSpecId: '', //选择的规格id
@@ -46,6 +47,13 @@ Page({
                         hasUserInfo: true
                     })
                 }
+            })
+        }
+        
+        if (options.isShare) {
+            //是否分享进入
+            this.setData({
+                isShare: options.isShare
             })
         }
 
@@ -112,8 +120,8 @@ Page({
         let _ImageUrl = app.globalData.defaultImg;
         let _GoodsImageList = this.data.goodsinfo.goodsImg;
         let ShareOption = {
-            title: this.data.goodsinfo.goodsName,
-            path: '' + this.route + '?id=' + this.data.id,
+            title: '只要' + this.data.goodsinfo.goodsPrice.toFixed(2) + '元就能抢到' + this.data.goodsinfo.goodsName,
+            path: '' + this.route + '?id=' + this.data.id + '&isShare=true',
             imageUrl: _GoodsImageList || _ImageUrl
         }
         return ShareOption;
@@ -178,6 +186,9 @@ Page({
                 this.setData({
                     editMode: false
                 })
+                setTimeout(() => {
+                  this.hideModal();
+                }, 1500)
             } else {
                 this.Dialog.ShowDialog({
                     type: 'Message',
@@ -199,6 +210,10 @@ Page({
                     type: 'Message',
                     title: '加入清单成功'
                 })
+                setTimeout(()=>{
+                  this.hideModal();
+                },1500)
+                
             } else {
                 this.Dialog.ShowDialog({
                     type: 'Message',

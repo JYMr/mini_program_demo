@@ -61,6 +61,7 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function() {
+        this.Dialog = this.selectComponent('#Dialog');
         this.AddressEdit = this.selectComponent('#AddressEdit');
     },
 
@@ -99,7 +100,7 @@ Page({
                     });
                     wx.hideLoading();
                 }
-            })
+            });
         } else {
             //单间商品结算数据
             orderController.getOneData({
@@ -116,12 +117,12 @@ Page({
                     });
                     wx.hideLoading();
                 }
-            })
+            });
         }
     },
     //查询选择地址数据
     GetAddress() {
-        wx.showLoading({
+       wx.showLoading({
             title: '加载数据中...',
             mask: true
         });
@@ -131,13 +132,21 @@ Page({
         }).then(res => {
             if (res.done) {
                 let _orderData = this.data.OrderData;
+                //组合地址信息
                 _orderData.defalutUserAddr = Object.assign(_orderData.defalutUserAddr || {}, res.result.userAddr);
+
                 this.setData({
                     OrderData: _orderData
                 });
-                wx.hideLoading();
+            } else {
+                this.Dialog.ShowDialog({
+                    title: res.msg || '拉去数据异常，请重试!',
+                    type: 'Message',
+                    messageType: 'fail'
+                });
             }
-        })
+            wx.hideLoading();
+        });
     },
     //显示添加地址
     ShowEdit() {
@@ -170,10 +179,6 @@ Page({
     },
     //提交订单
     ConfirmOrder() {
-        wx.showLoading({
-            title: '提交订单中...',
-            mask: true
-        });
         if (this.data.AddressId == '') {
             this.Dialog.ShowDialog({
                 title: '请添加收货地址!',
@@ -182,6 +187,10 @@ Page({
             });
             return;
         }
+        wx.showLoading({
+            title: '提交订单中...',
+            mask: true
+        });
         orderController.CreateOrder({
             addrId: this.data.AddressId,
             shopCartIds: this.data.CartsIdList,
@@ -191,20 +200,40 @@ Page({
         }).then(res => {
             if (res.done) {
                 wx.requestPayment({
-                    'timeStamp': res.result.timeStamp,
-                    'nonceStr': res.result.nonceStr,
-                    'package': res.result.package,
-                    'signType': res.result.signType,
-                    'paySign': res.result.paySign,
-                    'success': function(res) {
-                        console.log(res)
+                    timeStamp: res.result.timeStamp,
+                    nonceStr: res.result.nonceStr,
+                    package: res.result.package,
+                    signType: res.result.signType,
+                    paySign: res.result.paySign,
+                    success: res => {
+                        this.Dialog.ShowDialog({
+                            title: '支付成功!',
+                            type: 'Message'
+                        });
                     },
-                    'fail': function(res) {
-                        console.log(res)
+                    fail: res => {
+                        this.Dialog.ShowDialog({
+                            title: '支付取消!',
+                            type: 'Message'
+                        });
+                        //等待弹窗
+                        setTimeout(()=>{
+                            //支付取消，跳转待支付订单
+                            wx.redirectTo({
+                                url: '/pages/Order/MyOrder/MyOrder?status=0'
+                            });
+                        }, 1500);
                     }
                 });
+            } else {
+                this.Dialog.ShowDialog({
+                    title: res.msg || '提交支付失败，请重试!',
+                    type: 'Message',
+                    messageType: 'fail'
+                });
             }
-        })
+            wx.hideLoading();
+        });
     },
     //备注输入绑定
     BindChange(e) {

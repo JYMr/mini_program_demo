@@ -1,19 +1,20 @@
-const app = getApp()
-const orderController = require('../../controllers/orderController').controller;
+const addressController = require('../../controllers/addressController').controller;
 const groupBuyController = require('../../controllers/groupBuyController').controller;
+const app = getApp();
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        GoodsId: '',
+        id: '',
         GroupId: '',
         OrderData: {},
-        PayWay: 0,
+        PayWay: 2,
         AddressId: '',
         ReMark: '',
-        PayListStatus: false //选择支付方式列表
+        PayListStatus: false, //选择支付方式列表
+        DefaultImage: ''
     },
 
     /**
@@ -22,14 +23,21 @@ Page({
     onLoad: function(options) {
         if (options.id) {
             this.setData({
-                GoodsId: options.id
-            })
+                id: options.id
+            });
         }
         if (options.gid) {
             this.setData({
                 GroupId: options.gid
-            })
+            });
         }
+
+        //获取全局默认图片底图
+        this.setData({
+            DefaultImage: app.globalData.defaultImg,
+            cashStatus: app.globalData.cashStatus
+        });
+
         this.GetOrderData();
     },
 
@@ -37,7 +45,8 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function() {
-        this.AddressEdit = this.selectComponent('#AddressEdit')
+        this.Dialog = this.selectComponent('#Dialog');
+        this.AddressEdit = this.selectComponent('#AddressEdit');
     },
 
     /**
@@ -45,11 +54,13 @@ Page({
      */
     onShow: function() {
         if (app.globalData.AddressId) {
-            //查询新地址
+            //选择地址返回，加载选择地址数据
             this.setData({
                 AddressId: app.globalData.AddressId
             });
+            //查询选择的地址
             this.GetAddress();
+            //清除公共存储，选择的地址id
             app.globalData.AddressId = '';
         }
     },
@@ -61,37 +72,46 @@ Page({
             mask: true
         });
         groupBuyController.getConfirmGroupBuyOrder({
-            id: this.data.GoodsId,
-            gid: this.data.GroupId
+            p_id: this.data.id,
+            group_id: this.data.GroupId
         }).then(res => {
-            if (res.status == 0) {
+            if (res.done) {
+                let _AddressId = res.result.defalutUserAddr ? res.result.defalutUserAddr.addr_id : '';
                 this.setData({
-                    OrderData: res.data
-                })
+                    OrderData: res.result,
+                    AddressId: _AddressId
+                });
                 wx.hideLoading();
             }
-        })
+        });
     },
     //查询选择地址数据
     GetAddress() {
-         wx.showLoading({
+        wx.showLoading({
             title: '加载数据中...',
             mask: true
         });
 
-        orderController.getAddress({
-            id: this.data.AddressId
+        addressController.getAddressById({
+            addr_id: this.data.AddressId
         }).then(res => {
-            if (res.status == 0) {
+            if (res.done) {
                 let _orderData = this.data.OrderData;
-                console.log(_orderData)
-                _orderData.Address = res.data;
+                //组合地址信息
+                _orderData.defalutUserAddr = Object.assign(_orderData.defalutUserAddr || {}, res.result.userAddr);
+
                 this.setData({
                     OrderData: _orderData
-                })
-                wx.hideLoading();
+                });
+            } else {
+                this.Dialog.ShowDialog({
+                    title: res.msg || '拉去数据异常，请重试!',
+                    type: 'Message',
+                    messageType: 'fail'
+                });
             }
-        })
+            wx.hideLoading();
+        });
     },
     //显示添加地址
     ShowEdit() {
@@ -111,7 +131,7 @@ Page({
     ShowPayList() {
         this.setData({
             PayListStatus: true
-        })
+        });
     },
     //切换支付方式
     choosePayWay(e) {
@@ -119,13 +139,58 @@ Page({
         this.setData({
             PayWay: type,
             PayListStatus: false
-        })
+        });
     },
     //提交订单
     ConfirmOrder() {
-        console.log('提交订单');
-        wx.redirectTo({
-            url: '/pages/GroupBuy/GroupBuyShare/GroupBuyShare?id=3'
+        if (this.data.AddressId == '') {
+            this.Dialog.ShowDialog({
+                title: '请添加收货地址!',
+                type: 'Message',
+                messageType: 'fail'
+            });
+            return;
+        }
+        wx.showLoading({
+            title: '提交订单中...',
+            mask: true
+        });
+        groupBuyController.CreatePurchaseOrder({
+            p_id: this.data.id,
+            group_id: this.data.GroupId,
+            remark: this.data.ReMark,
+            addrId: this.data.AddressId,
+            payWay: this.data.PayWay,
+            orderPrice: this.data.OrderData.totalPrice
+        }).then(res => {
+            if (res.done) {
+                wx.requestPayment({
+                    timeStamp: res.result.timeStamp,
+                    nonceStr: res.result.nonceStr,
+                    package: res.result.package,
+                    signType: res.result.signType,
+                    paySign: res.result.paySign,
+                    success: res => {
+                        this.Dialog.ShowDialog({
+                            title: '支付成功!',
+                            type: 'Message'
+                        });
+                    },
+                    fail: res => {
+                        this.Dialog.ShowDialog({
+                            title: '支付取消!',
+                            type: 'Message'
+                        });
+                    }
+                });
+            } else {
+                this.Dialog.ShowDialog({
+                    title: res.msg || '提交支付失败，请重试!',
+                    type: 'Message',
+                    messageType: 'fail'
+                });
+            }
+            wx.hideLoading();
         })
     },
     //备注输入绑定
@@ -133,6 +198,9 @@ Page({
         let _val = e.detail.value;
         this.setData({
             ReMark: _val
-        })
+        });
+    },
+    ErrorImage(e) {
+        app.errImg(e, this);
     }
 })

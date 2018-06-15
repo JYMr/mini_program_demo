@@ -11,9 +11,13 @@
             </swiper-item>
         </block>
     </swiper>
-    <view class="GroupBuyTime" wx:if="{{goodsinfo.startTime && goodsinfo.finishTime}}">
+    <view class="GroupBuyTime" wx:if="{{goodsinfo.end_time / 1000 > serviceTime}}">
         <image src="http://www.kzj365.com/mini_program/images/time_icon.png"></image>
-        活动时间：{{goodsinfo.startTime}} 至 {{goodsinfo.finishTime}}
+        活动时间：{{goodsinfo.starttime}} 至 {{goodsinfo.endtime}}
+    </view>
+    <view class="GroupBuyTime{{ goodsinfo.end_time / 1000 <= serviceTime ? ' timeout' : ''}}" wx:if="{{goodsinfo.end_time / 1000 <= serviceTime}}">
+        <image src="http://www.kzj365.com/mini_program/images/time_icon.png"></image>
+        活动已结束
     </view>
     <view class='goodserver'>
         <view class='item'>
@@ -44,7 +48,7 @@
         </view>
         <view class="GroupBuyNumber">
             <text class="num">已有{{goodsinfo.virtua_sale_number + goodsinfo.sale_number}}人参团</text>
-            <text>{{goodsinfo.effective_stock + goodsinfo.virtua_sale_number}}/{{goodsinfo.initial_stock + goodsinfo.virtua_sale_number}}件</text>
+            <text>{{goodsinfo.initial_stock - goodsinfo.effective_stock + goodsinfo.virtua_sale_number}}/{{goodsinfo.initial_stock + goodsinfo.virtua_sale_number}}件</text>
         </view>
         <view class='detail'>{{goodsinfo.goods_subtitle}}</view>
     </view>
@@ -74,27 +78,28 @@
     <view class="MemberList" wx:if="{{GroupList.length != 0}}">
         <view class="title">小伙伴在开团，可直接参与</view>
         <view class="MemberList-item" wx:for="{{GroupList}}" wx:key="MemberList_{{index}}">
-            <image src="http://www.kzj365.com/mini_program/images/avatar.png"></image>
-            {{item.name}}
+            <image src="{{item.user.headimg || DefaultImage}}" binderror="ErrorImage" data-obj="GroupList[{{index}}].headimg"></image>
+            {{item.user.nickname}}
             <view class="item-data">
                 <view class="time">
                     <view>还差
-                        <text>{{item.number}}</text> 人</view>
+                        <text>{{item.remain_number}}</text> 人</view>
                     <text>剩余{{item.time || '99:59:59'}}</text>
                 </view>
-                <view class="item-link{{item.serverTime >= item.finishTime ? ' disable' : ''}}" wx:if="{{hasUserInfo}}">
-                    <navigator url="/pages/GroupBuy/GroupBuyConfirm/GroupBuyConfirm?gid={{item.id}}" wx:if="{{item.serverTime < item.finishTime}}">去参团</navigator>
-                    <block wx:if="{{item.serverTime >= item.finishTime}}">已结束
+                <view class="item-link{{serviceTime >= item.unite_end_time/1000 ? ' disable' : ''}}" wx:if="{{hasUserInfo}}">
+                    <navigator url="/pages/GroupBuy/GroupBuyConfirm/GroupBuyConfirm?gid={{item.id}}" wx:if="{{serviceTime < item.unite_end_time / 1000}}">去参团</navigator>
+                    <block wx:if="{{serviceTime >= item.unite_end_time / 1000}}">已结束
                     </block>
                 </view>
-                <button class="item-link{{item.serverTime >= item.finishTime ? ' disable' : ''}}" wx:if="{{!hasUserInfo}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" data-id="{{item.id}}">去参团</button>
+                <button class="item-link{{serviceTime >= item.unite_end_time/1000 ? ' disable' : ''}}" wx:if="{{!hasUserInfo}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" data-id="{{item.id}}">去参团</button>
             </view>
         </view>
     </view>
-    <view class="Detail-tab">
+    <view class="Detail-tab  {{goodsnavbool ?'goodsnavfixed':''}} " >
         <view class="tab-item{{DetailActive == 0 ? ' active' : ''}}" data-index="0" bindtap="TabToggle">图文详情</view>
         <view class="tab-item{{DetailActive == 1 ? ' active' : ''}}" data-index="1" bindtap="TabToggle">说明书</view>
     </view>
+    <view wx:if='{{goodsnavbool}}' class='goodsnav-blank'></view>
     <view class="Detail-content">
         <view class="content-item" wx:if="{{DetailActive == 0}}">
             <view class='goodsdetail'>
@@ -116,35 +121,84 @@
             </view>
         </view>
     </view>
-    <import src="/pages/Common/footer.wxml" />
-    <template is="footer" data="" />
+
     <view class="Detail-Fixed">
-        <view class="Icon-btn" bindtap="ToggleChaticonMenu">
+
+        <!-- 从分享链接进入，展示更多拼团 -->
+        <navigator class="Icon-btn" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList" wx:if="{{isShare}}">
+            <image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
+            更多拼团
+        </navigator>
+        <view class="Icon-btn" bindtap="ToggleChaticonMenu" wx:else>
             <image src="http://www.kzj365.com/mini_program/images/phoneicon.png"></image>
             联系客服
         </view>
-        <view class="Detail-btn">
-            <navigator class="btn btn-1" url="/pages/Goods/GoodsDetail/GoodsDetail?id={{goodsinfo.id}}">￥{{Filter.toFixed(goodsinfo.goods_price)}}
+
+        <!-- 普通进入 -->
+        <view class="Detail-btn" wx:if="{{GroupId == ''}}">
+            <navigator class="btn btn-1" url="/pages/Goods/GoodsDetail/GoodsDetail?id={{goodsinfo.goods_id}}">￥{{Filter.toFixed(goodsinfo.goods_price)}}
                 <text>单独购买</text>
             </navigator>
             <!-- 有用户权限 -->
-            <view class="btn{{isAllow ? '' : ' disabled'}}" wx:if="{{hasUserInfo || !isAllow}}" catchtap="ConfirmGroupOrder">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
+            <view class="btn{{isAllow ? '' : ' disabled'}}" wx:if="{{hasUserInfo || isAllow}}" data-disabled="{{isAllow}}" catchtap="ConfirmGroupOrder">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
                 <text>{{goodsinfo.purchase_price}}人开团</text>
             </view>
             <!-- 无用户权限 -->
-            <button class='btn' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" wx:if="{{!hasUserInfo && isAllow}}">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
+            <button class='btn' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" data-disabled="{{isAllow}}" wx:if="{{!hasUserInfo && isAllow}}">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
                 <text>{{goodsinfo.purchase_price}}人开团</text>
             </button>
         </view>
-    </view>
-    <view class="Menu" wx:if="{{ChaticonMenu}}">
-        <view class="Menu-item">
-            <image src="http://www.kzj365.com/mini_program/images/message_icon.png"></image>
-            在线咨询
+
+
+        <!-- 从分享页带团购ID进入 -->
+        <view class="Detail-btn" wx:if="{{GroupId != ''}}">
+            <!-- 已经参加此团, 未过期 -->
+            <block wx:if="{{goodsinfo.is_join == 0 && isAllow}}">
+                <view class="btn btn-all" wx:if="{{hasUserInfo}}" bindtap="ConfirmGroupOrder">
+                    我要参团
+                </view>
+                <button class="btn btn-all" wx:if="{{!hasUserInfo}}"  open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover">
+                    我要参团
+                </button>
+            </block>
+                <!-- 已经参团，活动过期 -->
+            <block wx:elif="{{goodsinfo.is_join == 0 && !isAllow}}">
+                <navigator class="btn btn-1" url="/pages/Goods/GoodsDetail/GoodsDetail?id={{goodsinfo.goods_id}}">￥{{Filter.toFixed(goodsinfo.goods_price)}}
+                    <text>单独购买</text>
+                </navigator>
+                 <view class="btn disabled" wx:if="{{hasUserInfo}}" data-disabled="true" catchtap="ConfirmGroupOrder">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
+                    <text>{{goodsinfo.purchase_price}}人开团</text>
+                </view>
+            </block>
+
+            <!-- 未参加此团 -->
+            <block wx:if="{{goodsinfo.is_join == 1}}">
+                <navigator class="btn btn-1" url="/pages/Goods/GoodsDetail/GoodsDetail?id={{goodsinfo.goods_id}}">￥{{Filter.toFixed(goodsinfo.goods_price)}}
+                    <text>单独购买</text>
+                </navigator>
+                <!-- 有用户权限 -->
+                 <view class="btn{{isAllow ? '' : ' disabled'}}" wx:if="{{hasUserInfo || isAllow}}" data-disabled="{{isAllow}}" catchtap="ConfirmGroupOrder">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
+                    <text>{{goodsinfo.purchase_price}}人开团</text>
+                </view>
+                <!-- 无用户权限 -->
+                <button class='btn' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" data-disabled="{{isAllow}}" wx:if="{{!hasUserInfo && isAllow}}">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
+                    <text>{{goodsinfo.purchase_price}}人开团</text>
+                </button>
+            </block>
         </view>
-        <view class="Menu-item" bindtap="Calling">免费热线：400-636-5343</view>
-        <view class="Menu-item cancel" bindtap="ToggleChaticonMenu">取消</view>
     </view>
-    <view class="mask" wx:if="{{ChaticonMenu}}" bindtap="ToggleChaticonMenu"></view>
+
 </view>
+
+<navigator class="find-index" open-type="switchTab" url="/pages/Index/Index" wx:if="{{isShare}}" hover-class="none">
+    <image src="http://www.kzj365.com/mini_program/images/find_index.png"></image>
+</navigator>
+
+<!-- 页脚 -->
+<import src="/pages/Common/footer.wxml" />
+<template is="footer" data="" />
+    
+<!-- 提示组件 -->
 <Dialog id="Dialog"></Dialog>
+<!-- 客服菜单 -->
+<MenuCustomer id="MenuCustomer"></MenuCustomer>

@@ -188,6 +188,10 @@
     <view class='gray-bg' bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
 </view>
 
+<navigator class="find-index" open-type="switchTab" url="/pages/Index/Index" wx:if="{{isShare}}" hover-class="none">
+    <image src="http://www.kzj365.com/mini_program/images/find_index.png"></image>
+</navigator>
+
 <import src="/pages/Common/footer.wxml" />
 <template is="footer" data="" />
 

@@ -7,6 +7,7 @@ page{padding-bottom: 98rpx;}
 .goodsilder .wx-swiper-dot-active::before{ content: ''; flex-grow: 1; background:#37c4a4; border-radius: 100%;}
 
 .GroupBuyTime{height: 80rpx;background-color: #ff5c58;padding: 0 32rpx;color: #fff;font-size: 28rpx;line-height: 80rpx;}
+.GroupBuyTime.timeout{background-color: #bbbbbb;}
 .GroupBuyTime image{width: 36rpx; height: 36rpx;margin: 22rpx 22rpx 22rpx 0;float: left;}
 
 .goodserver{ overflow: hidden; height: 80rpx; background: #fafafa; border-top: #f4f4f4 1px solid; display: flex; flex-direction: row; justify-content: space-around; align-items: center;}
@@ -24,7 +25,7 @@ page{padding-bottom: 98rpx;}
 .goodsinfo .market .nums{ font-size:30rpx; text-decoration: line-through;}
 .goodsinfo .share{ position: absolute;top: 30rpx;right: 30rpx;width: 80rpx;height: 36rpx;margin-right: 0;margin-left: 0;padding-right: 0;padding-left: 0;border-radius: 0;background: url(http://www.kzj365.com/mini_program/images/shareicon.png) no-repeat top right;background-size: 30rpx;}
 .goodsinfo .share:after{border: none;}
-.goodsinfo .detail{ font-size: 24rpx; color: #999;}
+.goodsinfo .detail{ font-size: 24rpx; color: #999; padding-right: 80rpx;}
 
 /*预加载样式*/
 .goodsinfo.load .name{background: #ddd;border-radius: 6rpx;height: 60rpx;margin-right: 80rpx; margin-bottom: 25rpx;}
@@ -49,7 +50,7 @@ page{padding-bottom: 98rpx;}
 .step .step3{z-index: 2;position: relative;background-color: #47d8b7;}
 .step .step4{z-index: 1;position: relative;background-color: #51e3c2;}
 
-.MemberList{background-color: #FFF;margin-bottom: 20rpx;}
+.MemberList{background-color: #FFF;margin-bottom: 20rpx; overflow: hidden; }
 .MemberList .title{font-size: 30rpx;color: #222;padding: 34rpx 0 14rpx 30rpx;line-height: 1;}
 .MemberList .title:before{content:'';float: left;margin-right: 20rpx;background-color: #37c4a4;width: 10rpx;height: 36rpx;margin-top: -3rpx;}
 .MemberList-item{color: #222;font-size: 30rpx;line-height: 90rpx;overflow: hidden;padding: 20rpx 30rpx;}
@@ -67,6 +68,8 @@ page{padding-bottom: 98rpx;}
 .Detail-tab .tab-item{flex: 1;text-align: center;line-height: 98rpx;position: relative;}
 .Detail-tab .tab-item.active{color: #37c4a4;}
 .Detail-tab .tab-item.active:after{display: block;content: '';position: absolute;bottom: 0;height: 6rpx;width: 60rpx;background-color: #37c4a4;left: 50%;margin-left: -30rpx;}
+.goodsnavfixed{ position: fixed; top: 0;left: 0; right: 0; z-index: 500; box-shadow: rgba(0,0, 0, 0.1) 1px 1px 3px;}
+.goodsnav-blank{ height: 98rpx;}
 
 .Detail-Fixed{position: fixed;bottom: 0;width: 100%;background-color: #FFF;height: 98rpx;box-shadow: 0px 0px 20px 0px rgba(204, 204, 204, 0.5);z-index: 99999;}
 .Detail-Fixed .Icon-btn{width: 144rpx;font-size: 20rpx;color: #bbbbbb;text-align: center;box-sizing: border-box;border-right: 1rpx solid  #f4f4f4;float: left;}
@@ -79,6 +82,12 @@ page{padding-bottom: 98rpx;}
 .Detail-btn .btn-1{background-color: #ff9459;}
 .Detail-btn .btn.disabled{background-color: #bbbbbb;}
 
+.Detail-btn .btn-all{height: 98rpx;background-color: #ff5c58;line-height: 98rpx;font-size: 32rpx;color: #fff;text-align: center;border-radius: 0;padding: 0;}
+.Detail-btn .btn-all:after{border: none;}
+
+.find-index{position: fixed;right: 15rpx;bottom: 148rpx;width: 88rpx;height: 88rpx;z-index: 9;}
+.find-index image{width: 88rpx;height: 88rpx;}
+
 .mask{position: fixed;top: 0;bottom: 0;left: 0;right: 0;background: rgba(0,0,0,.6);z-index: 99;}
 .Menu{position: fixed;background-color: #f4f4f4;bottom: 98rpx;width: 100%;z-index: 100;animation-name: MenuUp;animation-duration: .3s;animation-fill-mode: both;}
 .Menu-item{line-height: 100rpx;color: #37c4a4;font-size: 32rpx;text-align: center;background-color: #FFF;}
@@ -89,7 +98,7 @@ page{padding-bottom: 98rpx;}
     to{transform: translate(0, 0);opacity: 1;}}
 
 .goodsdetail{ text-align: center; background: #fff;}
-.goodsdetail image{ width: 100%; vertical-align: middle;}
+.goodsdetail image{ width: 100%; vertical-align: middle; }
 
 .instructions{ padding: 30rpx;}
 .instructions .table {border:1px solid #ddd;border-right: 0;border-bottom: 0;width: 100%; box-sizing: border-box; margin-bottom: 30rpx; background: #fff;font-size: 28rpx;}

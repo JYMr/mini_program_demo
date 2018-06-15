@@ -6,12 +6,12 @@ const URI = '';
 /**
  * 每一个页面对应一个contoller
  */
-class GroupBuyController{
+class GroupBuyController {
     /**
      * 获取拼团数据
      * @return {Promise}
      */
-    getList(params){
+    getList(params) {
         return request.get(`${URI}/api/queryPurchaseList.shtml`, params).then(res => res.data)
     }
 
@@ -19,31 +19,31 @@ class GroupBuyController{
      * 获取拼团商品数据
      * @return {Promise}
      */
-    getDetail(params){
+    getDetail(params) {
         return request.get(`${URI}/api/getPurchaseDetails.shtml`, params).then(res => res.data)
-    }
-
-    /**
-     * 获取推荐拼团
-     * @return {Promise}
-     */
-    getRecommend(params){
-        return request.get(`${URI}/GetRecommend`, params).then(res => res.data)
     }
 
     /**
      * 获取拼团提交订单数据
      * @return {Promise}
      */
-    getConfirmGroupBuyOrder(params){
-        return request.get(`${URI}/getGroupBuyConfirm`, params).then(res => res.data)
+    getConfirmGroupBuyOrder(params) {
+        return request.get(`${URI}/api/sumbitPurchaseOrder.shtml`, params).then(res => res.data)
+    }
+
+    /**
+     * 创建拼团订单，提交支付
+     * @return {Promise}
+     */
+    CreatePurchaseOrder(params) {
+        return request.get(`${URI}/api/createPurchaseOrder.shtml`, params).then(res => res.data)
     }
 
     /**
      * 获取拼团分享数据数据
      * @return {Promise}
      */
-    getGroupBuyShare(params){
+    getGroupBuyShare(params) {
         return request.get(`${URI}/getGroupBuyShare`, params).then(res => res.data)
     }
 
@@ -51,10 +51,10 @@ class GroupBuyController{
 /**
  * 实例化对象
  */
-let groupbuyController=  new GroupBuyController();
+let groupbuyController = new GroupBuyController();
 /**
  * 暴露对象，无需每次都加函数名
  */
-module.exports = { 
-    controller:groupbuyController,
- }
+module.exports = {
+    controller: groupbuyController,
+}

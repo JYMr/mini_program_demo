@@ -20,7 +20,7 @@
 .orderlists .lists .price{font-size: 20rpx;font-weight: 700; color: #ff5c58;}
 .orderlists .lists .price .n{ font-size: 30rpx;}
 .orderlists .lists .attr{ color: #888;}
-.orderlists .lists .ctype{display: inline-block;margin-left: 10rpx; padding: 0 10rpx;text-align: center;color: #fff; background: #37c4a4;}
+.orderlists .lists .ctype{background: #37c4a4; padding: 2rpx 6rpx;color: #fff; text-align: center; margin-left: 10rpx; height: 24rpx; overflow: hidden; font-size: 24rpx; display: inline-block; vertical-align: middle; line-height: 23rpx; position: relative; top: -1px;}
 .orderlists .lists .nums{font-size: 28rpx;position: absolute;z-index: 100;right: 30rpx;bottom: 30rpx; color: #888;}
 .orderlists .total{line-height: 48rpx; height: 48rpx;padding: 20rpx 30rpx;text-align: right;color: #222;border-bottom: #f4f4f4 1px solid;border-top: #f4f4f4 1px solid;}
 .orderlists .control{ padding: 20rpx 30rpx;text-align: right;}

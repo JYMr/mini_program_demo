@@ -42,7 +42,7 @@
 .orderlists .TypeIcon.bjp{height: 30rpx;width: 47rpx;
 	background: url("http://www.kzj365.com/mini_program/images/bjpicon.png") center center no-repeat;background-size: 47rpx 30rpx;}
 
-.totalinfo{ background: #fff; margin-bottom: 20rpx; padding:20rpx 30rpx; line-height: 2; color: #888;}
+.totalinfo{ background: #fff;  padding:20rpx 30rpx; line-height: 2; color: #888;}
 .totalinfo .status{ color: #ff5c58;}
 
 .floatcontrol-blank{ height: 110rpx;}

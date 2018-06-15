@@ -4,25 +4,30 @@ const GroupBuyController = require('../../controllers/groupBuyController').contr
 Page({
     data: {
         GoodsId: '',
-        isAllow: true,
+        isAllow: false,
         GroupId: '',
-        goodsinfo: {},//商品详细信息
-        GroupList: [],//拼团推荐
+        isShare: false, //是否分享进入
+        goodsinfo: {}, //商品详细信息
+        GroupList: [], //拼团推荐
+        serviceTime: '',
         DetailActive: '0',
         ChaticonMenu: false,
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         hasUserInfo: false,
+        goodsnavtop: 0, //tab距离顶部的距离
+        goodsnavbool: false, //tab是否浮动
+        DefaultImage: '', //默认底图
     },
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
         //判断用户权限
-        if(app.globalData.userInfo){
+        if (app.globalData.userInfo) {
             this.setData({
                 hasUserInfo: true
             })
-        }else if (this.data.canIUse) {
+        } else if (this.data.canIUse) {
             // 所以此处加入 callback 以防止这种情况
             app.userInfoReadyCallback = res => {
                 this.setData({
@@ -42,20 +47,33 @@ Page({
             })
         }
 
-        if(options.id){
+        if (options.id) {
             this.setData({
                 GoodsId: options.id
             })
         }
 
-        if(options.gid){
+        if (options.gid) {
             //有拼团id传入
             this.setData({
                 GroupId: options.gid
             })
         }
 
+        if (options.isShare) {
+            //是否分享进入
+            this.setData({
+                isShare: options.isShare
+            })
+        }
+
+        //设置默认底图
+        this.setData({
+            DefaultImage: app.globalData.defaultImg
+        })
+
         this.GetGroupDetailData();
+
     },
 
     /**
@@ -63,60 +81,85 @@ Page({
      */
     onReady: function() {
         this.Dialog = this.selectComponent('#Dialog');
+        this.MenuCustomer = this.selectComponent('#MenuCustomer');
     },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function() {
-
+    scrollTop: function() {
+        var that = this;
+        var query = wx.createSelectorQuery()
+        query.select('.Detail-tab').boundingClientRect(function(res) {
+            that.setData({
+                goodsnavtop: res.top - 2
+            })
+        }).exec()
+    },
+    onPageScroll: function(e) {
+        // 获取滚动条当前位置
+        if (e.scrollTop > this.data.goodsnavtop) {
+            this.setData({
+                goodsnavbool: true
+            })
+        } else {
+            this.setData({
+                goodsnavbool: false
+            })
+        }
     },
     //加载拼团详情数据
-    GetGroupDetailData(){
+    GetGroupDetailData() {
         wx.showLoading({
             title: '加载数据中...',
             mask: true
         });
         GroupBuyController.getDetail({
-            p_id: this.data.GoodsId
-        }).then(res=>{
-            if(res.done){
+            p_id: this.data.GoodsId,
+            group_id: this.data.GroupId
+        }).then(res => {
+            if (res.done) {
                 this.setData({
                     goodsinfo: res.result.pDetails,
-                    GroupList: res.result.proList
-                    //isAllow: res.isAllow,
-                    //GroupId: this.data.GroupId
+                    GroupList: res.result.proList,
+                    serviceTime: Math.floor(res.result.serviceTime / 1000) //转化为时间戳
                 })
-                //this.handleData();
+                //处理活动时间数据
+                this.handleData();
+                //推荐团购列表倒计时
+                this.GroupTimeOut();
+                //判断是否可以购买
+                this.handleAllow();
+                //滑动初始化
+                this.scrollTop();
                 wx.hideLoading();
             }
         })
-       /* setTimeout(()=>{
-            //延迟加载推荐列表
-            this.GetRecommend();
-        }, 500)*/
     },
-    //获取拼团推荐列表
-    GetRecommend(){
-        GroupBuyController.getRecommend({
-            id: this.data.GoodsId
-        }).then(res=>{
-            if(res.status == 0){
-                if( res.GroupList.length > 0){
-                    this.setData({
-                        GroupList: res.GroupList
-                    })
-                    this.GroupTimeOut();
-                }
-            }
-        })
+    //判断是否能购买
+    handleAllow() {
+        let _goodsinfo = this.data.goodsinfo;
+        let _isAllow = true;
+        if (this.data.GroupId == '') {
+            //普通进入
+            _isAllow = _goodsinfo.effective_stock > 0 //库存大于0
+                &&
+                _goodsinfo.remain_number > 0 //限购数量大于0
+                &&
+                (Math.floor(_goodsinfo.end_time / 1000) > this.data.serviceTime); //活动未结束
+        } else {
+            //从分享页带团购ID进入
+            //已经成团无需判断库存
+            _isAllow = _goodsinfo.remain_number > 0 //限购数量大于0
+                &&
+                (Math.floor(_goodsinfo.unite_end_time / 1000) > this.data.serviceTime); //团购未结束且活动未结束
+        }
+        this.setData({
+            isAllow: _isAllow
+        });
     },
-    //开团列表倒计时
+    //推荐团购列表倒计时
     GroupTimeOut() {
         setInterval(() => {
             let _TempGroupList = this.data.GroupList
             for (let item of _TempGroupList) {
-                let _time = item.finishTime - item.serverTime;
+                let _time = Math.floor(item.unite_end_time / 1000) - this.data.serviceTime;
                 if (_time > 0) {
                     let _hours = Math.floor(_time / (60 * 60));
                     let _minute = Math.floor((_time - _hours * 60 * 60) / 60);
@@ -129,10 +172,10 @@ Page({
                     item.time = '00:00:00';
                     item.number = 0;
                 }
-                item.serverTime = item.serverTime + 1;
             }
             this.setData({
-                GroupList: _TempGroupList
+                GroupList: _TempGroupList,
+                serviceTime: this.data.serviceTime + 1
             })
         }, 1000);
     },
@@ -142,49 +185,59 @@ Page({
         this.setData({
             DetailActive: index
         })
+        var goodsnavtop = this.data.goodsnavtop;
+        if (wx.pageScrollTo) {
+            wx.pageScrollTo({
+                scrollTop: goodsnavtop
+            })
+        }
     },
     //联系客服菜单
     ToggleChaticonMenu() {
-        this.setData({
-            ChaticonMenu: !this.data.ChaticonMenu
-        })
+        this.MenuCustomer.ShowMenu();
     },
-    //处理数据
-    handleData(){
+    //处理活动时间数据
+    handleData() {
         let _Data = this.data.goodsinfo;
-        _Data.startTime = app.Util.handleDate.formatTime_1(new Date(_Data.startTime * 1000), '-');
-        _Data.finishTime = app.Util.handleDate.formatTime_1(new Date(_Data.finishTime * 1000), '-');
+        _Data.starttime = app.Util.handleDate.formatTime_1(new Date(_Data.start_time), '-');
+        _Data.endtime = app.Util.handleDate.formatTime_1(new Date(_Data.end_time), '-');
         this.setData({
             goodsinfo: _Data
         })
     },
     //提交拼团订单
-    ConfirmGroupOrder(e){
-        let _gid =  e.currentTarget.dataset.id
-        let _id = this.data.goodsinfo.id;
-        wx.navigateTo({
-            url: '/pages/GroupBuy/GroupBuyConfirm/GroupBuyConfirm?' + (_gid ? ('gid=' + _gid): ('id=' + _id ))
-        })
+    ConfirmGroupOrder(e) {
+        let _id = this.data.goodsinfo.purchase_id;
+        let _gid = this.data.GroupId;
+        let _status = e.currentTarget.dataset.disabled;
+        if(_status || _status == undefined){
+            wx.navigateTo({
+                url: '/pages/GroupBuy/GroupBuyConfirm/GroupBuyConfirm?gid=' + _gid + '&id=' + _id
+            })
+        }
     },
     //拨打电话
-    Calling(){
+    Calling() {
         app.calling();
     },
     //处理权限
-    getUserInfo(e){
-        if(e.detail.userInfo){
+    getUserInfo(e) {
+        let _status = e.currentTarget.dataset.disabled;
+        if (e.detail.userInfo) {
             this.setData({
                 hasUserInfo: true
             })
             app.globalData.userInfo = e.detail.userInfo
             //此处提交订单
-            this.ConfirmGroupOrder(e);
-        }else{
+            if(_status || _status == undefined){
+                this.ConfirmGroupOrder(e);
+            }
+        } else {
             this.Dialog.ShowDialog({
                 title: '授权登录，方可购买商品',
                 type: 'Alert',
                 callback: res => {
-                    this.Dialog.CloseDialog(); 
+                    this.Dialog.CloseDialog();
                 }
             })
         }
@@ -193,36 +246,15 @@ Page({
      * 用户点击右上角分享
      */
     onShareAppMessage: function() {
-        let _ImageUrl = app.globalData.defaultImg;
-        let _GoodsImageList = this.data.goodsinfo.siderimg;
-        for(let item of _GoodsImageList){
-            if(item != app.globalData.defaultImg){
-                _ImageUrl = item;
-                break;
-            }
-        }
+        let _ImageUrl = this.data.GroupList.purchase_image || app.globalData.defaultImg;
         let ShareOption = {
-            title: this.data.goodsinfo.name,
-            path: '/' + this.route,
+            title: '只要' + this.data.goodsinfo.purchase_price.toFixed(2) + '元就能拼到' + this.data.goodsinfo.goods_title,
+            path: '/' + this.route + '?id=' + this.data.GoodsId + '&isShare=true',
             imageUrl: _ImageUrl,
-            success: res=>{
-                if(res.errMsg == 'shareAppMessage:ok'){
-                    this.Dialog.ShowDialog({
-                        type: 'Message',
-                        title: '分享成功'
-                    })
-                }
-            },
-            fail: err=>{
-               /* if(err.errMsg != 'shareAppMessage:fail cancel'){
-                     this.Dialog.ShowDialog({
-                        type: 'Message',
-                        title: err.errMsg.split(':')[1],
-                        messageType: 'fail'
-                    })
-                }*/
-            }
         }
         return ShareOption;
+    },
+    ErrorImage(e) {
+        app.errImg(e, this);
     }
 })

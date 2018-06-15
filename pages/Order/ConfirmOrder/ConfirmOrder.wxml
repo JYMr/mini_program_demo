@@ -31,6 +31,7 @@
                 </text>
                 <text class='attr'>/1{{item.goods_unit}}</text>
                 <text class='ctype' wx:if="{{item.promotionF}}">疗程装</text>
+                <text class='ctype' wx:if="{{PayWay == 1}}">货到付款</text>
                 <text class='nums'>x{{item.shopcart_num}}</text>
             </view>
              <view class='item' wx:if="{{OrderData.shopCartApi.shopcart_id}}">
@@ -41,6 +42,7 @@
                 </text>
                 <text class='attr'>/1{{OrderData.shopCartApi.goods_unit}}</text>
                 <text class='ctype' wx:if="{{OrderData.shopCartApi.promotionF}}">疗程装</text>
+                <text class='ctype' wx:if="{{PayWay == 1}}">货到付款</text>
                 <text class='nums'>x{{OrderData.shopCartApi.shopcart_num}}</text>
             </view>
         </view>
@@ -57,9 +59,7 @@
         </view>
     </view>
     <view class='payway'>
-        <view class='default' bindtap="ShowPayList" wx:if="{{cashStatus}}">支付方式： {{PayWay == '2' ? '微信支付' : '货到付款'}}
-            <text class='close'></text>
-        </view>
+        <view class='default{{cashStatus ? " open" : ""}}' bindtap="ShowPayList" wx:if="{{cashStatus}}">支付方式： {{PayWay == '2' ? '微信支付' : '货到付款'}}</view>
         <view class='lists' wx:if="{{!cashStatus || PayListStatus}}">
             <view class='item' data-type="2" bindtap="choosePayWay">
                 <text class='select{{PayWay == 2 ? " on" : ""}}'></text>

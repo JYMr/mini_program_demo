@@ -103,3 +103,6 @@ page{background:#f4f4f4; margin-bottom: 118rpx; color: #555;font-size: 28rpx;}
 .product-recommend .recommend-item image{width: 220rpx;height: 220rpx;margin-bottom: 30rpx;}
 .product-recommend .recommend-item .name{font-size: 26rpx;color: #555;line-height: 36rpx; height: 72rpx;overflow:hidden;text-overflow:ellipsis;line-clamp:2;box-orient:vertical;}
 .product-recommend .recommend-item .price{color: #FF5656;font-size: 35rpx}
+
+.find-index{position: fixed;right: 15rpx;bottom: 148rpx;width: 88rpx;height: 88rpx;z-index: 9;}
+.find-index image{width: 88rpx;height: 88rpx;}
