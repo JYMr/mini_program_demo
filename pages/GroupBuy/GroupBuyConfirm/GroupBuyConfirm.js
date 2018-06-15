@@ -1,5 +1,6 @@
 const addressController = require('../../controllers/addressController').controller;
 const groupBuyController = require('../../controllers/groupBuyController').controller;
+const orderController = require('../../controllers/orderController').controller;
 const app = getApp();
 Page({
 
@@ -10,6 +11,15 @@ Page({
         id: '',
         GroupId: '',
         OrderData: {},
+        OrderId: '',
+        isPayFail: false,
+        PayFailTime: '30000',
+        PayFailStartTime: '',
+        TimeOut: {
+            hours: '00',
+            minute: '00',
+            second: '00'
+        },
         PayWay: 2,
         AddressId: '',
         ReMark: '',
@@ -37,7 +47,7 @@ Page({
             DefaultImage: app.globalData.defaultImg,
             cashStatus: app.globalData.cashStatus
         });
-
+        this.PayFailTime();
         this.GetOrderData();
     },
 
@@ -113,6 +123,14 @@ Page({
             wx.hideLoading();
         });
     },
+    //选择地址
+    ChooseAddress() {
+        //如果为支付取消倒计时状态，无法选择地址
+        if (this.data.isPayFail) return;
+        wx.navigateTo({
+            url: '/pages/User/AddressList/AddressList?ChooseMode=true'
+        });
+    },
     //显示添加地址
     ShowEdit() {
         this.AddressEdit.ShowEdit();
@@ -129,6 +147,8 @@ Page({
     },
     //显示支付列表
     ShowPayList() {
+        //如果为支付取消倒计时状态，无法选择支付
+        if (this.data.isPayFail) return;
         this.setData({
             PayListStatus: true
         });
@@ -151,6 +171,56 @@ Page({
             });
             return;
         }
+
+        //支付取消后的再次调起
+        if (this.data.isPayFail) {
+            wx.showLoading({
+                title: '请求支付中...',
+                mask: true
+            });
+            orderController.getPayMent({
+                orderId: this.data.OrderId
+            }).then(res => {
+                if (res.done) {
+                    wx.requestPayment({
+                        timeStamp: res.result.timeStamp,
+                        nonceStr: res.result.nonceStr,
+                        package: res.result.package,
+                        signType: res.result.signType,
+                        paySign: res.result.paySign,
+                        success: res => {
+                            this.Dialog.ShowDialog({
+                                title: '支付成功!',
+                                type: 'Message'
+                            });
+                            wx.hideLoading();
+                            setTimeout(() => {
+                                wx.navigateTo({
+                                    url: '/pages/Order/MyOrderDetail/MyOrderDetail?status=0&id=' + _id
+                                })
+                            }, 1500)
+                        },
+                        fail: res => {
+                            wx.hideLoading();
+                            if (res.errMsg.indexOf('cancel') >= 0) {
+                                this.Dialog.ShowDialog({
+                                    title: '支付已取消!',
+                                    type: 'Message',
+                                    messageType: 'fail'
+                                });
+                            } else {
+                                wx.showToast({
+                                    title: res.errMsg,
+                                    icon: 'none'
+                                })
+                            }
+                        }
+                    })
+                }
+            });
+            return;
+        }
+
         wx.showLoading({
             title: '提交订单中...',
             mask: true
@@ -164,6 +234,13 @@ Page({
             orderPrice: this.data.OrderData.totalPrice
         }).then(res => {
             if (res.done) {
+                //设置返回的OrderId
+                this.setData({
+                    OrderId: res.result.orderId
+                });
+                //开始计时
+                this.PayFailTime();
+
                 wx.requestPayment({
                     timeStamp: res.result.timeStamp,
                     nonceStr: res.result.nonceStr,
@@ -175,11 +252,22 @@ Page({
                             title: '支付成功!',
                             type: 'Message'
                         });
+                        //支付成功，跳转分享页
+                        setTimeout(() => {
+                            wx.navigateTo({
+                                url: 'pages/GroupBuy/GroupBuyShare/GroupBuyShare?orderid=' + this.data.OrderId
+                            });
+                        }, 1500);
                     },
                     fail: res => {
                         this.Dialog.ShowDialog({
                             title: '支付取消!',
-                            type: 'Message'
+                            type: 'Message',
+                            messageType: 'fail'
+                        });
+                        //更改为支付取消，倒计时状态
+                        this.setData({
+                            isPayFail: true
                         });
                     }
                 });
@@ -199,6 +287,52 @@ Page({
         this.setData({
             ReMark: _val
         });
+    },
+    //支付失败或者取消倒计时
+    PayFailTime() {
+        let startTime = new Date().getTime();
+        let time = setInterval(() => {
+            let _time = this.data.PayFailTime;
+            let thisTime = new Date().getTime();
+            _time = _time - thisTime + startTime;
+
+            //支付超时
+            if (_time < 0) {
+                clearInterval(time);
+                this.setData({
+                    TimeOut: {
+                        hours: '00',
+                        minute: '00',
+                        second: '00'
+                    }
+                });
+                this.Dialog.ShowDialog({
+                        type: 'Message',
+                        title: '支付超时！',
+                        messageType: 'fail'
+                    }),
+                    setTimeout(() => {
+                        wx.navigateBack();
+                    }, 1500);
+                return;
+            }
+
+            let _hours = Math.floor(_time / (1000 * 60));
+            let _minute = Math.floor(_time / 1000) % 60;
+            let _second = Math.floor((_time - _hours * 60 * 1000 - _minute * 1000) / 10);
+            _hours = _hours < 10 ? ('0' + _hours) : _hours
+            _minute = _minute < 10 ? ('0' + _minute) : _minute
+            _second = _second < 10 ? ('0' + _second) : _second
+
+            this.setData({
+                TimeOut: {
+                    hours: _hours,
+                    minute: _minute,
+                    second: _second
+                }
+            });
+        }, 10);
+
     },
     ErrorImage(e) {
         app.errImg(e, this);

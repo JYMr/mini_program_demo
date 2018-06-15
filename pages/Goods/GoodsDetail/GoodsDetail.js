@@ -81,7 +81,7 @@ Page({
 
         //设置默认底图
         this.setData({
-            DefaultImage: app.globalData.defaultImg
+            DefaultImage: app.globalData.goodsdefault
         })
 
     },
@@ -148,7 +148,7 @@ Page({
                 //处理商品轮播图为空
                 if (res.result.goodsdetail.goodsImages.length == 0) {
                     res.result.goodsdetail.goodsImages.push({
-                        imageArtworkName: app.globalData.defaultImg
+                        imageArtworkName: app.globalData.DefaultImage
                     })
                 }
 

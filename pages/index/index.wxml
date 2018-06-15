@@ -41,7 +41,7 @@
                     <swiper autoplay="true" interval="3000" duration="500" circular='true'>
                         <block wx:for="{{collage}}" wx:for-item='item' wx:key="GroupBuy_{{index}}">
                             <swiper-item>
-                                <navigator class='pic' url='/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{item.goods_id}}' hover-class='none'>
+                                <navigator class='pic' url='/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{item.purchase_id}}' hover-class='none'>
                                     <image src="{{item.purchase_image || DefaultImage}}" class="slide-image"  mode="aspectFill"  binderror="ErrorImage" data-obj="collage[{{index}}].purchase_image"/>
                                     <view class='discount'>
                                         <text class='n'>立省</text>

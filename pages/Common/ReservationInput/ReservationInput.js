@@ -9,7 +9,7 @@ Component({
             name: '',
             mobile: ''
         },
-        lastInfoLoading: true,
+        lastInfoLoading: true,//最后一次预定信息加载状态
         isShow: false
     },
     ready() {
@@ -24,6 +24,7 @@ Component({
         ValiData(status) {
             let flag = true;
             let msg = '';
+            //验证数据格式
             if (this.data.UserInfo.name == '') {
                 msg = '联系人不能为空';
                 flag = false;
@@ -36,6 +37,7 @@ Component({
                 if (msg == '') msg = '联系号码格式错误';
                 flag = false;
             }
+            //错误提示
             if (status && msg) {
                 this.Dialog.ShowDialog({
                     type: "Message",
@@ -45,7 +47,7 @@ Component({
             }
             this.setData({
                 ValiStatus: flag
-            })
+            });
             return flag;
         },
         Show(option) {
@@ -63,17 +65,16 @@ Component({
         //关闭弹窗
         CloseEdit() {
             this.setData({
-                UserInfo: {
+                UserInfo: {//清空数据
                     name: '',
                     mobile: ''
                 },
                 isShow: false
-            })
+            });
         },
         //保存编辑地址
         save() {
             if (this.ValiData(1)) {
-                //ajax
                 //操作完成，发送EditEvent事件
                 this.triggerEvent("SaveEvent", this.data.UserInfo);
             }
@@ -84,7 +85,7 @@ Component({
             _tempData.name = e.detail.value;
             this.setData({
                 UserInfo: _tempData
-            })
+            });
             this.ValiData();
         },
         BindMobileChange(e) {
@@ -92,7 +93,7 @@ Component({
             _tempData.mobile = e.detail.value;
             this.setData({
                 UserInfo: _tempData
-            })
+            });
             this.ValiData();
         },
         //获取预定信息
@@ -104,13 +105,13 @@ Component({
                     _UserInfo.mobile = res.result.needPhone;
                     this.setData({
                         UserInfo: _UserInfo
-                    })
+                    });
                     this.ValiData();
                 }
                 this.setData({
                     lastInfoLoading: false
-                })
-            })
+                });
+            });
         }
     }
 })

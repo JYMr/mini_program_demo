@@ -13,14 +13,6 @@ class CartController {
     }
 
     /**
-     * 更改购物车选中状态
-     * @return {Promise}
-     */
-    setCartChoose(params) {
-        return request.get(`${URI}/setCartChoose`, params).then(res => res.data)
-    }
-
-    /**
      * 更改购物车数量
      * @return {Promise}
      */

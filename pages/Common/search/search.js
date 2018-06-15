@@ -33,117 +33,103 @@ Component({
     data: {
         // clickable:false
     },
-
+    ready() {
+        this.Dialog = this.selectComponent("#Dialog");
+    },
     /**
      * 组件的方法列表
-     * 更新属性和数据的方法与更新页面数据的方法类似
      */
     methods: {
-        /*
-         * 公有方法
-         */
-        bindInput: function(e) {
-            var selectHide = false;
-            if (e.detail.value != '') {
-                selectHide = true;
-            } else {
-                selectHide = false;
-            }
+        //搜索框输入数据绑定
+        bindInput(e) {
+            let selectValue = e.detail.value;
             this.setData({
-                selectHide: selectHide,
+                selectHide: selectValue != '', //切换扫码按钮和清空按钮
                 inputValue: e.detail.value
-            })
+            });
         },
-        searchSubmit: function(e) {
-            if (e.target.dataset.search) {
+        searchSubmit(e) {
+            let inputValue = e.target.dataset.search;
+
+            if (inputValue != '') {
+
                 this.setData({
-                    inputValue: e.target.dataset.search
-                })
-            }
-            let data;
-            let localStorageValue = [];
-            if (this.data.inputValue != '') {
+                    inputValue: inputValue
+                });
+
                 //调用API从本地缓存中获取数据
-                var searchData = wx.getStorageSync('searchData') || [];
-                var tempSearchData = [];
+                let searchData = wx.getStorageSync('searchData') || [];
+
+                let tempSearchData = [];
                 for (let item of searchData) {
+                    //查找是否有重复历史记录
                     if (item != this.data.inputValue) {
                         tempSearchData.push(item);
                     }
                 }
-                tempSearchData.push(this.data.inputValue)
-                wx.setStorageSync('searchData', tempSearchData)
+                //将搜索内容加入数组（前端输出为倒序）
+                tempSearchData.push(this.data.inputValue);
+                wx.setStorageSync('searchData', tempSearchData);
+                //触发搜索事件
                 this.triggerEvent("SearchEvent", {
                     keyword: this.data.inputValue
                 });
             } else {
-                wx.showToast({
-                    title: '请输入关键词！',
-                    icon: 'none',
-                    duration: 2000
-                })
+                //搜索词为空
+                this.Dialog.ShowDialog({
+                    title: '请输入关键词!',
+                    type: 'Message',
+                    messageType: 'fail'
+                });
             }
         },
-        clearInput: function() {
+        //清除搜索框内容
+        clearInput() {
             this.setData({
                 inputValue: '',
                 selectHide: false
-            })
+            });
         },
-        tosearch: function(e) { //搜索框跳转
-            if (e.currentTarget.dataset.clickable) {
+        //搜索框跳转
+        tosearch() {
+            if (this.properties.clickable) {
                 wx.navigateTo({
                     url: '/pages/List/Search/Search'
-                })
+                });
             }
         },
-        scan: function() { //扫码
-            var that = this;
-            var scanresult;
-            that.dialog = that.selectComponent("#Dialog");
+        //处理扫码
+        scan() {
             wx.scanCode({
-                success: (res) => {
+                success: res => {
                     wx.showLoading({
                         title: '识别中...',
                         mask: true
                     });
-                    this.scanresult = "结果:" + res.result + "二维码类型:" + res.scanType + "字符集:" + res.charSet + "路径:" + res.path;
 
                     searchController.ScalCode({
                         barcode: res.result
                     }).then(res => {
                         if (res.done) {
-                            wx.hideLoading();
                             //获取商品id
                             wx.navigateTo({
                                 url: '/pages/Goods/GoodsDetail/GoodsDetail?id=' + res.result.goods_id
-                            })
-                        } else{
-                            wx.hideLoading();
-                            that.dialog.ShowDialog({
+                            });
+                        } else {
+                            this.Dialog.ShowDialog({
                                 type: 'Slot'
-                            })
+                            });
                         }
-                    })
+                        wx.hideLoading();
+                    });
                 },
-                fail: (res) => {
-
-                    console.log(res)
-                },
-                complete: (res) => {}
+                fail: res => {
+                    wx.showToast({
+                        title: '调用摄像头出错, 请重试！',
+                        icon: 'none'
+                    });
+                }
             });
-        },
-        /*
-         * 内部私有方法建议以下划线开头
-         * triggerEvent 用于触发事件
-         */
-        _cancelEvent() {
-            //触发取消回调
-            this.triggerEvent("cancelEvent")
-        },
-        _confirmEvent() {
-            //触发成功回调
-            this.triggerEvent("confirmEvent");
         }
     }
 })

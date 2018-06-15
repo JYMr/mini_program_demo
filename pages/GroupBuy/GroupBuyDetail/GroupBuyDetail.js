@@ -17,6 +17,7 @@ Page({
         goodsnavtop: 0, //tab距离顶部的距离
         goodsnavbool: false, //tab是否浮动
         DefaultImage: '', //默认底图
+        GoodsDefaulteImage: ''
     },
     /**
      * 生命周期函数--监听页面加载
@@ -69,8 +70,9 @@ Page({
 
         //设置默认底图
         this.setData({
-            DefaultImage: app.globalData.defaultImg
-        })
+            DefaultImage: app.globalData.goodsdefault
+            GoodsDefaulteImage: app.globalData.goodsdefault,
+        });
 
         this.GetGroupDetailData();
 
@@ -115,6 +117,14 @@ Page({
             group_id: this.data.GroupId
         }).then(res => {
             if (res.done) {
+
+                //处理商品轮播图为空
+                if (res.result.pDetails.goods_images && res.result.pDetails.goods_images.length == 0) {
+                    res.result.pDetails.goods_images.push({
+                        imageArtworkName: app.globalData.DefaultImage
+                    })
+                }
+
                 this.setData({
                     goodsinfo: res.result.pDetails,
                     GroupList: res.result.proList,
@@ -210,7 +220,7 @@ Page({
         let _id = this.data.goodsinfo.purchase_id;
         let _gid = this.data.GroupId;
         let _status = e.currentTarget.dataset.disabled;
-        if(_status || _status == undefined){
+        if (_status || _status == undefined) {
             wx.navigateTo({
                 url: '/pages/GroupBuy/GroupBuyConfirm/GroupBuyConfirm?gid=' + _gid + '&id=' + _id
             })
@@ -229,7 +239,7 @@ Page({
             })
             app.globalData.userInfo = e.detail.userInfo
             //此处提交订单
-            if(_status || _status == undefined){
+            if (_status || _status == undefined) {
                 this.ConfirmGroupOrder(e);
             }
         } else {

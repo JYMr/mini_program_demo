@@ -1,5 +1,9 @@
 /* pages/GroupBuy/GroupBuyConfirm/GroupBuyConfirm.wxss */
-/* pages/order/order.wxss */
+
+.PayFfailTitle{background-color: #FF5C58;height: 88rpx;padding: 0 30rpx;color: #FFF;}
+.PayFfailTitle .time{color: #FFF;line-height: 40rpx;font-size: 24rpx;display: inline-block;margin-left: 20rpx;margin-top: 26rpx;}
+.PayFfailTitle .time text{background-color: #fff;border-radius: 10rpx;height: 40rpx;color: #FF5C58;padding: 6rpx 10rpx;margin-left: -5rpx;}
+
 .addaddress{ overflow: hidden; margin-bottom: 20rpx;background-color: #FFF;}
 .addaddress .add{padding: 36rpx 30rpx; line-height: 90rpx; height: 90rpx; color: #222; font-size: 30rpx; position: relative; background: url(http://www.kzj365.com/mini_program/images/adressbg.png) no-repeat center bottom; background-size: 100%; }
 .addaddress .add .icon{ float: left; width: 90rpx; height: 90rpx;background: url(http://www.kzj365.com/mini_program/images/addadressicon.png) no-repeat center center #37c4a4; background-size: 100%; border-radius: 20rpx; margin-right: 30rpx;  }
@@ -19,8 +23,7 @@
 .goodslists .title .shopicon{ width: 40rpx; height: 40rpx; margin-top: 24rpx; margin-right: 15rpx; float: left;background: url(http://www.kzj365.com/mini_program/images/shopicon.png) no-repeat center center; background-size: 100%;}
 .goodslists .title .pedpay,.goodslists .title .peddelivery,.goodslists .title .share{ font-size: 30rpx; font-weight: 700; color: #ff5c58; float: right;}
 .goodslists .title .cancel,.goodslists .title .success,.goodslists .title .aftersale{ font-size: 30rpx; font-weight: 700; color: #ddd; float: right;}
-.goodslists .lists .item{ position: relative; border-bottom: #f4f4f4 1px solid; }
-.goodslists .lists navigator{ padding: 30rpx; display: block; overflow: hidden; }
+.goodslists .lists .item{ position: relative; border-bottom: #f4f4f4 1px solid;padding: 30rpx; display: block; overflow: hidden; }
 .goodslists .lists navigator.hover{ background: #f4f4f4;}
 .goodslists .lists .pic{ width: 140rpx; height: 140rpx; float: left; margin-right: 30rpx;}
 .goodslists .lists .name{ text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;  color: #4a5259; font-size: 26rpx; height: 100rpx; line-height: 1.4;}

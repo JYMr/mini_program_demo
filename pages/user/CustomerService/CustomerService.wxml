@@ -35,7 +35,7 @@
     </view>
     <view class='total'> 共{{OrderItem.total}}件商品 合计：￥{{Filter.toFixed(OrderItem.orderPrice)}}
       <block wx:if="{{OrderItem.freeExpressPrice == 2}}">（包含快递费10元）</block>
-      <block wx:if="{{!OrderItem.freeExpressPrice == 1}}">（免运费）</block>
+      <block wx:if="{{OrderItem.freeExpressPrice == 1}}">（免运费）</block>
     </view>
 </view>
 </block>

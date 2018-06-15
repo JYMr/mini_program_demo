@@ -2,19 +2,27 @@
 <!-- 引入过滤器 -->
 <wxs module="Filter" src="../../Common/filter/filter.wxs"></wxs>
 
+<view class="PayFfailTitle" wx:if="{{isPayFail}}">
+    <view class="time">
+        <text>{{TimeOut.hours}}</text>:
+        <text>{{TimeOut.minute}}</text>:
+        <text>{{TimeOut.second}}</text>
+    </view>
+    3分钟内未完成支付，订单将被取消！
+</view>
 <view class='addaddress'>
     <view class='add' wx:if="{{!OrderData.defalutUserAddr.addr_id}}" bindtap="ShowEdit">
         <text class='icon'></text>
         <text class='name'>添加收货地址</text>
     </view>
-    <navigator wx:if="{{OrderData.defalutUserAddr.addr_id}}" class='info' url="/pages/User/AddressList/AddressList?ChooseMode=true">
+    <view wx:if="{{OrderData.defalutUserAddr.addr_id}}" class='info' bindtap="ChooseAddress">
         <view class='t'>
             <text class='name'>{{OrderData.defalutUserAddr.addr_recipient}}</text>
             <text class='tel'>{{OrderData.defalutUserAddr.addr_mobile}}</text>
             <text class='tip' wx:if="{{OrderData.defalutUserAddr.addr_default == 1}}">默认</text>
         </view>
         <view class='c'>{{OrderData.defalutUserAddr.addr_province}}{{OrderData.defalutUserAddr.addr_city}}{{OrderData.defalutUserAddr.addr_area}}{{OrderData.defalutUserAddr.addr_address}}</view>
-    </navigator>
+    </view>
 </view>
 <view class='goodslists'>
     <view class='title'>
@@ -23,20 +31,19 @@
     </view>
     <view class='lists'>
        <view class='item'>
-            <navigator hover-class='hover'>
-                <image class='pic' src='{{OrderData.goods_img || DefaultImage}}' binderror="ErrorImage" data-obj="OrderData.goods_img"></image>
-                <view class='name'>
-                    <text class='type'>otc</text>{{OrderData.goods_title}} {{OrderData.goods_spec}}</view>
-                <text class='price'>￥<text class='n'>{{Filter.toFixed(OrderData.purchase_price)}}</text>
-                </text>
-                <text class='attr'>/1{{OrderData.spec_type}}</text>
-                <text class='nums'>x{{OrderData.goodsNum}}</text>
-            </navigator>
+            <image class='pic' src='{{OrderData.goods_img || DefaultImage}}' binderror="ErrorImage" data-obj="OrderData.goods_img"></image>
+            <view class='name'>
+                <text class='type'>otc</text>{{OrderData.goods_title}} {{OrderData.goods_spec}}</view>
+            <text class='price'>￥<text class='n'>{{Filter.toFixed(OrderData.purchase_price)}}</text>
+            </text>
+            <text class='attr'>/1{{OrderData.spec_type}}</text>
+            <text class='ctype' wx:if="{{PayWay == 1}}">人团</text>
+            <text class='nums'>x{{OrderData.goodsNum}}</text>
         </view>
         <view class='remarks'>
             <text class="l">订单备注：</text>
             <view class='r'>
-                <input placeholder="限50字以内" maxlength="50" bindinput="BindChange"/>
+                <input placeholder="限50字以内" maxlength="50" bindinput="BindChange" disabled="{{isPayFail}}" />
             </view>
         </view>
         <view class='total'> 共1件商品 合计：
@@ -60,7 +67,8 @@
     </view>
 </view>
 <view class='floattotal'>
-    <view class='buy-btn' wx:if="{{PayWay == 2}}" bindtap="ConfirmOrder">立即支付</view>
+    <view class='buy-btn' wx:if="{{PayWay == 2 && isPayFail}}" bindtap="ConfirmOrder">继续支付</view>
+    <view class='buy-btn' wx:if="{{PayWay == 2 && !isPayFail}}" bindtap="ConfirmOrder">立即支付</view>
     <view class='buy-btn' wx:if="{{PayWay == 1}}" bindtap="ConfirmOrder">提交订单</view>
     <view class='info'>
         <view>总计：

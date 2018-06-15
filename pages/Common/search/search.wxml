@@ -10,8 +10,10 @@
     </view>
     <view class='search-blank'></view>
 </view>
-<!-- 未找到符合条码的商品 -->
+
+<!-- 提示组件 -->
 <Dialog id="Dialog" bind:toastEvent="ToastEvent">
+    <!-- 未找到符合条码的商品 -->
     <view slot="content">
         <view class='errrocode'>
             <image src='http://www.kzj365.com/mini_program/images/errorcode.png'></image>
