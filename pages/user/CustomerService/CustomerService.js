@@ -11,7 +11,9 @@ Page({
         OrderList: [],
         pageNo: 1,
         isEnd: false,
-        DefaultImage: '' //默认底图
+        DefaultImage: '', //默认底图
+        RequestError:false,
+        isLoading:false
     },
 
     /**
@@ -49,6 +51,9 @@ Page({
         if (this.data.isEnd) return;
         this.GetOrderList();
     },
+    onRefresh: function () {
+      this.showLoading();
+    },
     //获取订单数据
     GetOrderList() {
         wx.showLoading({
@@ -62,15 +67,23 @@ Page({
             if (res.done) {
                 this.setData({
                     OrderList: this.data.OrderList.concat(res.result.orderList.list),
-                    isEnd: this.data.pageNo == res.result.orderList.totalPage
+                    isEnd: this.data.pageNo == res.result.orderList.totalPage,
+                    isLoading:true
                 });
             } else {
                 wx.showToast({
                     title: res.msg || '服务器出错,请重试',
                     icon: 'none'
                 });
+                this.setData({
+                    RequestError:true
+                })
             }
             wx.hideLoading();
+        }).catch(err=>{
+            this.setData({
+                RequestError:true
+            })
         })
     },
     //切换订单状态

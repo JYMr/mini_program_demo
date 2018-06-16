@@ -10,7 +10,9 @@ Page({
     data: {
         AddressList: [],
         isLoading: false,
-        ChooseMode: false
+        ChooseMode: false,
+        RequestError:false,
+        isLoading:false
     },
 
     /**
@@ -37,6 +39,9 @@ Page({
         this.AddressEdit = this.selectComponent('#AddressEdit');
         this.Dialog = this.selectComponent('#Dialog');
     },
+    onRefresh: function () {
+      this.getAddressData();
+    },
     //获取地址数据列表
     getAddressData() {
         wx.showLoading();
@@ -54,9 +59,16 @@ Page({
                     title: res.msg || '服务器出错,请重试',
                     icon: 'none'
                 });
+                this.setData({
+                    RequestError:true
+                })
             }
             wx.hideLoading();
-        });
+        }).catch(err=>{
+            this.setData({
+                RequestError:true
+            })
+        })
     },
     //新增地址
     AddFn() {

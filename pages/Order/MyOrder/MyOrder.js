@@ -13,7 +13,9 @@ Page({
         ListSize: 8,
         isEnd: false,
         LoadError: false,
-        DefaultImage: '' //默认底图
+        DefaultImage: '', //默认底图
+        RequestError:false,
+        isLoading:false
     },
 
     /**
@@ -54,6 +56,9 @@ Page({
         if (this.data.isEnd) return;
         this.GetOrderList();
     },
+    onRefresh: function () {
+      this.GetOrderList();
+    },
     //获取订单数据
     GetOrderList() {
         wx.showLoading({
@@ -66,7 +71,9 @@ Page({
             pageNo: this.data.pageNo
         }).then(res => {
             if (res.done) {
-
+                this.setData({
+                    isLoading:true
+                })
                 this.setData({
                     OrderList: this.data.OrderList.concat(res.result.orderList.list),
                     pageNo: res.result.orderList.nextPage,
@@ -82,7 +89,14 @@ Page({
                     title: res.msg || '服务器出错,请重试',
                     icon: 'none'
                 })
+                this.setData({
+                    RequestError:true
+                })
             }
+        }).catch(err=>{
+            this.setData({
+                RequestError:true
+            })
         })
     },
     //切换订单状态
@@ -263,7 +277,7 @@ Page({
         let _id = e.currentTarget.dataset.id;
         console.log('邀请参团 - id:' + _id);
         wx.navigateTo({
-            url: '/pages/GroupBuy/GroupBuyShare/GroupBuyShare?id' + _id
+            url: '/pages/GroupBuy/GroupBuyShare/GroupBuyShare?gid=' + _id
         })
     },
     //确认收货

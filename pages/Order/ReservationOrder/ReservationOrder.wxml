@@ -54,8 +54,11 @@
 </view>
 </block>
 <!-- 无订单状态 -->
-<view wx:if="{{OrderList.length == 0}}" class='empty'>暂无数据</view>
-
+<view wx:if="{{OrderList.length == 0 && !RequestError && isLoading}}" class='empty'>暂无数据</view>
+<view class="loaderror" wx:if="{{RequestError }}">
+  <view>页面加载失败</view>
+  <view>请检查网络后 <text class='reflash' bindtap='onRefresh'>重试</text></view>
+</view>
 <import src="/pages/Common/footer.wxml" />
 <template is="footer" wx:if="{{OrderList.length != 0 && isEnd}}" data="" />
 

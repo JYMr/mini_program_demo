@@ -17,7 +17,9 @@ Page({
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         hasUserInfo: false,
         timer: null,
-        DefaultImage: ''
+        DefaultImage: '',
+        RequestError:false,
+        isLoading:false
     },
 
     /**
@@ -75,20 +77,25 @@ Page({
     onPullDownRefresh: function() {
         this.GetCartList();
     },
-
+    onRefresh:function(){
+      this.GetCartList();
+    },
     //获取购物车数据
     GetCartList() {
         wx.showLoading({
             title: '加载数据中...',
             mask: true
         });
+
+
         cartController.getCartData({
             shopcart_type: 1
         }).then(res => {
             if (res.done) {
 
                 this.setData({
-                    CartList: res.result.shopCartApiList
+                    CartList: res.result.shopCartApiList,
+                    isLoading:true
                 })
 
                 //检查是否全选
@@ -102,7 +109,16 @@ Page({
                 },1)
                 
                 wx.hideLoading();
+            }else{
+                this.setData({
+                    RequestError: true
+                })
             }
+        })
+        .catch(err=>{
+            this.setData({
+                RequestError: true
+            })
         })
     },
     //处理优惠套餐

@@ -30,7 +30,6 @@
   <view class='item'>
     <navigator url="/pages/Order/ReservationOrder/ReservationOrder">
       <text class='prestand-icon'></text>我的预定
-      <!-- <text class='nums' wx:if="0"></text> -->
     </navigator>
   </view>
   <view class='item'>
@@ -42,7 +41,7 @@
       <text class='CustomerService-icon'></text>售后服务</navigator>
   </view>
   <view class='item'>
-    <view bindtap="Customer">
+    <view bindtap="OpenMenuCustomer">
       <text class='contact-icon'></text>联系客服
     </view>
   </view>

@@ -48,7 +48,7 @@
 					"id": 2,
 					"name": "GroupBuyDetail",
 					"pathName": "pages/GroupBuy/GroupBuyDetail/GroupBuyDetail",
-					"query": "id=66&gid=2"
+					"query": "id=70&gid=14"
 				},
 				{
 					"id": 3,
@@ -69,10 +69,10 @@
 					"query": "gid=2&id=66"
 				},
 				{
-					"id": -1,
+					"id": 6,
 					"name": "GroupBuyShare",
 					"pathName": "pages/GroupBuy/GroupBuyShare/GroupBuyShare",
-					"query": ""
+					"query": "gid=16"
 				},
 				{
 					"id": -1,
@@ -96,7 +96,7 @@
 					"id": 10,
 					"name": "MyOrder",
 					"pathName": "pages/Order/MyOrder/MyOrder",
-					"query": "status=-1"
+					"query": "gid=16"
 				},
 				{
 					"id": -1,

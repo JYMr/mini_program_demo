@@ -15,7 +15,11 @@ Page({
         pageNo: 1,
         pagesize: 8,
         isEnd: false,
-        DefaultImage: ''
+        DefaultImage: '',
+        RequestErrorList:false,
+        RequestErrorCategory:false,
+        RequestError:false,
+        isLoading:false
     },
 
     /**
@@ -70,6 +74,12 @@ Page({
         }
         this.GetListData()
     },
+    onRefreshList: function () {
+      this.GetListData();
+    },
+    onRefreshCategory: function () {
+      this.GetCategoryList();
+    },
     //获取搜索列表
     GetListData() {
 
@@ -87,12 +97,23 @@ Page({
                 this.setData({
                     contentlist: this.data.contentlist.concat(res.result.goodsList.list),
                     pageNo: res.result.goodsList.nextPage,
-                    isEnd: this.data.pageNo == res.result.goodsList.nextPage //判断是否为最后一页
+                    isEnd: this.data.pageNo == res.result.goodsList.nextPage, //判断是否为最后一页
+                    isLoading:true
                 })
                 wx.hideLoading();
             } else {
                 wx.hideLoading();
+                this.setData({
+                    RequestErrorList: true,
+                    RequestError:true
+                })
             }
+            
+        }).catch(err=>{
+            this.setData({
+                RequestErrorList: true,
+                RequestError:true
+            })
         })
     },
     //获取商品分类列表
@@ -112,7 +133,8 @@ Page({
                 this.setData({
                     contentlist: this.data.contentlist.concat(res.result.goodslist.list),
                     pageNo: res.result.goodslist.nextPage,
-                    isEnd: this.data.pageNo == res.result.goodslist.nextPage //判断是否为最后一页
+                    isEnd: this.data.pageNo == res.result.goodslist.nextPage, //判断是否为最后一页
+                    isLoading:true
                 })
 
                 //设置标题
@@ -122,7 +144,16 @@ Page({
                 wx.hideLoading();
             } else {
                 wx.hideLoading();
+                this.setData({
+                    RequestErrorCategory: true,
+                    RequestError:true
+                })
             }
+        }).catch(err=>{
+            this.setData({
+                RequestErrorCategory: true,
+                RequestError:true
+            })
         })
     },
     //处理搜索事件

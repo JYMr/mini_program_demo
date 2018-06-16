@@ -87,7 +87,7 @@
                     <text>剩余{{item.time || '99:59:59'}}</text>
                 </view>
                 <view class="item-link{{serviceTime >= item.unite_end_time/1000 ? ' disable' : ''}}" wx:if="{{hasUserInfo}}">
-                    <navigator url="/pages/GroupBuy/GroupBuyConfirm/GroupBuyConfirm?gid={{item.id}}" wx:if="{{serviceTime < item.unite_end_time / 1000}}">去参团</navigator>
+                    <navigator url="/pages/GroupBuy/GroupBuyConfirm/GroupBuyConfirm?id={{item.purchase_id}}&gid={{item.group_id}}" wx:if="{{serviceTime < item.unite_end_time / 1000}}">去参团</navigator>
                     <block wx:if="{{serviceTime >= item.unite_end_time / 1000}}">已结束
                     </block>
                 </view>
@@ -140,7 +140,7 @@
                 <text>单独购买</text>
             </navigator>
             <!-- 有用户权限 -->
-            <view class="btn{{isAllow ? '' : ' disabled'}}" wx:if="{{hasUserInfo || isAllow}}" data-disabled="{{isAllow}}" catchtap="ConfirmGroupOrder">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
+            <view class="btn{{isAllow ? '' : ' disabled'}}" wx:if="{{hasUserInfo && isAllow}}" data-disabled="{{isAllow}}" catchtap="ConfirmGroupOrder">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
                 <text>{{goodsinfo.people_number}}人开团</text>
             </view>
             <!-- 无用户权限 -->
@@ -166,7 +166,7 @@
                 <navigator class="btn btn-1" url="/pages/Goods/GoodsDetail/GoodsDetail?id={{goodsinfo.goods_id}}">￥{{Filter.toFixed(goodsinfo.goods_price)}}
                     <text>单独购买</text>
                 </navigator>
-                 <view class="btn disabled" wx:if="{{hasUserInfo}}" data-disabled="true" catchtap="ConfirmGroupOrder">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
+                 <view class="btn disabled" data-disabled="true" catchtap="ConfirmGroupOrder">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
                     <text>{{goodsinfo.people_number}}人开团</text>
                 </view>
             </block>

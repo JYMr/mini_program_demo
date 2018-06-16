@@ -44,7 +44,7 @@ class GroupBuyController {
      * @return {Promise}
      */
     getGroupBuyShare(params) {
-        return request.get(`${URI}/getGroupBuyShare`, params).then(res => res.data)
+        return request.get(`${URI}/api/getSharePurchaseGroup.shtml`, params).then(res => res.data)
     }
 
 }

@@ -1,6 +1,9 @@
 <!--pages/GroupBuy/GroupBuyShare/GroupBuyShare.wxml-->
+<!-- 引入过滤器 -->
+<wxs module="Filter" src="../../Common/filter/filter.wxs"></wxs>
+
 <view class="ShareTitle">
-	<text class="group-num">活动{{ShareData.GroupNumber}}人团</text>
+	<text class="group-num">活动{{ShareData.remain_number}}人团</text>
 	<view class="time">
 		<text>{{TimeOut.hours}}</text>:
 		<text>{{TimeOut.minute}}</text>:
@@ -10,46 +13,46 @@
 	<block wx:if="{{TimeOut.hours == 0 && TimeOut.minute == 0 && TimeOut.second == 0}}">已结束</block>
 </view>
 <view class='goods'>
-    <navigator hover-class='none' url="/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{ShareData.GoodsInfo.id}}&gid={{ShareData.id}}">
-        <image class='pic' src='http://kzjimg01.b0.upaiyun.com/1508118546272.jpg'></image>
-        <view class='name'>{{ShareData.GoodsInfo.title}}</view>
+    <navigator hover-class='none' url="/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{ShareData.purchase_id}}&gid={{ShareData.group_id}}">
+        <image class='pic' src='{{ShareData.goods_img}}'></image>
+        <view class='name'>{{ShareData.goods_title}}</view>
         <text class='price'>
         	<text>￥</text>
-            <text class='n'>{{ShareData.GoodsInfo.price}}</text>
+            <text class='n'>{{Filter.toFixed(ShareData.purchase_price)}}</text>
         </text>
-        <text class='attr'>/1{{ShareData.GoodsInfo.spec_type}}</text>
-        <text class='ctype'>省31.90元</text>
+        <text class='attr'>/1{{ShareData.goods_unit}}</text>
+        <text class='ctype'>省{{Filter.toFixed(ShareData.preferen_price)}}元</text>
     </navigator>
 </view>
 <view class="group-list">
 
 	<!-- 进行中 -->
-	<block wx:if="{{ShareData.status == 1}}">
+	<block wx:if="{{ShareData.unite_end_time > serviceTime}}">
 
 		<!-- 团主 -->
-		<view class="title" wx:if="{{ShareData.isGroupKing && (ShareData.GroupNumber - ShareData.GroupHasNumber > 0)}}">还差<text>{{ShareData.GroupNumber - ShareData.GroupHasNumber}}</text>人，即可满足拼团订单的条件</view>
-		<view class="title"  wx:if="{{ShareData.isGroupKing && ShareData.GroupNumber - ShareData.GroupHasNumber <= 0}}">拼团成功</view>
+		<view class="title" wx:if="{{ShareData.is_join == 1 && ShareData.remain_number > 0}}">还差<text>{{ShareData.remain_number}}</text>人，即可满足拼团订单的条件</view>
+		<view class="title"  wx:if="{{ShareData.is_join == 1 && ShareData.remain_number <= 0}}">拼团成功</view>
 
 		<!-- 非团主 -->
-		<view class="title"  wx:if="{{!ShareData.isGroupKing && ShareData.GroupNumber - ShareData.GroupHasNumber <= 0}}">客官来晚了，该团已满员</view>
+		<view class="title"  wx:if="{{!ShareData.is_join == 1 && ShareData.remain_number <= 0}}">客官来晚了，该团已满员</view>
 
-		<view class="title"  wx:if="{{!ShareData.isGroupKing && (ShareData.GroupNumber - ShareData.GroupHasNumber > 0)}}">还差<text>{{ShareData.GroupNumber - ShareData.GroupHasNumber}}</text>人，赶紧参团</view>
+		<view class="title"  wx:if="{{!ShareData.is_join == 1 && ShareData.remain_number > 0}}">还差<text>{{ShareData.remain_number}}</text>人，赶紧参团</view>
 
 	</block>
 
 	<!-- 已取消 -->
-	<block wx:if="{{ShareData.status == 0}}">
+	<block wx:if="{{ShareData.unite_end_time <= serviceTime}}">
 
 		<!-- 团主 -->
-		<view class="title" wx:if="{{ShareData.isGroupKing}}">已取消</view>
+		<view class="title" wx:if="{{ShareData.is_join == 1}}">已取消</view>
 
 		<!-- 非团主 -->
-		<view class="title" wx:if="{{!ShareData.isGroupKing}}">客官来晚了，该团已取消</view>
+		<view class="title" wx:if="{{!ShareData.is_join == 1}}">客官来晚了，该团已取消</view>
 	</block>
 
 	<view class="list">
-		<view class="list-item" wx:for="{{ShareData.ShareMenberList}}" wx:key="{{index}}">
-			<image src="{{item.avatar}}"></image>
+		<view class="list-item" wx:for="{{ShareData.headimgs}}" wx:key="{{index}}">
+			<image src="{{item}}"></image>
 		</view>
 	</view>
 </view>	
@@ -70,19 +73,19 @@
 <view class="Group-Fixed">
 
 	<!-- 进行中 -->
-	<block wx:if="{{ShareData.status == 1}}">
+	<block wx:if="{{ShareData.unite_end_time > serviceTime}}">
 
 		<!-- 团主 -->
-		<block wx:if="{{ShareData.isGroupKing && (ShareData.GroupNumber - ShareData.GroupHasNumber > 0)}}">
+		<block wx:if="{{ShareData.is_join == 1 && ShareData.remain_number > 0}}">
 			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
 				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
 				更多拼团
 			</navigator>
-			<button class="Group-btn{{status == 0 ? ' left': ''}}" open-type="share">
-				还差{{ShareData.GroupNumber - ShareData.GroupHasNumber}}人 去邀请好友参团
+			<button class="Group-btn left" open-type="share">
+				还差{{ShareData.remain_number}}人 去邀请好友参团
 			</button>
 		</block>
-		<block wx:if="{{ShareData.isGroupKing && (ShareData.GroupNumber - ShareData.GroupHasNumber <= 0)}}">
+		<block wx:if="{{ShareData.is_join == 1 && ShareData.remain_number <= 0}}">
 			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
 				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
 				更多拼团
@@ -93,7 +96,7 @@
 		</block>
 
 		<!-- 非团主 -->
-		<block wx:if="{{!ShareData.isGroupKing && ShareData.GroupNumber - ShareData.GroupHasNumber <= 0}}">
+		<block wx:if="{{!ShareData.is_join == 1 && ShareData.remain_number <= 0}}">
 			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
 				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
 				更多拼团
@@ -103,7 +106,7 @@
 			</navigator>
 		</block>
 
-		<block class="title"  wx:if="{{!ShareData.isGroupKing && (ShareData.GroupNumber - ShareData.GroupHasNumber > 0)}}">
+		<block class="title"  wx:if="{{!ShareData.is_join == 1 && ShareData.remain_number > 0}}">
 			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
 				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
 				更多拼团
@@ -116,7 +119,7 @@
 	</block>
 
 	<!-- 已取消 -->
-	<block wx:if="{{ShareData.status == 0}}">
+	<block wx:if="{{ShareData.unite_end_time <= serviceTime}}">
 
 		<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
 			<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>

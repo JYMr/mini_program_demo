@@ -8,7 +8,7 @@ App({
                 //session_key 未过期，并且在本生命周期一直有效
                 console.log('session_key 未过期')
                 this.GetParameter();
-                //wx.setStorageSync("token", "d33fd77a120206685a055babacf0c71c")
+                wx.setStorageSync("token", "1950b2eeb4857a286ab9e845be9e0bcf")
             },
             fail: ()=> {
                 // session_key 已经失效，需要重新执行登录流程
@@ -16,8 +16,8 @@ App({
                     success: res => {
                         // 发送 res.code 到后台换取 openId, sessionKey, unionId
                         wx.request({
-                            url: 'http://192.168.40.93:8080/api/userApiLogin.shtml',
-                            //url: 'http://1x7448h712.iok.la/api/userApiLogin.shtml',
+                            //url: 'http://192.168.40.93:8080/api/userApiLogin.shtml',
+                            url: 'http://1x7448h712.iok.la/api/userApiLogin.shtml',
                             method: 'POST',
                             data: {
                                 code: res.code

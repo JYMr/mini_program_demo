@@ -70,8 +70,8 @@ Page({
 
         //设置默认底图
         this.setData({
-            DefaultImage: app.globalData.goodsdefault
-            GoodsDefaulteImage: app.globalData.goodsdefault,
+            DefaultImage: app.globalData.goodsdefault,
+            GoodsDefaulteImage: app.globalData.goodsdefault
         });
 
         this.GetGroupDetailData();

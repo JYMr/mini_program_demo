@@ -6,7 +6,8 @@ Page({
      * 页面的初始数据
      */
     data: {
-        GroupId: '12312',
+        GroupId: '',
+        OrderId: '',
         TimeOut: {
             hours: '00',
             minute: '00',
@@ -33,10 +34,10 @@ Page({
             GroupHasNumber: 1,
             ShareUrl: '',
             ShareTitle: '1123123123',
-            serverTime: 1525920589,
             finishTime: 1525930425,
             isGroupKing: false
         },
+        serviceTime: ''
 
     },
 
@@ -44,10 +45,15 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        if (options.id) {
+        if (options.gid) {
             this.setData({
-                GroupId: options.id
-            })
+                GroupId: options.gid
+            });
+        }
+        if (options.orderid) {
+            this.setData({
+                OrderId: options.orderid
+            });
         }
         this.GetShaerData();
     },
@@ -73,14 +79,18 @@ Page({
             mask: true
         });
         GroupBuyController.getGroupBuyShare({
-            id: this.data.GroupId
+            group_id: this.data.GroupId,
+            order_id: this.data.OrderId
         }).then(res => {
-            if (res.status == 0) {
-                res.data = this.MakeDefaultData(res.data, res.data.GroupNumber)
+            if (res.done) {
+                //res.data = this.MakeDefaultData(res.data, res.data.GroupNumber)
                 this.setData({
-                    ShareData: res.data
-                })
+                    ShareData: res.result.prg,
+                    serviceTime: res.result.serviceTime
+                });
                 this.TimeOutFn();
+            }else{
+
             }
             wx.hideLoading();
 
@@ -91,18 +101,15 @@ Page({
         if (n > list.ShareMenberList.length) {
             let _Length = list.ShareMenberList.length
             for (let i = 0; i < n - _Length; i++) {
-                list.ShareMenberList.push({
-                    id: '',
-                    avatar: this.data.Default_avatar
-                })
+                list.ShareMenberList.push(this.data.Default_avatar)
             }
         }
         return list;
     },
     //拼团计时
     TimeOutFn() {
-        let FinishTime = this.data.ShareData.finishTime;
-        let ServerTime = this.data.ShareData.serverTime;
+        let FinishTime = Math.floor(this.data.ShareData.unite_end_time / 1000);
+        let ServerTime = Math.floor(this.data.serviceTime / 1000);
         let _TimeOut = this.data.TimeOut
         let _time = FinishTime - ServerTime
 

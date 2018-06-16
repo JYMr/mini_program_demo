@@ -51,5 +51,9 @@
         <text class='icon'></text>全选</text>
 </view>
 
-<view class="empty" wx:if="{{CartList.length == 0 }}">购物车暂无商品</view>
+<view class="empty" wx:if="{{CartList.length == 0 && !RequestError && isLoading}}">购物车暂无商品</view>
+<view class="loaderror" wx:if="{{RequestError}}">
+  <view>页面加载失败</view>
+  <view>请检查网络后 <text class='reflash' bindtap='onRefresh'>重试</text></view>
+</view>
 <Dialog id="Dialog"></Dialog>

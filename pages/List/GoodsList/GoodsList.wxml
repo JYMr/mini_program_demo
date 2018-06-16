@@ -25,7 +25,11 @@
         <view>{{refreshTime}}</view>
     </view>
 </block>
-<view wx:else class='empty'>暂无数据</view>
+<view wx:if='{{contentlist.length==0 && !RequestError && isLoading}}' class='empty'>暂无数据</view>
+<view class="loaderror" wx:if="{{(RequestError && RequestErrorList) || (RequestError && RequestErrorCategory)}}">
+  <view>页面加载失败</view>
+  <view>请检查网络后 <text class='reflash' wx:if='{{RequestErrorList}}' bindtap='onRefreshList'>重试</text><text class='reflash' wx:if='{{RequestErrorCategory}}' bindtap='onRefreshCategory'>重试</text></view>
+</view>
 <view class='footer-out' wx:if="{{contentlist.length != 0 && isEnd}}">
     <import hidden="{{hideBottom}}" src="/pages/Common/footer.wxml" />
     <template is="footer" data="" />

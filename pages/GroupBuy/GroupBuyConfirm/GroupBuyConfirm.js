@@ -13,7 +13,7 @@ Page({
         OrderData: {},
         OrderId: '',
         isPayFail: false,
-        PayFailTime: '30000',
+        PayFailTime: '180000',
         PayFailStartTime: '',
         TimeOut: {
             hours: '00',
@@ -24,7 +24,8 @@ Page({
         AddressId: '',
         ReMark: '',
         PayListStatus: false, //选择支付方式列表
-        DefaultImage: ''
+        DefaultImage: '',
+        userInfo: ''
     },
 
     /**
@@ -45,7 +46,8 @@ Page({
         //获取全局默认图片底图
         this.setData({
             DefaultImage: app.globalData.defaultImg,
-            cashStatus: app.globalData.cashStatus
+            cashStatus: app.globalData.cashStatus,
+            userInfo: app.globalData.userInfo
         });
         this.PayFailTime();
         this.GetOrderData();
@@ -231,7 +233,9 @@ Page({
             remark: this.data.ReMark,
             addrId: this.data.AddressId,
             payWay: this.data.PayWay,
-            orderPrice: this.data.OrderData.totalPrice
+            orderPrice: this.data.OrderData.totalPrice,
+            headimg: this.data.userInfo.avatarUrl,
+            nickname: this.data.userInfo.nickName
         }).then(res => {
             if (res.done) {
                 //设置返回的OrderId
@@ -255,7 +259,7 @@ Page({
                         //支付成功，跳转分享页
                         setTimeout(() => {
                             wx.navigateTo({
-                                url: 'pages/GroupBuy/GroupBuyShare/GroupBuyShare?orderid=' + this.data.OrderId
+                                url: '/pages/GroupBuy/GroupBuyShare/GroupBuyShare?orderid=' + this.data.OrderId
                             });
                         }, 1500);
                     },
@@ -279,7 +283,7 @@ Page({
                 });
             }
             wx.hideLoading();
-        })
+        });
     },
     //备注输入绑定
     BindChange(e) {

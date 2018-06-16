@@ -12,7 +12,9 @@ Page({
         ListNo: 1,
         ListSize: 8,
         isEnd: false,
-        DefaultImage: '' //默认底图
+        DefaultImage: '', //默认底图
+        RequestError:false,
+        isLoading:false
     },
 
     /**
@@ -49,6 +51,9 @@ Page({
         if (this.data.isEnd) return;
         this.GetOrderList();
     },
+    onRefresh: function () {
+      this.GetOrderList();
+    },
     //获取订单数据
     GetOrderList() {
         var that = this;
@@ -60,6 +65,9 @@ Page({
             needStatus: this.data.Status,
             pageNo: this.data.ListNo
         }).then(res => {
+            this.setData({
+                isLoading:true
+            })
             if (res.done) {
                 this.setData({
                     OrderList: this.data.OrderList.concat(res.result.needList.list),
@@ -67,12 +75,20 @@ Page({
                     isEnd: this.data.ListNo == res.result.needList.totalPage
                 })
             } else {
+                this.setData({
+                    RequestError:true
+                })
                 wx.showToast({
                     title: res.msg || '服务器错误',
                     icon: 'none'
                 })
             }
             wx.hideLoading();
+            
+        }).catch(err=>{
+            this.setData({
+                RequestError:true
+            })
         })
     },
     //重新加载数据
