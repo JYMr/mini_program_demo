@@ -32,7 +32,14 @@ Page({
         this.search = this.selectComponent("#search");
     },
     calling: function() {
-        app.calling()
+        app.calling();
+    },
+    //测试用
+    /**
+     * 页面相关事件处理函数--监听用户下拉动作
+     */
+    onPullDownRefresh: function() {
+        this.GetHomeData();
     },
     //导航菜单事件响应
     IndexCategroyTap(e) {
@@ -84,9 +91,11 @@ Page({
                 wx.showToast({
                     title: '服务器出错,请重试',
                     icon: 'none'
-                })
+                });
             }
-        })
+            //测试用
+            wx.stopPullDownRefresh();
+        });
     },
     ErrorImage(e) {
         app.errImg(e, this);

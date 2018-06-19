@@ -17,8 +17,10 @@ Page({
         //在线客服开启状态
         this.setData({
             isOpenCustomerService: app.globalData.isOpenCustomerService
-        })
+        });
 
+    },
+    onShow(){
         this.GetOrderNum();
     },
     onReady() {
@@ -27,16 +29,17 @@ Page({
     //获取订单数量
     GetOrderNum() {
         wx.showLoading({
-            mask: true
+            mask: true,
+            title: '加载订单数据中...'
         });
         userController.getUserData().then(res => {
             if (res.done) {
                 this.setData({
                     OrderNum: res.result
-                })
+                });
             }
             wx.hideLoading();
-        })
+        });
     },
     //开启客服菜单
     OpenMenuCustomer() {

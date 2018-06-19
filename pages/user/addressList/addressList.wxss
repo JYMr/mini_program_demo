@@ -10,8 +10,8 @@
 .addressBottonGroup{padding: 0 30rpx;overflow: hidden;}
 .addressDefault{padding: 18rpx 0;float: left;color: #555}
 .addressDefault text{line-height: 36rpx;margin: 18rpx 0;}
-.addressDefault .addressDefaultIcon{width: 36rpx; height: 36rpx;vertical-align: bottom;margin-right: 20rpx;display: inline-block;
-	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAV1BMVEUAAADd3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3////v7+/39/fq6urk5OTz8/Px8fHf39+2OgBSAAAAFHRSTlMAxvqbaUQhFQkCWezY18/MpKbtWm8WARwAAADvSURBVDjLjdRRkoMgEEXRRpEIKmLmEceZ7H+dSSxEIiDeLz9OFVrSTWGCm7Grqm40XFAyqRiCmJKxaQYcGpoDaWskqtvQ3EYkG2+B6ZGp96plyMa2E2ucVLvvwmnrN8rhHA3yjRTSPf7cg3ojljHWOsWIRNZ4JYjnjX1gjZOBa1kyBob0Zqxd0gaaOm+cigzuVGFttk5t5he+akNPr/692VGHbxUb3N2L7yfGBpom7CptYIgjUEkDTgKhShmIww+eE4ZFV2WODNTFS1e+vtcHoTxS5eG8PublhbHX9NFRTXmJ/UhKJvikP+tQT9/r8AWEQU9jV9L2vQAAAABJRU5ErkJggg==) center center no-repeat;background-size: 36rpx;}
+.addressDefault .addressDefaultIcon{width: 36rpx; height: 36rpx;margin-right: 20rpx;display: inline-block;
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAV1BMVEUAAADd3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3////v7+/39/fq6urk5OTz8/Px8fHf39+2OgBSAAAAFHRSTlMAxvqbaUQhFQkCWezY18/MpKbtWm8WARwAAADvSURBVDjLjdRRkoMgEEXRRpEIKmLmEceZ7H+dSSxEIiDeLz9OFVrSTWGCm7Grqm40XFAyqRiCmJKxaQYcGpoDaWskqtvQ3EYkG2+B6ZGp96plyMa2E2ucVLvvwmnrN8rhHA3yjRTSPf7cg3ojljHWOsWIRNZ4JYjnjX1gjZOBa1kyBob0Zqxd0gaaOm+cigzuVGFttk5t5he+akNPr/692VGHbxUb3N2L7yfGBpom7CptYIgjUEkDTgKhShmIww+eE4ZFV2WODNTFS1e+vtcHoTxS5eG8PublhbHX9NFRTXmJ/UhKJvikP+tQT9/r8AWEQU9jV9L2vQAAAABJRU5ErkJggg==) center center no-repeat;background-size: 36rpx; vertical-align: middle;}
 
 .addressButton{float: right;height: 72rpx;width: auto;}
 .addressButton-item{height: 72rpx;float: left;margin-left: 40rpx;}

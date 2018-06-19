@@ -20,13 +20,13 @@ Page({
         if (options.id) {
             this.setData({
                 OrderId: options.id
-            })
+            });
         }
 
         if (options.status) {
             this.setData({
                 Status: options.status
-            })
+            });
         }
 
         this.GetOrderData();
@@ -34,7 +34,7 @@ Page({
         //获取全局默认图片底图
         this.setData({
             DefaultImage: app.globalData.defaultImg
-        })
+        });
     },
 
     /**
@@ -65,10 +65,10 @@ Page({
             if (res.done) {
                 this.setData({
                     OrderData: res.result.orderInfo
-                })
+                });
             }
             wx.hideLoading();
-        })
+        });
     },
     //获取售后订单详细数据
     GetAfterSalesInfo() {
@@ -85,7 +85,7 @@ Page({
                 })
             }
             wx.hideLoading();
-        })
+        });
     },
     //取消订单
     CancelOrder(e) {
@@ -117,7 +117,7 @@ Page({
                             setTimeout(() => {
                                 //等待动画
                                 this.GetOrderData();
-                            }, 1500)
+                            }, 1500);
                         } else {
                             this.Dialog.ShowDialog({
                                 title: res.msg || '取消失败，请重试!',
@@ -126,9 +126,10 @@ Page({
                             });
                         }
                         wx.hideLoading();
-                    })
+                    });
+                } else {
+                    this.Dialog.CloseDialog();
                 }
-                this.Dialog.CloseDialog();
             }
         })
     },
@@ -175,19 +176,21 @@ Page({
                     this.Dialog.CloseDialog();
                 }
             })
-        }else{
+        } else {
             this.Dialog.ShowDialog({
                 title: '暂无单号信息',
                 type: 'Message',
                 messageType: 'fail'
-            })
+            });
         }
     },
     //申请售后
     CustomerService(e) {
         let _code = e.currentTarget.dataset.code;
         let disabledStatus = e.currentTarget.dataset.disabled;
+        //判断是否已经申请过售后
         if (!disabledStatus) {
+            //显示售后表单弹窗
             this.CustomerServiceComponent.Show({
                 code: _code
             });
@@ -210,6 +213,8 @@ Page({
         let _reason = e.detail.reason;
         let _name = e.detail.name;
         let _mobile = e.detail.mobile;
+
+        //关闭售后表单弹窗
         this.CustomerServiceComponent.Close();
 
         //请求
@@ -242,25 +247,43 @@ Page({
                 });
             }
             wx.hideLoading();
-        })
+        });
     },
     //再次购买
     BuyingAgain(e) {
         let _id = this.data.OrderId;
-        console.log('再次购买 - id:' + _id);
+        orderController.OrderBuyAgain({
+            orderId: _id
+        }).then(res => {
+            if (res.done) {
+                this.Dialog.ShowDialog({
+                    title: '已经成功添加至购物车!',
+                    type: 'Message'
+                });
+                setTimeout(() => {
+                    wx.switchTab({
+                        url: '/pages/Cart/Cart'
+                    });
+                }, 1500);
+            } else {
+                this.Dialog.ShowDialog({
+                    title: res.msg || '添加购物车失败，请重试!',
+                    type: 'Message',
+                    messageType: 'fail'
+                });
+            }
+        });
     },
     //邀请参团
     InviteJoin(e) {
         let _id = this.data.OrderId;
-        console.log('邀请参团 - id:' + _id);
         wx.navigateTo({
             url: '/pages/GroupBuy/GroupBuyShare/GroupBuyShare?id' + _id
-        })
+        });
     },
     //确认收货
     ConfirmOrder(e) {
         let _id = this.data.OrderId;
-        console.log('确认收货 - id:' + _id);
         //确认弹窗
         this.Dialog.ShowDialog({
             title: '亲，已经收到货了么？',
@@ -271,7 +294,6 @@ Page({
             ],
             callback: res => {
                 if (res.name == 'yes') {
-                    console.log('确认收货');
                     //请求
                     wx.showLoading({
                         title: '提交中...',
@@ -289,7 +311,7 @@ Page({
                             setTimeout(() => {
                                 //等待动画
                                 this.GetOrderData();
-                            }, 1500)
+                            }, 1500);
                         } else {
                             this.Dialog.ShowDialog({
                                 title: res.msg || '确认收货失败，请重试!',
@@ -299,15 +321,59 @@ Page({
                         }
                         wx.hideLoading();
                     })
+                } else {
+                    this.Dialog.CloseDialog();
                 }
-                this.Dialog.CloseDialog();
             }
         })
     },
     //支付
     PayToOrder(e) {
         let _id = this.data.OrderId;
-        console.log('支付 - id:' + _id);
+        wx.showLoading({
+            title: '请求支付中...',
+            mask: true
+        });
+        orderController.getPayMent({
+            orderId: _id
+        }).then(res => {
+            if (res.done) {
+                wx.requestPayment({
+                    timeStamp: res.result.timeStamp,
+                    nonceStr: res.result.nonceStr,
+                    package: res.result.package,
+                    signType: res.result.signType,
+                    paySign: res.result.paySign,
+                    success: res => {
+                        this.Dialog.ShowDialog({
+                            title: '支付成功!',
+                            type: 'Message'
+                        });
+                        wx.hideLoading();
+                        setTimeout(() => {
+                            wx.navigateTo({
+                                url: '/pages/Order/MyOrderDetail/MyOrderDetail?status=0&id=' + _id
+                            });
+                        }, 1500);
+                    },
+                    fail: res => {
+                        wx.hideLoading();
+                        if (res.errMsg.indexOf('cancel') >= 0) {
+                            this.Dialog.ShowDialog({
+                                title: '支付已取消!',
+                                type: 'Message',
+                                messageType: 'fail'
+                            });
+                        } else {
+                            wx.showToast({
+                                title: res.errMsg,
+                                icon: 'none'
+                            });
+                        }
+                    }
+                })
+            }
+        });
     },
     //删除订单
     DeleteOrder(e) {
@@ -340,7 +406,7 @@ Page({
                             setTimeout(() => {
                                 //等待动画
                                 wx.navigateBack();
-                            }, 1500)
+                            }, 1500);
                         } else {
                             this.Dialog.ShowDialog({
                                 title: res.msg || '删除订单失败，请重试!',
@@ -349,8 +415,10 @@ Page({
                             });
                         }
                         wx.hideLoading();
-                    })
+                    });
 
+                } else {
+                    this.Dialog.CloseDialog();
                 }
             }
         })

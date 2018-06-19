@@ -79,6 +79,6 @@
 </view>
 
 <!-- 地址编辑弹窗 -->
-<AddressEdit id="AddressEdit" bind:EditEvent="HandleEditEvent"></AddressEdit>
+<AddressEdit id="AddressEdit" bind:EditEvent="AddAddress"></AddressEdit>
 <!-- 提示组件 -->
 <Dialog id="Dialog"></Dialog>

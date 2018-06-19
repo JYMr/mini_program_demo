@@ -13,8 +13,8 @@ Page({
         ListSize: 8,
         isEnd: false,
         DefaultImage: '', //默认底图
-        RequestError:false,
-        isLoading:false
+        RequestError: false,
+        isLoading: false
     },
 
     /**
@@ -51,8 +51,8 @@ Page({
         if (this.data.isEnd) return;
         this.GetOrderList();
     },
-    onRefresh: function () {
-      this.GetOrderList();
+    onRefresh: function() {
+        this.GetOrderList();
     },
     //获取订单数据
     GetOrderList() {
@@ -65,18 +65,17 @@ Page({
             needStatus: this.data.Status,
             pageNo: this.data.ListNo
         }).then(res => {
-            this.setData({
-                isLoading:true
-            })
             if (res.done) {
                 this.setData({
                     OrderList: this.data.OrderList.concat(res.result.needList.list),
                     ListNo: res.result.needList.nextPage,
-                    isEnd: this.data.ListNo == res.result.needList.totalPage
+                    isEnd: this.data.ListNo == res.result.needList.totalPage,
+                    RequestError: false,
+                    isLoading: true
                 })
             } else {
                 this.setData({
-                    RequestError:true
+                    RequestError: true
                 })
                 wx.showToast({
                     title: res.msg || '服务器错误',
@@ -84,10 +83,10 @@ Page({
                 })
             }
             wx.hideLoading();
-            
-        }).catch(err=>{
+
+        }).catch(err => {
             this.setData({
-                RequestError:true
+                RequestError: true
             })
         })
     },
@@ -157,7 +156,27 @@ Page({
     //重新提交
     AgainReservation(e) {
         let _id = e.currentTarget.dataset.id;
-        console.log('重新提交 - id:' + _id);
+        reservationController.NeedBuyAgain({
+            needId: _id
+        }).then(res => {
+            if (res.done) {
+                this.Dialog.ShowDialog({
+                    title: '已经成功添加至预定清单!',
+                    type: 'Message'
+                });
+                setTimeout(() => {
+                    wx.navigateTo({
+                        url: '/pages/Goods/Reservation/Reservation'
+                    });
+                }, 1500);
+            } else {
+                this.Dialog.ShowDialog({
+                    title: res.msg || '添加预定清单失败，请重试!',
+                    type: 'Message',
+                    messageType: 'fail'
+                });
+            }
+        });
     },
     //删除预定
     DeleteReservation(e) {

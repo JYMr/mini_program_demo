@@ -14,8 +14,8 @@ Page({
         isEnd: false,
         LoadError: false,
         DefaultImage: '', //默认底图
-        RequestError:false,
-        isLoading:false
+        RequestError: false,
+        isLoading: false
     },
 
     /**
@@ -25,11 +25,11 @@ Page({
         if (options.status) {
             this.setData({
                 Status: options.status
-            })
+            });
         }
         this.setData({
             DefaultImage: app.globalData.defaultImg
-        })
+        });
         this.GetOrderList();
     },
     /**
@@ -47,17 +47,17 @@ Page({
         this.GetOrderList();
         this.setData({
             pageNo: 1
-        })
+        });
     },
     /**
      * 页面上拉触底事件的处理函数
      */
     onReachBottom() {
         if (this.data.isEnd) return;
-        this.GetOrderList();
+        this.ReloadOrderData();
     },
-    onRefresh: function () {
-      this.GetOrderList();
+    onRefresh: function() {
+        this.ReloadOrderData();
     },
     //获取订单数据
     GetOrderList() {
@@ -71,32 +71,32 @@ Page({
             pageNo: this.data.pageNo
         }).then(res => {
             if (res.done) {
-                this.setData({
-                    isLoading:true
-                })
+
                 this.setData({
                     OrderList: this.data.OrderList.concat(res.result.orderList.list),
                     pageNo: res.result.orderList.nextPage,
-                    isEnd: res.result.orderList.totalPage == this.data.pageNo
-                })
+                    isEnd: res.result.orderList.totalPage == this.data.pageNo,
+                    RequestError: false,
+                    isLoading: true
+                });
 
                 setTimeout(function() {
                     wx.stopPullDownRefresh();
-                }, 1)
+                }, 1);
                 wx.hideLoading();
             } else {
                 wx.showToast({
                     title: res.msg || '服务器出错,请重试',
                     icon: 'none'
-                })
+                });
                 this.setData({
-                    RequestError:true
-                })
+                    RequestError: true
+                });
             }
-        }).catch(err=>{
+        }).catch(err => {
             this.setData({
-                RequestError:true
-            })
+                RequestError: true
+            });
         })
     },
     //切换订单状态
@@ -106,7 +106,7 @@ Page({
             Status: _Status,
             pageNo: 1,
             OrderList: []
-        })
+        });
         this.GetOrderList();
     },
     //取消订单
@@ -149,8 +149,9 @@ Page({
                         }
                         wx.hideLoading();
                     })
+                } else {
+                    this.Dialog.CloseDialog();
                 }
-                this.Dialog.CloseDialog();
             }
         })
     },
@@ -210,7 +211,9 @@ Page({
     CustomerService(e) {
         let _code = e.currentTarget.dataset.code;
         let disabledStatus = e.currentTarget.dataset.disabled;
+        //判断是否已经申请过售后
         if (!disabledStatus) {
+            //显示售后表单弹窗
             this.CustomerServiceComponent.Show({
                 code: _code
             });
@@ -233,6 +236,8 @@ Page({
         let _reason = e.detail.reason;
         let _name = e.detail.name;
         let _mobile = e.detail.mobile;
+
+        //关闭售后表单弹窗
         this.CustomerServiceComponent.Close();
 
         //请求
@@ -256,7 +261,7 @@ Page({
                 setTimeout(() => {
                     //等待动画
                     this.ReloadOrderData();
-                }, 1500)
+                }, 1500);
             } else {
                 this.Dialog.ShowDialog({
                     title: res.msg || '申请售后失败，请重试!',
@@ -265,25 +270,43 @@ Page({
                 });
             }
             wx.hideLoading();
-        })
+        });
     },
     //再次购买
     BuyingAgain(e) {
         let _id = e.currentTarget.dataset.id;
-        console.log('再次购买 - id:' + _id);
+        orderController.OrderBuyAgain({
+            orderId: _id
+        }).then(res => {
+            if (res.done) {
+                this.Dialog.ShowDialog({
+                    title: '已经成功添加至购物车!',
+                    type: 'Message'
+                });
+                setTimeout(() => {
+                    wx.switchTab({
+                        url: '/pages/Cart/Cart'
+                    });
+                }, 1500);
+            } else {
+                this.Dialog.ShowDialog({
+                    title: res.msg || '添加购物车失败，请重试!',
+                    type: 'Message',
+                    messageType: 'fail'
+                });
+            }
+        });
     },
     //邀请参团
     InviteJoin(e) {
         let _id = e.currentTarget.dataset.id;
-        console.log('邀请参团 - id:' + _id);
         wx.navigateTo({
             url: '/pages/GroupBuy/GroupBuyShare/GroupBuyShare?gid=' + _id
-        })
+        });
     },
     //确认收货
     ConfirmOrder(e) {
         let _id = e.currentTarget.dataset.id;
-        console.log('确认收货 - id:' + _id);
         //确认弹窗
         this.Dialog.ShowDialog({
             title: '亲，已经收到货了么？',
@@ -294,7 +317,6 @@ Page({
             ],
             callback: res => {
                 if (res.name == 'yes') {
-                    console.log('确认收货');
                     //请求
                     wx.showLoading({
                         title: '提交中...',
@@ -312,7 +334,7 @@ Page({
                             setTimeout(() => {
                                 //等待动画
                                 this.ReloadOrderData();
-                            }, 1500)
+                            }, 1500);
                         } else {
                             this.Dialog.ShowDialog({
                                 title: res.msg || '确认收货失败，请重试!',
@@ -322,8 +344,9 @@ Page({
                         }
                         wx.hideLoading();
                     })
+                } else {
+                    this.Dialog.CloseDialog();
                 }
-                this.Dialog.CloseDialog();
             }
         })
     },
@@ -353,8 +376,8 @@ Page({
                         setTimeout(() => {
                             wx.navigateTo({
                                 url: '/pages/Order/MyOrderDetail/MyOrderDetail?status=0&id=' + _id
-                            })
-                        }, 1500)
+                            });
+                        }, 1500);
                     },
                     fail: res => {
                         wx.hideLoading();
@@ -368,7 +391,7 @@ Page({
                             wx.showToast({
                                 title: res.errMsg,
                                 icon: 'none'
-                            })
+                            });
                         }
                     }
                 })
@@ -406,7 +429,7 @@ Page({
                             setTimeout(() => {
                                 //等待动画
                                 this.ReloadOrderData();
-                            }, 1500)
+                            }, 1500);
                         } else {
                             this.Dialog.ShowDialog({
                                 title: res.msg || '删除订单失败，请重试!',
@@ -415,8 +438,10 @@ Page({
                             });
                         }
                         wx.hideLoading();
-                    })
+                    });
 
+                } else {
+                    this.Dialog.CloseDialog();
                 }
             }
         })
@@ -431,7 +456,7 @@ Page({
         this.setData({
             OrderList: [],
             pageNo: 1
-        })
+        });
         this.GetOrderList();
     },
     ErrorImage(e) {

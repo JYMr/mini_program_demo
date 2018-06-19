@@ -12,7 +12,7 @@
 .addaddress .info .c{ color: #888; position: relative; font-size: 26rpx;}
 .addaddress .info .c::after{ content: ''; width: 25rpx; height: 30rpx; margin-right: 10rpx; background: url(http://www.kzj365.com/mini_program/images/adressicon2.png) no-repeat center center; background-size: 100%; display: inline-block; position: absolute; top:10rpx;  left:-35rpx; margin: auto; z-index: 100;}
 
-.addaddress{ overflow: hidden;margin-bottom: 20rpx;}
+.addaddress{ overflow: hidden;margin-bottom: 20rpx; background: #fff;}
 .addaddress .add{font-size: 30rpx;line-height: 90rpx;position: relative;height: 90rpx; padding: 36rpx 30rpx;color: #222;background: url(http://www.kzj365.com/mini_program/images/adressbg.png) no-repeat center bottom;background-size: 100%;}
 .addaddress .add .icon{ float: left;width: 90rpx;height: 90rpx;margin-right: 30rpx;  border-radius: 20rpx;background: url(http://www.kzj365.com/mini_program/images/addadressicon.png) no-repeat center center #37c4a4;background-size: 100%;}
 .addaddress .add::after{position: absolute;z-index: 100;top: 0;right: 40rpx;bottom: 0;display: inline-block;width: 14rpx;height: 24rpx;margin: auto;margin-right: 10rpx; content: '';background: url(http://www.kzj365.com/mini_program/images/ciricon.png) no-repeat center center;background-size: 100% 100%;}

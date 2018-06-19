@@ -18,8 +18,8 @@ Page({
         hasUserInfo: false,
         timer: null,
         DefaultImage: '',
-        RequestError:false,
-        isLoading:false
+        RequestError: false,
+        isLoading: false
     },
 
     /**
@@ -47,14 +47,14 @@ Page({
                     this.setData({
                         userInfo: res.userInfo,
                         hasUserInfo: true
-                    })
+                    });
                 }
             })
         }
 
         this.setData({
             DefaultImage: app.globalData.defaultImg
-        })
+        });
     },
 
     /**
@@ -65,28 +65,20 @@ Page({
     },
 
     /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function() {
-
-    },
-
-    /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
     onPullDownRefresh: function() {
-        this.GetCartList();
-    },
-    onRefresh:function(){
-      this.GetCartList();
+        this.GetCartList(false);
     },
     //获取购物车数据
-    GetCartList() {
-        wx.showLoading({
-            title: '加载数据中...',
-            mask: true
-        });
+    GetCartList(flag) {
 
+        if (flag !== false) {
+            wx.showLoading({
+                title: '加载数据中...',
+                mask: true
+            });
+        }
 
         cartController.getCartData({
             shopcart_type: 1
@@ -95,7 +87,8 @@ Page({
 
                 this.setData({
                     CartList: res.result.shopCartApiList,
-                    isLoading:true
+                    isLoading: true,
+                    RequestError: false
                 })
 
                 //检查是否全选
@@ -104,22 +97,21 @@ Page({
                 //this.handleGroup();
                 //统计
                 this.ListTotal();
-                setTimeout(function(){
-                  wx.stopPullDownRefresh();
-                },1)
-                
-                wx.hideLoading();
-            }else{
+
+            } else {
                 this.setData({
                     RequestError: true
-                })
+                });
             }
-        })
-        .catch(err=>{
+            wx.hideLoading();
+            wx.stopPullDownRefresh();
+        }).catch(err => {
             this.setData({
                 RequestError: true
-            })
-        })
+            });
+
+            wx.stopPullDownRefresh();
+        });
     },
     //处理优惠套餐
     handleGroup() {

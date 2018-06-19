@@ -52,7 +52,8 @@ Page({
             if (res.done) {
                 this.setData({
                     AddressList: res.result.list,
-                    isLoading: false
+                    isLoading: false,
+                    RequestError:false
                 });
             } else {
                 wx.showToast({

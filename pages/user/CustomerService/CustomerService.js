@@ -68,7 +68,8 @@ Page({
                 this.setData({
                     OrderList: this.data.OrderList.concat(res.result.orderList.list),
                     isEnd: this.data.pageNo == res.result.orderList.totalPage,
-                    isLoading:true
+                    isLoading:true,
+                    RequestError:false
                 });
             } else {
                 wx.showToast({

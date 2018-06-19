@@ -16,10 +16,10 @@ Page({
         pagesize: 8,
         isEnd: false,
         DefaultImage: '',
-        RequestErrorList:false,
-        RequestErrorCategory:false,
-        RequestError:false,
-        isLoading:false
+        RequestErrorList: false,
+        RequestErrorCategory: false,
+        RequestError: false,
+        isLoading: false
     },
 
     /**
@@ -52,14 +52,6 @@ Page({
     onReady: function() {
         this.search = this.selectComponent("#search");
     },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function() {
-
-    },
-
     /**
      * 页面上拉触底事件的处理函数
      */
@@ -74,11 +66,11 @@ Page({
         }
         this.GetListData()
     },
-    onRefreshList: function () {
-      this.GetListData();
+    onRefreshList: function() {
+        this.GetListData();
     },
-    onRefreshCategory: function () {
-      this.GetCategoryList();
+    onRefreshCategory: function() {
+        this.GetCategoryList();
     },
     //获取搜索列表
     GetListData() {
@@ -93,26 +85,27 @@ Page({
             pageNo: this.data.pageNo,
             pageSize: this.data.pagesize
         }).then(res => {
+            this.setData({
+                isLoading: true,
+                RequestError: false
+            })
             if (res.done) {
                 this.setData({
                     contentlist: this.data.contentlist.concat(res.result.goodsList.list),
                     pageNo: res.result.goodsList.nextPage,
-                    isEnd: this.data.pageNo == res.result.goodsList.nextPage, //判断是否为最后一页
-                    isLoading:true
+                    isEnd: this.data.pageNo == res.result.goodsList.nextPage //判断是否为最后一页
+
                 })
                 wx.hideLoading();
             } else {
                 wx.hideLoading();
-                this.setData({
-                    RequestErrorList: true,
-                    RequestError:true
-                })
+
             }
-            
-        }).catch(err=>{
+
+        }).catch(err => {
             this.setData({
                 RequestErrorList: true,
-                RequestError:true
+                RequestError: true
             })
         })
     },
@@ -129,12 +122,17 @@ Page({
             pageNo: this.data.pageNo,
             pageSize: this.data.pagesize
         }).then(res => {
+            this.setData({
+                isLoading: true,
+                RequestError: false
+            })
+
             if (res.done) {
                 this.setData({
                     contentlist: this.data.contentlist.concat(res.result.goodslist.list),
                     pageNo: res.result.goodslist.nextPage,
-                    isEnd: this.data.pageNo == res.result.goodslist.nextPage, //判断是否为最后一页
-                    isLoading:true
+                    isEnd: this.data.pageNo == res.result.goodslist.nextPage //判断是否为最后一页
+
                 })
 
                 //设置标题
@@ -144,15 +142,12 @@ Page({
                 wx.hideLoading();
             } else {
                 wx.hideLoading();
-                this.setData({
-                    RequestErrorCategory: true,
-                    RequestError:true
-                })
+
             }
-        }).catch(err=>{
+        }).catch(err => {
             this.setData({
                 RequestErrorCategory: true,
-                RequestError:true
+                RequestError: true
             })
         })
     },

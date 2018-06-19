@@ -15,6 +15,7 @@ Page({
         isPayFail: false,
         PayFailTime: '180000',
         PayFailStartTime: '',
+        PayTimeout: '',
         TimeOut: {
             hours: '00',
             minute: '00',
@@ -46,10 +47,10 @@ Page({
         //获取全局默认图片底图
         this.setData({
             DefaultImage: app.globalData.defaultImg,
-            cashStatus: app.globalData.cashStatus,
+            // cashStatus: app.globalData.cashStatus,
             userInfo: app.globalData.userInfo
         });
-        this.PayFailTime();
+        
         this.GetOrderData();
     },
 
@@ -100,7 +101,7 @@ Page({
     //查询选择地址数据
     GetAddress() {
         wx.showLoading({
-            title: '加载数据中...',
+            title: '加载地址数据中...',
             mask: true
         });
 
@@ -139,11 +140,12 @@ Page({
     },
     //添加地址
     AddAddress(e) {
-        let id = e.detail.id;
+        let id = e.detail.addr_id;
         if (id != undefined) {
             this.setData({
                 AddressId: id
             });
+            this.AddressEdit.CloseEdit();
             this.GetAddress();
         }
     },
@@ -196,10 +198,13 @@ Page({
                                 type: 'Message'
                             });
                             wx.hideLoading();
+                            //取消倒计时
+                            clearInterval(this.data.PayTimeout);
+                            //跳转分享页
                             setTimeout(() => {
-                                wx.navigateTo({
-                                    url: '/pages/Order/MyOrderDetail/MyOrderDetail?status=0&id=' + _id
-                                })
+                                wx.redirectTo({
+                                    url: '/pages/GroupBuy/GroupBuyShare/GroupBuyShare?orderid=' + this.data.OrderId
+                                });
                             }, 1500)
                         },
                         fail: res => {
@@ -258,7 +263,7 @@ Page({
                         });
                         //支付成功，跳转分享页
                         setTimeout(() => {
-                            wx.navigateTo({
+                            wx.redirectTo({
                                 url: '/pages/GroupBuy/GroupBuyShare/GroupBuyShare?orderid=' + this.data.OrderId
                             });
                         }, 1500);
@@ -336,6 +341,9 @@ Page({
                 }
             });
         }, 10);
+        this.setData({
+            PayTimeout: time
+        });
 
     },
     ErrorImage(e) {

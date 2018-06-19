@@ -9,3 +9,6 @@ page{ font-family: 'Helvetica Neue',Verdana,Helvetica,Arial,'Microsoft Yahei','H
 
 .empty{font-size: 30rpx;line-height: 1;position: fixed;top: 50%;width: 100%;min-height: 400rpx;transform: translate(0, -50%); text-align: center;color: #ddd;}
 .empty::before{display: block;width: 222rpx;height: 259rpx;margin: 0 auto 30rpx; content: '';background: url(http://www.kzj365.com/mini_program/images/emptyList_icon.png) no-repeat center center;background-size: 100%;}
+
+.loaderror{font-size: 30rpx;position: fixed;top: 50%;width: 100%;min-height: 100rpx;transform: translate(0, -50%); text-align: center;color: #666; line-height: 1.5;}
+.loaderror .reflash{ color: #ff5c58;}

@@ -94,7 +94,13 @@
             <view class='control'>
                 <text class='cancel-btn' data-id="{{OrderItem.orderId}}" catchtap="DeleteOrder">删除订单</text>
                 <text class='cancel-btn{{OrderItem.orderAfterStatus == 1 ? " disabled" : ""}}' data-code="{{OrderItem.orderCode}}" data-disabled="{{OrderItem.orderAfterStatus == 1}}" catchtap="CustomerService">申请售后</text>
-                <text class='cancel-btn' data-id="{{OrderItem.orderId}}" catchtap="BuyingAgain">再次购买</text>
+                <block wx:if="{{OrderItem.orderType == 1}}">
+                    <!-- 普通订单 -->
+                    <text class='cancel-btn' data-id="{{OrderItem.orderId}}" catchtap="BuyingAgain">再次购买</text>
+                </block>
+                <block wx:else>
+                    <navigator class='cancel-btn' url="/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{OrderItem.purchase_id}}">重新开团</navigator>
+                </block>
             </view>
         </block>
     </navigator>

@@ -26,7 +26,7 @@
 <view class='goodsinfo' wx:if="{{goodsinfo.goodsId}}">
     <button class='share' open-type="share"></button>
     <view class='name'>
-        <template is="TypeIcon" data="{{type: goodsinfo.goodsType}}" />{{goodsinfo.goodsTitle}}
+        <template is="TypeIcon" data="{{type: goodsinfo.goodsType}}" />{{goodsinfo.goodsTitle}} {{goodsinfo.goodsSpec}}
     </view>
     <view class='price-item'>
         <text class='price'>
@@ -164,9 +164,9 @@
         <view class='grid' wx:if="{{goodsinfo.goodsType != 0}}">
             <view class='t'>数量</view>
             <view class='control'>
-                <view class='mins{{num <= 1 ? " disabled":""}}' bindtap="bindMinus" hover-class="hover">-</view>
+                <view class='mins{{num <= 1 ? " disabled":""}}' bindtap="bindMinus" hover-class="hover"></view>
                 <input type='number' class='nums' bindchange="bindManual" value="{{num}}"></input>
-                <view class='plus{{num >= goodsinfo.stock ? " disabled":""}}' hover-class="hover" bindtap="bindPlus">+</view>
+                <view class='plus{{num >= goodsinfo.stock ? " disabled":""}}' hover-class="hover" bindtap="bindPlus"></view>
             </view>
         </view>
         <!-- 非处方药按钮 -->

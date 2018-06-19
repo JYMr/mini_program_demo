@@ -24,6 +24,13 @@
         </view>
     </block>
 </view>
+
+<view class="empty" wx:if="{{GroupBuyData.length == 0 && !RequestError && isLoading}}">购物车暂无商品</view>
+
+<view class="loaderror" wx:if="{{RequestError}}">
+  <view>页面加载失败</view>
+  <view>请检查网络后 <text class='reflash' bindtap='GetCartList'>重试</text></view>
+</view>
 <!-- footer -->
 <import src="/pages/Common/footer.wxml"/>
 <template is="footer" data="" wx:if="{{GroupBuyData.length != 0 && isEnd}}"/>

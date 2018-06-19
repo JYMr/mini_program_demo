@@ -52,6 +52,15 @@ class ReservationController {
     GetLastNeedPersonInfo(params) {
         return request.get(`${URI}/api/getLastNeedPersonInfo.shtml`, params).then(res => res.data)
     }
+
+
+    /**
+     * 重新预定
+     * @return {Promise}
+     */
+    NeedBuyAgain(params) {
+        return request.get(`${URI}/api/needBuyAgain.shtml`, params).then(res => res.data)
+    }
 }
 /**
  * 实例化对象

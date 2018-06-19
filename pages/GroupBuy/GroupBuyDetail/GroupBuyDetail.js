@@ -1,6 +1,6 @@
 // pages/GroupBuy/GroupBuyDetail/GroupBuyDetail.js
-const app = getApp();
 const GroupBuyController = require('../../controllers/groupBuyController').controller;
+const app = getApp();
 Page({
     data: {
         GoodsId: '',
@@ -74,7 +74,15 @@ Page({
             GoodsDefaulteImage: app.globalData.goodsdefault
         });
 
-        this.GetGroupDetailData();
+        let token = wx.getStorageSync('token') || '';
+        if(token){
+            this.GetGroupDetailData();
+        }else{
+            //直接进入等待登录回调
+            app.tokenReadyCallback = res => {
+                this.GetGroupDetailData();
+            }
+        }
 
     },
 
@@ -223,7 +231,7 @@ Page({
         if (_status || _status == undefined) {
             wx.navigateTo({
                 url: '/pages/GroupBuy/GroupBuyConfirm/GroupBuyConfirm?gid=' + _gid + '&id=' + _id
-            })
+            });
         }
     },
     //拨打电话

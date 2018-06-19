@@ -2,6 +2,7 @@
 const searchController = require('../../controllers/searchController').controller;
 Page({
     data: {
+        inputValue: '',
         selectHide: false,
         searchstory: [],
         hotgoods: [],
@@ -52,7 +53,7 @@ Page({
             }
         })
     },
-    searchSubmit: function(e) {
+    searchSubmit(e) {
         if (e.target.dataset.search) {
             this.setData({
                 inputValue: e.target.dataset.search

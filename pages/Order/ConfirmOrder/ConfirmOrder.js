@@ -123,7 +123,7 @@ Page({
     //查询选择地址数据
     GetAddress() {
        wx.showLoading({
-            title: '加载数据中...',
+            title: '加载地址数据中...',
             mask: true
         });
 

@@ -4,14 +4,18 @@ const request = require('/utils/kzj.request.js')
 App({
     onLaunch: function() {
         wx.checkSession({
-            success: ()=> {
+            success: () => {
                 //session_key 未过期，并且在本生命周期一直有效
                 console.log('session_key 未过期')
                 this.GetParameter();
-                wx.setStorageSync("token", "1950b2eeb4857a286ab9e845be9e0bcf")
+                //wx.setStorageSync("token", "1950b2eeb4857a286ab9e845be9e0bcf")
             },
-            fail: ()=> {
+            fail: () => {
                 // session_key 已经失效，需要重新执行登录流程
+                wx.showLoading({
+                    title: '登录中...',
+                    mask: true
+                });
                 wx.login({
                     success: res => {
                         // 发送 res.code 到后台换取 openId, sessionKey, unionId
@@ -23,7 +27,7 @@ App({
                                 code: res.code
                             },
                             header: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                            success: res=> {
+                            success: res => {
                                 if (res.data.done) {
                                     wx.setStorageSync('token', res.data.result.token)
                                     if (this.tokenReadyCallback) {
@@ -31,11 +35,12 @@ App({
                                     }
                                     this.GetParameter();
                                 }
+                                wx.hideLoading();
                             },
                             fail: err => {}
                         })
                     }
-                })
+                });
             }
         })
         // 登录
@@ -88,9 +93,9 @@ App({
         defaultImg: 'http://www.kzj365.com/mini_program/images/default.png',
         goodsdefault: 'http://www.kzj365.com/mini_program/images/goods_default.png',
         mobile: '',
-        cashStatus: false,//货到付款开启状态
+        cashStatus: false, //货到付款开启状态
         open_rx: '', //后台设置开启购买
-        isOpenCustomerService: false,//是否开启在线客服
+        isOpenCustomerService: false, //是否开启在线客服
         AddressId: '' //用于订单地址选择
     },
     Util: {
@@ -113,9 +118,9 @@ App({
             }
         })
     },
-    GetParameter(){
+    GetParameter() {
         request.get(`/api/getParameter.shtml`).then(res => {
-            if(res.data.done){
+            if (res.data.done) {
                 this.globalData.mobile = res.data.result.parameter.customer_phone;
                 this.globalData.cashStatus = res.data.result.parameter.open_cash_delivery == 1;
                 this.globalData.open_rx = res.data.result.parameter.open_rx;

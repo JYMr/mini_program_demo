@@ -27,9 +27,9 @@
             <view class='bottom'>
                 <text class='tips'>{{item.promotion}}</text>
                 <view class='control' wx:if="{{!editMode}}">
-                    <view class='mins' bindtap="bindMinus" hover-class="hover" data-id="{{item.shopcart_id}}">-</view>
+                    <view class='mins' bindtap="bindMinus" hover-class="hover" data-id="{{item.shopcart_id}}"></view>
                     <input type='number' class='nums' value="{{item.shopcart_num}}" disabled></input>
-                    <view class='plus' hover-class="hover" bindtap="bindPlus" data-id="{{item.shopcart_id}}">+</view>
+                    <view class='plus' hover-class="hover" bindtap="bindPlus" data-id="{{item.shopcart_id}}"></view>
                 </view>
             </view>
         </view>
@@ -52,8 +52,10 @@
 </view>
 
 <view class="empty" wx:if="{{CartList.length == 0 && !RequestError && isLoading}}">购物车暂无商品</view>
+
 <view class="loaderror" wx:if="{{RequestError}}">
   <view>页面加载失败</view>
-  <view>请检查网络后 <text class='reflash' bindtap='onRefresh'>重试</text></view>
+  <view>请检查网络后 <text class='reflash' bindtap='GetCartList'>重试</text></view>
 </view>
+
 <Dialog id="Dialog"></Dialog>

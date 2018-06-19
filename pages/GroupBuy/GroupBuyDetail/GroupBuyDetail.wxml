@@ -34,7 +34,7 @@
     <view class='goodsinfo' wx:if="{{goodsinfo.purchase_id}}">
         <button class='share' open-type="share"></button>
         <view class='name'>
-            <template is="TypeIcon" data="{{type: goodsinfo.type}}" />{{goodsinfo.goods_title}}
+            <template is="TypeIcon" data="{{type: goodsinfo.type}}" />{{goodsinfo.goods_title}} {{goodsinfo.goods_spec}}
         </view>
         <view class='price-item'>
             <text class='price'>

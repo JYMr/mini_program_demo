@@ -82,7 +82,7 @@ Page({
         //设置默认底图
         this.setData({
             DefaultImage: app.globalData.goodsdefault
-        })
+        });
 
     },
     /**
@@ -174,7 +174,7 @@ Page({
     //加入购物车
     AddCart() {
         cartController.addCart({
-            shopcart_goods_id: this.data.id,
+            shopcart_goods_id: this.data.chooseSpecId,
             shopcart_num: this.data.num,
             shopcart_type: 1
         }).then(res => {
@@ -201,7 +201,7 @@ Page({
     //加入预定清单
     AddRxCart() {
         cartController.addCart({
-            shopcart_goods_id: this.data.id,
+            shopcart_goods_id: this.data.chooseSpecId,
             shopcart_num: this.data.num,
             shopcart_type: 2
         }).then(res => {
@@ -240,7 +240,7 @@ Page({
         reservationController.CreatelNeed({
             needPerson: UserInfo.name,
             needPhone: UserInfo.mobile,
-            goodsId: this.data.id
+            goodsId: this.data.chooseSpecId
         }).then(res => {
             if (res.done) {
                 wx.navigateTo({

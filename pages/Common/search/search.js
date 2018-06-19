@@ -49,7 +49,7 @@ Component({
             });
         },
         searchSubmit(e) {
-            let inputValue = e.target.dataset.search;
+            let inputValue = e.detail.value;
 
             if (inputValue != '') {
 

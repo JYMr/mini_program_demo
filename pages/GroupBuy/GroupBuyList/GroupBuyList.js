@@ -12,7 +12,9 @@ Page({
         pageNo: 1,
         pageSize: 6,
         isEnd: false,
-        DefaultImage: ''
+        DefaultImage: '',
+        RequestError: false,
+        isLoading: false
     },
 
     /**
@@ -37,31 +39,47 @@ Page({
     onPullDownRefresh() {
         this.setData({
             pageNo: 1,
-            GroupBuyData: [],
             isEnd: false
         })
-        this.GetGroupList();
+        this.GetGroupList(false);
     },
     //获取团购列表数据
-    GetGroupList() {
-        wx.showLoading({
-            title: '加载数据中...',
-            mask: true
-        });
+    GetGroupList(flag) {
+     
+        if(flag !== false){
+            wx.showLoading({
+                title: '加载数据中...',
+                mask: true
+            });
+        }
+
         GroupBuyController.getList({
             pageNo: this.data.pageNo,
             pageSize: this.data.pageSize
         }).then(res => {
             if (res.done) {
+                //当请求为第一页时，清空页面数据
+                if(this.data.pageNo == 1){
+                    this.setData({
+                        GroupBuyData: []
+                    });
+                }
                 this.setData({
                     GroupBuyData: this.data.GroupBuyData.concat(res.result.purchases.list),
                     pageNo: res.result.purchases.nextPage,
-                    isEnd: res.result.purchases.totalPage == this.data.pageNo
-                })
+                    isEnd: res.result.purchases.totalPage == this.data.pageNo,
+                    isLoading: true
+                });
             }
             wx.hideLoading();
             wx.stopPullDownRefresh();
-        })
+        }).catch(err => {
+            this.setData({
+                RequestError: true
+            });
+
+            wx.stopPullDownRefresh();
+        });
     },
     ErrorImage(e) {
         app.errImg(e, this);

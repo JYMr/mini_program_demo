@@ -94,6 +94,14 @@ class OrderController {
     }
 
     /**
+     * 再次购买
+     * @return {Promise}
+     */
+    OrderBuyAgain(params) {
+        return request.get(`${URI}/api/orderBuyAgain.shtml`, params).then(res => res.data)
+    }
+
+    /**
      * 请求支付
      * @return {Promise}
      */

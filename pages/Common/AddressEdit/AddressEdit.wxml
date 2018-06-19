@@ -19,7 +19,8 @@
 	</view>
 	<view class="input-item">
 		<text>详细地址</text>
-		<textarea bindinput="BindAddressChange" value="{{Detail.addr_address}}"></textarea>
+    <input bindinput="BindAddressChange" value="{{Detail.addr_address}}"></input>
+		<!-- <textarea bindinput="BindAddressChange" value="{{Detail.addr_address}}"></textarea> -->
 	</view>
 	<view class="AddressBtn{{ValiStatus ? ' active':''}}" bindtap="saveEdit">
 		保存

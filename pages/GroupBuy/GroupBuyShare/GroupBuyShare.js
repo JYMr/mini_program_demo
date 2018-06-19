@@ -1,5 +1,6 @@
 // pages/GroupBuy/GroupBuyShare/GroupBuyShare.js
 const GroupBuyController = require('../../controllers/groupBuyController').controller;
+const app = getApp();
 Page({
 
     /**
@@ -14,37 +15,41 @@ Page({
             second: '00'
         },
         Default_avatar: 'http://www.kzj365.com/mini_program/images/avatar_default.png',
-        ShareData: {
-            id: 12,
-            GoodsInfo: {
-                id: 231321,
-                url: '',
-                title: '仁和健途(jintoo) 高级大胶原蛋白壳寡糖果味饮品480ml/瓶',
-                price: '25.90',
-                total: '5',
-                spec_type: '盒',
-                goods_type: '4',
-            },
-            ShareMenberList: [{
-                id: '',
-                avatar: 'http://www.kzj365.com/mini_program/images/avatar.png',
-            }],
-            GroupStatus: 0,
-            GroupNumber: 6,
-            GroupHasNumber: 1,
-            ShareUrl: '',
-            ShareTitle: '1123123123',
-            finishTime: 1525930425,
-            isGroupKing: false
-        },
-        serviceTime: ''
-
+        ShareData: {},
+        serviceTime: '',
+        canIUse: wx.canIUse('button.open-type.getUserInfo'),
+        hasUserInfo: false
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
+        //判断用户权限
+        if (app.globalData.userInfo) {
+            this.setData({
+                hasUserInfo: true
+            });
+        } else if (this.data.canIUse) {
+            // 所以此处加入 callback 以防止这种情况
+            app.userInfoReadyCallback = res => {
+                this.setData({
+                    hasUserInfo: true
+                });
+            }
+        } else {
+            // 在没有 open-type=getUserInfo 版本的兼容处理
+            wx.getUserInfo({
+                success: res => {
+                    app.globalData.userInfo = res.userInfo
+                    this.setData({
+                        userInfo: res.userInfo,
+                        hasUserInfo: true
+                    });
+                }
+            });
+        }
+
         if (options.gid) {
             this.setData({
                 GroupId: options.gid
@@ -55,7 +60,15 @@ Page({
                 OrderId: options.orderid
             });
         }
-        this.GetShaerData();
+
+        let token = wx.getStorageSync('token') || '';
+        if(token){
+            this.GetShaerData();
+        }else{
+            app.tokenReadyCallback = res => {
+                this.GetShaerData();
+            }
+        }
     },
 
     /**
@@ -88,7 +101,11 @@ Page({
                     ShareData: res.result.prg,
                     serviceTime: res.result.serviceTime
                 });
-                this.TimeOutFn();
+
+                //判断是否满团
+                if(res.result.prg.group_state == 0){
+                    this.TimeOutFn();
+                }
             }else{
 
             }
@@ -140,12 +157,44 @@ Page({
      * 用户点击右上角分享
      */
     onShareAppMessage: function() {
-        let GroupId = this.data.ShareData.id;
+        let GroupId = this.data.ShareData.group_id;
         let ShareOption = {
-            title: this.data.ShareData.ShareTitle || this.data.ShareData.GoodsInfo.title,
-            path: '/' + this.route + '?id' + GroupId,
-            imageUrl: this.data.ShareData.ShareUrl || this.data.ShareData.GoodsInfo.url
+            title: this.data.ShareData.goods_title,
+            path: '/' + this.route + '?id=' + GroupId,
+            imageUrl: this.data.ShareData.goods_img
         }
         return ShareOption;
+    },
+     //提交拼团订单
+    ConfirmGroupOrder() {
+        let _id = this.data.ShareData.purchase_id;
+        let _gid = this.data.ShareData.group_id;
+        wx.navigateTo({
+            url: '/pages/GroupBuy/GroupBuyConfirm/GroupBuyConfirm?gid=' + _gid + '&id=' + _id
+        });
+    },
+    //处理权限
+    getUserInfo(e){
+        if (e.detail.userInfo) {
+            let _id = this.data.ShareData.purchase_id;
+            let _gid = this.data.ShareData.group_id;
+
+            this.setData({
+                hasUserInfo: true
+            });
+            app.globalData.userInfo = e.detail.userInfo
+            //此处提交订单
+            wx.navigateTo({
+                url: '/pages/GroupBuy/GroupBuyConfirm/GroupBuyConfirm?gid=' + _gid + '&id=' + _id
+            });
+        } else {
+            this.Dialog.ShowDialog({
+                title: '授权登录，方可购买商品',
+                type: 'Alert',
+                callback: res => {
+                    this.Dialog.CloseDialog();
+                }
+            });
+        }
     }
 })
