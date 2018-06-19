@@ -12,7 +12,8 @@ Page({
         goodsinfo: {}, //商品信息
         spec: {}, //规格
         chooseSpecId: '', //选择的规格id
-        selectSpecName: '', //选择的规格名称
+        chooseSpecName: '', //选择的规格名称
+        chooseSpecStock: '',//选择的库存
         showModalStatus: false, //是否显示
         ModalMode: 'Buy', //遮罩模式
         goodsnavtop: 0, //tab距离顶部的距离
@@ -140,7 +141,7 @@ Page({
                 //提取规格信息
                 let _Spec = {};
                 _Spec.name = res.result.goodsdetail.goodsTitle;
-                _Spec.price = res.result.goodsdetail.goodsPrice.toFixed(2);
+                _Spec.price = res.result.goodsdetail.goodsPrice;
                 _Spec.src = res.result.goodsdetail.goodsImg;
                 _Spec.speclists = res.result.goodsdetail.specGoodsApis || [];
                 _Spec.packager = res.result.goodsdetail.goodsCombinations || [];
@@ -158,8 +159,9 @@ Page({
                 this.setData({
                     goodsinfo: res.result.goodsdetail,
                     spec: _Spec,
-                    chooseSpecId: res.result.goodsdetail.goodsId
-                })
+                    chooseSpecId: res.result.goodsdetail.goodsId,
+                    chooseSpecStock: res.result.goodsdetail.goodsStock
+                });
 
 
                 wx.hideLoading();
@@ -269,7 +271,7 @@ Page({
     /* 点击加号 */
     bindPlus(e) {
         let _num = this.data.num;
-        if (_num >= this.data.goodsinfo.goodsStock) return;
+        if (_num >= this.data.chooseSpecStock) return;
         this.setData({
             num: ++_num
         });
@@ -284,8 +286,8 @@ Page({
             _num = 1;
         }
         //判断库存
-        if (_num > this.data.goodsinfo.goodsStock) {
-            _num = this.data.goodsinfo.goodsStock;
+        if (_num > this.data.chooseSpecStock) {
+            _num = this.data.chooseSpecStock;
         }
         this.setData({
             num: _num
@@ -328,32 +330,41 @@ Page({
             let _List = _Spec.speclists;
             let _ChooseIndex = e.currentTarget.dataset.index;
             let _SpecId = null; //选择的商品规格id
+            let _Stock = 0; //选择的商品库存
 
+            //判断规格id以及规格库存
             for (let key in _List) {
-                //判断规格id以及规格库存
                 if (_ChooseIndex == key && _List[key].goodsStock > 0 && !_List[key].isselect) {
                     //选中规格
                     _List[key].isselect = true;
                     //获取规格ID
                     _SpecId = _List[key].goodsId;
                     //获取规格名
-                    _Name = _List[key].goodsSpec
+                    _Name = _List[key].goodsSpec;
+                    //获取规格
+                    _Stock = _List[key].goodsStock;
                     //获取规格商品名
                     _Spec.name = _List[key].goodsTitle;
                     //获取规格商品主图
                     _Spec.src = _List[key].goodsImg;
                     //获取规格商品价格
-                    _Spec.price = _List[key].goodsPrice.toFixed(2);
+                    _Spec.price = _List[key].goodsPrice;
 
                 } else {
                     _List[key].isselect = false;
                 }
             }
+
+            //如果选择数量大于所选规格库存，则设置为数量为商品最大库存
+            let _num = this.data.num >= _Stock ? _Stock : this.data.num;
+
             this.setData({
                 spec: _Spec,
                 chooseSpecId: _SpecId,
-                selectSpecName: _Name
-            })
+                chooseSpecName: _Name,
+                chooseSpecStock: _Stock,
+                num: _num
+            });
         } else if (type == 'packager') {
             //处理套餐选择
 

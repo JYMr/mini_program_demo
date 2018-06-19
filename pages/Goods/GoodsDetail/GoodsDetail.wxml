@@ -49,7 +49,7 @@
 </view>
 <!-- 规格 -->
 <view class='goodsattr' bindtap="showModal" wx:if="{{spec.speclists}}">商品规格:
-    <text>{{selectSpecName!='' ? selectSpecName : "请选择"}}</text>
+    <text>{{chooseSpecName!='' ? chooseSpecName : "请选择"}}</text>
 </view>
 <!-- nav -->
 <view class="goodsnav {{goodsnavbool ?'goodsnavfixed':''}}" bindtap="TabToggle">
@@ -66,11 +66,11 @@
         <!-- 商品推荐 -->
         <view class="product-recommend" wx:if="{{goodsinfo.associateGoodses.length > 0}}">
             <view class="recommend-title">看该商品的用户还浏览过</view>
-            <swiper display-multiple-items="2.5" class="recommend-list">
+            <swiper class="recommend-list" display-multiple-items="2">
                 <swiper-item wx:for="{{goodsinfo.associateGoodses}}" wx:key="recommend_{{index}}">
                     <navigator class="recommend-item" hover-class="none" url="/pages/Goods/GoodsDetail/GoodsDetail?id={{item.goods.goods_id}}">
                         <image src="{{item.goods.goods_img || DefaultImage}}" data-obj="goodsinfo.associateGoodses[{{index}}].goods.goods_img" binderror="ErrorImage" lazy-load="true"></image>
-                        <view class="name">{{item.goods.goods_name}}</view>
+                        <view class="name">{{item.goods.goods_title}}</view>
                         <text class="price">¥{{Filter.toFixed(item.goods.goods_price)}}</text>
                     </navigator>
                 </swiper-item>
@@ -93,8 +93,35 @@
 </view>
 <!-- float -->
 <view class='goodsfloat'>
+
+    <!-- 下架 -->
+    <block wx:if="{{goodsinfo.goodsAdded == 0}}">
+        <view class='gray'>该商品已下架</view>
+        <navigator url='/pages/Cart/Cart' open-type="switchTab" class='cart' hover-class='none' wx:if="{{goodsinfo.goodsType != 0}}">
+            <view class='icon'></view>
+            <view>购物车</view>
+        </navigator>
+        <navigator url='/pages/Goods/Reservation/Reservation' class='list' hover-class='none' wx:else>
+            <view class='icon'></view>
+            <view>预定清单</view>
+        </navigator>
+    </block>
+
+    <!-- 缺货 -->
+    <block wx:if="{{goodsinfo.goodsStock == 0}}">
+        <view class='gray'>该商品已缺货</view>
+        <navigator url='/pages/Cart/Cart' open-type="switchTab" class='cart' hover-class='none' wx:if="{{goodsinfo.goodsType != 0}}">
+            <view class='icon'></view>
+            <view>购物车</view>
+        </navigator>
+        <navigator url='/pages/Goods/Reservation/Reservation' class='list' hover-class='none' wx:else>
+            <view class='icon'></view>
+            <view>预定清单</view>
+        </navigator>
+    </block>
+
     <!-- 非处方药 -->
-    <block wx:if="{{goodsinfo.goodsAdded != 0 && goodsinfo.goodsStock > 0 && goodsinfo.goodsType != 0}}">
+    <block wx:elif="{{goodsinfo.goodsAdded != 0 && goodsinfo.goodsStock > 0 && goodsinfo.goodsType != 0}}">
         <view class='buy' bindtap="showModal" data-type="Buy">立即购买</view>
         <view class='addcart' bindtap="showModal" data-type="Cart">加入购物车</view>
         <navigator url='/pages/Cart/Cart' open-type="switchTab" class='cart' hover-class='none'>
@@ -102,8 +129,9 @@
             <view>购物车</view>
         </navigator>
     </block>
+
     <!-- 处方药 -->
-    <block wx:if="{{goodsinfo.goodsAdded != 0 && goodsinfo.goodsStock > 0 && goodsinfo.goodsType == 0}}">
+    <block wx:elif="{{goodsinfo.goodsAdded != 0 && goodsinfo.goodsStock > 0 && goodsinfo.goodsType == 0}}">
         <view class='buy' bindtap="showModal" data-type="RxBuy">立即预定</view>
         <view class='addcart green' bindtap="showModal" data-type="RxCart">加入预定清单</view>
         <navigator url='/pages/Goods/Reservation/Reservation' class='list' hover-class='none'>
@@ -112,19 +140,6 @@
         </navigator>
     </block>
     
-    <!-- 下架 -->
-    <view class='gray' wx:if="{{goodsinfo.goodsAdded == 0}}">该商品已下架</view>
-    <navigator url='/pages/Cart/Cart' open-type="switchTab" class='cart' hover-class='none' wx:if="{{goodsinfo.goodsAdded == 0}}">
-        <view class='icon'></view>
-        <view>购物车</view>
-    </navigator>
-    <!-- 缺货 -->
-    <view class='gray' wx:if="{{goodsinfo.goodsStock == 0}}">该商品已缺货</view>
-    <navigator url='/pages/Cart/Cart' open-type="switchTab" class='cart' hover-class='none' wx:if="{{goodsinfo.goodsStock == 0}}">
-        <view class='icon'></view>
-        <view>购物车</view>
-    </navigator>
-
     <view class='phone' hover-class='none' bindtap="ToggleChaticonMenu">
         <view class='icon'></view>
         <view>联系客服</view>
@@ -137,7 +152,7 @@
         <view class='info'>
             <image class='pic' src='{{spec.src  || DefaultImage}}' binderror="ErrorImage" data-obj="spec.src"></image>
             <view class='price'>¥
-                <text class='nums'>{{spec.price}}</text>
+                <text class='nums'>{{Filter.toFixed(spec.price)}}</text>
             </view>
             <view class='name'>{{spec.name}}</view>
         </view>
@@ -188,13 +203,18 @@
     <view class='gray-bg' bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
 </view>
 
+<!-- 从分享页进入，返回首页悬浮按钮 -->
 <navigator class="find-index" open-type="switchTab" url="/pages/Index/Index" wx:if="{{isShare}}" hover-class="none">
     <image src="http://www.kzj365.com/mini_program/images/find_index.png"></image>
 </navigator>
 
+<!-- 页脚 -->
 <import src="/pages/Common/footer.wxml" />
 <template is="footer" data="" />
 
+<!-- 提示组件 -->
 <Dialog id="Dialog"></Dialog>
+<!-- 客服菜单 -->
 <MenuCustomer id="MenuCustomer"></MenuCustomer>
+<!-- 提交需求表单 -->
 <ReservationInput id="ReservationInput" bind:SaveEvent="RxBuyFn"></ReservationInput>
