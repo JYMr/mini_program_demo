@@ -13,7 +13,7 @@ Page({
         spec: {}, //规格
         chooseSpecId: '', //选择的规格id
         chooseSpecName: '', //选择的规格名称
-        chooseSpecStock: '',//选择的库存
+        chooseSpecStock: '', //选择的库存
         showModalStatus: false, //是否显示
         ModalMode: 'Buy', //遮罩模式
         goodsnavtop: 0, //tab距离顶部的距离
@@ -50,7 +50,7 @@ Page({
                 }
             })
         }
-        
+
         if (options.isShare) {
             //是否分享进入
             this.setData({
@@ -189,7 +189,7 @@ Page({
                     editMode: false
                 })
                 setTimeout(() => {
-                  this.hideModal();
+                    this.hideModal();
                 }, 1500)
             } else {
                 this.Dialog.ShowDialog({
@@ -212,10 +212,10 @@ Page({
                     type: 'Message',
                     title: '加入清单成功'
                 })
-                setTimeout(()=>{
-                  this.hideModal();
-                },1500)
-                
+                setTimeout(() => {
+                    this.hideModal();
+                }, 1500)
+
             } else {
                 this.Dialog.ShowDialog({
                     type: 'Message',
@@ -292,32 +292,34 @@ Page({
         this.setData({
             num: _num
         });
+
         //处理套餐
         this.AutoPackager();
     },
     //数量变化自动选择套餐
     AutoPackager() {
         let _List = this.data.spec;
+        let _Num = this.data.num;
         //判断是否有套餐
         if (_List.packager && _List.packager.length > 0) {
-            let isSelectKey = 0;
-            for (let key in _List.packager) {
+
+            //除去套餐选中
+            for (let item of _List.packager) {
+                item.isselect = false;
+            }
+
+            for (let key = _List.packager.length - 1; key >= 0; key--) {
                 //判断数量是否符合套餐数量
                 if (this.data.num >= _List.packager[key].packageCount) {
                     //添加选中
                     _List.packager[key].isselect = true;
-                    //除去其他套餐选中
-                    if (key > 0) {
-                        for (let ukey = key - 1; ukey >= 0; ukey--) {
-                            _List.packager[ukey].isselect = false;
-                        }
-                    }
+                    break;
                 }
             }
 
             this.setData({
                 spec: _List
-            })
+            });
         }
     },
     //规格选择,套餐选择
@@ -349,7 +351,8 @@ Page({
                     _Spec.src = _List[key].goodsImg;
                     //获取规格商品价格
                     _Spec.price = _List[key].goodsPrice;
-
+                    //获取规格套餐
+                    _Spec.packager = _List[key].goodsCombinations;
                 } else {
                     _List[key].isselect = false;
                 }
@@ -361,10 +364,14 @@ Page({
             this.setData({
                 spec: _Spec,
                 chooseSpecId: _SpecId,
-                chooseSpecName: _Name,
+                chooseSpecName: _Name || '默认规格',
                 chooseSpecStock: _Stock,
                 num: _num
             });
+
+            //刷新套餐选中
+            this.AutoPackager();
+
         } else if (type == 'packager') {
             //处理套餐选择
 
@@ -429,6 +436,14 @@ Page({
                 }
                 break;
             default:
+                //处理选择规格
+
+                //检查选择的规格名称是否赋值
+                if (this.data.chooseSpecName == '') {
+                    this.setData({
+                        chooseSpecName: '默认规格'
+                    });
+                }
                 this.hideModal();
         }
     },

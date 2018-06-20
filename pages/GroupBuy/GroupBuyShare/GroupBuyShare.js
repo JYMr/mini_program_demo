@@ -159,7 +159,7 @@ Page({
     onShareAppMessage: function() {
         let GroupId = this.data.ShareData.group_id;
         let ShareOption = {
-            title: this.data.ShareData.goods_title,
+            title: '只要' + this.data.ShareData.purchase_price.toFixed(2) + '元就能拼到' + this.data.ShareData.goods_title,
             path: '/' + this.route + '?id=' + GroupId,
             imageUrl: this.data.ShareData.goods_img
         }

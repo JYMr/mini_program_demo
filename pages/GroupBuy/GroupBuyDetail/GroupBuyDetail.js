@@ -27,13 +27,13 @@ Page({
         if (app.globalData.userInfo) {
             this.setData({
                 hasUserInfo: true
-            })
+            });
         } else if (this.data.canIUse) {
             // 所以此处加入 callback 以防止这种情况
             app.userInfoReadyCallback = res => {
                 this.setData({
                     hasUserInfo: true
-                })
+                });
             }
         } else {
             // 在没有 open-type=getUserInfo 版本的兼容处理
@@ -43,29 +43,29 @@ Page({
                     this.setData({
                         userInfo: res.userInfo,
                         hasUserInfo: true
-                    })
+                    });
                 }
-            })
+            });
         }
 
         if (options.id) {
             this.setData({
                 GoodsId: options.id
-            })
+            });
         }
 
         if (options.gid) {
             //有拼团id传入
             this.setData({
                 GroupId: options.gid
-            })
+            });
         }
 
         if (options.isShare) {
             //是否分享进入
             this.setData({
                 isShare: options.isShare
-            })
+            });
         }
 
         //设置默认底图
@@ -95,23 +95,23 @@ Page({
     },
     scrollTop: function() {
         var that = this;
-        var query = wx.createSelectorQuery()
+        var query = wx.createSelectorQuery();
         query.select('.Detail-tab').boundingClientRect(function(res) {
             that.setData({
                 goodsnavtop: res.top - 2
             })
-        }).exec()
+        }).exec();
     },
     onPageScroll: function(e) {
         // 获取滚动条当前位置
         if (e.scrollTop > this.data.goodsnavtop) {
             this.setData({
                 goodsnavbool: true
-            })
+            });
         } else {
             this.setData({
                 goodsnavbool: false
-            })
+            });
         }
     },
     //加载拼团详情数据
@@ -128,16 +128,17 @@ Page({
 
                 //处理商品轮播图为空
                 if (res.result.pDetails.goods_images && res.result.pDetails.goods_images.length == 0) {
+                    //添加一张默认商品轮播图
                     res.result.pDetails.goods_images.push({
                         imageArtworkName: app.globalData.DefaultImage
-                    })
+                    });
                 }
 
                 this.setData({
                     goodsinfo: res.result.pDetails,
                     GroupList: res.result.proList,
                     serviceTime: Math.floor(res.result.serviceTime / 1000) //转化为时间戳
-                })
+                });
                 //处理活动时间数据
                 this.handleData();
                 //推荐团购列表倒计时

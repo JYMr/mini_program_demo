@@ -25,7 +25,7 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function(options) {
+    onLoad(options) {
         this.GetCartList();
 
         if (app.globalData.userInfo) {
@@ -60,14 +60,18 @@ Page({
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function() {
+    onReady() {
         this.Dialog = this.selectComponent("#Dialog");
+    },
+
+    onShow(){
+        this.GetCartList();
     },
 
     /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
-    onPullDownRefresh: function() {
+    onPullDownRefresh() {
         this.GetCartList(false);
     },
     //获取购物车数据
@@ -89,7 +93,7 @@ Page({
                     CartList: res.result.shopCartApiList,
                     isLoading: true,
                     RequestError: false
-                })
+                });
 
                 //检查是否全选
                 //this.CheckAllSelect();
