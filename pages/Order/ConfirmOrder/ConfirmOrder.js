@@ -199,6 +199,8 @@ Page({
             payWay: this.data.PayWay
         }).then(res => {
             if (res.done) {
+
+                let _OrderId = res.result.order.orderId;
                 //如果为在线支付
                 if (this.data.PayWay == 2) {
                     wx.requestPayment({
@@ -222,7 +224,7 @@ Page({
                             setTimeout(() => {
                                 //支付取消，跳转待支付订单
                                 wx.redirectTo({
-                                    url: '/pages/Order/MyOrderDetail/MyOrderDetail?id=' + res.result.orderId
+                                    url: '/pages/Order/MyOrderDetail/MyOrderDetail?id=' + _OrderId
                                 });
                             }, 1500);
                         }
@@ -237,7 +239,7 @@ Page({
                     setTimeout(() => {
                         //支付取消，跳转待支付订单
                         wx.redirectTo({
-                            url: '/pages/Order/MyOrderDetail/MyOrderDetail?id=' + res.result.orderId
+                            url: '/pages/Order/MyOrderDetail/MyOrderDetail?id=' + _OrderId
                         });
                     }, 1500);
                 }

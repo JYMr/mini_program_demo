@@ -90,6 +90,21 @@ Page({
     //取消订单
     CancelOrder(e) {
         let _id = this.data.OrderId;
+        let _disabled = e.currentTarget.dataset.disabled;
+
+        //判断是否在取消中的订单
+        if (_disabled) {
+            this.Dialog.ShowDialog({
+                title: '该订单客服正在确认是否已发货，请等待商家处理!',
+                type: 'Alert',
+                callback: res => {
+                    if (res) {
+                        this.Dialog.CloseDialog();
+                    }
+                }
+            });
+            return;
+        }
 
         this.Dialog.ShowDialog({
             title: '亲，真的不想买了么？',
@@ -322,7 +337,7 @@ Page({
                     })
                 }
                 this.Dialog.CloseDialog();
-                
+
             }
         })
     },
@@ -418,7 +433,7 @@ Page({
 
                 }
                 this.Dialog.CloseDialog();
-                
+
             }
         })
     },

@@ -169,7 +169,7 @@ Page({
                 wx.showToast({
                     title: '拉去商品数据失败，请返回重试',
                     icon: 'none'
-                })
+                });
             }
         })
     },

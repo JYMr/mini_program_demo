@@ -59,7 +59,7 @@
          <!-- 取消中 -->
         <block wx:elif="{{OrderItem.orderCancelStatus == 1}}">
             <view class='control'>
-                <text class='cancel-btn disabled' data-id="{{OrderData.orderId}}" data-disabled="true" catchtap="DeleteOrder">取消订单</text>
+                <text class='cancel-btn disabled' data-id="{{OrderData.orderId}}" data-disabled="true" catchtap="CancelOrder">取消订单</text>
             </view>
         </block>
         <!-- 待付款 -->
@@ -93,7 +93,10 @@
         <!-- 已完成 -->
         <block wx:elif="{{OrderItem.orderStatus == 5}}">
             <view class='control'>
-                <text class='cancel-btn' data-id="{{OrderItem.orderId}}" catchtap="DeleteOrder">删除订单</text>
+                <block wx:if="{{OrderItem.orderAfterStatus != 1}}">
+                    <!-- 售后中的订单无法删除 -->
+                    <text class='cancel-btn' data-id="{{OrderItem.orderId}}" catchtap="DeleteOrder">删除订单</text>
+                </block>
                 <text class='cancel-btn{{OrderItem.orderAfterStatus == 1 || OrderItem.orderAfterStatus == 0 ? " disabled" : ""}}' data-code="{{OrderItem.orderCode}}" data-disabled="{{OrderItem.orderAfterStatus == 1 || OrderItem.orderAfterStatus == 0}}" catchtap="CustomerService">申请售后</text>
                 <block wx:if="{{OrderItem.orderType == 1}}">
                     <!-- 普通订单 -->
