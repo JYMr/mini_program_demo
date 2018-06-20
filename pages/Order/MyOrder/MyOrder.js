@@ -44,10 +44,7 @@ Page({
      * 页面相关事件处理函数--监听用户下拉动作
      */
     onPullDownRefresh: function() {
-        this.GetOrderList();
-        this.setData({
-            pageNo: 1
-        });
+       this.ReloadOrderData();
     },
     /**
      * 页面上拉触底事件的处理函数
@@ -149,9 +146,8 @@ Page({
                         }
                         wx.hideLoading();
                     })
-                } else {
-                    this.Dialog.CloseDialog();
                 }
+                this.Dialog.CloseDialog();
             }
         })
     },
@@ -344,9 +340,9 @@ Page({
                         }
                         wx.hideLoading();
                     })
-                } else {
-                    this.Dialog.CloseDialog();
                 }
+                this.Dialog.CloseDialog();
+                
             }
         })
     },
@@ -440,9 +436,9 @@ Page({
                         wx.hideLoading();
                     });
 
-                } else {
-                    this.Dialog.CloseDialog();
                 }
+                this.Dialog.CloseDialog();
+                
             }
         })
     },

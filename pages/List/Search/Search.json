@@ -3,7 +3,7 @@
     "navigationBarTitleText": "搜索",
     "usingComponents":
     {
-        "search": "/pages/Common/Search/Search",
+        "Search": "/pages/Common/Search/Search",
         "Dialog": "/pages/Common/Dialog/Dialog"
     }
 }

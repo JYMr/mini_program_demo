@@ -14,6 +14,11 @@ Page({
     },
     onLoad: function(options) {
 
+          //取消红点
+        wx.hideTabBarRedDot({
+            index: 3
+        });
+
         //在线客服开启状态
         this.setData({
             isOpenCustomerService: app.globalData.isOpenCustomerService

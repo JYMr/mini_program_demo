@@ -1,6 +1,6 @@
 /* pages/Common/Dialog.wxss */
 .Dialog{width: 465rpx; background: #FFF;position: fixed;top: 50%;left: 0;right: 0;margin:auto;
-	border-radius: 10rpx;transform: translate(0, -50%);z-index: 999;animation-name: fadeInDown;animation-duration: .3s;animation-fill-mode: both;}
+	border-radius: 10rpx;transform: translate(0, -50%);z-index: 999;animation-name: DialogfadeInDown;animation-duration: .3s;animation-fill-mode: both;}
 
 .Dialog-text{line-height: 42rpx;padding: 65rpx 75rpx;text-align: center;}
 .Dialog-btn{height: 88rpx;display: flex;line-height: 88rpx;text-align: center;border-top: 1rpx solid #ddd;}
@@ -16,7 +16,5 @@
 
 .mask{position: fixed;z-index: 998;top: 0;bottom: 0;left: 0;right: 0;margin: auto; background: rgba(0, 0, 0, 0.5);}
 
-@keyframes fadeInUp{from{transform: none;opacity: 1;}
-    to{transform: translate3d(0, -30%, 0);opacity: 0;}}
-@keyframes fadeInDown{from{transform: translate3d(0, -80%, 0);opacity: 0;}
+@keyframes DialogfadeInDown{from{transform: translate3d(0, -80%, 0);opacity: 0;}
     to{transform: translate(0, -50%);opacity: 1;}}

@@ -122,7 +122,7 @@ Page({
     },
     //查询选择地址数据
     GetAddress() {
-       wx.showLoading({
+        wx.showLoading({
             title: '加载地址数据中...',
             mask: true
         });
@@ -199,38 +199,63 @@ Page({
             payWay: this.data.PayWay
         }).then(res => {
             if (res.done) {
-                wx.requestPayment({
-                    timeStamp: res.result.timeStamp,
-                    nonceStr: res.result.nonceStr,
-                    package: res.result.package,
-                    signType: res.result.signType,
-                    paySign: res.result.paySign,
-                    success: res => {
-                        this.Dialog.ShowDialog({
-                            title: '支付成功!',
-                            type: 'Message'
-                        });
-                    },
-                    fail: res => {
-                        this.Dialog.ShowDialog({
-                            title: '支付取消!',
-                            type: 'Message'
-                        });
-                        //等待弹窗
-                        setTimeout(()=>{
-                            //支付取消，跳转待支付订单
-                            wx.redirectTo({
-                                url: '/pages/Order/MyOrder/MyOrder?status=0'
+                //如果为在线支付
+                if (this.data.PayWay == 2) {
+                    wx.requestPayment({
+                        timeStamp: res.result.timeStamp,
+                        nonceStr: res.result.nonceStr,
+                        package: res.result.package,
+                        signType: res.result.signType,
+                        paySign: res.result.paySign,
+                        success: res => {
+                            this.Dialog.ShowDialog({
+                                title: '支付成功!',
+                                type: 'Message'
                             });
-                        }, 1500);
-                    }
-                });
+                        },
+                        fail: res => {
+                            this.Dialog.ShowDialog({
+                                title: '支付取消!',
+                                type: 'Message'
+                            });
+                            //等待弹窗
+                            setTimeout(() => {
+                                //支付取消，跳转待支付订单
+                                wx.redirectTo({
+                                    url: '/pages/Order/MyOrderDetail/MyOrderDetail?id=' + res.result.orderId
+                                });
+                            }, 1500);
+                        }
+                    });
+                } else {
+                    //货到付款状态
+                    this.Dialog.ShowDialog({
+                        title: '下单成功!',
+                        type: 'Message'
+                    });
+                    //等待弹窗
+                    setTimeout(() => {
+                        //支付取消，跳转待支付订单
+                        wx.redirectTo({
+                            url: '/pages/Order/MyOrderDetail/MyOrderDetail?id=' + res.result.orderId
+                        });
+                    }, 1500);
+                }
             } else {
-                this.Dialog.ShowDialog({
-                    title: res.msg || '提交支付失败，请重试!',
-                    type: 'Message',
-                    messageType: 'fail'
-                });
+                //如果为在线支付
+                if (this.data.PayWay == 2) {
+                    this.Dialog.ShowDialog({
+                        title: res.msg || '提交支付失败，请重试!',
+                        type: 'Message',
+                        messageType: 'fail'
+                    });
+                }else{
+                     this.Dialog.ShowDialog({
+                        title: res.msg || '下单失败，请重试!',
+                        type: 'Message',
+                        messageType: 'fail'
+                    });
+                }
             }
             wx.hideLoading();
         });

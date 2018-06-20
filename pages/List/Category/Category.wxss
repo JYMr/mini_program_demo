@@ -1,11 +1,11 @@
 /* pages/cate/cate.wxss */
 page{ font-size: 28rpx;height: 100%;color: #555;background: #f4f4f4;}
-.cate-left{ position: fixed;z-index: 100;top: 0;left: 0;width: 182rpx;min-height: 100%;background: #fff;}
-.cate-left .cate-btn{ font-size: 30rpx;line-height: 120rpx;position: relative;width: 100%;height: 120rpx;text-align: center;color: #888;border-bottom: #f4f4f4 1px solid;}
+.cate-left{ position:absolute;z-index: 100;top: 0;left: 0;bottom:0; margin:auto;width: 182rpx;height: 100%;background: #fff; }
+.cate-left .cate-btn{ font-size: 30rpx;line-height: 120rpx;position: relative;width: 100%;height: 120rpx;text-align: center;color: #888;border-bottom: #f4f4f4 1px solid; padding: 0 10rpx; box-sizing: border-box; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
 .cate-left .cate-btn.hover{ font-weight: 700;color: #37c4a4;}
 .cate-left .cate-btn.hover::before{ position: absolute;z-index: 100;top: 0;bottom: 0;left: 0;display: inline-block;overflow: hidden;width: 10rpx;height: 46rpx;margin: auto;content: '';background: #37c4a4;}
 
-.scroll-content{position: relative;overflow: hidden;box-sizing: border-box;width: auto; min-height: calc( 100% - 150rpx);margin-left: 182rpx;padding: 20rpx 30rpx 0;}
+.scroll-content{position: relative;overflow: hidden;box-sizing: border-box;width: auto; min-height: calc( 100% - 200rpx);margin-left: 182rpx;padding: 20rpx 30rpx 0;}
 .scroll-view{ width: 100%;height: 100%;}
 .scroll-view .scroll-grid{ box-sizing: border-box;height: 100%;margin-bottom: 20rpx;}
 .scroll-view .scroll-grid .title{ font-size: 30rpx;font-weight: 700;line-height: 70rpx;height: 70rpx;}

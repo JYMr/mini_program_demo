@@ -12,7 +12,7 @@
 
 
 <block wx:for="{{OrderList}}" wx:for-index="index"  wx:for-item="OrderItem" wx:key="order_{{index}}" wx:if="{{OrderList.length > 0}}">
-<view class='orderlists'>
+<navigator class='orderlists' url="/pages/Order/MyOrderDetail/MyOrderDetail?id={{OrderItem.orderId}}" hover-class="none">
     <view class='title'>
         <text class='shopicon'></text>
         <text class='name'>康之家药店</text>
@@ -37,7 +37,7 @@
       <block wx:if="{{OrderItem.freeExpressPrice == 2}}">（包含快递费10元）</block>
       <block wx:if="{{OrderItem.freeExpressPrice == 1}}">（免运费）</block>
     </view>
-</view>
+</navigator>
 </block>
 
 <!-- 无订单状态 -->

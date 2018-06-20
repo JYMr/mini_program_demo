@@ -1,9 +1,9 @@
 <!--pages/cate/cate.wxml-->
-<view class='cate-left'>
+<scroll-view class='cate-left' scroll-y>
     <block wx:for="{{CategoryList}}" wx:key="cate_{{index}}">
         <view class="cate-btn {{chooseId == item.catId ? 'hover' : ''}}" bindtap="switchRightTab" data-index="{{index}}" data-id="{{item.catId}}">{{item.catName}}</view>
     </block>
-</view>
+</scroll-view>
 <view class="scroll-content">
     <scroll-view class="scroll-view" scroll-y wx:if="{{ChildList.length > 0}}">
         <view class='scroll-grid'>

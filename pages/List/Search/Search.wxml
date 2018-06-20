@@ -1,5 +1,6 @@
 <!--pages/search.wxml-->
-<search id='search' inputValue='{{inputValue}}' selectHide='{{selectHide}}' bind:SearchEvent="SearchtoList"></search>
+<Search id='Search' inputValue='{{inputValue}}' selectHide='{{selectHide}}' bind:SearchEvent="SearchtoList"></Search>
+
 <view class='searchlists'>
     <!-- 热门搜索 -->
     <view class='hotlists'>
@@ -29,4 +30,5 @@
         </view>
     </block>
 </view>
+
 <Dialog id="Dialog"></Dialog>

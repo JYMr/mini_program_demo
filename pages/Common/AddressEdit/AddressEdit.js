@@ -25,28 +25,28 @@ Component({
         ValiData(status) {
             let flag = true;
             let msg = '';
-            if (this.data.Detail.addr_recipient == '') {
+            if (this.data.Detail.addr_recipient == '' || this.data.Detail.addr_recipient == undefined) {
                 msg = '收货人不能为空';
                 flag = false;
             }
-            if (this.data.Detail.addr_mobile == '') {
+            if (this.data.Detail.addr_mobile == '' || this.data.Detail.addr_mobile == undefined) {
                 if (msg == '') msg = '联系号码不能为空';
-                flag = false;
+                flag = flag && false;
             }
             if (!/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/.test(this.data.Detail.addr_mobile)) {
                 if (msg == '') msg = '联系号码格式错误';
-                flag = false;
+                flag = flag && false;
             }
             if (this.data.Detail.addr_address == '' || this.data.Detail.addr_address == undefined) {
                 if (msg == '') msg = '详细地址不能为空';
-                flag = false;
+                flag = flag && false;
             }
             if (status && msg) {
                 this.Dialog.ShowDialog({
                     type: "Message",
                     title: msg,
                     messageType: 'fail'
-                })
+                });
             }
             this.setData({
                 ValiStatus: flag

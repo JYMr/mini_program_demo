@@ -7,12 +7,29 @@ const URI = '';
  * 每一个页面对应一个contoller
  */
 class IndexController{
+
     /**
-     * 抓取首页布局
+     * 获取首页数据
      * @return {Promise}
      */
     getIndex(){
         return request.get(`${URI}/api/getIndexActivityAndReGoodsAndPurchase.shtml`).then(res => res.data)
+    }
+
+     /**
+     * 获取全局设置数据
+     * @return {Promise}
+     */
+    GetParameter(){
+        return request.get(`${URI}/api/getParameter.shtml`).then(res => res.data)
+    }
+
+     /**
+     * 获取红点标识
+     * @return {Promise}
+     */
+    GetCartCountAndOrderCount(){
+        return request.get(`${URI}/api/getCartCountAndOrderCount.shtml`).then(res => res.data)
     }
 
 }

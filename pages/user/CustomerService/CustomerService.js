@@ -52,7 +52,7 @@ Page({
         this.GetOrderList();
     },
     onRefresh: function () {
-      this.showLoading();
+      this.GetOrderList();
     },
     //获取订单数据
     GetOrderList() {
@@ -72,6 +72,7 @@ Page({
                     RequestError:false
                 });
             } else {
+                wx.hideLoading();
                 wx.showToast({
                     title: res.msg || '服务器出错,请重试',
                     icon: 'none'

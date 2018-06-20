@@ -14,8 +14,8 @@
 .ReservationInput .ReservationInputBtn{font-size: 32rpx;line-height: 98rpx;display: block;height: 98rpx;text-align: center;color: #fff;border-radius: 0 0 10rpx 10rpx; background-color: #ddd;}
 .ReservationInput .ReservationInputBtn.active{ background-color: #37c4a4;}
 
-@keyframes fadeInDown{ from{ transform: translate3d(0, -50%, 0);opacity: 0;}
-    to{ transform: none;opacity: 1;}}
+@keyframes fadeInDown{ from{ transform: translate3d(0, -80%, 0);opacity: 0;}
+    to{ transform: translate3d(0, -50%, 0);opacity: 1;}}
 
 @keyframes loading{ from{ transform: rotate(360deg);}
     to{ transform: rotate(0deg);}}

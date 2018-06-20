@@ -25,17 +25,17 @@ Component({
             let flag = true;
             let msg = '';
             //验证数据格式
-            if (this.data.UserInfo.name == '') {
+            if (this.data.UserInfo.name == '' || this.data.UserInfo.name == undefined) {
                 msg = '联系人不能为空';
                 flag = false;
             }
-            if (this.data.UserInfo.mobile == '') {
+            if (this.data.UserInfo.mobile == '' || this.data.UserInfo.mobile == undefined) {
                 if (msg == '') msg = '联系号码不能为空';
-                flag = false;
+                flag = flag && false;
             }
             if (!/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/.test(this.data.UserInfo.mobile)) {
                 if (msg == '') msg = '联系号码格式错误';
-                flag = false;
+                flag = flag && false;
             }
             //错误提示
             if (status && msg) {

@@ -42,7 +42,7 @@
 					"id": 1,
 					"name": "GoodsDetail",
 					"pathName": "pages/Goods/GoodsDetail/GoodsDetail",
-					"query": "id=19"
+					"query": "id=39"
 				},
 				{
 					"id": 2,
@@ -72,7 +72,7 @@
 					"id": 6,
 					"name": "GroupBuyShare",
 					"pathName": "pages/GroupBuy/GroupBuyShare/GroupBuyShare",
-					"query": "gid=27"
+					"query": "gid=33"
 				},
 				{
 					"id": -1,
@@ -108,7 +108,7 @@
 					"id": 12,
 					"name": "MyOrderDetail",
 					"pathName": "pages/Order/MyOrderDetail/MyOrderDetail",
-					"query": "status=0&id=48"
+					"query": "status=0&id=167"
 				},
 				{
 					"id": 13,

@@ -118,7 +118,7 @@ Page({
      * 用户点击右上角分享
      */
     onShareAppMessage() {
-        let _ImageUrl = app.globalData.defaultImg;
+        let _ImageUrl = app.globalData.sharedefault;
         let _GoodsImageList = this.data.goodsinfo.goodsImg;
         let ShareOption = {
             title: '只要' + this.data.goodsinfo.goodsPrice.toFixed(2) + '元就能抢到' + this.data.goodsinfo.goodsName,
@@ -150,7 +150,7 @@ Page({
                 if (res.result.goodsdetail.goodsImages.length == 0) {
                     res.result.goodsdetail.goodsImages.push({
                         imageArtworkName: app.globalData.DefaultImage
-                    })
+                    });
                 }
 
                 //框选默认规格
@@ -271,7 +271,14 @@ Page({
     /* 点击加号 */
     bindPlus(e) {
         let _num = this.data.num;
-        if (_num >= this.data.chooseSpecStock) return;
+        if (_num >= this.data.chooseSpecStock) {
+            //到达最大库存，提示
+            wx.showToast({
+                title: '已经是库存上限咯!',
+                icon: 'none'
+            });
+            return;
+        }
         this.setData({
             num: ++_num
         });
@@ -295,6 +302,23 @@ Page({
 
         //处理套餐
         this.AutoPackager();
+    },
+    //加入购物车，立即购买，选择规格处理
+    HandleModal(e) {
+        let Mode = e.currentTarget.dataset.type || '';
+
+        this.setData({
+            ModalMode: Mode
+        });
+
+        //Rx商品，判断商品是否有关联规格
+        if (this.data.spec.speclists.length == 0 && this.data.goodsinfo.goodsType == 0) {
+            //无关联规格，直接加入预定清单
+            this.ModalConfirm();
+        } else {
+            //有关联规格，显示规格弹层
+            this.showModal();
+        }
     },
     //数量变化自动选择套餐
     AutoPackager() {
@@ -332,11 +356,11 @@ Page({
             let _List = _Spec.speclists;
             let _ChooseIndex = e.currentTarget.dataset.index;
             let _SpecId = null; //选择的商品规格id
-            let _Stock = 0; //选择的商品库存
+            let _Stock = 1; //选择的商品库存
 
-            //判断规格id以及规格库存
+            //判断规格id以及规格库存,以及是否上下架
             for (let key in _List) {
-                if (_ChooseIndex == key && _List[key].goodsStock > 0 && !_List[key].isselect) {
+                if (_ChooseIndex == key && _List[key].goodsStock > 0 && _List[key].goodsAdded == 1 && !_List[key].isselect) {
                     //选中规格
                     _List[key].isselect = true;
                     //获取规格ID
@@ -398,7 +422,7 @@ Page({
     DefaultAttr(spec, type, mode) {
 
         if (mode == 'spec' || mode == undefined) {
-            if (spec.speclists != undefined && spec.speclists.length > 0 && spec.speclists[0].goodsStock > 0) {
+            if (spec.speclists != undefined && spec.speclists.length > 0 && spec.speclists[0].goodsStock > 0 && spec.speclists[0].goodsAdded == 1) {
                 spec.speclists[0].isselect = true;
             }
         }
@@ -437,15 +461,21 @@ Page({
                 break;
             default:
                 //处理选择规格
-
-                //检查选择的规格名称是否赋值
-                if (this.data.chooseSpecName == '') {
-                    this.setData({
-                        chooseSpecName: '默认规格'
-                    });
-                }
+                this.ChooseSpec();
                 this.hideModal();
         }
+    },
+    //选择规格
+    ChooseSpec() {
+
+        //刷新为点选规格的商品数据
+        if (this.data.id == this.data.chooseSpecId) return;
+
+        this.setData({
+            id: this.data.chooseSpecId
+        });
+        this.GetGoodsData();
+
     },
     // 选项卡切换
     TabToggle(e) {
@@ -457,29 +487,27 @@ Page({
         if (wx.pageScrollTo) {
             wx.pageScrollTo({
                 scrollTop: goodsnavtop
-            })
+            });
         }
     },
     // 显示遮罩层
     showModal(e) {
-        let Mode = e.currentTarget.dataset.type || '';
         var animation = wx.createAnimation({
             duration: 300,
             timingFunction: "linear",
             delay: 0
-        })
+        });
         this.animation = animation
         animation.translateY(420).step()
         this.setData({
             animationData: animation.export(),
-            showModalStatus: true,
-            ModalMode: Mode
-        })
+            showModalStatus: true
+        });
         setTimeout(function() {
             animation.translateY(0).step()
             this.setData({
                 animationData: animation.export()
-            })
+            });
         }.bind(this), 100)
     },
     // 隐藏遮罩层

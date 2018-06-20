@@ -52,6 +52,11 @@ Page({
             })
         }
 
+        //取消红点
+        wx.hideTabBarRedDot({
+            index: 2
+        });
+
         this.setData({
             DefaultImage: app.globalData.defaultImg
         });
@@ -64,7 +69,7 @@ Page({
         this.Dialog = this.selectComponent("#Dialog");
     },
 
-    onShow(){
+    onShow() {
         this.GetCartList();
     },
 
@@ -188,8 +193,16 @@ Page({
         let _total = 0;
         let _List = this.data.CartList;
         for (let item of _List) {
-            if (item.shopcart_id == _id && item.goods_stock > item.shopcart_num) {
-                _total = ++item.shopcart_num;
+            if (item.shopcart_id == _id) {
+                if (item.goods_stock > item.shopcart_num) {
+                    _total = ++item.shopcart_num;
+                } else {
+                    //到达最大库存，提示
+                    wx.showToast({
+                        title: '已经是库存上限咯!',
+                        icon: 'none'
+                    });
+                }
             }
         }
         if (_total != 0)
@@ -242,9 +255,12 @@ Page({
                     }
                     this.setData({
                         CartList: _List
-                    })
+                    });
                 } else {
-
+                    wx.showToast({
+                        title: res.msg || '服务器出错,请重试',
+                        icon: 'none'
+                    });
                 }
             })
         }, 500)
@@ -260,7 +276,7 @@ Page({
         for (let item of _List) {
             if (item.shopcart_id == _id) {
                 item.isChoose = item.isChoose == '1' ? '0' : '1'
-                _isChoose = item.isChoose
+                _isChoose = item.isChoose;
             }
         }
         //非编辑模式下，提交选中状态
@@ -370,7 +386,7 @@ Page({
     },
     ConfirmOrder() {
         let idList = this.GetChoose();
-        if (idList) {
+        if (idList != '') {
             wx.showLoading({
                 mask: true,
                 title: '加载中...'
@@ -378,20 +394,42 @@ Page({
             wx.navigateTo({
                 url: '/pages/Order/ConfirmOrder/ConfirmOrder?mode=0&id=' + idList
             })
-        } else {
-            this.Dialog.ShowDialog({
-                type: 'Message',
-                title: '请选择你要结算的商品',
-                messageType: 'fail'
-            })
         }
     },
-    //获取已选择的ID
+    //获取已选择的ID，并检查选择商品库存上下架
     GetChoose() {
         let _List = this.data.CartList;
         let _ChooseID = [];
         for (let item of _List) {
-            if (item.isChoose) _ChooseID.push(item.shopcart_id);
+            if (item.isChoose == 1) {
+                //判断是否选中了下架商品
+                if (item.goods_added == 0) {
+                    this.Dialog.ShowDialog({
+                        type: 'Message',
+                        title: '有商品已下架了!',
+                        messageType: 'fail'
+                    });
+                    return '';
+                }
+                if (item.goods_stock <= 0) {
+                    this.Dialog.ShowDialog({
+                        type: 'Message',
+                        title: '有商品无货了!',
+                        messageType: 'fail'
+                    });
+                    return '';
+                }
+                _ChooseID.push(item.shopcart_id);
+            }
+        }
+        //若没有选中
+        if (_ChooseID.length <= 0) {
+            this.Dialog.ShowDialog({
+                type: 'Message',
+                title: '请选择你要结算的商品',
+                messageType: 'fail'
+            });
+            return '';
         }
         return _ChooseID.toString();
     },

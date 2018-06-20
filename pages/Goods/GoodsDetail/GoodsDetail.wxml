@@ -48,7 +48,7 @@
     <view class='detail'></view>
 </view>
 <!-- 规格 -->
-<view class='goodsattr' bindtap="showModal" wx:if="{{spec.speclists}}">商品规格:
+<view class='goodsattr' bindtap="HandleModal" wx:if="{{spec.speclists}}">商品规格:
     <text>{{chooseSpecName!='' ? chooseSpecName : "请选择"}}</text>
 </view>
 <!-- nav -->
@@ -64,7 +64,7 @@
             <image src='{{item.goodsDescImg}}' mode="widthFix" binderror="ErrorImage" data-obj="goodsinfo.goodsDescImgs[{{index}}].goodsDescImg"></image>
         </block>
         <!-- 商品推荐 -->
-        <view class="product-recommend" wx:if="{{goodsinfo.associateGoodses.length > 0}}">
+        <view class="product-recommend" wx:if="{{goodsinfo.associateGoodses.length >= 3}}">
             <view class="recommend-title">看该商品的用户还浏览过</view>
             <swiper class="recommend-list" display-multiple-items="2">
                 <swiper-item wx:for="{{goodsinfo.associateGoodses}}" wx:key="recommend_{{index}}">
@@ -122,8 +122,8 @@
 
     <!-- 非处方药 -->
     <block wx:elif="{{goodsinfo.goodsAdded != 0 && goodsinfo.goodsStock > 0 && goodsinfo.goodsType != 0}}">
-        <view class='buy' bindtap="showModal" data-type="Buy">立即购买</view>
-        <view class='addcart' bindtap="showModal" data-type="Cart">加入购物车</view>
+        <view class='buy' bindtap="HandleModal" data-type="Buy">立即购买</view>
+        <view class='addcart' bindtap="HandleModal" data-type="Cart">加入购物车</view>
         <navigator url='/pages/Cart/Cart' open-type="switchTab" class='cart' hover-class='none'>
             <view class='icon'></view>
             <view>购物车</view>
@@ -132,8 +132,8 @@
 
     <!-- 处方药 -->
     <block wx:elif="{{goodsinfo.goodsAdded != 0 && goodsinfo.goodsStock > 0 && goodsinfo.goodsType == 0}}">
-        <view class='buy' bindtap="showModal" data-type="RxBuy">立即预定</view>
-        <view class='addcart green' bindtap="showModal" data-type="RxCart">加入预定清单</view>
+        <view class='buy' bindtap="HandleModal" data-type="RxBuy">立即预定</view>
+        <view class='addcart green' bindtap="HandleModal" data-type="RxCart">加入预定清单</view>
         <navigator url='/pages/Goods/Reservation/Reservation' class='list' hover-class='none'>
             <view class='icon'></view>
             <view>预定清单</view>
@@ -161,7 +161,7 @@
                 <view class='t'>规格</view>
                 <view class='lists'>
                     <block wx:for="{{spec.speclists}}" wx:for-item="item" wx:for-index='index' wx:key="spec_{{index}}">
-                        <view class="item{{item.isselect?' on':''}}{{item.goodsStock > 0 ?'':' disabled'}}" data-index="{{index}}" data-type="spec" bindtap='ClickAttr'>{{item.goodsSpec}}</view>
+                        <view class="item{{item.isselect?' on':''}}{{item.goodsStock > 0 && item.goodsAdded == 1 ?'':' disabled'}}" data-index="{{index}}" data-type="spec" bindtap='ClickAttr'>{{item.goodsSpec}}</view>
                     </block>
                 </view>
             </view>

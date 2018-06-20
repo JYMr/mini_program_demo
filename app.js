@@ -1,6 +1,6 @@
 //app.js
 const Util = require('/utils/util.js')
-const request = require('/utils/kzj.request.js')
+const indexController = require('/pages/controllers/indexController.js').controller;
 App({
     onLaunch: function() {
         wx.checkSession({
@@ -87,11 +87,16 @@ App({
         updateManager.onUpdateFailed(function() {
             // 新的版本下载失败
         })
+
+        setTimeout(() => {
+            this.SetHotRed();
+        }, 1000);
     },
     globalData: {
         userInfo: null,
         defaultImg: 'http://www.kzj365.com/mini_program/images/default.png',
         goodsdefault: 'http://www.kzj365.com/mini_program/images/goods_default.png',
+        sharedefault: 'http://www.kzj365.com/mini_program/images/share_default.png',
         mobile: '',
         cashStatus: false, //货到付款开启状态
         open_rx: '', //后台设置开启购买
@@ -119,12 +124,36 @@ App({
         })
     },
     GetParameter() {
-        request.get(`/api/getParameter.shtml`).then(res => {
-            if (res.data.done) {
-                this.globalData.mobile = res.data.result.parameter.customer_phone;
-                this.globalData.cashStatus = res.data.result.parameter.open_cash_delivery == 1;
-                this.globalData.open_rx = res.data.result.parameter.open_rx;
+        indexController.GetParameter().then(res => {
+            if (res.done) {
+                this.globalData.mobile = res.result.parameter.customer_phone;
+                this.globalData.cashStatus = res.result.parameter.open_cash_delivery == 1;
+                this.globalData.open_rx = res.result.parameter.open_rx;
             }
-        })
+        });
+    },
+    SetHotRed() {
+        indexController.GetCartCountAndOrderCount().then(res => {
+            if (res.done) {
+                if (res.result.cartCount > 0) {
+                    wx.showTabBarRedDot({
+                        index: 2
+                    });
+                } else {
+                    wx.hideTabBarRedDot({
+                        index: 2
+                    });
+                }
+                if (res.result.orderCount > 0) {
+                    wx.showTabBarRedDot({
+                        index: 3
+                    });
+                } else {
+                    wx.hideTabBarRedDot({
+                        index: 3
+                    });
+                }
+            }
+        });
     }
 })

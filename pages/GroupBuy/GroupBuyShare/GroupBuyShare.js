@@ -18,7 +18,7 @@ Page({
         ShareData: {},
         serviceTime: '',
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
-        hasUserInfo: false
+        hasUserInfo: false,
     },
 
     /**
@@ -161,7 +161,7 @@ Page({
         let ShareOption = {
             title: '只要' + this.data.ShareData.purchase_price.toFixed(2) + '元就能拼到' + this.data.ShareData.goods_title,
             path: '/' + this.route + '?id=' + GroupId,
-            imageUrl: this.data.ShareData.goods_img
+            imageUrl: this.data.ShareData.goods_img || app.globalData.sharedefault
         }
         return ShareOption;
     },

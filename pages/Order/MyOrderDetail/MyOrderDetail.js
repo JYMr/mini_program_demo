@@ -127,9 +127,8 @@ Page({
                         }
                         wx.hideLoading();
                     });
-                } else {
-                    this.Dialog.CloseDialog();
                 }
+                this.Dialog.CloseDialog();
             }
         })
     },
@@ -321,9 +320,9 @@ Page({
                         }
                         wx.hideLoading();
                     })
-                } else {
-                    this.Dialog.CloseDialog();
                 }
+                this.Dialog.CloseDialog();
+                
             }
         })
     },
@@ -417,9 +416,9 @@ Page({
                         wx.hideLoading();
                     });
 
-                } else {
-                    this.Dialog.CloseDialog();
                 }
+                this.Dialog.CloseDialog();
+                
             }
         })
     },

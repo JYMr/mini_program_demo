@@ -16,14 +16,14 @@ Page({
         DefaultImage: '',
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         hasUserInfo: false,
+        isLoading: true,
+        RequestError: false
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        this.GetList();
-
         if (app.globalData.userInfo) {
             this.setData({
                 hasUserInfo: true
@@ -47,6 +47,9 @@ Page({
                 }
             })
         }
+
+        this.GetList();
+
         //设置默认底图
         this.setData({
             DefaultImage: app.globalData.defaultImg
@@ -66,16 +69,24 @@ Page({
             title: '加载数据中...',
             mask: true
         });
+        this.setData({
+            isLoading: false
+        });
         cartController.getCartData({
             shopcart_type: 2
         }).then(res => {
             if (res.done) {
                 this.setData({
-                    NeedList: res.result.shopCartApiList
-                })
+                    NeedList: res.result.shopCartApiList,
+                    isLoading: true
+                });
             }
             wx.hideLoading();
-        })
+        }).catch(err => {
+            this.setData({
+                RequestError: true
+            });
+        });
     },
     //复选框事件
     HandleCheckBox(e) {
@@ -140,14 +151,13 @@ Page({
             });
             return;
         }
-        this.Dialog.ShowDialog({
+        /*this.Dialog.ShowDialog({
             title: '确定删除选中预定清单的商品',
             type: 'Confirm',
             callback: res => {
                 if (res.name == 'confirm') {
-                    /**
-                     * 此处删除接口
-                     */
+                    //此处删除接口
+                    
                     this.Dialog.CloseDialog();
                     wx.showLoading({
                         mask: true
@@ -172,16 +182,40 @@ Page({
                             })
                         }
                         wx.hideLoading();
-                    })
+                    });
                 } else {
                     this.Dialog.CloseDialog();
                 }
             }
-        })
+        });*/
+        wx.showLoading({
+            mask: true
+        });
+        cartController.delCart({
+            shopcartids: DelList.toString(),
+            shopcart_type: 2
+        }).then(res => {
+            if (res.done) {
+                this.Dialog.ShowDialog({
+                    type: 'Message',
+                    title: '删除成功'
+                })
+                setTimeout(() => {
+                    this.GetList()
+                }, 1500)
+            } else {
+                this.Dialog.ShowDialog({
+                    type: 'Message',
+                    title: res.msg || '删除失败',
+                    messageType: 'fail'
+                })
+            }
+            wx.hideLoading();
+        });
     },
     ShowReservationInput() {
         let _ChooseId = this.GetChooseId();
-        if(_ChooseId == ''){
+        if (_ChooseId == '') {
             this.Dialog.ShowDialog({
                 title: '请选择需要预定的商品',
                 type: 'Message',
@@ -205,7 +239,7 @@ Page({
         return _ChooseArr.toString();
     },
     //提交预定
-    ConfirmNeedOrder(e){
+    ConfirmNeedOrder(e) {
         let UserInfo = e.detail;
         wx.showLoading({
             title: '提交中...',
@@ -219,7 +253,9 @@ Page({
             if (res.done) {
                 wx.navigateTo({
                     url: '/pages/Order/ReservationOrder/ReservationOrder'
-                })
+                });
+                //关闭预定弹窗
+                this.ReservationInput.CloseEdit();
             } else {
                 this.Dialog.ShowDialog({
                     type: 'Message',

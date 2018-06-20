@@ -14,7 +14,11 @@
         <view class='cart-item'>
             <view class='goods'>
                 <text class='select{{item.isChoose == 1 ? " on":""}}' bindtap="HandleCheckBox" data-id="{{item.shopcart_id}}"></text>
-                <image class='pic' src='{{item.goods_img || DefaultImage}}' binderror="ErrorImage" data-obj="CartList[{{index}}].goods_img" bindtap="HandleCheckBox"  data-id="{{item.shopcart_id}}"></image>
+                <view class="pic">
+                    <image src='{{item.goods_img || DefaultImage}}' binderror="ErrorImage" data-obj="CartList[{{index}}].goods_img" bindtap="HandleCheckBox"  data-id="{{item.shopcart_id}}"></image>
+                    <view class="mask" wx:if="{{item.goods_added == 0}}">已下架</view>
+                    <view class="mask" wx:elif="{{item.goods_stock == 0}}">缺货</view>
+                </view>
                 <view class='name'>
                     <navigator hover-class='none' url="/pages/Goods/GoodsDetail/GoodsDetail?id={{item.shopcart_goods_id}}"><template is="TypeIcon" data="{{type: item.goods_type}}" />{{item.goods_title}} {{item.goods_spec}}</navigator></view>
                 <!-- 此处不能回车 -->
