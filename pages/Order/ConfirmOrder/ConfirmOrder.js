@@ -164,9 +164,9 @@ Page({
         }
     },
     //显示支付列表
-    ShowPayList() {
+    TogglePayList() {
         this.setData({
-            PayListStatus: true
+            PayListStatus: !this.data.PayListStatus
         });
     },
     //切换支付方式
@@ -200,9 +200,9 @@ Page({
         }).then(res => {
             if (res.done) {
 
-                let _OrderId = res.result.order.orderId;
                 //如果为在线支付
                 if (this.data.PayWay == 2) {
+                    let _OrderId = res.result.orderId;
                     wx.requestPayment({
                         timeStamp: res.result.timeStamp,
                         nonceStr: res.result.nonceStr,
@@ -230,6 +230,7 @@ Page({
                         }
                     });
                 } else {
+                    let _OrderId = res.result.order.orderId;
                     //货到付款状态
                     this.Dialog.ShowDialog({
                         title: '下单成功!',

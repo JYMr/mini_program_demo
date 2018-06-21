@@ -265,7 +265,7 @@ Page({
      * 用户点击右上角分享
      */
     onShareAppMessage: function() {
-        let _ImageUrl = this.data.GroupList.purchase_image || app.globalData.sharedefault;
+        let _ImageUrl = this.data.goodsinfo.goods_img || app.globalData.sharedefault;
         let ShareOption = {
             title: '只要' + this.data.goodsinfo.purchase_price.toFixed(2) + '元就能拼到' + this.data.goodsinfo.goods_title,
             path: '/' + this.route + '?id=' + this.data.GoodsId + '&isShare=true',

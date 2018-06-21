@@ -39,24 +39,28 @@
 <view class="group-list">
 
 	<!-- 进行中 -->
-	<block wx:if="{{ShareData.unite_end_time > serviceTime}}">
-
+	<block wx:if="{{ShareData.group_state == 0}}">
 		<!-- 团主 -->
-		<view class="title" wx:if="{{ShareData.is_join == 1 && ShareData.group_state == 0}}">还差<text>{{ShareData.remain_number}}</text>人，即可满足拼团订单的条件</view>
-		<view class="title"  wx:if="{{ShareData.is_join == 1 && ShareData.group_state == 1}}">拼团成功</view>
+		<view class="title" wx:if="{{ShareData.is_join == 1}}">还差<text>{{ShareData.remain_number}}</text>人，即可满足拼团订单的条件</view>
 
 		<!-- 非团主 -->
-		<view class="title"  wx:if="{{ShareData.is_join == 0 && ShareData.group_state == 1}}">客官来晚了，该团已满员</view>
-
-		<view class="title"  wx:if="{{ShareData.is_join == 0 && ShareData.group_state == 0}}">还差<text>{{ShareData.remain_number}}</text>人，赶紧参团</view>
+		<view class="title"  wx:if="{{ShareData.is_join == 0}}">还差<text>{{ShareData.remain_number}}</text>人，赶紧参团</view>
 
 	</block>
 
-	<!-- 已取消 -->
-	<block wx:if="{{ShareData.unite_end_time <= serviceTime}}">
-
+	<!-- 已结束 -->
+	<block wx:elif="{{ShareData.group_state == 1}}">
 		<!-- 团主 -->
-		<view class="title" wx:if="{{ShareData.is_join == 1}}">已取消</view>
+		<view class="title"  wx:if="{{ShareData.is_join == 1}}">拼团成功</view>
+
+		<!-- 非团主 -->
+		<view class="title"  wx:if="{{ShareData.is_join == 0}}">客官来晚了，该团已满员</view>
+	</block>
+
+	<!-- 已取消 -->
+	<block wx:elif="{{ShareData.group_state == 2}}">
+		<!-- 团主 -->
+		<view class="title" wx:if="{{ShareData.is_join == 1}}">拼团已取消</view>
 
 		<!-- 非团主 -->
 		<view class="title" wx:if="{{ShareData.is_join == 0}}">客官来晚了，该团已取消</view>
@@ -85,10 +89,10 @@
 <view class="Group-Fixed">
 
 	<!-- 进行中 -->
-	<block wx:if="{{ShareData.unite_end_time > serviceTime}}">
+	<block wx:if="{{ShareData.group_state == 0}}">
 
 		<!-- 团主 -->
-		<block wx:if="{{ShareData.is_join == 1 && ShareData.group_state == 0}}">
+		<block wx:if="{{ShareData.is_join == 1}}">
 			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
 				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
 				更多拼团
@@ -97,28 +101,9 @@
 				还差{{ShareData.remain_number}}人 去邀请好友参团
 			</button>
 		</block>
-		<block wx:if="{{ShareData.is_join == 1 && ShareData.group_state == 1}}">
-			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
-				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
-				更多拼团
-			</navigator>
-			<navigator class="Group-btn left" url="/pages/Order/MyOrderDetail/MyOrderDetail?id={{ShareData.order_id}}">
-				查看订单
-			</navigator>
-		</block>
 
 		<!-- 非团主 -->
-		<block wx:if="{{ShareData.is_join == 0 && ShareData.group_state == 1}}">
-			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
-				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
-				更多拼团
-			</navigator>
-			<navigator class="Group-btn left" url="/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{ShareData.purchase_id}}">
-				重新开团
-			</navigator>
-		</block>
-
-		<block class="title"  wx:if="{{ShareData.is_join == 0 && ShareData.group_state == 0}}">
+		<block class="title"  wx:if="{{ShareData.is_join == 0}}">
 			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
 				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
 				更多拼团
@@ -133,6 +118,33 @@
 
 	</block>
 
+	<!-- 已结束 -->
+	<block wx:if="{{ShareData.group_state == 1}}">
+
+		<!-- 团主 -->
+		<block wx:if="{{ShareData.is_join == 1}}">
+			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
+				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
+				更多拼团
+			</navigator>
+			<navigator class="Group-btn left" url="/pages/Order/MyOrderDetail/MyOrderDetail?id={{ShareData.order_id}}">
+				查看订单
+			</navigator>
+		</block>
+
+		<!-- 非团主 -->
+		<block wx:if="{{ShareData.is_join == 0}}">
+			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
+				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
+				更多拼团
+			</navigator>
+			<navigator class="Group-btn left" url="/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{ShareData.purchase_id}}">
+				重新开团
+			</navigator>
+		</block>
+
+	</block>
+
 	<!-- 已取消 -->
 	<block wx:if="{{ShareData.group_state == 2}}">
 
@@ -140,17 +152,9 @@
 			<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
 			更多拼团
 		</navigator>
-		<block wx:if="ShareData.end_time <= serviceTime">
-			<navigator class="Group-btn left gray" url="/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{ShareData.purchase_id}}">
-				活动已结束
-			</navigator>
-		</block>
-		<block wx:else>
-			<navigator class="Group-btn left" url="/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{ShareData.purchase_id}}">
-				重新开团
-			</navigator>
-		</block>
-
+		<navigator class="Group-btn left gray" hover-class="none">
+			该团已取消
+		</navigator>
 	</block>
 </view>
 

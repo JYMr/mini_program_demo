@@ -126,6 +126,10 @@
     </view>
 </block>
 
+<!-- 页脚 -->
+<import src="/pages/Common/footer.wxml" />
+<template is="footer" data="" />
+
 <view class='floatcontrol-blank' wx:if="{{OrderData.orderType}}"></view>
 <view class='floatcontrol' wx:if="{{OrderData.orderType}}">
     <!-- 按钮状态 -->
@@ -152,7 +156,7 @@
     <block wx:elif="{{OrderData.orderStatus == 1}}">
         <view class='control'>
             <text class='cancel-btn' data-id="{{OrderData.orderId}}" catchtap="CancelOrder">取消订单</text>
-            <text class='gopay-btn' data-id="{{OrderData.orderId}}" catchtap="InviteJoin">邀请参团</text>
+            <text class='gopay-btn' data-id="{{OrderData.groupId}}" catchtap="InviteJoin">邀请参团</text>
         </view>
     </block>
     <!-- 待发货 -->
@@ -181,10 +185,6 @@
         </view>
     </block>
 </view>
-
-<!-- 页脚 -->
-<import src="/pages/Common/footer.wxml" />
-<template is="footer" data="" />
 
 <!-- 客服悬浮按钮 -->
 <Floatcustomer id='Floatcustomer'></Floatcustomer>

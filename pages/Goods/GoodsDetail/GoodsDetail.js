@@ -247,7 +247,8 @@ Page({
             if (res.done) {
                 wx.navigateTo({
                     url: '/pages/Order/ReservationOrder/ReservationOrder'
-                })
+                });
+                this.ReservationInput.CloseEdit();
             } else {
                 this.Dialog.ShowDialog({
                     type: 'Message',
@@ -294,6 +295,10 @@ Page({
         }
         //判断库存
         if (_num > this.data.chooseSpecStock) {
+            wx.showToast({
+                title: '已经是库存上限咯!',
+                icon: 'none'
+            });
             _num = this.data.chooseSpecStock;
         }
         this.setData({

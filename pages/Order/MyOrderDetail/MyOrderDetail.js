@@ -290,9 +290,9 @@ Page({
     },
     //邀请参团
     InviteJoin(e) {
-        let _id = this.data.OrderId;
+        let _id = this.data.OrderData.groupId;
         wx.navigateTo({
-            url: '/pages/GroupBuy/GroupBuyShare/GroupBuyShare?id' + _id
+            url: '/pages/GroupBuy/GroupBuyShare/GroupBuyShare?gid=' + _id
         });
     },
     //确认收货

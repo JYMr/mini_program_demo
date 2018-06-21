@@ -66,7 +66,7 @@
         <!-- 商品推荐 -->
         <view class="product-recommend" wx:if="{{goodsinfo.associateGoodses.length >= 3}}">
             <view class="recommend-title">看该商品的用户还浏览过</view>
-            <swiper class="recommend-list" display-multiple-items="2">
+            <swiper class="recommend-list" display-multiple-items="2.5">
                 <swiper-item wx:for="{{goodsinfo.associateGoodses}}" wx:key="recommend_{{index}}">
                     <navigator class="recommend-item" hover-class="none" url="/pages/Goods/GoodsDetail/GoodsDetail?id={{item.goods.goods_id}}">
                         <image src="{{item.goods.goods_img || DefaultImage}}" data-obj="goodsinfo.associateGoodses[{{index}}].goods.goods_img" binderror="ErrorImage" lazy-load="true"></image>

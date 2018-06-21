@@ -63,6 +63,9 @@ Page({
         this.Dialog = this.selectComponent("#Dialog");
         this.ReservationInput = this.selectComponent("#ReservationInput");
     },
+    onShow(){
+        this.GetList();
+    },
     //获取购物车数据
     GetList() {
         wx.showLoading({

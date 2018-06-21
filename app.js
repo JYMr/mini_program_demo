@@ -8,6 +8,10 @@ App({
                 //session_key 未过期，并且在本生命周期一直有效
                 console.log('session_key 未过期')
                 this.GetParameter();
+
+                setTimeout(() => {
+                    this.SetHotRed();
+                }, 1000);
                 //wx.setStorageSync("token", "1950b2eeb4857a286ab9e845be9e0bcf")
             },
             fail: () => {
@@ -19,26 +23,22 @@ App({
                 wx.login({
                     success: res => {
                         // 发送 res.code 到后台换取 openId, sessionKey, unionId
-                        wx.request({
-                            //url: 'http://192.168.40.93:8080/api/userApiLogin.shtml',
-                            url: 'http://1x7448h712.iok.la/api/userApiLogin.shtml',
-                            method: 'POST',
-                            data: {
-                                code: res.code
-                            },
-                            header: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                            success: res => {
-                                if (res.data.done) {
-                                    wx.setStorageSync('token', res.data.result.token)
-                                    if (this.tokenReadyCallback) {
-                                        this.tokenReadyCallback(res)
-                                    }
-                                    this.GetParameter();
+                        indexController.UserApiLogin({
+                            code: res.code
+                        }).then(result => {
+                            if (result.done) {
+                                wx.setStorageSync('token', result.result.token)
+                                if (this.tokenReadyCallback) {
+                                    this.tokenReadyCallback(result);
                                 }
-                                wx.hideLoading();
-                            },
-                            fail: err => {}
-                        })
+                                this.GetParameter();
+
+                                setTimeout(() => {
+                                    this.SetHotRed();
+                                }, 1000);
+                            }
+                            wx.hideLoading();
+                        });
                     }
                 });
             }
@@ -56,7 +56,7 @@ App({
                                 this.userInfoReadyCallback(res)
                             }
                         }
-                    })
+                    });
                 }
             }
         })
@@ -69,7 +69,7 @@ App({
         updateManager.onCheckForUpdate(function(res) {
             // 请求完新版本信息的回调
             console.log(res.hasUpdate)
-        })
+        });
 
         updateManager.onUpdateReady(function() {
             wx.showModal({
@@ -81,17 +81,15 @@ App({
                         updateManager.applyUpdate()
                     }
                 }
-            })
+            });
         })
 
         updateManager.onUpdateFailed(function() {
             // 新的版本下载失败
-        })
+        });
 
-        setTimeout(() => {
-            this.SetHotRed();
-        }, 1000);
     },
+    //公共变量
     globalData: {
         userInfo: null,
         defaultImg: 'http://www.kzj365.com/mini_program/images/default.png',
@@ -106,13 +104,15 @@ App({
     Util: {
         handleDate: Util
     },
+    //图片统一错误处理
     errImg: function(e, that) {
         let _obj = e.target.dataset.obj;
         let _errObj = {};
         _errObj[_obj] = this.globalData.defaultImg;
         that.setData(_errObj);
     },
-    calling: function() { //拨打电话
+    //拨打电话
+    calling: function() {
         wx.makePhoneCall({
             phoneNumber: this.globalData.mobile,
             success: function() {
@@ -123,6 +123,7 @@ App({
             }
         })
     },
+    //获取全局公共参数
     GetParameter() {
         indexController.GetParameter().then(res => {
             if (res.done) {
@@ -132,6 +133,7 @@ App({
             }
         });
     },
+    //设置导航栏红点
     SetHotRed() {
         indexController.GetCartCountAndOrderCount().then(res => {
             if (res.done) {

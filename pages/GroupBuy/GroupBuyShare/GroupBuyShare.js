@@ -17,6 +17,7 @@ Page({
         Default_avatar: 'http://www.kzj365.com/mini_program/images/avatar_default.png',
         ShareData: {},
         serviceTime: '',
+        GroupTime: '',
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         hasUserInfo: false,
     },
@@ -82,7 +83,13 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-
+        this.GetShaerData();
+    },
+    onHide(){
+        clearInterval(this.data.GroupTime);
+    },
+    onUnload(){
+        clearInterval(this.data.GroupTime);
     },
     //获取拼团数据
     GetShaerData(id) {
@@ -96,7 +103,7 @@ Page({
             order_id: this.data.OrderId
         }).then(res => {
             if (res.done) {
-                //res.data = this.MakeDefaultData(res.data, res.data.GroupNumber)
+                res.result.prg = this.MakeDefaultData(res.result.prg, res.result.prg.people_number)
                 this.setData({
                     ShareData: res.result.prg,
                     serviceTime: res.result.serviceTime
@@ -115,10 +122,10 @@ Page({
     },
     //补全数据列表
     MakeDefaultData(list, n) {
-        if (n > list.ShareMenberList.length) {
-            let _Length = list.ShareMenberList.length
+        if (n > list.headimgs.length) {
+            let _Length = list.headimgs.length
             for (let i = 0; i < n - _Length; i++) {
-                list.ShareMenberList.push(this.data.Default_avatar)
+                list.headimgs.push(this.data.Default_avatar)
             }
         }
         return list;
@@ -151,6 +158,10 @@ Page({
                     TimeOut: _TimeOut
                 })
             }, 1000);
+
+            this.setData({
+                GroupTime: GroupTime
+            });
         }
     },
     /**
@@ -160,7 +171,7 @@ Page({
         let GroupId = this.data.ShareData.group_id;
         let ShareOption = {
             title: '只要' + this.data.ShareData.purchase_price.toFixed(2) + '元就能拼到' + this.data.ShareData.goods_title,
-            path: '/' + this.route + '?id=' + GroupId,
+            path: '/' + this.route + '?gid=' + GroupId,
             imageUrl: this.data.ShareData.goods_img || app.globalData.sharedefault
         }
         return ShareOption;

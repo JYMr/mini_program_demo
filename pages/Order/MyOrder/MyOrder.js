@@ -43,15 +43,15 @@ Page({
     /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
-    onPullDownRefresh: function() {
-       this.ReloadOrderData();
-    },
+    /* onPullDownRefresh: function() {
+        this.ReloadOrderData();
+     },*/
     /**
      * 页面上拉触底事件的处理函数
      */
     onReachBottom() {
         if (this.data.isEnd) return;
-        this.ReloadOrderData();
+        this.GetOrderList();
     },
     onRefresh: function() {
         this.ReloadOrderData();
@@ -112,8 +112,8 @@ Page({
         let _id = e.currentTarget.dataset.id;
 
         //判断是否在取消中的订单
-        if(_disabled){
-             this.Dialog.ShowDialog({
+        if (_disabled) {
+            this.Dialog.ShowDialog({
                 title: '该订单客服正在确认是否已发货，请等待商家处理!',
                 type: 'Alert',
                 callback: res => {
@@ -357,7 +357,7 @@ Page({
                     })
                 }
                 this.Dialog.CloseDialog();
-                
+
             }
         })
     },
@@ -453,7 +453,7 @@ Page({
 
                 }
                 this.Dialog.CloseDialog();
-                
+
             }
         })
     },

@@ -9,7 +9,7 @@
 </view>
 <view class='meau'>
   <view class='title'>
-    <navigator url="/pages/Order/MyOrder/MyOrder?status=0">我的订单</navigator>
+    <navigator url="/pages/Order/MyOrder/MyOrder?status=-1">我的订单</navigator>
   </view>
   <view class='con'>
     <navigator class='item' url="/pages/Order/MyOrder/MyOrder?status=0" hover-class='none'>

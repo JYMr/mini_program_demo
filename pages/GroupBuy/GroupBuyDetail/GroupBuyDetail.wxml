@@ -140,11 +140,11 @@
                 <text>单独购买</text>
             </navigator>
             <!-- 有用户权限 -->
-            <view class="btn{{isAllow ? '' : ' disabled'}}" wx:if="{{hasUserInfo && isAllow}}" data-disabled="{{isAllow}}" catchtap="ConfirmGroupOrder">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
+            <view class="btn{{isAllow ? '' : ' disabled'}}" wx:if="{{hasUserInfo}}" data-disabled="{{isAllow}}" catchtap="ConfirmGroupOrder">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
                 <text>{{goodsinfo.people_number}}人开团</text>
             </view>
             <!-- 无用户权限 -->
-            <button class='btn' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" data-disabled="{{isAllow}}" wx:if="{{!hasUserInfo && isAllow}}">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
+            <button class='btn' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" data-disabled="{{isAllow}}" wx:if="{{!hasUserInfo}}">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
                 <text>{{goodsinfo.people_number}}人开团</text>
             </button>
         </view>
@@ -177,11 +177,11 @@
                     <text>单独购买</text>
                 </navigator>
                 <!-- 有用户权限 -->
-                 <view class="btn{{isAllow ? '' : ' disabled'}}" wx:if="{{hasUserInfo || isAllow}}" data-disabled="{{isAllow}}" catchtap="ConfirmGroupOrder">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
+                 <view class="btn{{isAllow ? '' : ' disabled'}}" wx:if="{{hasUserInfo}}" data-disabled="{{isAllow}}" catchtap="ConfirmGroupOrder">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
                     <text>{{goodsinfo.people_number}}人开团</text>
                 </view>
                 <!-- 无用户权限 -->
-                <button class='btn' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" data-disabled="{{isAllow}}" wx:if="{{!hasUserInfo && isAllow}}">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
+                <button class='btn' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" data-disabled="{{isAllow}}" wx:if="{{!hasUserInfo}}">￥{{Filter.toFixed(goodsinfo.purchase_price)}}
                     <text>{{goodsinfo.people_number}}人开团</text>
                 </button>
             </block>

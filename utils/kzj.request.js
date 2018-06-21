@@ -12,46 +12,55 @@ class Request {
      * 抓取API数据
      * @param  {String} url    链接
      * @param  {Objece} params 参数
+     * @param  {Boolean} flag  是否携带token
      * @return {Promise}       包含抓取任务的Promise
      */
-    getApi(url, params) {
+    getApi(url, params, flag) {
+
+        if(flag === undefined) flag = true;
+
         let token = wx.getStorageSync('token') || '';
+
         const promise = new Promise((resolve, reject) => {
+
+            //判断是否需要置入token
+            if(flag) params = Object.assign({}, { 'token': token }, params)
+
             wx.request({
                 url: `${BASE_URL}${url}`,
                 method: 'POST',
-                data: Object.assign({}, { 'token': token }, params), //置入token
+                data: params, //置入token
                 header: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 success: res=>{
                     if(res.statusCode == 200){
-                        resolve(res)
+                        resolve(res);
                     }else{
                         wx.showToast({
-                            title: '服务器出错,请重试',
+                            title: '[' + res.statusCode + '] 服务器出错,请重试',
                             icon: 'none'
-                        })
+                        });
                     }
                 },
                 fail: err => {
                     wx.showToast({
                         title: '网络错误',
                         icon: 'none'
-                    })
-                    reject()
+                    });
+                    reject();
                 }
-            })
-        })
+            });
+        });
 
-        if (token == '') {
+        if (token == '' && flag) {
            return new Promise((resolve, reject) => {
                 wx.showToast({
                     title: '状态失效，请关闭小程序后，重新打开',
                     icon: 'none'
-                })
-                reject()
-            })
+                });
+                reject();
+            });
         } else {
-            return promise
+            return promise;
         }
     }
 

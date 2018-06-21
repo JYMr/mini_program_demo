@@ -1,5 +1,5 @@
 /* pages/Common/ReservationInput/ReservationInput.wxss */
-.ReservationInput{position: fixed;z-index: 999;top: 50%;right: 0;left: 0; width: 570rpx;margin: 0 auto;transform: translate(0, -50%);animation-name: fadeInDown;animation-duration: .3s;animation-fill-mode: both;}
+.ReservationInput{position: fixed;z-index: 999;top: 50%;right: 0;left: 0; width: 570rpx;margin: 0 auto;transform: translate3d(0, -50%, 0);animation: ReservationfadeInDown .3s forwards;}
 .mask{ position: fixed;z-index: 998;top: 0;right: 0;bottom: 0;left: 0;margin: auto;background-color: rgba(0,0,0,.6);}
 .ReservationInput .title{ font-size: 36rpx;line-height: 107rpx;display: block;width: 100%;text-align: center;color: #222;border-radius: 10rpx 10rpx 0 0;background-color: #fff;position: relative;}
 .ReservationInput .title .loading{display: block; width: 30rpx;height: 30rpx;transition: all 1s;animation: loading 1s linear infinite;vertical-align: bottom;position: absolute;top: 0;bottom: 0;margin: auto;right: 150rpx;
@@ -14,8 +14,8 @@
 .ReservationInput .ReservationInputBtn{font-size: 32rpx;line-height: 98rpx;display: block;height: 98rpx;text-align: center;color: #fff;border-radius: 0 0 10rpx 10rpx; background-color: #ddd;}
 .ReservationInput .ReservationInputBtn.active{ background-color: #37c4a4;}
 
-@keyframes fadeInDown{ from{ transform: translate3d(0, -80%, 0);opacity: 0;}
-    to{ transform: translate3d(0, -50%, 0);opacity: 1;}}
+@keyframes ReservationfadeInDown{from{opacity: 0;}
+    to{opacity: 1;}}
 
 @keyframes loading{ from{ transform: rotate(360deg);}
     to{ transform: rotate(0deg);}}

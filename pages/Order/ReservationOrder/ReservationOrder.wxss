@@ -15,9 +15,11 @@
 .orderlists .lists .item{background: #fafafa; position: relative; margin-bottom: 10rpx; padding: 30rpx; display: block; overflow: hidden;}
 .orderlists .lists .item:last-child{ margin-bottom: 0;}
 .orderlists .lists .pic{ width: 140rpx; height: 140rpx; float: left; margin-right: 30rpx;}
-.orderlists .lists .name{ text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;  color: #4a5259; font-size: 26rpx; height: 100rpx; line-height: 1.4;}
-.orderlists .lists .type{ background: #37c4a4; display: inline-block; line-height: 30rpx; vertical-align: middle; padding: 0 10rpx;  height: 30rpx; color: #fff; text-align: center; margin-right: 10rpx; text-transform: uppercase; border-radius: 50rpx;}
-.orderlists .lists .type.redbg{ background: #ff5c58;}
+.orderlists .lists .name{ text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;  color: #4a5259; font-size: 26rpx; height: 106rpx; line-height: 1.4;}
+.orderlists .TypeIcon{ background: #37c4a4; display: inline-block; line-height: 30rpx; vertical-align: middle; padding: 0 10rpx; font-size: 24rpx; height: 30rpx; color: #fff; text-align: center; margin-right: 10rpx; text-transform: uppercase; border-radius: 50rpx;}
+.orderlists .TypeIcon.redbg{ background: #ff5c58;}
+.orderlists .TypeIcon.bjp{height: 30rpx;width: 47rpx;
+	background: url("http://www.kzj365.com/mini_program/images/bjpicon.png") center center no-repeat;background-size: 47rpx 30rpx;}
 .orderlists .lists .price{color: #ff5c58; font-size: 20rpx;font-weight: 700;}
 .orderlists .lists .price .n{ font-size: 30rpx;}
 .orderlists .lists .attr{ color: #888;}
