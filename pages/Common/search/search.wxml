@@ -16,7 +16,7 @@
     <!-- 未找到符合条码的商品 -->
     <view slot="content">
         <view class='errrocode'>
-            <image src='http://www.kzj365.com/mini_program/images/errorcode.png'></image>
+            <image src='http://www.kzj365.com/mini_program/images/errorcode.png' lazy-load="true"></image>
             <view class='text'>未找到符合条码的商品</view>
         </view>
     </view>

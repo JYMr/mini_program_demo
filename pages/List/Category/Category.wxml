@@ -1,9 +1,11 @@
 <!--pages/cate/cate.wxml-->
-<scroll-view class='cate-left' scroll-y>
-    <block wx:for="{{CategoryList}}" wx:key="cate_{{index}}">
-        <view class="cate-btn {{chooseId == item.catId ? 'hover' : ''}}" bindtap="switchRightTab" data-index="{{index}}" data-id="{{item.catId}}">{{item.catName}}</view>
-    </block>
-</scroll-view>
+<view class='cate-left'>
+  <scroll-view class='cate-left-in' scroll-y>
+      <block wx:for="{{CategoryList}}" wx:key="cate_{{index}}">
+          <view class="cate-btn {{chooseId == item.catId ? 'hover' : ''}}" bindtap="switchRightTab" data-index="{{index}}" data-id="{{item.catId}}">{{item.catName}}</view>
+      </block>
+  </scroll-view>
+</view>
 <view class="scroll-content">
     <scroll-view class="scroll-view" scroll-y>
         <block wx:if="{{ChildList.length > 0}}">

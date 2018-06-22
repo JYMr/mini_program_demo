@@ -1,6 +1,9 @@
 <!--pages/Common/CustomerService/CustomerService.wxml-->
 <view class="CustomerService" wx:if="{{isShow}}">
-    <text class="title">售后单</text>
+    <view class="title">
+        售后单
+        <view class="loading" wx:if="{{lastInfoLoading}}"></view>
+    </view>
     <view class="type-group">
     	<view class="type" data-type="1" catchtap="ChangeType">
     		<view class="select{{UserInfo.type == 1 ? ' on': ''}}"></view>退款

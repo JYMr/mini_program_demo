@@ -24,7 +24,7 @@
     <view class='lists'>
         <block wx:for="{{OrderItem.orderGoods}}" wx:for-index="goods_index"  wx:for-item="item" wx:key="goods_{{goods_index}}">
         <view class='item'>
-            <image class='pic' src='{{item.goodsImg || DefaultImage}}' binderror="ErrorImage" data-obj="OrderList[{{index}}].orderGoods[{{goods_index}}].goodsImg"></image>
+            <image class='pic' src='{{item.goodsImg || DefaultImage}}' binderror="ErrorImage" data-obj="OrderList[{{index}}].orderGoods[{{goods_index}}].goodsImg" lazy-load="true"></image>
             <view class='name'><template is="TypeIcon" data="{{type: item.goodsType}}" />{{item.goodsName}}</view>
             <text class='price'>￥<text class='n'>{{Filter.toFixed(item.goodsPrice)}}</text></text>
             <text class='attr'>/1{{item.goodsUnit}}</text>

@@ -12,37 +12,13 @@ App({
                 setTimeout(() => {
                     this.SetHotRed();
                 }, 1000);
-                //wx.setStorageSync("token", "1950b2eeb4857a286ab9e845be9e0bcf")
             },
             fail: () => {
                 // session_key 已经失效，需要重新执行登录流程
-                wx.showLoading({
-                    title: '登录中...',
-                    mask: true
-                });
-                wx.login({
-                    success: res => {
-                        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-                        indexController.UserApiLogin({
-                            code: res.code
-                        }).then(result => {
-                            if (result.done) {
-                                wx.setStorageSync('token', result.result.token)
-                                if (this.tokenReadyCallback) {
-                                    this.tokenReadyCallback(result);
-                                }
-                                this.GetParameter();
-
-                                setTimeout(() => {
-                                    this.SetHotRed();
-                                }, 1000);
-                            }
-                            wx.hideLoading();
-                        });
-                    }
-                });
+                this.GetLogin();
             }
-        })
+        });
+        
         // 登录
         // 获取用户信息
         wx.getSetting({
@@ -59,7 +35,7 @@ App({
                     });
                 }
             }
-        })
+        });
 
         //异步更新 + 强制更新
 
@@ -89,6 +65,34 @@ App({
         });
 
     },
+    //登录请求
+    GetLogin() {
+        wx.showLoading({
+            title: '登录中...',
+            mask: true
+        });
+        wx.login({
+            success: res => {
+                // 发送 res.code 到后台换取 openId, sessionKey, unionId
+                indexController.UserApiLogin({
+                    code: res.code
+                }).then(result => {
+                    if (result.done) {
+                        wx.setStorageSync('token', result.result.token)
+                        if (this.tokenReadyCallback) {
+                            this.tokenReadyCallback(result);
+                        }
+                        this.GetParameter();
+
+                        setTimeout(() => {
+                            this.SetHotRed();
+                        }, 1000);
+                    }
+                    wx.hideLoading();
+                });
+            }
+        });
+    },
     //公共变量
     globalData: {
         userInfo: null,
@@ -99,7 +103,8 @@ App({
         cashStatus: false, //货到付款开启状态
         open_rx: '', //后台设置开启购买
         isOpenCustomerService: false, //是否开启在线客服
-        AddressId: '' //用于订单地址选择
+        AddressId: '', //用于订单地址选择
+        PaySuccessGroupId: ''//用于拼团成功后，返回详情页提示分享
     },
     Util: {
         handleDate: Util

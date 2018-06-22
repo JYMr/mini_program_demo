@@ -7,16 +7,16 @@
     <swiper class="goodsilder" indicator-dots="true" autoplay="true" interval="5000" duration="500">
         <block wx:for="{{goodsinfo.goods_images}}" wx:key="{{index}}">
             <swiper-item>
-                <image src="{{item.image_artwork_name || DefaultImage}}" binderror="errImg" data-obj="goodsinfo.image_artwork_name[{{index}}]" class="slide-image" />
+                <image src="{{item.image_artwork_name || DefaultImage}}" binderror="errImg" data-obj="goodsinfo.image_artwork_name[{{index}}]" class="slide-image"  lazy-load="true"/>
             </swiper-item>
         </block>
     </swiper>
     <view class="GroupBuyTime" wx:if="{{goodsinfo.end_time / 1000 > serviceTime}}">
-        <image src="http://www.kzj365.com/mini_program/images/time_icon.png"></image>
+        <image src="http://www.kzj365.com/mini_program/images/time_icon.png" lazy-load="true"></image>
         活动时间：{{goodsinfo.starttime}} 至 {{goodsinfo.endtime}}
     </view>
     <view class="GroupBuyTime{{ goodsinfo.end_time / 1000 <= serviceTime ? ' timeout' : ''}}" wx:if="{{goodsinfo.end_time / 1000 <= serviceTime}}">
-        <image src="http://www.kzj365.com/mini_program/images/time_icon.png"></image>
+        <image src="http://www.kzj365.com/mini_program/images/time_icon.png" lazy-load="true"></image>
         活动已结束
     </view>
     <view class='goodserver'>
@@ -78,7 +78,7 @@
     <view class="MemberList" wx:if="{{GroupList.length != 0}}">
         <view class="title">小伙伴在开团，可直接参与</view>
         <view class="MemberList-item" wx:for="{{GroupList}}" wx:key="MemberList_{{index}}">
-            <image src="{{item.user.headimg || DefaultImage}}" binderror="ErrorImage" data-obj="GroupList[{{index}}].headimg"></image>
+            <image src="{{item.user.headimg || DefaultImage}}" binderror="ErrorImage" data-obj="GroupList[{{index}}].headimg" lazy-load="true"></image>
             {{item.user.nickname}}
             <view class="item-data">
                 <view class="time">
@@ -104,17 +104,22 @@
         <view class="content-item" wx:if="{{DetailActive == 0}}">
             <view class='goodsdetail'>
                 <block wx:for='{{goodsinfo.goods_desc_imgs}}' wx:for-item="item" wx:for-index='index' wx:key="detail_{{index}}">
-                    <image src='{{item.goodsDescImg}}' mode="widthFix"></image>
+                    <image src='{{item.goodsDescImg}}' mode="widthFix" lazy-load="true"></image>
                 </block>
             </view>
         </view>
         <view class="content-item" wx:if="{{DetailActive == 1}}">
             <view class='instructions'>
                 <view class="table">
-                    <block wx:for="{{goodsinfo.books}}" wx:key="manual_{{index}}">
-                        <view class="tr">
+                     <block wx:if="{{goodsinfo.books.length > 0}}">
+                        <view class="tr" wx:for="{{goodsinfo.books}}" wx:key="manual_{{index}}">
                             <view class="th">{{item.bookname}}</view>
                             <view class="td">{{item.bookvalue}}</view>
+                        </view>
+                    </block>
+                    <block wx:else>
+                        <view class="tr tr-empty">
+                            暂无说明书
                         </view>
                     </block>
                 </view>
@@ -126,11 +131,11 @@
 
         <!-- 从分享链接进入，展示更多拼团 -->
         <navigator class="Icon-btn" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList" wx:if="{{isShare}}">
-            <image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
+            <image src="http://www.kzj365.com/mini_program/images/time_icon_01.png" lazy-load="true"></image>
             更多拼团
         </navigator>
         <view class="Icon-btn" bindtap="ToggleChaticonMenu" wx:else>
-            <image src="http://www.kzj365.com/mini_program/images/phoneicon.png"></image>
+            <image src="http://www.kzj365.com/mini_program/images/phoneicon.png" lazy-load="true"></image>
             联系客服
         </view>
 
@@ -192,7 +197,7 @@
 
 <!-- 从分享页进入，返回首页悬浮按钮 -->
 <navigator class="find-index" open-type="switchTab" url="/pages/Index/Index" wx:if="{{isShare}}" hover-class="none">
-    <image src="http://www.kzj365.com/mini_program/images/find_index.png"></image>
+    <image src="http://www.kzj365.com/mini_program/images/find_index.png" lazy-load="true"></image>
 </navigator>
 
 <!-- 页脚 -->

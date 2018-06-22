@@ -1,7 +1,4 @@
 const request = require('../../utils/kzj.request.js');
-const linq = require('../../lib/linq.min.js').linq;
-
-const URI = '';
 
 class OrderController {
 
@@ -10,7 +7,7 @@ class OrderController {
      * @return {Promise}
      */
     getOneData(params) {
-        return request.get(`${URI}/api/buyNow.shtml`, params).then(res => res.data)
+        return request.get(`/api/buyNow.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -18,7 +15,7 @@ class OrderController {
      * @return {Promise}
      */
     SubmitShopCart(params) {
-        return request.get(`${URI}/api/submitShopCart.shtml`, params).then(res => res.data)
+        return request.get(`/api/submitShopCart.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -26,7 +23,7 @@ class OrderController {
      * @return {Promise}
      */
     CreateOrder(params) {
-        return request.get(`${URI}/api/createOrder.shtml`, params).then(res => res.data)
+        return request.get(`/api/createOrder.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -34,7 +31,7 @@ class OrderController {
      * @return {Promise}
      */
     getOrder(params) {
-        return request.get(`${URI}/api/getMyOrderList.shtml`, params).then(res => res.data)
+        return request.get(`/api/getMyOrderList.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -42,7 +39,7 @@ class OrderController {
      * @return {Promise}
      */
     getOrderDetail(params) {
-        return request.get(`${URI}/api/getOrderInfo.shtml`, params).then(res => res.data)
+        return request.get(`/api/getOrderInfo.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -50,7 +47,7 @@ class OrderController {
      * @return {Promise}
      */
     GetAfterSalesList(params) {
-        return request.get(`${URI}/api/getAfterSalesList.shtml`, params).then(res => res.data)
+        return request.get(`/api/getAfterSalesList.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -58,7 +55,7 @@ class OrderController {
      * @return {Promise}
      */
     GetAfterSalesInfo(params) {
-        return request.get(`${URI}/api/getAfterSalesInfo.shtml`, params).then(res => res.data)
+        return request.get(`/api/getAfterSalesInfo.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -66,7 +63,7 @@ class OrderController {
      * @return {Promise}
      */
     CancelOrder(params) {
-        return request.get(`${URI}/api/cancelOrder.shtml`, params).then(res => res.data)
+        return request.get(`/api/cancelOrder.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -74,7 +71,7 @@ class OrderController {
      * @return {Promise}
      */
     SubmitReceiving(params) {
-        return request.get(`${URI}/api/submitReceiving.shtml`, params).then(res => res.data)
+        return request.get(`/api/submitReceiving.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -82,7 +79,7 @@ class OrderController {
      * @return {Promise}
      */
     ApplyAfterSales(params) {
-        return request.get(`${URI}/api/applyAfterSales.shtml`, params).then(res => res.data)
+        return request.get(`/api/applyAfterSales.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -90,7 +87,7 @@ class OrderController {
      * @return {Promise}
      */
     DeleteOrder(params) {
-        return request.get(`${URI}/api/deleteOrder.shtml`, params).then(res => res.data)
+        return request.get(`/api/deleteOrder.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -98,7 +95,7 @@ class OrderController {
      * @return {Promise}
      */
     OrderBuyAgain(params) {
-        return request.get(`${URI}/api/orderBuyAgain.shtml`, params).then(res => res.data)
+        return request.get(`/api/orderBuyAgain.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -106,7 +103,7 @@ class OrderController {
      * @return {Promise}
      */
     getPayMent(params) {
-        return request.get(`${URI}/api/getUnifiedOrderPayApi.shtml`, params).then(res => res.data)
+        return request.get(`/api/getUnifiedOrderPayApi.shtml`, params).then(res => res.data)
     }
 
 }

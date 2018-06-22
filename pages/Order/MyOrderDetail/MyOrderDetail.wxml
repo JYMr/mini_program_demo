@@ -71,8 +71,8 @@
         </view>
         <view class='lists'>
             <block wx:for="{{OrderData.orderGoods}}" wx:key="goods_{{index}}">
-                <navigator class='item' url="/pages/Goods/GoodsDetail/GoodsDetail?id={{item.goodsId}}">
-                    <image class='pic' src='{{item.goodsImg ||DefaultImage}}' binderror="ErrorImage" data-obj="OrderData.orderGoods[{{index}}].goodsImageUrl"></image>
+                <view class='item'>
+                    <image class='pic' src='{{item.goodsImg ||DefaultImage}}' binderror="ErrorImage" data-obj="OrderData.orderGoods[{{index}}].goodsImageUrl" lazy-load="true"></image>
                     <view class='name'>
                         <template is="TypeIcon" data="{{type: item.goodsType}}" />{{item.goodsTitle}} {{item.goodsSpec}}</view>
                     <text class='price'>￥<text class='n'>{{Filter.toFixed(item.goodsPrice)}}</text>
@@ -80,7 +80,7 @@
                     <text class='attr' wx:if="{{item.goodsDeno}}">/1{{item.goodsDeno}}</text>
                     <text class='ctype' wx:if="{{item.isGroup}}">疗程装</text>
                     <text class='nums'>x{{item.goodsInfoNum}}</text>
-                </navigator>
+                </view>
             </block>
         </view>
         <view class='total'> 共{{OrderData.orderGoodsTotalCount}}件商品 合计：￥{{Filter.toFixed(OrderData.orderPrice)}}
@@ -133,57 +133,63 @@
 <view class='floatcontrol-blank' wx:if="{{OrderData.orderType}}"></view>
 <view class='floatcontrol' wx:if="{{OrderData.orderType}}">
     <!-- 按钮状态 -->
-    <!-- 已取消 -->
-    <block wx:if="{{OrderData.orderStatus == 7}}">
-        <view class='control'>
-            <text class='cancel-btn' data-id="{{OrderData.orderId}}" catchtap="DeleteOrder">删除订单</text>
-        </view>
-    </block>
-    <!-- 取消中 -->
-    <block wx:elif="{{OrderData.orderCancelStatus == 1}}">
-        <view class='control'>
-            <text class='cancel-btn disabled' data-id="{{OrderData.orderId}}" data-disabled="true" catchtap="CancelOrder">取消订单</text>
-        </view>
-    </block>
-    <!-- 待付款 -->
-    <block wx:elif="{{OrderData.orderStatus == 0}}">
-        <view class='control'>
-            <text class='cancel-btn' data-id="{{OrderData.orderId}}" catchtap="CancelOrder">取消订单</text>
-            <text class='gopay-btn' data-id="{{OrderData.orderId}}" catchtap="PayToOrder">去支付</text>
-        </view>
-    </block>
-    <!-- 待分享 -->
-    <block wx:elif="{{OrderData.orderStatus == 1}}">
-        <view class='control'>
-            <text class='cancel-btn' data-id="{{OrderData.orderId}}" catchtap="CancelOrder">取消订单</text>
-            <text class='gopay-btn' data-id="{{OrderData.groupId}}" catchtap="InviteJoin">邀请参团</text>
-        </view>
-    </block>
-    <!-- 待发货 -->
-    <block wx:elif="{{OrderData.orderStatus == 2}}">
-        <view class='control'>
-            <text class='cancel-btn' data-id="{{OrderData.orderId}}" catchtap="CancelOrder">取消订单</text>
-        </view>
-    </block>
-    <!-- 已发货 -->
-    <block wx:elif="{{OrderData.orderStatus == 3}}">
-        <view class='control'>
-            <text class='cancel-btn' data-id="{{OrderData.orderId}}" data-expressnumber="{{OrderData.logisticsCode}}" data-expressname="{{OrderData.ExpressSlotName}}" catchtap="ExpressNumber">物流单号</text>
-            <text class='cancel-btn{{OrderData.orderAfterStatus == 1 || OrderData.orderAfterStatus == 0 ? " disabled" : ""}}' data-code="{{OrderData.orderCode}}" data-disabled="{{OrderData.orderAfterStatus == 1 || OrderData.orderAfterStatus == 0}}" catchtap="CustomerService">申请售后</text>
-            <text class='cancel-btn green' data-id="{{OrderData.orderId}}" catchtap="ConfirmOrder">确认收货</text>
-        </view>
-    </block>
-    <!-- 已完成 -->
-    <block wx:elif="{{OrderData.orderStatus == 5}}">
-        <view class='control'>
-            <block wx:if="{{OrderData.orderAfterStatus != 1}}">
-                <!-- 售后中的订单无法删除 -->
+     <block wx:if="{{OrderData.orderStatus == 7}}">
+            <view class='control'>
                 <text class='cancel-btn' data-id="{{OrderData.orderId}}" catchtap="DeleteOrder">删除订单</text>
-            </block>
-            <text class='cancel-btn{{OrderData.orderAfterStatus == 1 || OrderData.orderAfterStatus == 0 ? " disabled" : ""}}' data-code="{{OrderData.orderCode}}" data-disabled="{{OrderData.orderAfterStatus == 1 || OrderData.orderAfterStatus == 0}}" catchtap="CustomerService">申请售后</text>
-            <text class='cancel-btn' data-id="{{OrderData.orderId}}" catchtap="BuyingAgain">再次购买</text>
-        </view>
-    </block>
+            </view>
+        </block>
+         <!-- 取消中 -->
+        <block wx:elif="{{OrderData.orderCancelStatus == 1}}">
+            <view class='control'>
+                <text class='cancel-btn' data-id="{{OrderData.orderId}}" data-expressnumber="{{OrderData.logisticsCode}}" data-expressname="{{OrderData.logisticsCompany}}" catchtap="ExpressNumber" wx:if="{{OrderData.orderStatus == 3}}">物流单号</text>
+                <text class='cancel-btn disabled' data-id="{{OrderData.orderId}}" data-disabled="true" catchtap="CancelOrder">取消订单</text>
+            </view>
+        </block>
+        <!-- 待付款 -->
+        <block wx:elif="{{OrderData.orderStatus == 0}}">
+            <view class='control'>
+                <text class='cancel-btn' data-id="{{OrderData.orderId}}" catchtap="CancelOrder">取消订单</text>
+                <text class='gopay-btn' data-id="{{OrderData.orderId}}" catchtap="PayToOrder">去支付</text>
+            </view>
+        </block>
+        <!-- 待分享 -->
+        <block wx:elif="{{OrderData.orderStatus == 1}}">
+            <view class='control'>
+                <text class='cancel-btn' data-id="{{OrderData.orderId}}" catchtap="CancelOrder">取消订单</text>
+                <text class='gopay-btn' data-id="{{OrderData.groupId}}" catchtap="InviteJoin">邀请参团</text>
+            </view>
+        </block>
+        <!-- 待发货 -->
+        <block wx:elif="{{OrderData.orderStatus == 2}}">
+            <view class='control'>
+                <text class='cancel-btn' data-id="{{OrderData.orderId}}" catchtap="CancelOrder">取消订单</text>
+            </view>
+        </block>
+        <!-- 已发货 -->
+        <block wx:elif="{{OrderData.orderStatus == 3}}">
+            <view class='control'>
+                <text class='cancel-btn' data-id="{{OrderData.orderId}}" data-expressnumber="{{OrderData.logisticsCode}}" data-expressname="{{OrderData.logisticsCompany}}" catchtap="ExpressNumber">物流单号</text>
+                <text class='cancel-btn' data-id="{{OrderData.orderId}}" catchtap="CancelOrder">取消订单</text>
+                <text class='cancel-btn green' data-id="{{OrderData.orderId}}" catchtap="ConfirmOrder">确认收货</text>
+            </view>
+        </block>
+        <!-- 已完成 -->
+        <block wx:elif="{{OrderData.orderStatus == 5}}">
+            <view class='control'>
+                <block wx:if="{{OrderData.orderAfterStatus != 1}}">
+                    <!-- 售后中的订单无法删除 -->
+                    <text class='cancel-btn' data-id="{{OrderData.orderId}}" catchtap="DeleteOrder">删除订单</text>
+                </block>
+                <text class='cancel-btn{{OrderData.orderAfterStatus == 1 || OrderData.orderAfterStatus == 0 ? " disabled" : ""}}' data-code="{{OrderData.orderCode}}" data-id="{{OrderData.shoppingAddrId}}" data-disabled="{{OrderData.orderAfterStatus == 1 || OrderData.orderAfterStatus == 0}}" catchtap="CustomerService">申请售后</text>
+                <block wx:if="{{OrderData.orderType == 1}}">
+                    <!-- 普通订单 -->
+                    <text class='cancel-btn' data-id="{{OrderData.orderId}}" catchtap="BuyingAgain">再次购买</text>
+                </block>
+                <block wx:else>
+                    <navigator class='cancel-btn' url="/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{OrderData.purchase_id}}">重新开团</navigator>
+                </block>
+            </view>
+        </block>
 </view>
 
 <!-- 客服悬浮按钮 -->

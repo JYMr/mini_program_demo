@@ -29,7 +29,7 @@ Page({
             });
         }
 
-        this.GetOrderData();
+        this.GetOrderDetail();
 
         //获取全局默认图片底图
         this.setData({
@@ -46,7 +46,7 @@ Page({
         this.Floatcustomer = this.selectComponent("#Floatcustomer");
     },
     //加载数据
-    GetOrderData() {
+    GetOrderDetail() {
         if (this.data.Status == 1) {
             this.GetAfterSalesInfo();
         } else {
@@ -131,7 +131,7 @@ Page({
                             //刷新数据
                             setTimeout(() => {
                                 //等待动画
-                                this.GetOrderData();
+                                this.GetOrderDetail();
                             }, 1500);
                         } else {
                             this.Dialog.ShowDialog({
@@ -201,12 +201,14 @@ Page({
     //申请售后
     CustomerService(e) {
         let _code = e.currentTarget.dataset.code;
+        let _id = e.currentTarget.dataset.id;
         let disabledStatus = e.currentTarget.dataset.disabled;
         //判断是否已经申请过售后
         if (!disabledStatus) {
             //显示售后表单弹窗
             this.CustomerServiceComponent.Show({
-                code: _code
+                code: _code,
+                id: _id
             });
         } else {
             this.Dialog.ShowDialog({
@@ -251,7 +253,7 @@ Page({
                 //刷新数据
                 setTimeout(() => {
                     //等待动画
-                    this.GetOrderData();
+                    this.GetOrderDetail();
                 }, 1500)
             } else {
                 this.Dialog.ShowDialog({
@@ -324,7 +326,7 @@ Page({
                             //刷新数据
                             setTimeout(() => {
                                 //等待动画
-                                this.GetOrderData();
+                                this.GetOrderDetail();
                             }, 1500);
                         } else {
                             this.Dialog.ShowDialog({
@@ -365,9 +367,7 @@ Page({
                         });
                         wx.hideLoading();
                         setTimeout(() => {
-                            wx.navigateTo({
-                                url: '/pages/Order/MyOrderDetail/MyOrderDetail?status=0&id=' + _id
-                            });
+                            this.GetOrderDetail();
                         }, 1500);
                     },
                     fail: res => {

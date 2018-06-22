@@ -7,7 +7,7 @@
         <view class='index-grid hot-grid'>
             <navigator class='slide' wx:for="{{GroupBuyData}}" url='/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{item.purchase_id}}' wx:key="GroupBuyData_{{index}}" hover-class="none">
                 <view class='pic'>
-                    <image src="{{item.purchase_image || DefaultImage}}" class="slide-image" lazy-load="true" mode="aspectFill" binderror="ErrorImage" data-obj="GroupBuyData[{{index}}].purchase_image"/>
+                    <image src="{{item.purchase_image || DefaultImage}}" class="slide-image" lazy-load="true" mode="aspectFill" binderror="ErrorImage" data-obj="GroupBuyData[{{index}}].purchase_image" lazy-load="true"/>
                     <view class='discount'>
                         <text class='n'>立省</text>
                         <text class='nums'>￥{{Filter.toFixed(item.preferen_price)}} </text>

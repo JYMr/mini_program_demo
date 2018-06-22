@@ -1,7 +1,4 @@
 const request = require('../../utils/kzj.request.js');
-const linq = require('../../lib/linq.min.js').linq;
-
-const URI = '';
 
 class CartController {
     /**
@@ -9,7 +6,7 @@ class CartController {
      * @return {Promise}
      */
     getCartData(params) {
-        return request.get(`${URI}/api/getShopCartByShopcart.shtml`, params).then(res => res.data)
+        return request.get(`/api/getShopCartByShopcart.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -17,7 +14,7 @@ class CartController {
      * @return {Promise}
      */
     setCartTotal(params) {
-        return request.get(`${URI}/api/updateShopCart.shtml`, params).then(res => res.data)
+        return request.get(`/api/updateShopCart.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -25,7 +22,7 @@ class CartController {
      * @return {Promise}
      */
     delCart(params) {
-        return request.get(`${URI}/api/deleteShopCartIds.shtml`, params).then(res => res.data)
+        return request.get(`/api/deleteShopCartIds.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -33,7 +30,7 @@ class CartController {
      * @return {Promise}
      */
     addCart(params) {
-        return request.get(`${URI}/api/insertShopCart.shtml`, params).then(res => res.data)
+        return request.get(`/api/insertShopCart.shtml`, params).then(res => res.data)
     }
 
 }

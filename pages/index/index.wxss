@@ -1,43 +1,43 @@
 /**index.wxss**/
-.navmeau{ overflow: hidden; display: flex; justify-content:space-around; align-items: center; background: #fff; margin-bottom: 20rpx; }
-.navmeau .navli{ color: #888888; font-size: 26rpx; text-align: center; float: left;width: 25%;padding:36rpx 0 28rpx;  box-sizing: border-box;}
-.navmeau .navli .icon{ width: 100rpx; height: 100rpx; display: block; margin:0 auto 15rpx;}
-.navmeau .navli .icon01{  background: url(http://www.kzj365.com/mini_program/images/navmeauicon01.png) no-repeat 0 0; background-size: 100%; }
-.navmeau .navli .icon02{  background: url(http://www.kzj365.com/mini_program/images/navmeauicon02.png) no-repeat 0 0; background-size: 100%; }
-.navmeau .navli .icon03{  background: url(http://www.kzj365.com/mini_program/images/navmeauicon03.png) no-repeat 0 0; background-size: 100%; }
-.navmeau .navli .icon04{  background: url(http://www.kzj365.com/mini_program/images/navmeauicon04.png) no-repeat 0 0; background-size: 100%; }
+.navmeau{display: flex; overflow: hidden;margin-bottom: 20rpx; background: #fff;justify-content: space-around;align-items: center;}
+.navmeau .navli{font-size: 26rpx;float: left;box-sizing: border-box;width: 25%;padding: 36rpx 0 28rpx;text-align: center; color: #888;}
+.navmeau .navli .icon{display: block; width: 100rpx;height: 100rpx;margin: 0 auto 15rpx;}
+.navmeau .navli .icon01{ background: url(http://www.kzj365.com/mini_program/images/navmeauicon01.png) no-repeat 0 0;background-size: 100%;}
+.navmeau .navli .icon02{ background: url(http://www.kzj365.com/mini_program/images/navmeauicon02.png) no-repeat 0 0;background-size: 100%;}
+.navmeau .navli .icon03{ background: url(http://www.kzj365.com/mini_program/images/navmeauicon03.png) no-repeat 0 0;background-size: 100%;}
+.navmeau .navli .icon04{ background: url(http://www.kzj365.com/mini_program/images/navmeauicon04.png) no-repeat 0 0;background-size: 100%;}
 .index-out{ background: #fff;}
-.index-grid{ overflow: hidden; background: #fff;  padding: 0 30rpx;}
-.index-grid .title{ margin-top: 36rpx; line-height: 36rpx; height: 36rpx; border-left: #37c4a4 10rpx solid; padding-left: 15rpx; font-size: 34rpx;}
-.index-grid .title .more{ float: right; color: #bbb; font-size: 30rpx;}
-.index-grid .slide{ overflow: hidden; }
-.index-grid .slide swiper{ height: 450rpx; width: 100%; padding-bottom: 36rpx;}
+.index-grid{ overflow: hidden;padding: 0 30rpx;background: #fff;}
+.index-grid .title{font-size: 34rpx;line-height: 36rpx;height: 36rpx; margin-top: 36rpx;padding-left: 15rpx;border-left: #37c4a4 10rpx solid;}
+.index-grid .title .more{font-size: 30rpx; float: right;color: #bbb;}
+.index-grid .slide{ overflow: hidden;}
+.index-grid .slide swiper{width: 100%; height: 450rpx;padding-bottom: 36rpx;}
 .index-grid .slide swiper-item{ padding-top: 36rpx;}
-.index-grid .slide .pic{ position: relative;width: 100%; height: 316rpx; box-sizing: border-box;}
-.index-grid .slide-image{ width: 100%; height: 100%;}
-.index-grid .slide .discount{ width:155rpx; height: 91rpx; position: absolute; right: 18rpx; top: -20rpx; z-index: 100; display: flex; justify-content: center; align-items: center; flex-direction: column; font-size: 24rpx; padding-bottom: 20rpx;  background: url(http://www.kzj365.com/mini_program/images/discounticon.png) no-repeat 0 0; background-size: 100%; }
-.index-grid .slide .discount .icon{  width:155rpx; height: 111rpx;position: absolute; z-index: 101; top: 0; left: 0;}
-.index-grid .slide .discount text{ color: #fff; position: relative; z-index: 102;}
-.index-grid .slide .discount .n{ font-style:italic; }
-.index-grid .slide .name{ position: absolute; z-index: 102; left: 0; right: 0; bottom: 0; font-size: 26rpx; height: 60rpx; line-height: 60rpx; color: #fff; background: rgba(0, 0, 0, 0.4); white-space: nowrap; text-overflow: ellipsis; overflow: hidden; padding: 0 30rpx;}
-.index-grid .slide .bottom{ background: #f8f8f8; line-height: 98rpx; height: 98rpx; box-sizing: border-box; padding: 0 30rpx; font-size: 24rpx; }
-.index-grid .slide .join-btn{ float: right; padding: 0 20rpx; height: 48rpx; line-height: 48rpx; background: #ff5c58; border-radius: 6rpx; color:#fff; margin-top: 25rpx; }
-.index-grid .slide .price{ font-size:30rpx; color: #ff5c58; font-weight: 700;}
-.goodslists{ overflow: hidden; background: #fff; margin-top: 30rpx;}
-.goodslists .item{ float: left; box-sizing: border-box; width: 50%; padding: 25rpx;}
-.goodslists .pic{ width: 220rpx; height: 220rpx; display: block; margin:0 auto 30rpx;}
-.goodslists .name{ font-size: 26rpx; margin-bottom: 10rpx; overflow: hidden;text-overflow: ellipsis;display: -webkit-box; white-space: nowrap; -webkit-box-orient: vertical;padding: 0 30rpx;}
-.goodslists .price{ font-size: 30rpx; color: #ff5656; padding: 0 30rpx; font-weight: 700;}
-.chat-btn{ height: 88rpx; line-height: 88rpx; text-align: center; color: #fff; font-size: 30rpx; background: #3dc6a7; border-radius: 100rpx; margin:29rpx 30rpx 0; }
+.index-grid .slide .pic{ position: relative;box-sizing: border-box;width: 100%;height: 316rpx;}
+.index-grid .slide-image{ width: 100%;height: 100%;}
+.index-grid .slide .discount{font-size: 24rpx;position: absolute;z-index: 100;top: -20rpx;right: 18rpx;display: flex;flex-direction: column; width: 155rpx;height: 91rpx;padding-bottom: 20rpx;background: url(http://www.kzj365.com/mini_program/images/discounticon.png) no-repeat 0 0;background-size: 100%; justify-content: center;align-items: center;}
+.index-grid .slide .discount .icon{position: absolute;z-index: 101;top: 0;left: 0; width: 155rpx;height: 111rpx;}
+.index-grid .slide .discount text{position: relative;z-index: 102; color: #fff;}
+.index-grid .slide .discount .n{ font-style: italic;}
+.index-grid .slide .name{font-size: 26rpx;line-height: 60rpx; position: absolute;z-index: 102;right: 0;bottom: 0;left: 0;overflow: hidden;height: 60rpx;padding: 0 30rpx;white-space: nowrap;text-overflow: ellipsis;color: #fff;background: rgba(0, 0, 0, .4);}
+.index-grid .slide .bottom{font-size: 24rpx; line-height: 98rpx;box-sizing: border-box;height: 98rpx;padding: 0 30rpx; background: #f8f8f8;}
+.index-grid .slide .join-btn{line-height: 48rpx; float: right;height: 48rpx;margin-top: 25rpx; padding: 0 20rpx;color: #fff;border-radius: 6rpx;background: #ff5c58;}
+.index-grid .slide .price{ font-size: 30rpx;font-weight: 700;color: #ff5c58;}
+.goodslists{ overflow: hidden;margin-top: 30rpx;background: #fff;}
+.goodslists .item{ float: left;box-sizing: border-box;width: 50%;padding: 25rpx;}
+.goodslists .pic{display: block; width: 220rpx;height: 220rpx;margin: 0 auto 30rpx;}
+.goodslists .name{ font-size: 26rpx;overflow: hidden;margin: 0 30rpx 10rpx;white-space: nowrap;text-overflow: ellipsis;}
+.goodslists .price{ font-size: 30rpx;font-weight: 700;padding: 0 30rpx;color: #ff5656;}
+.chat-btn{font-size: 30rpx;line-height: 88rpx; height: 88rpx;margin: 29rpx 30rpx 0; text-align: center;color: #fff;border-radius: 100rpx;background: #3dc6a7;}
 
-.navmeau-empty .icon{width: 100rpx; height: 100rpx; border-radius: 50%; background-color: #f5f5f5;}
-.navmeau-empty .text{width: 100rpx;height: 32rpx;background-color: #f5f5f5;border-radius: 3rpx;margin: 0 auto;}
-.grid-empty .title{border: none;background-color: #f5f5f5;width: 100rpx;height: 24rpx;}
-.grid-empty .slide{margin-top: 20rpx;}
-.grid-empty .slide .slide-image{height: 300rpx;background-color: #f5f5f5;border-radius: 12rpx;}
-.grid-empty .slide .bottom{margin-top: 20rpx;background-color: #FFF;height: auto;padding: 0;}
-.grid-empty .slide .join-btn{height: 42rpx;background-color: #f5f5f5;border-radius: 3rpx;width: 50rpx;margin-top: 0;}
-.grid-empty .slide .price{height: 42rpx;background-color: #f5f5f5;border-radius: 3rpx;width: 200rpx;}
-.grid-empty .item{float: left; box-sizing: border-box; width: 50%; padding: 25rpx;}
-.grid-empty .item .image{width: 80%;background-color: #f5f5f5;border-radius: 3rpx;padding: 40% 0;margin:0 auto;}
-.grid-empty .item .name{height: 42rpx;background-color: #f5f5f5;border-radius: 3rpx;width: 80%;margin: 20rpx auto 0;}
+.navmeau-empty .icon{ width: 100rpx;height: 100rpx;border-radius: 50%;background-color: #f5f5f5;}
+.navmeau-empty .text{ width: 100rpx;height: 32rpx;margin: 0 auto;border-radius: 3rpx;background-color: #f5f5f5;}
+.grid-empty .title{width: 100rpx;height: 24rpx; border: none;background-color: #f5f5f5;}
+.grid-empty .slide{ margin-top: 20rpx;}
+.grid-empty .slide .slide-image{ height: 300rpx;border-radius: 12rpx;background-color: #f5f5f5;}
+.grid-empty .slide .bottom{height: auto; margin-top: 20rpx;padding: 0;background-color: #fff;}
+.grid-empty .slide .join-btn{width: 50rpx; height: 42rpx;margin-top: 0;border-radius: 3rpx;background-color: #f5f5f5;}
+.grid-empty .slide .price{width: 200rpx; height: 42rpx;border-radius: 3rpx;background-color: #f5f5f5;}
+.grid-empty .item{ float: left;box-sizing: border-box;width: 50%;padding: 25rpx;}
+.grid-empty .item .image{ width: 80%;margin: 0 auto;padding: 40% 0;border-radius: 3rpx;background-color: #f5f5f5;}
+.grid-empty .item .name{width: 80%; height: 42rpx;margin: 20rpx auto 0;border-radius: 3rpx;background-color: #f5f5f5;}

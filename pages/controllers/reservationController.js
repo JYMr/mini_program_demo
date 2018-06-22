@@ -1,7 +1,4 @@
 const request = require('../../utils/kzj.request.js');
-const linq = require('../../lib/linq.min.js').linq;
-
-const URI = '';
 
 class ReservationController {
 
@@ -10,7 +7,7 @@ class ReservationController {
      * @return {Promise}
      */
     CreatelNeed(params) {
-        return request.get(`${URI}/api/createlNeed.shtml`, params).then(res => res.data)
+        return request.get(`/api/createlNeed.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -18,7 +15,7 @@ class ReservationController {
      * @return {Promise}
      */
     CreatelNeedByCart(params) {
-        return request.get(`${URI}/api/createlNeedByCart.shtml`, params).then(res => res.data)
+        return request.get(`/api/createlNeedByCart.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -26,7 +23,7 @@ class ReservationController {
      * @return {Promise}
      */
     GetNeedOrderList(params) {
-        return request.get(`${URI}/api/getNeedOrderList.shtml`, params).then(res => res.data)
+        return request.get(`/api/getNeedOrderList.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -34,7 +31,7 @@ class ReservationController {
      * @return {Promise}
      */
     CancelNeed(params) {
-        return request.get(`${URI}/api/cancelNeed.shtml`, params).then(res => res.data)
+        return request.get(`/api/cancelNeed.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -42,7 +39,7 @@ class ReservationController {
      * @return {Promise}
      */
     DeleteNeed(params) {
-        return request.get(`${URI}/api/deleteNeed.shtml`, params).then(res => res.data)
+        return request.get(`/api/deleteNeed.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -50,7 +47,7 @@ class ReservationController {
      * @return {Promise}
      */
     GetLastNeedPersonInfo(params) {
-        return request.get(`${URI}/api/getLastNeedPersonInfo.shtml`, params).then(res => res.data)
+        return request.get(`/api/getLastNeedPersonInfo.shtml`, params).then(res => res.data)
     }
 
 
@@ -59,7 +56,7 @@ class ReservationController {
      * @return {Promise}
      */
     NeedBuyAgain(params) {
-        return request.get(`${URI}/api/needBuyAgain.shtml`, params).then(res => res.data)
+        return request.get(`/api/needBuyAgain.shtml`, params).then(res => res.data)
     }
 }
 /**

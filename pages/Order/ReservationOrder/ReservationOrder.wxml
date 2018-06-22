@@ -21,8 +21,8 @@
     </view>
     <view class='lists'>
       <block wx:for="{{OrderItem.needGoods}}" wx:for-index="goods_index"  wx:for-item="item" wx:key="goods_{{goods_index}}">
-        <navigator class='item' hover-class='none' url="/pages/Goods/GoodsDetail/GoodsDetail?id={{item.goodsId}}">
-            <image class='pic' src='{{item.goodsImg || DefaultImage}}' binderror="ErrorImage" data-obj="OrderList[{{index}}].needGoods[{{goods_index}}].goodsImg"></image>
+        <view class='item'>
+            <image class='pic' src='{{item.goodsImg || DefaultImage}}' binderror="ErrorImage" data-obj="OrderList[{{index}}].needGoods[{{goods_index}}].goodsImg" lazy-load="true"></image>
             <view class='name'><template is="TypeIcon" data="{{type: item.goodsType}}" />{{item.goodsTitle}}</view>
             <text class='price'>
               <text>￥</text>
@@ -30,7 +30,7 @@
             </text>
             <text class='attr' wx:if="{{item.goodsUnit}}">/1{{item.goodsUnit}}</text>
             <text class='nums'>x{{item.goodsInfoNum}}</text>
-        </navigator>
+        </view>
       </block>
     </view>
     <view class='total'> 登记信息：{{OrderItem.needPerson}} {{OrderItem.needPhone}}</view>

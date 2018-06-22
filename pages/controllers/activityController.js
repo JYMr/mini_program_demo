@@ -1,7 +1,4 @@
 const request = require('../../utils/kzj.request.js');
-const linq = require('../../lib/linq.min.js').linq;
-
-const URI = '';
 
 class ActivityController {
     /**
@@ -9,7 +6,7 @@ class ActivityController {
      * @return {Promise}
      */
     getAddressData(params) {
-        return request.get(`${URI}/api/getActivityByActId.shtml`, params).then(res => res.data)
+        return request.get(`/api/getActivityByActId.shtml`, params).then(res => res.data)
     }
 
 }

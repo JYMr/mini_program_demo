@@ -75,15 +75,48 @@ Page({
         });
 
         let token = wx.getStorageSync('token') || '';
-        if(token){
+        if (token) {
             this.GetGroupDetailData();
-        }else{
+        } else {
             //直接进入等待登录回调
             app.tokenReadyCallback = res => {
                 this.GetGroupDetailData();
             }
         }
 
+    },
+
+    onShow() {
+        //判断全局是否存在需要提示分享的拼团订单Id
+        let PaySuccessGroupId = app.globalData.PaySuccessGroupId;
+
+        if (PaySuccessGroupId) {
+            GroupBuyController.GetGroupLastMemberByOrderId({
+                order_id: PaySuccessGroupId
+            }).then(res => {
+                if (res.done) {
+                    if (res.result.isLast == 0) {
+                        this.Dialog.ShowDialog({
+                            title: '您有未完成拼团订单，分享好友能提高拼团成功率，是否分享?',
+                            type: 'Confirm',
+                            btnArray: [
+                                { title: '取消', name: 'no' },
+                                { title: '分享好友', name: 'yes' }
+                            ],
+                            callback: res => {
+                                if (res.name == 'yes') {
+                                    wx.navigateTo({
+                                        url: '/pages/GroupBuy/GroupBuyShare/GroupBuyShare?orderid=' + PaySuccessGroupId
+                                    });
+                                }
+                                this.Dialog.CloseDialog();
+                            }
+                        });
+                    }
+                }
+            });
+            app.globalData.PaySuccessGroupId = '';
+        }
     },
 
     /**

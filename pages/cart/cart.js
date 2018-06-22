@@ -26,7 +26,6 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        this.GetCartList();
 
         if (app.globalData.userInfo) {
             this.setData({
@@ -94,6 +93,9 @@ Page({
         }).then(res => {
             if (res.done) {
 
+                //获取缓存选择状态
+                //res.result.shopCartApiList = this.GetCartChoose(res.result.shopCartApiList);
+
                 this.setData({
                     CartList: res.result.shopCartApiList,
                     isLoading: true,
@@ -101,7 +103,7 @@ Page({
                 });
 
                 //检查是否全选
-                //this.CheckAllSelect();
+                this.CheckAllSelect();
                 //处理优惠套餐
                 //this.handleGroup();
                 //统计
@@ -164,7 +166,7 @@ Page({
         this.setData({
             GoodsTotalNum: _TotalNum,
             GoodsTotalPrice: _TotalPrice
-        })
+        });
     },
     //邮费判断
     //return 处理后价格
@@ -256,6 +258,8 @@ Page({
                     this.setData({
                         CartList: _List
                     });
+                    //重新统计
+                    this.ListTotal();
                 } else {
                     wx.showToast({
                         title: res.msg || '服务器出错,请重试',
@@ -291,6 +295,8 @@ Page({
         this.setData({
             CartList: _List
         });
+
+        //this.SetCartChoose();
         this.CheckAllSelect();
         this.ListTotal();
     },
@@ -306,7 +312,7 @@ Page({
         }
         this.setData({
             isAllSelect: ChooseLength == length
-        })
+        });
     },
     //全选或反选
     AllSelect() {
@@ -325,7 +331,7 @@ Page({
     editMode() {
         this.setData({
             editMode: !this.data.editMode
-        })
+        });
     },
     //删除购物车操作
     DelCartList() {
@@ -432,6 +438,29 @@ Page({
             return '';
         }
         return _ChooseID.toString();
+    },
+    //缓存选择状态
+    SetCartChoose(){
+        let _List = this.data.CartList;
+        let _ChooseList = [];
+
+        for(let item of _List){
+            if(item.isChoose == 1) _ChooseList.push(item.shopcart_id);
+        }
+
+        wx.setStorageSync('CartChooseList', _ChooseList);
+    },
+    GetCartChoose(list){
+        let _chooselist = wx.getStorageSync('CartChooseList');
+        if(_chooselist.length > 0){
+            for(let item of list){
+                for(let uitem of _chooselist){
+                    if(item.shopcart_id == uitem) item.isChoose = 1;
+                }
+            }
+        }
+        console.log(_chooselist);
+        return list;
     },
     //申请授权判断
     getUserInfo(e) {

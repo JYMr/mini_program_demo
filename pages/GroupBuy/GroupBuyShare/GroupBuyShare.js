@@ -18,6 +18,7 @@ Page({
         ShareData: {},
         serviceTime: '',
         GroupTime: '',
+        DefaultImage: '', //默认底图
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         hasUserInfo: false,
     },
@@ -62,10 +63,15 @@ Page({
             });
         }
 
+        //设置默认底图
+        this.setData({
+            DefaultImage: app.globalData.goodsdefault
+        });
+        
         let token = wx.getStorageSync('token') || '';
-        if(token){
+        if (token) {
             this.GetShaerData();
-        }else{
+        } else {
             app.tokenReadyCallback = res => {
                 this.GetShaerData();
             }
@@ -85,10 +91,10 @@ Page({
     onShow: function() {
         this.GetShaerData();
     },
-    onHide(){
+    onHide() {
         clearInterval(this.data.GroupTime);
     },
-    onUnload(){
+    onUnload() {
         clearInterval(this.data.GroupTime);
     },
     //获取拼团数据
@@ -110,11 +116,14 @@ Page({
                 });
 
                 //判断是否满团
-                if(res.result.prg.group_state == 0){
+                if (res.result.prg.group_state == 0) {
                     this.TimeOutFn();
                 }
-            }else{
-
+            } else {
+                wx.showToast({
+                    title: res.msg || '服务器出错,请重试',
+                    icon: 'none'
+                });
             }
             wx.hideLoading();
 
@@ -176,7 +185,7 @@ Page({
         }
         return ShareOption;
     },
-     //提交拼团订单
+    //提交拼团订单
     ConfirmGroupOrder() {
         let _id = this.data.ShareData.purchase_id;
         let _gid = this.data.ShareData.group_id;
@@ -185,7 +194,7 @@ Page({
         });
     },
     //处理权限
-    getUserInfo(e){
+    getUserInfo(e) {
         if (e.detail.userInfo) {
             let _id = this.data.ShareData.purchase_id;
             let _gid = this.data.ShareData.group_id;
@@ -207,5 +216,8 @@ Page({
                 }
             });
         }
+    },
+    ErrorImage(e) {
+        app.errImg(e, this);
     }
 })

@@ -1,7 +1,4 @@
 const request = require('../../utils/kzj.request.js');
-const linq = require('../../lib/linq.min.js').linq;
-
-const URI = '';
 
 class CategoryController {
     /**
@@ -9,7 +6,7 @@ class CategoryController {
      * @return {Promise}
      */
     getcategory(params) {
-        return request.get(`${URI}/api/getCategoryList.shtml`, params).then(res => res.data)
+        return request.get(`/api/getCategoryList.shtml`, params).then(res => res.data)
     }
 
 }

@@ -15,7 +15,7 @@
             <view class='goods'>
                 <text class='select{{item.isChoose == 1 ? " on":""}}' bindtap="HandleCheckBox" data-id="{{item.shopcart_id}}"></text>
                 <view class="pic">
-                    <image src='{{item.goods_img || DefaultImage}}' binderror="ErrorImage" data-obj="CartList[{{index}}].goods_img" bindtap="HandleCheckBox"  data-id="{{item.shopcart_id}}"></image>
+                    <image src='{{item.goods_img || DefaultImage}}' binderror="ErrorImage" data-obj="CartList[{{index}}].goods_img" bindtap="HandleCheckBox"  data-id="{{item.shopcart_id}}" lazy-load="true"></image>
                     <view class="mask" wx:if="{{item.goods_added == 0}}">已下架</view>
                     <view class="mask" wx:elif="{{item.goods_stock == 0}}">缺货</view>
                 </view>

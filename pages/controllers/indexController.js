@@ -1,7 +1,4 @@
 const request = require('../../utils/kzj.request.js');
-const linq = require('../../lib/linq.min.js').linq;
-
-const URI = '';
 
 /**
  * 每一个页面对应一个contoller
@@ -13,7 +10,7 @@ class IndexController {
      * @return {Promise}
      */
     getIndex() {
-        return request.get(`${URI}/api/getIndexActivityAndReGoodsAndPurchase.shtml`).then(res => res.data)
+        return request.get(`/api/getIndexActivityAndReGoodsAndPurchase.shtml`).then(res => res.data)
     }
 
     /**
@@ -21,7 +18,7 @@ class IndexController {
      * @return {Promise}
      */
     GetParameter() {
-        return request.get(`${URI}/api/getParameter.shtml`).then(res => res.data)
+        return request.get(`/api/getParameter.shtml`).then(res => res.data)
     }
 
     /**
@@ -29,7 +26,7 @@ class IndexController {
      * @return {Promise}
      */
     GetCartCountAndOrderCount() {
-        return request.get(`${URI}/api/getCartCountAndOrderCount.shtml`).then(res => res.data)
+        return request.get(`/api/getCartCountAndOrderCount.shtml`).then(res => res.data)
     }
 
      /**
@@ -37,7 +34,7 @@ class IndexController {
      * @return {Promise}
      */
     UserApiLogin(params) {
-        return request.get(`${URI}/api/userApiLogin.shtml`, params, false).then(res => res.data)
+        return request.get(`/api/userApiLogin.shtml`, params, false).then(res => res.data)
     }
 
 }

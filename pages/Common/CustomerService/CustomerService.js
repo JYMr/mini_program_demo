@@ -1,20 +1,23 @@
-        // pages/Common/CustomerService/CustomerService.js
+// pages/Common/CustomerService/CustomerService.js
+const addressController = require('../../controllers/addressController').controller;
+
 Component({
     /**
      * 组件的初始数据
      */
     data: {
         isShow: false,
-        UserInfo:{
+        UserInfo: {
             name: '',
             mobile: '',
             type: 1,
             reason: ''
         },
-        reason_list: ['错拍/多拍','不想买了','发货慢','其它'],
-        ValiStatus: false
+        reason_list: ['错拍/多拍', '不想买了', '发货慢', '其它'],
+        ValiStatus: false,
+        lastInfoLoading: true
     },
-    ready(){
+    ready() {
         this.Dialog = this.selectComponent('#Dialog');
     },
     /**
@@ -26,7 +29,7 @@ Component({
         ValiData(status) {
             let flag = true;
             let msg = '';
-            if(this.data.UserInfo.reason == ''){
+            if (this.data.UserInfo.reason == '') {
                 msg = '请选择售后原因';
                 flag = false;
             }
@@ -47,29 +50,29 @@ Component({
                     type: "Message",
                     title: msg,
                     messageType: 'fail'
-                })
+                });
             }
             this.setData({
                 ValiStatus: flag
-            })
+            });
             return flag;
         },
         Show(option) {
             //接受参数
-            var _Detail = option ? Object.assign(this.data.UserInfo, option) : {};
+            var _UserInfo = option ? Object.assign(this.data.UserInfo, option) : {};
 
             this.setData({
-                Detail: _Detail,
+                UserInfo: _UserInfo,
                 isShow: true
             });
-
+            this.GetAddressData();
             this.ValiData();
         },
         //关闭弹窗
         Close() {
             this.setData({
                 isShow: false
-            })
+            });
         },
         //保存编辑地址
         save() {
@@ -85,7 +88,7 @@ Component({
             _tempData.name = e.detail.value;
             this.setData({
                 UserInfo: _tempData
-            })
+            });
             this.ValiData();
         },
         BindMobileChange(e) {
@@ -93,27 +96,51 @@ Component({
             _tempData.mobile = e.detail.value;
             this.setData({
                 UserInfo: _tempData
-            })
+            });
             this.ValiData();
         },
         //Picker改变事件
-        bindpickerChange(e){
+        bindpickerChange(e) {
             let _index = e.detail.value;
             let _Data = this.data.UserInfo;
             _Data.reason = this.data.reason_list[_index];
             this.setData({
                 UserInfo: _Data
-            })
+            });
             this.ValiData();
         },
         //更换售后类型
-        ChangeType(e){
-            let type =  e.currentTarget.dataset.type;
+        ChangeType(e) {
+            let type = e.currentTarget.dataset.type;
             let _Data = this.data.UserInfo;
             _Data.type = type;
             this.setData({
                 UserInfo: _Data
-            })
+            });
+        },
+        //获取地址的用户信息
+        GetAddressData() {
+            addressController.getAddressById({
+                addr_id: this.data.UserInfo.id
+            }).then(res => {
+                if (res.done) {
+                    let _UserInfo = this.data.UserInfo;
+                    _UserInfo.name = res.result.userAddr.addr_recipient;
+                    _UserInfo.mobile = res.result.userAddr.addr_mobile;
+
+                    this.setData({
+                        UserInfo: _UserInfo
+                    });
+                }
+                this.setData({
+                    lastInfoLoading: false
+                });
+            }).catch(err => {
+
+                this.setData({
+                    lastInfoLoading: false
+                });
+            });
         }
     }
 })

@@ -7,12 +7,12 @@
     <block wx:if="{{!isLoading}}">
         <view class='navmeau'>
             <view class='navli' bindtap="IndexCategroyTap" data-type="0">
-                <image class='icon' src='http://www.kzj365.com/mini_program/images/navmeauicon01.png'></image>
+                <image class='icon' src='http://www.kzj365.com/mini_program/images/navmeauicon01.png' lazy-load="true"></image>
                 <text>分类</text>
             </view>
             <block wx:for='{{navmeau}}' wx:for-item='item' wx:key="navmeau_{{index}}">
                 <view class='navli' bindtap="IndexCategroyTap" data-actid="{{item.act_id}}" data-oneid="{{item.cat_id_one}}" data-twoid="{{item.cat_id_two}}" data-type="{{item.act_type}}">
-                    <image class='icon' src='{{item.icon_url}}'></image>
+                    <image class='icon' src='{{item.icon_url}}' lazy-load="true"></image>
                     <text>{{item.act_name}}</text>
                 </view>
             </block>
@@ -42,7 +42,7 @@
                         <block wx:for="{{collage}}" wx:for-item='item' wx:key="GroupBuy_{{index}}">
                             <swiper-item>
                                 <navigator class='pic' url='/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{item.purchase_id}}' hover-class='none'>
-                                    <image src="{{item.purchase_image || DefaultImage}}" class="slide-image"  mode="aspectFill"  binderror="ErrorImage" data-obj="collage[{{index}}].purchase_image"/>
+                                    <image src="{{item.purchase_image || DefaultImage}}" class="slide-image"  mode="aspectFill"  binderror="ErrorImage" data-obj="collage[{{index}}].purchase_image" lazy-load="true"/>
                                     <view class='discount'>
                                         <text class='n'>立省</text>
                                         <text class='nums'>￥{{Filter.toFixed(item.preferen_price)}} </text>
@@ -69,7 +69,7 @@
                     <block wx:for="{{recommendgoods}}" wx:for-index='key' wx:for-item='item' wx:key="recommend_{{key}}">
                         <view class='item'>
                             <navigator hover-class='none' url='/pages/Goods/GoodsDetail/GoodsDetail?id={{item.goods.goods_id}}'>
-                                <image class='pic' src='{{item.goods.goods_img || DefaultImage}}' binderror="ErrorImage" data-obj="recommendgoods[{{index}}].goods.goods_img"></image>
+                                <image class='pic' src='{{item.goods.goods_img || DefaultImage}}' binderror="ErrorImage" data-obj="recommendgoods[{{index}}].goods.goods_img" lazy-load="true"></image>
                                 <view class='name'>{{item.goods.goods_title}}</view>
                                 <text class='price'>¥{{Filter.toFixed(item.goods.goods_price)}}</text>
                             </navigator>

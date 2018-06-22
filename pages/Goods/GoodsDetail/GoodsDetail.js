@@ -12,8 +12,9 @@ Page({
         goodsinfo: {}, //商品信息
         spec: {}, //规格
         chooseSpecId: '', //选择的规格id
-        chooseSpecName: '', //选择的规格名称
-        chooseSpecStock: '', //选择的库存
+        chooseSpecName: '', //选择的商品规格名称
+        chooseSpecStock: '', //选择的商品规格库存
+        chooseSpecAdded: '',//选择的商品规格上下架
         showModalStatus: false, //是否显示
         ModalMode: 'Buy', //遮罩模式
         goodsnavtop: 0, //tab距离顶部的距离
@@ -175,6 +176,7 @@ Page({
     },
     //加入购物车
     AddCart() {
+
         cartController.addCart({
             shopcart_goods_id: this.data.chooseSpecId,
             shopcart_num: this.data.num,
@@ -184,13 +186,13 @@ Page({
                 this.Dialog.ShowDialog({
                     type: 'Message',
                     title: '加入购物车成功'
-                })
+                });
                 this.setData({
                     editMode: false
-                })
+                });
                 setTimeout(() => {
                     this.hideModal();
-                }, 1500)
+                }, 1500);
             } else {
                 this.Dialog.ShowDialog({
                     type: 'Message',
@@ -214,7 +216,7 @@ Page({
                 })
                 setTimeout(() => {
                     this.hideModal();
-                }, 1500)
+                }, 1500);
 
             } else {
                 this.Dialog.ShowDialog({
@@ -227,6 +229,7 @@ Page({
     },
     //非处方药提交订单
     BuyFn() {
+        this.hideModal();
         wx.navigateTo({
             url: '/pages/Order/ConfirmOrder/ConfirmOrder?mode=1&id=' + this.data.chooseSpecId + '&num=' + this.data.num
         })
@@ -245,6 +248,10 @@ Page({
             goodsId: this.data.chooseSpecId
         }).then(res => {
             if (res.done) {
+
+                setTimeout(() => {
+                    this.hideModal();
+                }, 1500);
                 wx.navigateTo({
                     url: '/pages/Order/ReservationOrder/ReservationOrder'
                 });
@@ -321,6 +328,15 @@ Page({
             //无关联规格，直接加入预定清单
             this.ModalConfirm();
         } else {
+            //已选择规格，无库存或者下架恢复默认规格
+            if(this.data.chooseSpecAdded == 0 || this.data.chooseSpecStock <= 0){
+                let _Spec = this.data.spec;
+                _Spec.speclists = this.data.goodsinfo.specGoodsApis;
+                _Spec = this.DefaultAttr(_Spec, this.data.goodsinfo.goodsType);
+                this.setData({
+                    spec: _Spec
+                });
+            }
             //有关联规格，显示规格弹层
             this.showModal();
         }
@@ -360,20 +376,25 @@ Page({
             //处理规格选择
             let _List = _Spec.speclists;
             let _ChooseIndex = e.currentTarget.dataset.index;
-            let _SpecId = null; //选择的商品规格id
+            let _Added = this.data.chooseSpecAdded;
+            let _SpecId = this.data.chooseSpecId; //选择的商品规格id
             let _Stock = 1; //选择的商品库存
+
+            let _ChooseFlag = false;//是否允许点击
 
             //判断规格id以及规格库存,以及是否上下架
             for (let key in _List) {
-                if (_ChooseIndex == key && _List[key].goodsStock > 0 && _List[key].goodsAdded == 1 && !_List[key].isselect) {
+                if (_ChooseIndex == key) {
+                    //购物车或者立即购买的规格弹窗无库存或下架弹出，无法点击
+                    //选择规格可以点击
+                    if(this.data.ModalMode != '' && (_List[key].goodsStock <= 0 || _List[key].goodsAdded == 0) ){
+                        break;
+                    }
+                    _ChooseFlag = true;
                     //选中规格
                     _List[key].isselect = true;
-                    //获取规格ID
-                    _SpecId = _List[key].goodsId;
                     //获取规格名
                     _Name = _List[key].goodsSpec;
-                    //获取规格
-                    _Stock = _List[key].goodsStock;
                     //获取规格商品名
                     _Spec.name = _List[key].goodsTitle;
                     //获取规格商品主图
@@ -382,19 +403,30 @@ Page({
                     _Spec.price = _List[key].goodsPrice;
                     //获取规格套餐
                     _Spec.packager = _List[key].goodsCombinations;
-                } else {
-                    _List[key].isselect = false;
+                    //获取规格ID
+                    _SpecId = _List[key].goodsId;
+                    //获取规格
+                    _Stock = _List[key].goodsStock;
+                    //获取规格上下架状态
+                    _Added = _List[key].goodsAdded;
+                }
+            }
+
+            if(_ChooseFlag){
+                for (let ukey in _List) {
+                    if(ukey != _ChooseIndex) _List[ukey].isselect = false;
                 }
             }
 
             //如果选择数量大于所选规格库存，则设置为数量为商品最大库存
-            let _num = this.data.num >= _Stock ? _Stock : this.data.num;
+            let _num = this.data.num >= _Stock ? (_Stock == 0 ? 1 : _Stock) : this.data.num;
 
             this.setData({
                 spec: _Spec,
                 chooseSpecId: _SpecId,
                 chooseSpecName: _Name || '默认规格',
                 chooseSpecStock: _Stock,
+                chooseSpecAdded: _Added,
                 num: _num
             });
 
@@ -427,13 +459,17 @@ Page({
     DefaultAttr(spec, type, mode) {
 
         if (mode == 'spec' || mode == undefined) {
+            //全部取否
+            for(let item of spec.speclists){
+                item.isselect = false;
+            }
             if (spec.speclists != undefined && spec.speclists.length > 0 && spec.speclists[0].goodsStock > 0 && spec.speclists[0].goodsAdded == 1) {
                 spec.speclists[0].isselect = true;
             }
         }
         if (mode == 'packager' || mode == undefined) {
             if (type == 0) return spec;
-            if (spec.packager != undefined && spec.packager.length > 0 && spec.packager.packageCount == 1) {
+            if (spec.packager != undefined && spec.packager.length > 0 && spec.packager[0].packageCount == 1) {
                 spec.packager[0].isselect = true;
             }
         }

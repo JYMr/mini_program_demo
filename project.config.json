@@ -42,7 +42,7 @@
 					"id": 1,
 					"name": "GoodsDetail",
 					"pathName": "pages/Goods/GoodsDetail/GoodsDetail",
-					"query": "id=39"
+					"query": "id=61"
 				},
 				{
 					"id": 2,
@@ -108,7 +108,7 @@
 					"id": 12,
 					"name": "MyOrderDetail",
 					"pathName": "pages/Order/MyOrderDetail/MyOrderDetail",
-					"query": "status=0&id=167"
+					"query": "id=104"
 				},
 				{
 					"id": 13,

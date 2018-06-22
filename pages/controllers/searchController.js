@@ -1,7 +1,4 @@
 const request = require('../../utils/kzj.request.js');
-const linq = require('../../lib/linq.min.js').linq;
-
-const URI = '';
 
 /**
  * 每一个页面对应一个contoller
@@ -12,7 +9,7 @@ class SearchController{
      * @return {Promise}
      */
     ScalCode(params){
-        return request.get(`${URI}/api/searchBarcode.shtml`, params).then(res => res.data)
+        return request.get(`/api/searchBarcode.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -20,7 +17,7 @@ class SearchController{
      * @return {Promise}
      */
     GetSearchKeyWord(params){
-        return request.get(`${URI}/api/getHotSearchList.shtml`, params).then(res => res.data)
+        return request.get(`/api/getHotSearchList.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -28,7 +25,7 @@ class SearchController{
      * @return {Promise}
      */
     GetSearchList(params){
-        return request.get(`${URI}/api/searchGoodsTitle.shtml`, params).then(res => res.data)
+        return request.get(`/api/searchGoodsTitle.shtml`, params).then(res => res.data)
     }
     
     /**
@@ -36,7 +33,7 @@ class SearchController{
      * @return {Promise}
      */
     GetCategoryList(params){
-        return request.get(`${URI}/api/getGoodsListByCategoryId.shtml`, params).then(res => res.data)
+        return request.get(`/api/getGoodsListByCategoryId.shtml`, params).then(res => res.data)
     }
 }
 /**

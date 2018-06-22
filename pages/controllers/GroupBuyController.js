@@ -1,7 +1,4 @@
 const request = require('../../utils/kzj.request.js');
-const linq = require('../../lib/linq.min.js').linq;
-
-const URI = '';
 
 /**
  * 每一个页面对应一个contoller
@@ -12,7 +9,7 @@ class GroupBuyController {
      * @return {Promise}
      */
     getList(params) {
-        return request.get(`${URI}/api/queryPurchaseList.shtml`, params).then(res => res.data)
+        return request.get(`/api/queryPurchaseList.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -20,7 +17,7 @@ class GroupBuyController {
      * @return {Promise}
      */
     getDetail(params) {
-        return request.get(`${URI}/api/getPurchaseDetails.shtml`, params).then(res => res.data)
+        return request.get(`/api/getPurchaseDetails.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -28,7 +25,7 @@ class GroupBuyController {
      * @return {Promise}
      */
     getConfirmGroupBuyOrder(params) {
-        return request.get(`${URI}/api/sumbitPurchaseOrder.shtml`, params).then(res => res.data)
+        return request.get(`/api/sumbitPurchaseOrder.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -36,7 +33,7 @@ class GroupBuyController {
      * @return {Promise}
      */
     CreatePurchaseOrder(params) {
-        return request.get(`${URI}/api/createPurchaseOrder.shtml`, params).then(res => res.data)
+        return request.get(`/api/createPurchaseOrder.shtml`, params).then(res => res.data)
     }
 
     /**
@@ -44,7 +41,15 @@ class GroupBuyController {
      * @return {Promise}
      */
     getGroupBuyShare(params) {
-        return request.get(`${URI}/api/getSharePurchaseGroup.shtml`, params).then(res => res.data)
+        return request.get(`/api/getSharePurchaseGroup.shtml`, params).then(res => res.data)
+    }
+
+    /**
+     * 获取支付订单对于团状态
+     * @return {Promise}
+     */
+    GetGroupLastMemberByOrderId(params) {
+        return request.get(`/api/getGroupLastMemberByOrderId.shtml`, params).then(res => res.data)
     }
 
 }

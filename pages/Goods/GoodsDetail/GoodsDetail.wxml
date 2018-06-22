@@ -7,7 +7,7 @@
 <swiper class="goodsilder" indicator-dots="true" autoplay="true" interval="5000" duration="500">
     <block wx:for="{{goodsinfo.goodsImages}}" wx:for-item="item" wx:for-index='index' wx:key="slider_{{index}}">
         <swiper-item>
-            <image src="{{item.imageArtworkName || DefaultImage}}" binderror="errImg" data-obj="goodsinfo.goodsImages[{{index}}].imageArtworkName" class="slide-image" />
+            <image src="{{item.imageArtworkName || DefaultImage}}" binderror="errImg" data-obj="goodsinfo.goodsImages[{{index}}].imageArtworkName" class="slide-image" lazy-load="true"/>
         </swiper-item>
     </block>
 </swiper>
@@ -60,8 +60,9 @@
 <!-- 图文详情 -->
 <view class='infogrid {{tabsindex=="0" ? "show" : "hide"}}'>
     <view class='goodsdetail'>
+        <!-- 图文详情图片 -->
         <block wx:for='{{goodsinfo.goodsDescImgs}}' wx:for-item="item" wx:for-index='index' wx:key="detail_{{index}}">
-            <image src='{{item.goodsDescImg}}' mode="widthFix" binderror="ErrorImage" data-obj="goodsinfo.goodsDescImgs[{{index}}].goodsDescImg"></image>
+            <image src='{{item.goodsDescImg}}' mode="widthFix" binderror="ErrorImage" data-obj="goodsinfo.goodsDescImgs[{{index}}].goodsDescImg" lazy-load="true"></image>
         </block>
         <!-- 商品推荐 -->
         <view class="product-recommend" wx:if="{{goodsinfo.associateGoodses.length >= 3}}">
@@ -82,10 +83,15 @@
 <view class='infogrid {{tabsindex=="1" ? "show" : "hide"}}'>
     <view class='instructions'>
         <view class="table">
-            <block wx:for="{{goodsinfo.books}}" wx:key="manual_{{index}}">
-                <view class="tr">
+            <block wx:if="{{goodsinfo.books.length > 0}}">
+                <view class="tr" wx:for="{{goodsinfo.books}}" wx:key="manual_{{index}}">
                     <view class="th">{{item.bookname}}</view>
                     <view class="td">{{item.bookvalue}}</view>
+                </view>
+            </block>
+            <block wx:else>
+                <view class="tr tr-empty">
+                    暂无说明书
                 </view>
             </block>
         </view>
@@ -150,7 +156,7 @@
     <view class='select-attr' animation="{{animationData}}">
         <view class='close' bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
         <view class='info'>
-            <image class='pic' src='{{spec.src  || DefaultImage}}' binderror="ErrorImage" data-obj="spec.src"></image>
+            <image class='pic' src='{{spec.src  || DefaultImage}}' binderror="ErrorImage" data-obj="spec.src" lazy-load="true"></image>
             <view class='price'>¥
                 <text class='nums'>{{Filter.toFixed(spec.price)}}</text>
             </view>
@@ -195,9 +201,11 @@
         <block wx:if="{{ goodsinfo.goodsType == 0}}">
             <!-- 有UserInfo权限 -->
             <view class='comfirm-btn' hover-class="hover" wx:if="{{hasUserInfo && ModalMode == ''}}" bindtap="ModalConfirm">确定</view>
-            <view class='comfirm-btn green' hover-class="hover" wx:elif="{{hasUserInfo || ModalMode == 'RxCart'}}" bindtap="ModalConfirm">加入预定清单</view>
+            <view class='comfirm-btn' hover-class="hover" wx:elif="{{hasUserInfo && ModalMode == 'RxBuy'}}" bindtap="ModalConfirm">立即预定</view>
+            <view class='comfirm-btn green' hover-class="hover" wx:elif="{{hasUserInfo && ModalMode == 'RxCart'}}" bindtap="ModalConfirm">加入预定清单</view>
             <!-- 无UserInfo权限 -->
-            <button class='comfirm-btn green' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" wx:if="{{!hasUserInfo && ModalMode == 'RxBuy'}}" bindtap="ModalConfirm">预定</button>
+            <button class='comfirm-btn' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" wx:if="{{!hasUserInfo && ModalMode == 'RxBuy'}}" bindtap="ModalConfirm">立即预定</button>
+            <button class='comfirm-btn green' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" wx:if="{{!hasUserInfo && ModalMode == 'RxCart'}}" bindtap="hideModal">加入预定清单</button>
             <button class='comfirm-btn green' open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover" wx:if="{{!hasUserInfo && ModalMode == ''}}" bindtap="hideModal">预定</button>
         </block>
     </view>
@@ -206,7 +214,7 @@
 
 <!-- 从分享页进入，返回首页悬浮按钮 -->
 <navigator class="find-index" open-type="switchTab" url="/pages/Index/Index" wx:if="{{isShare}}" hover-class="none">
-    <image src="http://www.kzj365.com/mini_program/images/find_index.png"></image>
+    <image src="http://www.kzj365.com/mini_program/images/find_index.png" lazy-load="true"></image>
 </navigator>
 
 <!-- 页脚 -->

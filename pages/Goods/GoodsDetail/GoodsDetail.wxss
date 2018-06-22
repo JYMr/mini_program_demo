@@ -1,5 +1,5 @@
 /* pages/goods/index.wxss */
-page{background:#f4f4f4; margin-bottom: 118rpx; color: #555;font-size: 28rpx;}
+page{background:#f4f4f4;padding-bottom: 98rpx; color: #555;font-size: 28rpx;}
 .goodsnav{height: 98rpx; line-height: 98rpx; width: 100%;display: flex;flex-direction: row; justify-content: space-around; align-items: center;background: #fff; color: #888; font-size: 30rpx; }
 .goodsnav .item{ display: block; position: relative; width: 33.333%; float: left; text-align: center;}
 .goodsnav .hover{ color: #37c4a4; font-weight:700; }
@@ -96,6 +96,7 @@ background-size:20rpx;}
 .instructions .table {border:1px solid #ddd;border-right: 0;border-bottom: 0;width: 100%; box-sizing: border-box; margin-bottom: 30rpx; background: #fff;}
 .instructions .table:last-child{ margin-bottom: 0;}
 .instructions .tr {width: 100%;display: flex;justify-content: space-between;}
+.instructions .tr.tr-empty{padding:30rpx;text-align: center;border-right: 1px solid #ddd;border-bottom: 1px solid #ddd;box-sizing: border-box;width: 100%;display: block;}
 .instructions .th,.instructions .td {padding:30rpx;border-bottom: 1px solid #ddd;border-right: 1px solid #ddd;width:100%;}
 .instructions .th { width: 30%; }
 

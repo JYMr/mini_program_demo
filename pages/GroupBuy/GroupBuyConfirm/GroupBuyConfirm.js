@@ -200,6 +200,8 @@ Page({
                             wx.hideLoading();
                             //取消倒计时
                             clearInterval(this.data.PayTimeout);
+                            //设置返回拼团详情页提示跳转id
+                            app.globalData.PaySuccessGroupId = this.data.OrderId;
                             //跳转分享页
                             setTimeout(() => {
                                 wx.redirectTo({
@@ -261,6 +263,8 @@ Page({
                             title: '支付成功!',
                             type: 'Message'
                         });
+                        //设置返回拼团详情页提示跳转id
+                        app.globalData.PaySuccessGroupId = this.data.OrderId;
                         //支付成功，跳转分享页
                         setTimeout(() => {
                             wx.redirectTo({

@@ -26,7 +26,7 @@
 </view>
 <view class='goods'>
     <navigator hover-class='none' url="/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{ShareData.purchase_id}}&gid={{ShareData.group_id}}">
-        <image class='pic' src='{{ShareData.goods_img}}'></image>
+        <image class='pic' src='{{ShareData.goods_img || DefaultImage}}' lazy-load="true" binderror="ErrorImage" data-obj="ShareData.goods_img"></image>
         <view class='name'>{{ShareData.goods_title}}</view>
         <text class='price'>
         	<text>￥</text>
@@ -68,7 +68,7 @@
 
 	<view class="list">
 		<view class="list-item" wx:for="{{ShareData.headimgs}}" wx:key="{{index}}">
-			<image src="{{item}}"></image>
+			<image src="{{item || Default_avatar}}" lazy-load="true"></image>
 		</view>
 	</view>
 </view>	
@@ -94,7 +94,7 @@
 		<!-- 团主 -->
 		<block wx:if="{{ShareData.is_join == 1}}">
 			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
-				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
+				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png" lazy-load="true"></image>
 				更多拼团
 			</navigator>
 			<button class="Group-btn left" open-type="share">
@@ -105,7 +105,7 @@
 		<!-- 非团主 -->
 		<block class="title"  wx:if="{{ShareData.is_join == 0}}">
 			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
-				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
+				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png" lazy-load="true"></image>
 				更多拼团
 			</navigator>
 			<view class="Group-btn left" wx:if="{{hasUserInfo}}" bindtap="ConfirmGroupOrder">
@@ -124,7 +124,7 @@
 		<!-- 团主 -->
 		<block wx:if="{{ShareData.is_join == 1}}">
 			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
-				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
+				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png" lazy-load="true"></image>
 				更多拼团
 			</navigator>
 			<navigator class="Group-btn left" url="/pages/Order/MyOrderDetail/MyOrderDetail?id={{ShareData.order_id}}">
@@ -135,7 +135,7 @@
 		<!-- 非团主 -->
 		<block wx:if="{{ShareData.is_join == 0}}">
 			<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" open-type="switchTab" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
-				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
+				<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png" lazy-load="true"></image>
 				更多拼团
 			</navigator>
 			<navigator class="Group-btn left" url="/pages/GroupBuy/GroupBuyDetail/GroupBuyDetail?id={{ShareData.purchase_id}}">
@@ -149,7 +149,7 @@
 	<block wx:if="{{ShareData.group_state == 2}}">
 
 		<navigator class="Icon-btn" bindtap="ToggleChaticonMenu" url="/pages/GroupBuy/GroupBuyList/GroupBuyList">
-			<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png"></image>
+			<image src="http://www.kzj365.com/mini_program/images/time_icon_01.png" lazy-load="true"></image>
 			更多拼团
 		</navigator>
 		<navigator class="Group-btn left gray" hover-class="none">

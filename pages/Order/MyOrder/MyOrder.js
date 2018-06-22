@@ -30,7 +30,6 @@ Page({
         this.setData({
             DefaultImage: app.globalData.defaultImg
         });
-        this.GetOrderList();
     },
     /**
      * 生命周期函数--监听页面初次渲染完成
@@ -39,6 +38,10 @@ Page({
         this.Dialog = this.selectComponent('#Dialog');
         this.CustomerServiceComponent = this.selectComponent('#CustomerService');
         this.Floatcustomer = this.selectComponent("#Floatcustomer");
+    },
+
+    onShow() {
+        this.ReloadOrderData();
     },
     /**
      * 页面相关事件处理函数--监听用户下拉动作
@@ -221,12 +224,14 @@ Page({
     //申请售后
     CustomerService(e) {
         let _code = e.currentTarget.dataset.code;
+        let _id = e.currentTarget.dataset.id;
         let disabledStatus = e.currentTarget.dataset.disabled;
         //判断是否已经申请过售后
         if (!disabledStatus) {
             //显示售后表单弹窗
             this.CustomerServiceComponent.Show({
-                code: _code
+                code: _code,
+                id: _id
             });
         } else {
             this.Dialog.ShowDialog({

@@ -4,7 +4,7 @@
 //const BASE_URL = "http://192.168.40.93:8080";
 //const BASE_URL = "http://7.167.61.111:8080"
 const BASE_URL = "http://1x7448h712.iok.la";
-//const BASE_URL = "https://mini.kzj365.com.cn";
+// const BASE_URL = "https://mini.kzj365.com.cn";
 const app = getApp();
 
 class Request {

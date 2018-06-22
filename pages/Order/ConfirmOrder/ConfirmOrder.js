@@ -214,6 +214,13 @@ Page({
                                 title: '支付成功!',
                                 type: 'Message'
                             });
+                            //等待弹窗
+                            setTimeout(() => {
+                                //支付取消，跳转待支付订单
+                                wx.redirectTo({
+                                    url: '/pages/Order/MyOrderDetail/MyOrderDetail?id=' + _OrderId
+                                });
+                            }, 1500);
                         },
                         fail: res => {
                             this.Dialog.ShowDialog({
